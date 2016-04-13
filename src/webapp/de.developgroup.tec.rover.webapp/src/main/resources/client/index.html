@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Rover Controller</title>
+</head>
+
+<script type="text/javascript">
+	var pan = 0;
+	var tilt = 0;
+
+	var messageId;
+	var connection = null;
+
+	var poll = (function() {
+		var timer = 0;
+		return function(callback, ms) {
+			clearInterval(timer);
+			timer = setInterval(callback, ms);
+		};
+	})();
+
+	function init() {
+		if (connection != null) {
+			connection.close();
+		}
+
+		connection = new WebSocket('ws://' + location.host + '/events', [
+				'soap', 'xmpp' ]);
+		messageId = 1;
+
+		connection.onopen = function() {
+			pan = 0;
+			tilt = 0;
+
+			setPan(pan);
+			setTilt(tilt);
+
+			stop();
+
+			poll(function() {
+				var request = JSON.stringify({
+					jsonrpc : "2.0",
+					id : messageId++,
+					method : "resetWatchdog"
+				});
+
+				connection.send(request);
+			}, 200);
+
+		};
+
+		// Log errors
+		connection.onerror = function(error) {
+			console.log('WebSocket Error ' + error);
+		};
+
+		// Log messages from the server
+		connection.onmessage = function(e) {
+			console.log('Server: ' + e.data);
+		};
+	}
+
+	function takeSnapshot() {
+		var request = JSON.stringify({
+			jsonrpc : "2.0",
+			id : messageId++,
+			method : "takeSnapshot",
+			params : [ 0 ]
+		});
+
+		connection.send(request);
+	}
+
+	function openVideoStream() {
+		var request = JSON.stringify({
+			jsonrpc : "2.0",
+			id : messageId++,
+			method : "openVideoStream",
+			params : [ 0 ]
+		});
+
+		connection.send(request);
+
+		document.getElementById("videosrc").src = "http://" + location.hostname
+				+ ":8001";
+		document.getElementById("video").play();
+
+	}
+
+	function stop() {
+		var request = JSON.stringify({
+			jsonrpc : "2.0",
+			id : messageId++,
+			method : "stop"
+		});
+
+		connection.send(request);
+	}
+
+	function setSpeed(speed) {
+		var request = JSON.stringify({
+			jsonrpc : "2.0",
+			id : messageId++,
+			method : "setSpeed",
+			params : [ speed ]
+		});
+
+		connection.send(request);
+	}
+
+	function setTurnRate(turnRate) {
+		var request = JSON.stringify({
+			jsonrpc : "2.0",
+			id : messageId++,
+			method : "setTurnRate",
+			params : [ turnRate ]
+		});
+
+		connection.send(request);
+	}
+
+	function setPan(pan) {
+		var request = JSON.stringify({
+			jsonrpc : "2.0",
+			id : messageId++,
+			method : "setPan",
+			params : [ 0, pan ]
+		});
+
+		connection.send(request);
+	}
+
+	function setTilt(pan) {
+		var request = JSON.stringify({
+			jsonrpc : "2.0",
+			id : messageId++,
+			method : "setTilt",
+			params : [ 0, tilt ]
+		});
+
+		connection.send(request);
+	}
+
+	function down() {
+		tilt = tilt - 36000;
+
+		if (tilt < -324000) {
+			tilt = -324000;
+		}
+
+		setTilt(tilt);
+	}
+
+	function up() {
+		tilt = tilt + 36000;
+
+		if (tilt > 324000) {
+			tilt = 324000;
+		}
+
+		setTilt(tilt);
+	}
+
+	function clockwise() {
+		pan = pan + 36000;
+
+		if (pan > 324000) {
+			pan = 324000;
+		}
+
+		setPan(pan);
+	}
+
+	function counterClockwise() {
+		pan = pan - 36000;
+
+		if (pan < -324000) {
+			pan = -324000;
+		}
+
+		setPan(pan);
+	}
+</script>
+
+<body onload="init();">
+	<article>
+
+		<div>
+			<button id="connect" name="connect" value="connect" onclick="init();">Connect</button>
+			<button id="stop" name="stop" value="stop" onclick="stop();">Stop</button>
+			<button id="takeSnapshot" name="takeSnapshot" value="takeSnapshot"
+				onclick="takeSnapshot();">Take snapshot</button>
+			<button id="openVideoStream" name="openVideoStream"
+				value="openVideoStream" onclick="openVideoStream();">Open
+				Video Stream</button>
+		</div>
+		<div>
+			<table>
+				<tr>
+					<td colspan="2" align="center"><button
+							onclick="setSpeed(500); setTurnRate(0);">forward</button></td>
+				</tr>
+				<tr>
+					<td><button onclick="setSpeed(0); setTurnRate(-300);">turn
+							counter-clockwise</button></td>
+					<td><button onclick="setSpeed(0); setTurnRate(300);">turn
+							clockwise</button></td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center"><button
+							onclick="setSpeed(-500); setTurnRate(0);">backward</button></td>
+				</tr>
+			</table>
+		</div>
+		<div>
+			<table>
+				<tr>
+					<td colspan="2" align="center"><button onclick="up();">up</button></td>
+				</tr>
+				<tr>
+					<td><button onclick="counterClockwise();">counter-clockwise</button></td>
+					<td><button onclick="clockwise();">clockwise</button></td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center"><button onclick="down();">down</button></td>
+				</tr>
+			</table>
+		</div>
+
+		<div>
+			<video id="video" height="480" width="640">
+				<source id="videosrc" src="" type="video/mp4"/>
+			</video>
+		</div>
+	</article>
+</body>
+
+</html>
