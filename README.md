@@ -1,4 +1,4 @@
-<img src="https://travis-ci.org/andreas-bauer/amos-test.svg?branch=master">
+<img src="https://travis-ci.org/weiss19ja/amos-ss16-proj2.svg?branch=master">
 # Mobile Robot Framework
 
 ## Backend

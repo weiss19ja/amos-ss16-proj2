@@ -27,4 +27,4 @@ script:
   - gulp clean 
 
 notifications:
-	slack: mobilerobotframework:W3tBJqXBF4nYgnoP8q3tAcmp 
+  slack: mobilerobotframework:W3tBJqXBF4nYgnoP8q3tAcmp 
