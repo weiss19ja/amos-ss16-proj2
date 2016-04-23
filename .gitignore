@@ -92,3 +92,8 @@ local.properties
 
 # Code Recommenders
 .recommenders/
+
+# Webapp
+node_modules/
+bower_components/
+docker/assets/
