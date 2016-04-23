@@ -1,6 +1,0 @@
-[submodule "Backend/MobileRobotFramework-Backend"]
-	path = Backend/MobileRobotFramework-Backend
-	url = https://github.com/weiss19ja/MobileRobotFramework-Backend.git
-[submodule "Webapp/MobileRobotFramework-Webapp"]
-	path = Webapp/MobileRobotFramework-Webapp
-	url = https://github.com/weiss19ja/MobileRobotFramework-Webapp.git
