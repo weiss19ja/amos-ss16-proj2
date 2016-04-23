@@ -24,4 +24,7 @@ script:
   - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - docker build -t mobilerobotframework/app docker/
   - docker push mobilerobotframework/app
-  - gulp clean  
+  - gulp clean 
+
+notifications:
+	slack: mobilerobotframework:W3tBJqXBF4nYgnoP8q3tAcmp 
