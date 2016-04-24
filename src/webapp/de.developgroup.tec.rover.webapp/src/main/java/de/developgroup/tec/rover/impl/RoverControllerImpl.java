@@ -1,6 +1,8 @@
 package de.developgroup.tec.rover.impl;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Collections;
@@ -189,10 +191,9 @@ public class RoverControllerImpl implements RoverController {
 	public int openVideoStream() throws IOException {
 
 		if (videoStream == null) {
-			ProcessBuilder builder = new ProcessBuilder("sudo", "-u", "pi", "/home/pi/openstream.sh");
+            ProcessBuilder builder = new ProcessBuilder("sudo", "-u", "pi", "/home/pi/camera/opencamera.sh");
 			videoStream = builder.start();
 		}
-
 		return DEFAULT_VIDEO_PORT;
 	}
 
