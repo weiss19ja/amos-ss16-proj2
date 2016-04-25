@@ -12,7 +12,7 @@ WORKDIR /usr/src/app
 COPY assets /usr/src/app/
 RUN npm install
 
-EXPOSE 8000
+EXPOSE 80
 
 # Start HTTP-Server
 CMD ["npm","start"]

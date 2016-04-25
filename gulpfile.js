@@ -10,7 +10,7 @@ gulp.task('default', ['connect']);
 gulp.task('connect', function () {
     connect.server({
         root: 'webapp',
-        port: 8000
+        port: 80
     });
 });
 
