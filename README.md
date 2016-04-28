@@ -21,7 +21,7 @@ Global packages:
 
 ```
 npm install -g bower
-npm install -g gulp
+npm install -g copyfiles
 ```
 
 We have preconfigured `npm` to automatically run `bower` so we can simply do:
@@ -40,10 +40,23 @@ folders in your project.
 angular-seed changes this location through the `.bowerrc` file.  Putting it in the app folder makes
 it easier to serve the files by a webserver.*
 
-### Run the Application
+### Build the Application
+
+Build the complete project
 
 ```
-gulp
+// on Linux and OSX
+npm run build
+
+// on Windows
+npm run build:win
+```
+
+### Run the Application
+
+Start webapp
+```
+npm start
 ```
 
 Now browse to the app at `http://localhost:8000/index.html`.

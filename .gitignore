@@ -1,3 +1,7 @@
+# backend
+backend/target/
+backend/src/main/webapp/client/
+
 *.class
 
 # Mobile Tools for Java (J2ME)
