@@ -1,5 +1,6 @@
 package de.developgroup.mrf.servlets.example;
 
+import com.google.inject.Inject;
 import de.developgroup.mrf.controllers.ExampleController;
 import de.developgroup.mrf.server.rpc.JsonRpcSocket;
 import org.slf4j.Logger;
@@ -9,10 +10,10 @@ public class ExampleSocket extends JsonRpcSocket {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ExampleSocket.class);
 
-    private final ExampleController controller;
+    @Inject
+    public ExampleController controller;
 
-    public ExampleSocket(ExampleController controller) {
-        this.controller = controller;
+    public ExampleSocket() {
     }
 
     public String ping(int sqn) {

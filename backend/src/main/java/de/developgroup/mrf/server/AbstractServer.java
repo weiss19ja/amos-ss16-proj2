@@ -33,7 +33,7 @@ public abstract class AbstractServer {
 
         Server server = new Server();
 		ServerConnector connector = new ServerConnector(server);
-		connector.setPort(80);
+		connector.setPort(8080);
 		server.addConnector(connector);
 
 		// Setup the basic application "context" for this application at "/"

@@ -9,6 +9,5 @@ public class ExampleServlet extends WebSocketServlet {
     @Override
     public void configure(WebSocketServletFactory webSocketServletFactory) {
         webSocketServletFactory.register(ExampleSocket.class);
-
     }
 }
