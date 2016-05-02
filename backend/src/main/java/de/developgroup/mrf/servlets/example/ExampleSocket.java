@@ -11,13 +11,13 @@ public class ExampleSocket extends JsonRpcSocket {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExampleSocket.class);
 
     @Inject
-    public ExampleController controller;
+    public static ExampleController controller;
 
     public ExampleSocket() {
     }
 
-    public String ping(int sqn) {
+    public String ping(Number sqn) {
         LOGGER.trace("ping({})", sqn);
-        return controller.handlePing(sqn);
+        return controller.handlePing(sqn.intValue());
     }
 }
