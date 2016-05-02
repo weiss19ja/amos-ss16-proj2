@@ -3,7 +3,9 @@
 // Declare app level module which depends on views, and components
 angular.module('myApp', [
   'ngRoute',
+  'ngWebSocket',
   'myApp.main',
+  'myApp.example',
   'myApp.info',
   'myApp.version'
 ]).
@@ -17,6 +19,10 @@ config(['$routeProvider', function($routeProvider) {
 		templateUrl: 'info/info.html',
 		controller: 'InfoCtrl'
 	}).
+	  when('/example', {
+	  templateUrl: 'example/example.html',
+      controller: 'ExampleCtrl'
+  }).
 	otherwise({redirectTo: '/main'});
 
 }]);

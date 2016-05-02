@@ -1,0 +1,13 @@
+<p xmlns="http://www.w3.org/1999/html">This is the partial for example view.</p>
+<section ng-controller="ExampleCtrl as ctrl">
+    <p>Parameter eingeben (Zahl): <label>
+        <input ng-model="callparameter" type="number">
+    </label>
+        <button ng-click="ping()">PING!</button>
+    <p>Server-seitig (in der Cloud) berechnete Werte:</p>
+    <ul>
+        <li ng-repeat="reply in replies">
+            {{ reply }}
+        </li>
+    </ul>
+</section>
