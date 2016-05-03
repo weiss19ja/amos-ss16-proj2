@@ -46,10 +46,7 @@
     "docker:clean": "rimraf docker/assets",
     "docker:copy-assets": "copyfiles package.json docker/assets/ && copyfiles -f backend/target/*-jar-with-dependencies.jar docker/assets/",
     "docker:build-image": "docker build -t mobilerobotframework/app docker/",
-    "docker:push": "docker push mobilerobotframework/app",
-    "docker:run": "docker run -it mobilerobotframework/app"
-  },
-  "dependencies": {
-    "angular-websocket": "^1.1.0"
+    "docker:pull": "docker pull mobilerobotframework/app",
+    "docker:push": "docker push mobilerobotframework/app"
   }
 }
