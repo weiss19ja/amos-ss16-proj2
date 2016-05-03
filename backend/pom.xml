@@ -98,7 +98,7 @@
           <!-- MainClass in mainfest make a executable jar -->
           <archive>
             <manifest>
-              <mainClass>de.developgroup.mrf.server.RoverServer</mainClass>
+              <mainClass>de.developgroup.mrf.Main</mainClass>
             </manifest>
           </archive>
         </configuration>
@@ -185,6 +185,18 @@
       <groupId>org.cfg4j</groupId>
       <artifactId>cfg4j-core</artifactId>
       <version>4.1.4</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.inject</groupId>
+      <artifactId>guice</artifactId>
+      <version>4.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.inject.extensions</groupId>
+      <artifactId>guice-servlet</artifactId>
+      <version>4.0</version>
     </dependency>
 
   </dependencies>

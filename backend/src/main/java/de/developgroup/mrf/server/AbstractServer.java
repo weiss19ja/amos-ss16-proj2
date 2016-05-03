@@ -1,5 +1,9 @@
 package de.developgroup.mrf.server;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import de.developgroup.mrf.NonServletModule;
+import de.developgroup.mrf.RoverServletsModule;
 import de.developgroup.mrf.server.controller.RoverController;
 import de.developgroup.mrf.server.servlet.RoverServlet;
 import org.eclipse.jetty.server.Handler;
@@ -21,10 +25,15 @@ public abstract class AbstractServer {
 
 	public void run() {
 		INSTANCE = this;
-		
-		Server server = new Server();
+
+		NonServletModule nonServletModule = new NonServletModule();
+        RoverServletsModule roverServletsModule = new RoverServletsModule();
+        Injector injector = Guice.createInjector(nonServletModule, roverServletsModule);
+
+
+        Server server = new Server();
 		ServerConnector connector = new ServerConnector(server);
-		connector.setPort(80);
+		connector.setPort(8080);
 		server.addConnector(connector);
 
 		// Setup the basic application "context" for this application at "/"
