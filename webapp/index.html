@@ -26,44 +26,82 @@
           <span>Mobile Robot Framework</span>
         </h2>
         <span flex></span>
-        <md-button class="md-icon-button md-warning" aria-label="Favorite">
+        <md-button class="md-icon-button md-warn" aria-label="Favorite">
           <md-icon md-svg-icon="assets/icons/ic_warning_48px.svg"></md-icon>
+          <md-tooltip md-direction="left">
+          No connection to Rover!
+        </md-tooltip>
         </md-button>
       </div>
     </md-toolbar>
 
-  <section layout="row" >
+  <section layout="row">
       <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="sidebar" md-is-locked-open="$mdMedia('gt-md')">
         <md-toolbar class="md-primary md-whiteframe-z2"layout-align="center" hide-gt-md>
           <md-button class="md-icon-button" ng-click="closeSidebar()" aria-label="Back">
             <md-icon md-svg-icon="assets/icons/ic_arrow_back_48px.svg" ></md-icon>
           </md-button>
         </md-toolbar>
-        <md-content layout-padding >
-          <md-menu-content width="4">
+        <md-content layout-padding  >
+          <md-menu-content style="min-height: 568px;">
             <md-menu-item >
-              <md-button ng-href="#/main" ng-click="closeSidebar()">Main</md-button>
+              <md-button ng-href="#/main" ng-click="closeSidebar()">
+                <md-icon md-svg-icon="assets/icons/ic_home_48px.svg"></md-icon>
+                Main
+              </md-button>
             </md-menu-item>
+
             <md-menu-item >
-              <md-button ng-href="#/info" ng-click="closeSidebar()">Controller</md-button>
+              <md-button ng-href="#/drive" ng-click="closeSidebar()">
+                <md-icon md-svg-icon="assets/icons/ic_games_48px.svg"></md-icon>
+                Driver
+              </md-button>
             </md-menu-item>
+
             <md-menu-item >
-              <md-button ng-href="#/example" ng-click="closeSidebar()">Observer</md-button>
+              <md-button ng-href="#/observe" ng-click="closeSidebar()">
+                <md-icon md-svg-icon="assets/icons/ic_visibility_48px.svg"></md-icon>
+                Observer
+              </md-button>
             </md-menu-item>
+
             <md-menu-item>
-              <md-button>Settings</md-button>
+              <md-button disabled="disabled">
+                <md-icon md-svg-icon="assets/icons/ic_settings_48px.svg"></md-icon>
+                Settings
+              </md-button>
             </md-menu-item>
+
             <md-menu-item>
-              <md-button>Logs</md-button>
+              <md-button disabled="disabled">
+                <md-icon md-svg-icon="assets/icons/ic_receipt_48px.svg"></md-icon>
+                Logs
+              </md-button>
             </md-menu-item>
+
             <md-menu-item>
-              <md-button>About</md-button>
+              <md-button ng-href="#/info" ng-click="closeSidebar()">
+                <md-icon md-svg-icon="assets/icons/ic_info_outline_48px.svg"></md-icon>
+                About
+              </md-button>
             </md-menu-item>
+
+            </md-menu-divider>
+
+            <md-menu-item>
+              <md-button ng-href="#/example" ng-click="closeSidebar()">
+                <md-icon md-svg-icon="assets/icons/ic_warning_48px.svg"></md-icon>
+                Example
+              </md-button>
+            </md-menu-item>
+
           </md-menu-content>
         </md-content>
       </md-sidenav>
       <md-content flex layout-padding>
+          <!-- Main Container-->
           <div ng-view></div>
+
       </md-content>
     </md-sidenav>
   </section
@@ -88,6 +126,8 @@
   <script src="bower_components/angular-route/angular-route.js"></script>
   <script src="bower_components/angular-websocket/angular-websocket.js"></script>
   <script src="main/main.js"></script>
+  <script src="roverDrive/roverDrive.js"></script>
+  <script src="roverObserve/roverObserve.js"></script>
   <script src="info/info.js"></script>
   <script src="example/example.js"></script>
   <script src="app.js"></script>

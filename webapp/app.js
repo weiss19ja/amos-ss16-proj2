@@ -6,6 +6,8 @@ angular.module('myApp', [
   'ngWebSocket',
   'ngMaterial' ,
   'myApp.main',
+  'myApp.roverDrive',
+  'myApp.roverObserve',
   'myApp.example',
   'myApp.info',
   'myApp.version'
@@ -24,16 +26,24 @@ angular.module('myApp', [
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.
 	when('/main', {
-    	templateUrl: 'main/main.html',
-    	controller: 'MainCtrl'
+  	templateUrl: 'main/main.html',
+  	controller: 'MainCtrl'
  	}).
+  when('/drive',{
+    templateUrl: 'roverDrive/roverDrive.html',
+    controller: 'RoverDriveCtrl'
+  }).
+  when('/observe',{
+    templateUrl: 'roverObserve/roverObserve.html',
+    controller: 'RoverObserveCtrl'
+  }).
 	when('/info',{
 		templateUrl: 'info/info.html',
 		controller: 'InfoCtrl'
 	}).
-	  when('/example', {
+	when('/example', {
 	  templateUrl: 'example/example.html',
-      controller: 'ExampleCtrl'
+    controller: 'ExampleCtrl'
   }).
 	otherwise({redirectTo: '/main'});
 
