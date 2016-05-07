@@ -8,6 +8,7 @@ angular.module('myApp', [
   'myApp.main',
   'myApp.roverDrive',
   'myApp.roverObserve',
+  'myApp.roverService',
   'myApp.example',
   'myApp.info',
   'myApp.version'
