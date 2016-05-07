@@ -2,7 +2,7 @@ package de.developgroup.mrf.servlets.example;
 
 import com.google.inject.Inject;
 import de.developgroup.mrf.controllers.ExampleController;
-import de.developgroup.mrf.server.rpc.JsonRpcSocket;
+import de.developgroup.mrf.servlets.rpc.JsonRpcSocket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
