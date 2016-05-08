@@ -4,7 +4,8 @@
 angular.module('myApp', [
   'ngRoute',
   'ngWebSocket',
-  'ngMaterial' ,
+  'ngMaterial',
+  'angularCSS',
   'myApp.main',
   'myApp.roverDrive',
   'myApp.roverObserve',
@@ -13,7 +14,8 @@ angular.module('myApp', [
   'myApp.settings',
   'myApp.example',
   'myApp.info',
-  'myApp.version'
+  'myApp.version',
+  'myApp.dpad'
 ])
 .config(function ($mdThemingProvider) {
 		$mdThemingProvider.theme('default')
