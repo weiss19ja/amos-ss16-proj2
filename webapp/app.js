@@ -9,6 +9,8 @@ angular.module('myApp', [
   'myApp.roverDrive',
   'myApp.roverObserve',
   'myApp.roverService',
+  'myApp.logs',
+  'myApp.settings',
   'myApp.example',
   'myApp.info',
   'myApp.version'
@@ -38,6 +40,14 @@ angular.module('myApp', [
     templateUrl: 'roverObserve/roverObserve.html',
     controller: 'RoverObserveCtrl'
   }).
+  when('/settings',{
+    templateUrl: 'settings/settings.html',
+    controller: 'SettingsCtrl'
+  }).
+  when('/logs',{
+    templateUrl: 'logs/logs.html',
+    controller: 'LogsCtrl'
+  }).
 	when('/info',{
 		templateUrl: 'info/info.html',
 		controller: 'InfoCtrl'
@@ -49,7 +59,7 @@ angular.module('myApp', [
 	otherwise({redirectTo: '/main'});
 
 }])
-.controller('IndexCtrl', function ($scope, $timeout, $mdSidenav, $mdUtil, $log) {
+.controller('SidebarCtrl', function ($scope, $timeout, $mdSidenav, $mdUtil, $log) {
   $scope.closeSidebar = function () {
      $mdSidenav('sidebar').close();
    };

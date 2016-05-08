@@ -16,7 +16,7 @@
   <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
 <body>
-  <div ng-controller="IndexCtrl">
+  <div ng-controller="SidebarCtrl">
 		<md-toolbar class="md-primary md-whiteframe-z2" >
       <div class="md-toolbar-tools">
         <md-button class="md-icon-button" ng-click="toggleSidebar()" aria-label="Settings" hide-gt-md ng-disabled="$mdMedia('gt-md')">
@@ -66,14 +66,14 @@
             </md-menu-item>
 
             <md-menu-item>
-              <md-button disabled="disabled">
+              <md-button ng-href="#/settings" ng-click="closeSidebar()">
                 <md-icon md-svg-icon="assets/icons/ic_settings_48px.svg"></md-icon>
                 Settings
               </md-button>
             </md-menu-item>
 
             <md-menu-item>
-              <md-button disabled="disabled">
+              <md-button ng-href="#/logs" ng-click="closeSidebar()">
                 <md-icon md-svg-icon="assets/icons/ic_receipt_48px.svg"></md-icon>
                 Logs
               </md-button>
@@ -129,6 +129,8 @@
   <script src="main/main.js"></script>
   <script src="roverDrive/roverDrive.js"></script>
   <script src="roverObserve/roverObserve.js"></script>
+  <script src="logs/logs.js"></script>
+  <script src="settings/settings.js"></script>
   <script src="info/info.js"></script>
   <script src="example/example.js"></script>
   <script src="app.js"></script>
