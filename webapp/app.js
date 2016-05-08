@@ -6,7 +6,8 @@ angular.module('myApp', [
   'ngWebSocket',
   'myApp.main',
   'myApp.example',
-  'myApp.info',
+  'myApp.info', 
+  'myApp.camera',
   'myApp.version'
 ]).
 config(['$routeProvider', function($routeProvider) {
@@ -22,6 +23,10 @@ config(['$routeProvider', function($routeProvider) {
 	  when('/example', {
 	  templateUrl: 'example/example.html',
       controller: 'ExampleCtrl'
+  }).
+  when('/camera', {
+	  templateUrl: 'camera/camera.html',
+	  controller: 'CameraCtrl'
   }).
 	otherwise({redirectTo: '/main'});
 
