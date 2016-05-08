@@ -4,7 +4,8 @@
 angular.module('myApp', [
   'ngRoute',
   'ngWebSocket',
-  'ngMaterial' ,
+  'ngMaterial',
+  'angularCSS',
   'myApp.main',
   'myApp.roverDrive',
   'myApp.roverObserve',
