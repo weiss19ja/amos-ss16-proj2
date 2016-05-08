@@ -12,7 +12,8 @@ angular.module('myApp', [
   'myApp.roverService',
   'myApp.example',
   'myApp.info',
-  'myApp.version'
+  'myApp.version',
+  'myApp.dpad'
 ])
 .config(function ($mdThemingProvider) {
 		$mdThemingProvider.theme('default')

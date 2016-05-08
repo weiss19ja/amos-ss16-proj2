@@ -24,7 +24,7 @@ function DPadController() {
     }
 }
 
-angular.module('myApp', [])
+angular.module('myApp.dpad', [])
     .component('dpad', {
         restrict: 'EA',
         scope: {
