@@ -1,4 +1,4 @@
-package de.developgroup.mrf.servlets.rpc;
+package de.developgroup.mrf.server.rpc;
 
 public class JsonRpcError {
 
