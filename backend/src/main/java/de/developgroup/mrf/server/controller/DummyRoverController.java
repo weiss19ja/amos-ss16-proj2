@@ -2,7 +2,7 @@ package de.developgroup.mrf.server.controller;
 
 import java.io.IOException;
 
-import de.developgroup.mrf.server.socket.RoverSocket;
+import de.developgroup.mrf.server.socket.RoverSocketOld;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 public class DummyRoverController implements RoverController {
 
 	public static final DummyRoverController INSTANCE = new DummyRoverController();
-	private static final Logger LOG = LoggerFactory.getLogger(RoverSocket.class);
+	private static final Logger LOG = LoggerFactory.getLogger(RoverSocketOld.class);
 
 	private DummyRoverController() {
 	}

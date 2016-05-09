@@ -17,8 +17,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceFilter;
 
-import de.developgroup.mrf.rover.collision.CollisionController;
-import de.developgroup.mrf.rover.collision.CollisionControllerImpl;
+import de.developgroup.mrf.server.handler.RoverHandlerImpl;
 
 public class Main {
 
@@ -28,7 +27,8 @@ public class Main {
 		Injector injector = Guice.createInjector(nonServletModule,
 				roverServletsModule);
 
-		CollisionController collisionController = new CollisionControllerImpl();
+		// TODO find nicer way to get the handler
+		injector.getInstance(RoverHandlerImpl.class).initRover();
 
 		// set up jetty default server
 		int port = 80;

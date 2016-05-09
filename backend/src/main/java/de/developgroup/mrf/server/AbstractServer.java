@@ -5,7 +5,7 @@ import com.google.inject.Injector;
 import de.developgroup.mrf.NonServletModule;
 import de.developgroup.mrf.RoverServletsModule;
 import de.developgroup.mrf.server.controller.RoverController;
-import de.developgroup.mrf.server.servlet.RoverServlet;
+import de.developgroup.mrf.server.servlet.RoverServletOld;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
@@ -43,7 +43,7 @@ public abstract class AbstractServer {
 		server.setHandler(servletContextHandler);
 
 		// Add a websocket to a specific path spec
-		ServletHolder holder = new ServletHolder("ws-events", RoverServlet.class);
+		ServletHolder holder = new ServletHolder("ws-events", RoverServletOld.class);
 		servletContextHandler.addServlet(holder, "/events/*");
 
 		// client folder on classpath
