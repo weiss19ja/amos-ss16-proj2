@@ -1,4 +1,4 @@
-package de.developgroup.mrf.server.rpc;
+package de.developgroup.mrf.servlets.rpc;
 
 import org.junit.After;
 import org.junit.Before;
