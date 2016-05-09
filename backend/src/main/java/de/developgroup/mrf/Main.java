@@ -1,16 +1,8 @@
 package de.developgroup.mrf;
 
-<<<<<<< HEAD
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceFilter;
-=======
-import java.net.URL;
-import java.util.EnumSet;
-
-import javax.servlet.DispatcherType;
-
->>>>>>> req43-collision-control
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.DefaultHandler;
@@ -19,53 +11,44 @@ import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import com.google.inject.servlet.GuiceFilter;
-
-import de.developgroup.mrf.server.handler.RoverHandlerImpl;
+import javax.servlet.DispatcherType;
+import java.net.URL;
+import java.util.EnumSet;
 
 public class Main {
 
-	public static void main(String[] args) {
-		NonServletModule nonServletModule = new NonServletModule();
-		RoverServletsModule roverServletsModule = new RoverServletsModule();
-		Injector injector = Guice.createInjector(nonServletModule,
-				roverServletsModule);
+    public static void main(String[] args) {
+        NonServletModule nonServletModule = new NonServletModule();
+        RoverServletsModule roverServletsModule = new RoverServletsModule();
+        Injector injector = Guice.createInjector(nonServletModule, roverServletsModule);
 
-		// TODO find nicer way to get the handler
-		injector.getInstance(RoverHandlerImpl.class).initRover();
+        // set up jetty default server
+        int port = 80;
+        Server server = new Server(port);
+        ServletContextHandler servletContextHandler = new ServletContextHandler(server, "/", ServletContextHandler.SESSIONS);
+        servletContextHandler.addFilter(GuiceFilter.class, "/*", EnumSet.allOf(DispatcherType.class));
 
-		// set up jetty default server
-		int port = 80;
-		Server server = new Server(port);
-		ServletContextHandler servletContextHandler = new ServletContextHandler(
-				server, "/", ServletContextHandler.SESSIONS);
-		servletContextHandler.addFilter(GuiceFilter.class, "/*",
-				EnumSet.allOf(DispatcherType.class));
+        servletContextHandler.addServlet(DefaultServlet.class, "/");
 
-		servletContextHandler.addServlet(DefaultServlet.class, "/");
+        // serve client files
+        ResourceHandler resourceHandler = new ResourceHandler();
+        resourceHandler.setDirectoriesListed(true);
+        resourceHandler.setWelcomeFiles(new String[] { "index.html" });
+        URL clientDir = Main.class.getClassLoader().getResource("client");
+        if (clientDir != null) {
+            resourceHandler.setResourceBase(clientDir.toExternalForm());
+        } else {
 
-		// serve client files
-		ResourceHandler resourceHandler = new ResourceHandler();
-		resourceHandler.setDirectoriesListed(true);
-		resourceHandler.setWelcomeFiles(new String[] { "index.html" });
-		URL clientDir = Main.class.getClassLoader().getResource("client");
-		if (clientDir != null) {
-			resourceHandler.setResourceBase(clientDir.toExternalForm());
-		} else {
+        }
+        HandlerList handlers = new HandlerList();
+        handlers.setHandlers(new Handler[] { resourceHandler, servletContextHandler, new DefaultHandler() });
+        server.setHandler(handlers);
 
-		}
-		HandlerList handlers = new HandlerList();
-		handlers.setHandlers(new Handler[] { resourceHandler,
-				servletContextHandler, new DefaultHandler() });
-		server.setHandler(handlers);
+        try {
+            server.start();
+            server.join();
+        } catch (Exception e) {
 
-		try {
-			server.start();
-			server.join();
-		} catch (Exception e) {
-
-		}
-	}
+        }
+    }
 }

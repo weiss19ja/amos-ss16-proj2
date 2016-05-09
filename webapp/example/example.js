@@ -2,7 +2,7 @@
 
 angular.module('myApp.example', ['ngRoute', 'ngWebSocket'])
     .factory('PingExample', function($websocket, $location) {
-        var dataStream = $websocket('ws://' + $location.host() + ':' + $location.port() + '/rover');
+        var dataStream = $websocket('ws://' + $location.host() + ':' + $location.port() + '/example');
         var replyCollection = [];
         var sqn = 0;
 

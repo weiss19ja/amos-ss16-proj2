@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.pi4j.io.i2c.I2CDevice;
 
+
 public class PCA9685PWMGenerator implements PWMGenerator {
 
 	/*
@@ -96,8 +97,7 @@ public class PCA9685PWMGenerator implements PWMGenerator {
 	@Override
 	public void setFrequency(int frequency) throws IOException {
 		if (frequency <= 0) {
-			throw new IllegalArgumentException(
-					"Frequency must be greater than zero");
+			throw new IllegalArgumentException("Frequency must be greater than zero");
 		}
 
 		float prescaleval = TIMER_BASE_FREQUENCY;
@@ -109,8 +109,7 @@ public class PCA9685PWMGenerator implements PWMGenerator {
 
 		if (prescale > 0xff || prescale < 0) {
 			throw new IllegalArgumentException(
-					"This device is unable to provide the desired frequency of "
-							+ frequency + " Hz");
+					"This device is unable to provide the desired frequency of " + frequency + " Hz");
 		}
 
 		prescaleReg = (byte) prescale;
@@ -126,8 +125,7 @@ public class PCA9685PWMGenerator implements PWMGenerator {
 		device.write(REG_MODE1, (byte) (oldMode1 | RESTART));
 
 		// Calculate actual frequency
-		pwmFrequency = Math.round(TIMER_BASE_FREQUENCY
-				/ (float) (TIMER_CYCLE_COUNT * (prescaleReg + 1)));
+		pwmFrequency = Math.round(TIMER_BASE_FREQUENCY / (float) (TIMER_CYCLE_COUNT * (prescaleReg + 1)));
 	}
 
 	public int getFrequency() {
