@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.roverObserve', [])
+angular.module('myApp.roverObserve', ['ngRoute', 'ngWebSocket'])
     .factory('streamDrawer', function() {
         var streamDrawer = {
             /**
@@ -19,7 +19,7 @@ angular.module('myApp.roverObserve', [])
         };
         return streamDrawer;
     })
-.controller('RoverObserveCtrl', function($scope, streamDrawer) {
+.controller('RoverObserveCtrl', function($scope, $location, streamDrawer) {
     $scope.streamDrawer = streamDrawer;
     $scope.canvasSize = {
         width: '640',
@@ -27,7 +27,6 @@ angular.module('myApp.roverObserve', [])
     };
     $scope.$watch('canvasSize', function(newValue, oldValue) {
         if (newValue != oldValue) {
-            //console.log('value changed: ' + JSON.stringify($scope.square));
             streamDrawer.updateSize(newValue.height, newValue.width);
         }
     }, true);
@@ -47,7 +46,8 @@ angular.module('myApp.roverObserve', [])
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.fillText('Loading video stream...', canvas.width / 3 , canvas.height / 3);
             // Setup the WebSocket connection and start the player
-            var client = new WebSocket('ws://192.168.0.8:8084/');
+            console.log("Setting up WebSocket on: "+ $location.host());
+            var client = new WebSocket('ws://'+ $location.host() +':8084/');
             var player = new jsmpeg(client, {canvas: canvas});
         }
 
