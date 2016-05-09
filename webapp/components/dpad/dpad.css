@@ -1,7 +1,12 @@
 dpad {
-    width: 7em;
+    width: 9em;
     height: 7em;
     position: relative;
+}
+
+.stop-button {
+    position: absolute;
+    right: 0em;
 }
 
 .dpad-button {
@@ -46,6 +51,6 @@ dpad {
 
 .right {
     top: 2em;
-    right: 0;
+    right: 2em;
     transform: rotate(180deg);
 }
