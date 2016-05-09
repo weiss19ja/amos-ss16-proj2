@@ -1,0 +1,166 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<!--
+File: Robocode-tank.svg
+
+Copyright (c) 2001-2012 Mathew A. Nelson and Robocode contributors.
+Author: Flemming N. Larsen
+
+Note: This SVG file was based on a 48x48 pixel image originally created by Garett S. Hourihan for Robocode.
+-->
+
+<svg width="480" height="480"
+	xmlns="http://www.w3.org/2000/svg" version="1.1"
+	xmlns:xlink="http://www.w3.org/1999/xlink">
+
+	<style type="text/css" >
+		<![CDATA[
+
+		.wheel {
+			fill:url(#wheel-gradient);
+		}
+		.body,
+		.turret-top {
+			fill:url(#body-gradient);
+		}
+		.radar {
+			fill:url(#radar-gradient);
+		}
+		.black-border,
+		.body,
+		.body-light,
+		.body-garnish,
+		.turret-edges,
+		.radar {
+			stroke:black;
+			stroke-width:5;
+		}
+		.body-light,
+		.body-garnish {
+			stroke-opacity:0.5;
+			fill-opacity:0;
+		}
+		.body-light {
+			stroke:white;
+			stroke-opacity:0.8;
+		}
+		.turret-edges {
+			fill:#999;
+			stroke-linejoin:bevel;
+		}
+		.gun-round-line {
+			stroke-linecap:round;
+		}
+		.gun-barrel {
+			stroke:#222;
+			stroke-width:5;
+			fill:url(#gun-gradient);
+		}
+      ]]>
+	</style>
+
+	<defs>
+		<linearGradient id="wheel-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+			<stop offset="0%" style="stop-color:#333" />
+			<stop offset="25%" style="stop-color:#AAA" />
+			<stop offset="50%" style="stop-color:#EEE" />
+			<stop offset="75%" style="stop-color:#AAA" />
+			<stop offset="100%" style="stop-color:#333" />
+		</linearGradient>
+		<linearGradient id="body-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+			<stop offset="0%" style="stop-color:#339" />
+			<stop offset="100%" style="stop-color:#113" />
+		</linearGradient>
+		<linearGradient id="gun-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+			<stop offset="0%" style="stop-color:#333" />
+			<stop offset="25%" style="stop-color:#999" />
+			<stop offset="50%" style="stop-color:#EEE" />
+			<stop offset="75%" style="stop-color:#999" />
+			<stop offset="100%" style="stop-color:#333" />
+		</linearGradient>
+		<linearGradient id="gun-dark-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+			<stop offset="0%" style="stop-color:#333" />
+			<stop offset="25%" style="stop-color:#777" />
+			<stop offset="50%" style="stop-color:#AAA" />
+			<stop offset="75%" style="stop-color:#777" />
+			<stop offset="100%" style="stop-color:#333" />
+		</linearGradient>
+		<radialGradient id="radar-gradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+			<stop offset="0%" style="stop-color:#FFF"/>
+			<stop offset="100%" style="stop-color:#77F" />
+		</radialGradient>
+
+		<rect id="wheel-axis" class="wheel" width="360" height="60"/>
+		<rect id="wheel" class="wheel" width="55" height="120"/>
+		<rect id="body-tail" x="175" y="440" width="130" height="30" fill="url(#body-gradient)"/>
+		<polygon id="body-main" class="body" points="130,90 350,90 350,450 305,440 175,440 130,450 130,90"/>
+		<rect id="body-light" class="body-light" width="50" height="50"/>
+		<rect id="body-hatch" class="body" width="25" height="35" stroke-opacity="0.5" fill-opacity="0"/>
+		<line id="body-garnish" class="body-garnish" y1="0" x1="130" y2="0" x2="145"/>
+		<line id="body-left-rear-line" class="black-border" x1="175" y1="440" x2="190" y2="350"/>
+		<line id="body-right-rear-line" class="black-border" x1="305" y1="440" x2="290" y2="350"/>
+
+		<path id="turret-top" d="M175,355 305,355 315,235 275,210 205,210 165,235 Z" style="fill:url(#body-gradient);stroke:#000;stroke-width:5;stroke-linejoin:bevel;"/>
+		<path id="turret-edges" class="turret-edges" d="M140,225 195,195 285,195 340,225 315,235 275,210 205,210 165,235 Z M150,385 L175,355 165,235 140,225 Z M330,385 L305,355 315,235 340,225 Z M150,385 L175,355 305,355 330,385 325,395 155,395 Z"/>
+		<line id="gun-gray-line" class="gun-round-line" x1="210" y1="45" x2="270" y2="45" stroke="#999" stroke-width="10"/>
+		<line id="gun-white-line" class="gun-round-line" x1="225" y1="0" x2="255" y2="0" stroke="white" stroke-width="5" stroke-opacity="0.8"/>
+		<rect id="gun-top" class="black-border" x="220" y="5" width="40" height="60" fill="url(#gun-dark-gradient)"/>
+		<rect id="gun-middle" class="black-border" x="225" y="65" width="30" height="65" fill="url(#gun-dark-gradient)"/>
+		<rect id="gun-buttom" class="gun-barrel" x="200" y="130" width="80" height="80"/>
+
+		<circle id="radar-anchor-outer" class="turret-edges" cx="240" cy="270" r="50"/>
+		<circle id="radar-anchor-inner" class="body" cx="240" cy="270" r="37"/>
+		<path id="radar-main" class="radar" d="M130,220 Q240,405 350,220 Q240,325 130,220"/>
+	</defs>
+
+	<g id="body" transform="rotate(0,240,270)">
+		<!-- Wheel axises -->
+		<use xlink:href="#wheel-axis" x="60" y="135"/> <!-- top -->
+		<use xlink:href="#wheel-axis" x="60" y="240"/> <!-- middle -->
+		<use xlink:href="#wheel-axis" x="60" y="345"/> <!-- buttom -->
+
+		<!-- Wheels -->
+		<use xlink:href="#wheel" x="75" y="80"/> <!-- left top -->
+		<use xlink:href="#wheel" x="75" y="210"/> <!-- left middle -->
+		<use xlink:href="#wheel" x="75" y="340"/> <!-- left buttom -->
+		<use xlink:href="#wheel" x="350" y="80"/> <!-- right top -->
+		<use xlink:href="#wheel" x="350" y="210"/> <!-- right middle -->
+		<use xlink:href="#wheel" x="350" y="340"/> <!-- right buttom -->
+
+		<!-- Body -->
+		<use xlink:href="#body-tail"/>
+		<use xlink:href="#body-main"/>
+		<use xlink:href="#body-light" x="140" y="90"/> <!-- left -->
+		<use xlink:href="#body-light" x="290" y="90"/> <!-- right -->
+		<use xlink:href="#body-hatch" x="130" y="165"/> <!-- left -->
+		<use xlink:href="#body-hatch" x="325" y="175"/> <!-- right -->
+		<use xlink:href="#body-garnish" y="245"/> <!-- 1st -->
+		<use xlink:href="#body-garnish" y="285"/> <!-- 2nd -->
+		<use xlink:href="#body-garnish" y="315"/> <!-- 3rd -->
+		<use xlink:href="#body-left-rear-line"/>
+		<use xlink:href="#body-right-rear-line"/>
+	</g>
+	<g id="turret" transform="rotate(0,240,270)">
+		<!-- Turret -->
+		<use xlink:href="#turret-top"/>
+		<use xlink:href="#turret-edges"/>
+
+		<!-- Gun -->
+		<use xlink:href="#gun-gray-line"/>
+		<use xlink:href="#gun-top"/>
+		<use xlink:href="#gun-white-line" y="15"/>
+		<use xlink:href="#gun-white-line" y="35"/>
+		<use xlink:href="#gun-white-line" y="55"/>
+		<use xlink:href="#gun-middle"/>
+		<use xlink:href="#gun-buttom"/>
+	</g>
+	<g id="radar" transform="rotate(0,240,270)">
+		<!-- Radar anchor -->
+		<use xlink:href="#radar-anchor-outer"/>
+		<use xlink:href="#radar-anchor-inner"/>
+
+		<!-- Radar -->
+		<use xlink:href="#radar-main"/>
+	</g>
+</svg>
