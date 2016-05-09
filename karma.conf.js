@@ -13,6 +13,8 @@ module.exports = function(config){
       'webapp/main/**/*.js',
       'webapp/info/**/*.js',
       'webapp/example/**/*.js',
+      'webapp/logs/**/*.js',
+      'webapp/settings/**/*.js'
     ],
 
     autoWatch : true,
