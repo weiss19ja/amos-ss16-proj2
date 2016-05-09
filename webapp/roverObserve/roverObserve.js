@@ -15,9 +15,13 @@ angular.module('myApp.roverObserve', [])
                 if (canvas.getContext) {
                     console.log("drawing");
                     var ctx = canvas.getContext("2d");
+                    canvas.width  = width;
+                    canvas.height = height;
+                    canvas.style.width  = width+'px';
+                    canvas.style.height = height+'px';
                     //clear the canvas
                     ctx.clearRect(0,0, 200, canvas.height);
-                    ctx.fillRect(0, 0, width, height);
+                    ctx.fillRect(0, 0, 1000, 1000);
                 }
             }
         };
