@@ -1,9 +1,26 @@
 package de.developgroup.mrf.server.controller;
 
-import com.pi4j.io.gpio.*;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.concurrent.TimeUnit;
+
+import org.cfg4j.provider.ConfigurationProvider;
+import org.cfg4j.provider.ConfigurationProviderBuilder;
+import org.cfg4j.source.ConfigurationSource;
+import org.cfg4j.source.files.FilesConfigurationSource;
+import org.cfg4j.source.reload.strategy.PeriodicalReloadStrategy;
+
+import com.pi4j.io.gpio.GpioController;
+import com.pi4j.io.gpio.GpioFactory;
+import com.pi4j.io.gpio.GpioPinDigitalOutput;
+import com.pi4j.io.gpio.PinState;
+import com.pi4j.io.gpio.RaspiPin;
 import com.pi4j.io.i2c.I2CBus;
 import com.pi4j.io.i2c.I2CDevice;
 import com.pi4j.io.i2c.I2CFactory;
+
 import de.developgroup.mrf.rover.motor.MotorController;
 import de.developgroup.mrf.rover.motor.MotorControllerConfiguration;
 import de.developgroup.mrf.rover.motor.MotorControllerImpl;
@@ -11,18 +28,6 @@ import de.developgroup.mrf.rover.pwmgenerator.PCA9685PWMGenerator;
 import de.developgroup.mrf.rover.servo.ServoConfiguration;
 import de.developgroup.mrf.rover.servo.ServoController;
 import de.developgroup.mrf.rover.servo.ServoControllerImpl;
-import org.cfg4j.provider.ConfigurationProvider;
-import org.cfg4j.provider.ConfigurationProviderBuilder;
-import org.cfg4j.source.ConfigurationSource;
-import org.cfg4j.source.files.FilesConfigurationSource;
-import org.cfg4j.source.reload.strategy.PeriodicalReloadStrategy;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.Collections;
-import java.util.concurrent.TimeUnit;
-
 
 public class RoverControllerImpl implements RoverController {
 
@@ -130,24 +135,34 @@ public class RoverControllerImpl implements RoverController {
 			driver.open();
 			driver.setFrequency(50);
 
-			directionPinLeft = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_07, "Direction Left", PinState.LOW);
+			directionPinLeft = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_07,
+					"Direction Left", PinState.LOW);
 			directionPinLeft.setShutdownOptions(true, PinState.LOW);
 
-			directionPinRight = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_00, "Direction Right", PinState.LOW);
+			directionPinRight = gpio.provisionDigitalOutputPin(
+					RaspiPin.GPIO_00, "Direction Right", PinState.LOW);
 			directionPinRight.setShutdownOptions(true, PinState.LOW);
 
 			ConfigurationSource source = new FilesConfigurationSource(
-					() -> Collections.singletonList(Paths.get("rover.properties")));
+					() -> Collections.singletonList(Paths
+							.get("rover.properties")));
 
-			ConfigurationProvider provider = new ConfigurationProviderBuilder().withConfigurationSource(source)
-					.withReloadStrategy(new PeriodicalReloadStrategy(5, TimeUnit.SECONDS)).build();
+			ConfigurationProvider provider = new ConfigurationProviderBuilder()
+					.withConfigurationSource(source)
+					.withReloadStrategy(
+							new PeriodicalReloadStrategy(5, TimeUnit.SECONDS))
+					.build();
 
-			leftMotor = new MotorControllerImpl(driver.getOutput(14), directionPinLeft,
-					provider.bind("motorLeft", MotorControllerConfiguration.class));
-			rightMotor = new MotorControllerImpl(driver.getOutput(15), directionPinRight,
-					provider.bind("motorRight", MotorControllerConfiguration.class));
-			panServo = new ServoControllerImpl(driver.getOutput(1), provider.bind("servo1", ServoConfiguration.class));
-			tiltServo = new ServoControllerImpl(driver.getOutput(0), provider.bind("servo0", ServoConfiguration.class));
+			leftMotor = new MotorControllerImpl(driver.getOutput(14),
+					directionPinLeft, provider.bind("motorLeft",
+							MotorControllerConfiguration.class));
+			rightMotor = new MotorControllerImpl(driver.getOutput(15),
+					directionPinRight, provider.bind("motorRight",
+							MotorControllerConfiguration.class));
+			panServo = new ServoControllerImpl(driver.getOutput(1),
+					provider.bind("servo1", ServoConfiguration.class));
+			tiltServo = new ServoControllerImpl(driver.getOutput(0),
+					provider.bind("servo0", ServoConfiguration.class));
 		}
 	}
 
@@ -183,7 +198,8 @@ public class RoverControllerImpl implements RoverController {
 	public int openVideoStream() throws IOException {
 
 		if (videoStream == null) {
-            ProcessBuilder builder = new ProcessBuilder("sudo", "-u", "pi", "/home/pi/camera/opencamera.sh");
+			ProcessBuilder builder = new ProcessBuilder("sudo", "-u", "pi",
+					"/home/pi/camera/opencamera.sh");
 			videoStream = builder.start();
 		}
 		return DEFAULT_VIDEO_PORT;
@@ -193,12 +209,14 @@ public class RoverControllerImpl implements RoverController {
 	public String takeSnapshot() throws IOException {
 		File imageFile = File.createTempFile("Snapshot", ".jpg");
 
-		ProcessBuilder builder = new ProcessBuilder("raspistill", "--output", imageFile.getAbsolutePath());
+		ProcessBuilder builder = new ProcessBuilder("raspistill", "--output",
+				imageFile.getAbsolutePath());
 		Process snapshot = builder.start();
 
 		try {
 			if (!snapshot.waitFor(5, TimeUnit.SECONDS)) {
-				throw new IOException("Timeout while waiting for camera snapshot to be taken");
+				throw new IOException(
+						"Timeout while waiting for camera snapshot to be taken");
 			}
 		} catch (InterruptedException e) {
 			// Ignore
