@@ -3,8 +3,15 @@
     	<md-toolbar class="md-toolbar-tools md-hue-2" >
         <h3>Observer Mode</h3>
       </md-toolbar>
-      <div style="background:green;height:500px;">
+        <div ng-controller="RoverObserveCtrl" class="row">
+            <div class="row">
+                <canvas id="canvas" width="500" height="200"></canvas>
+            </div>
+            <div class="span5 well">
+                <input id="first" type="text" ng-model="square.height" class="span2"/>
 
-      </diV>
+                <input id="second" type="text" ng-model="square.width" class="span2"/>
+            </div>
+        </div>
 
 </div>
