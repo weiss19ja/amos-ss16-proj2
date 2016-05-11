@@ -1,12 +1,7 @@
 package de.developgroup.mrf;
 
-import java.net.URL;
-import java.util.EnumSet;
-
-import javax.servlet.DispatcherType;
-
 import com.google.inject.Inject;
-import de.developgroup.mrf.rover.collision.CollisionControllerMock;
+import com.google.inject.servlet.GuiceFilter;
 import de.developgroup.mrf.server.handler.RoverHandler;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
@@ -15,14 +10,12 @@ import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
-
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import com.google.inject.servlet.GuiceFilter;
-
-import de.developgroup.mrf.server.handler.RoverHandlerImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.servlet.DispatcherType;
+import java.net.URL;
+import java.util.EnumSet;
 
 public class Main {
 
@@ -46,13 +39,8 @@ public class Main {
 		NonServletModule nonServletModule = new NonServletModule(useMocks);
 		RoverServletsModule roverServletsModule = new RoverServletsModule();
 
-		Injector injector = Guice.createInjector(nonServletModule,
-				roverServletsModule);
-
-
-		// TODO find nicer way to get the handler
+		// initialize rover handler
 		roverHandler.initRover();
-		//injector.getInstance(RoverHandlerImpl.class).initRover();
 
 		// set up jetty default server
 		int port;
