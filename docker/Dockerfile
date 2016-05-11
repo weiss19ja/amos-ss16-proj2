@@ -52,4 +52,4 @@ COPY assets /usr/src/app/
 RUN mv *-jar-with-dependencies.jar mrf.jar
 # -------------------------------------- Run Mobile-Robot-Framework
 
-CMD ["java","-jar","mrf.jar"]
+CMD ["java","-jar","mrf.jar","--use-mocks"]
