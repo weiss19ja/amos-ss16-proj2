@@ -1,6 +1,8 @@
 package de.developgroup.mrf;
 
+import com.google.inject.Guice;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceFilter;
 import de.developgroup.mrf.server.handler.RoverHandler;
 import org.eclipse.jetty.server.Handler;
@@ -38,6 +40,9 @@ public class Main {
 
 		NonServletModule nonServletModule = new NonServletModule(useMocks);
 		RoverServletsModule roverServletsModule = new RoverServletsModule();
+
+		Injector injector = Guice.createInjector(nonServletModule,
+				roverServletsModule);
 
 		// initialize rover handler
 		roverHandler.initRover();
