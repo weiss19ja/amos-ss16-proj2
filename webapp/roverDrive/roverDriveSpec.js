@@ -2,14 +2,13 @@
 
 describe('myApp.roverDrive module', function() {
 
-  var scope;
   beforeEach(module('myApp.roverDrive'));
 
   describe('roverDrive controller', function(){
 
-    it('should ....', inject(function($controller, $rootScope) {
+    it('should ....', inject(function($controller) {
       //spec body
-      var roverDriveCtrl = $controller('RoverDriveCtrl', {$scope: scope});
+      var roverDriveCtrl = $controller('RoverDriveCtrl');
       expect(roverDriveCtrl).toBeDefined();
     }));
 
