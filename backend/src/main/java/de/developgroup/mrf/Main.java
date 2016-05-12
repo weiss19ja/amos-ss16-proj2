@@ -93,7 +93,7 @@ public class Main {
 			arg = args[i++];
 
 			if (arg.equals("-m") || arg.equals("--use-mocks")) {
-				LOGGER.info("using mocks activated");
+				LOGGER.info("use mocks activated");
 				useMocks = true;
 			}
 

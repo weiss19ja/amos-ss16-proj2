@@ -9,7 +9,6 @@ import java.util.Observable;
 @Singleton
 public class RoverHandlerMock implements RoverHandler {
 
-	//final CollisionController collisionController = new CollisionControllerMock();
 	private static final Logger LOGGER = LoggerFactory.getLogger(RoverHandlerMock.class);
 
 
