@@ -1,16 +1,17 @@
 package de.developgroup.mrf.server.handler;
 
-import com.google.inject.Singleton;
+import java.util.Observable;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Observable;
+import com.google.inject.Singleton;
 
 @Singleton
 public class RoverHandlerMock implements RoverHandler {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(RoverHandlerMock.class);
-
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(RoverHandlerMock.class);
 
 	public RoverHandlerMock() {
 
@@ -25,7 +26,6 @@ public class RoverHandlerMock implements RoverHandler {
 
 	@Override
 	public void initRover() {
-
 	}
 
 	@Override

@@ -2,6 +2,9 @@ package de.developgroup.mrf.server.handler;
 
 import java.util.Observable;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.inject.Singleton;
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
@@ -12,6 +15,9 @@ import de.developgroup.mrf.rover.collision.CollisionControllerImpl;
 
 @Singleton
 public class RoverHandlerImpl implements RoverHandler {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(RoverHandlerImpl.class);
 
 	final CollisionController collisionController = new CollisionControllerImpl();
 	final GpioController gpio = GpioFactory.getInstance();
@@ -26,14 +32,19 @@ public class RoverHandlerImpl implements RoverHandler {
 
 	public void update(Observable o, Object arg) {
 		GpioPinDigitalStateChangeEvent event = (GpioPinDigitalStateChangeEvent) arg;
-		System.out.println("GPIO PIN STATE CHANGE: " + event.getPin()
-				+ " with Name " + event.getPin().getName() + " = "
-				+ event.getState());
+		if (event.getState().isHigh()) {
+			LOGGER.info("Sensor " + event.getPin().getName()
+					+ " Collision detected");
+		} else {
+			LOGGER.info("Sensor " + event.getPin().getName()
+					+ " Collision voided");
+		}
 	}
 
 	@Override
 	public void initRover() {
 		((Observable) collisionController).addObserver(this);
+		LOGGER.info("Rover initialized for collistion detection");
 	}
 
 	@Override
