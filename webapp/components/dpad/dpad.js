@@ -1,44 +1,39 @@
 'use strict';
 
-function DPadController($scope, roverService) {
-    var ctrl = this;
-
-
-    ctrl.up = function() {
-        console.debug("up");
-        roverService.driveForward();
-    };
-
-    ctrl.down = function() {
-        console.debug("down");
-        roverService.driveBackward();
-    };
-
-    ctrl.left = function() {
-        console.debug("left");
-        roverService.turnLeft();
-    };
-
-    ctrl.right = function() {
-        console.debug("right");
-        roverService.turnRight();
-    };
-
-    ctrl.stop = function() {
-        console.debug("stop");
-        roverService.stop();
-    }
-}
-
+/**
+ * Module to enable a D-Pad component. The D-Pad has 4 buttons for directions plus one stop button.
+ */
 angular.module('myApp.dpad', [])
+
+    .controller('DPadController', ['$scope', 'roverService', function($scope, roverService) {
+        $scope.up = function() {
+            console.debug("up");
+            roverService.driveForward();
+        };
+
+        $scope.down = function() {
+            console.debug("down");
+            roverService.driveBackward();
+        };
+
+        $scope.left = function() {
+            console.debug("left");
+            roverService.turnLeft();
+        };
+
+        $scope.right = function() {
+            console.debug("right");
+            roverService.turnRight();
+        };
+
+        $scope.stop = function() {
+            console.debug("stop");
+            roverService.stop();
+        };
+    }])
     .component('dpad', {
         restrict: 'EA',
-        scope: {
-
-
-        },
-        templateUrl: '/components/dpad/dpad.html',
-        css: '/components/dpad/dpad.css',
-        controller: DPadController,
-        controllerAs: 'ctrl'
+        templateUrl: 'components/dpad/dpad.html',
+        css: 'components/dpad/dpad.css',
+        controller: 'DPadController'
     });
