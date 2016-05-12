@@ -12,33 +12,6 @@ import com.pi4j.io.gpio.RaspiPin;
 import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
 import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 
-/*
- * 
-
-
- +-----+-----+--------------------------+------------------------
- | BCM | wPi |   Name  					|	Signal
- +-----+-----+--------------------------+------------------------
- |  27 |   2 | IR  Receiver Front Right | 	Signal Out 1
- |  22 |   3 | IR  Sender Front Right  	|	Signal In 1
- +-----+-----+--------------------------+------------------------
- |  23 |   4 | IR  Receiver Front Left 	|	Signal Out 2
- |  24 |   5 | IR  Sender Front Left 	|	Signal In 2
- +-----+-----+--------------------------+------------------------
- |  05 |  21 | IR  Receiver Back Left 	|	Signal Out 3	obsolete
- |  06 |  22 | IR  Sender Back Left 	|	Signal In 3		obsolete
- +-----+-----+--------------------------+------------------------
- |  13 |  23 | IR  Receiver Back Left 	|	Signal Out 3
- |  19 |  24 | IR  Sender Back Left 	|	Signal In 3
- +-----+-----+--------------------------+------------------------
- |  20 |  28 | IR  Receiver Back Right 	|	Signal Out 4
- |  21 |  29 | IR  Sender Back Right 	|	Signal In 4
- +-----+-----+--------------------------+------------------------
-
-
-
- */
-
 /**
  * this implementation uses the observer pattern to notify observers about
  * sensor value changes
