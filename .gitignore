@@ -101,3 +101,6 @@ local.properties
 node_modules/
 bower_components/
 docker/assets/
+
+# Logfiles
+*.log
