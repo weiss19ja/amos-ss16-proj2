@@ -3,7 +3,7 @@
 angular.module("myApp.roverService",['ngWebSocket'])
 .factory("roverService", function ($websocket, $location ) {
 
-  var ws = $websocket('ws://localhost:' + $location.port() + '/example');
+  var ws = $websocket('ws://localhost:' + $location.port() + '/rover');
 
   var lastId = 0;
   var responses = [];

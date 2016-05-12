@@ -42,6 +42,14 @@ $ npm run build:win
 
 creates a jar file in `backend/target/`
 
+You can start the jar with following arguments:
+
+```
+-m or --use-mocks     -> mockup gpio ports
+-d or --dev           -> developer mode, jetty port = 8000
+-h or --help          -> show all available arguments
+```
+
 ### Additional NPM Tasks
 
 Run unittests for webapp  
