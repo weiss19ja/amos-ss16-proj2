@@ -87,6 +87,11 @@ Name: Angular Material
 Version: 1.0
 License: MIT License
 ``` 
+``` 
+Name: Jsmpg
+Version: 1.0
+License: MIT License
+``` 
 
 ### Build and Package Tool
 ``` 
