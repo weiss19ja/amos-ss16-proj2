@@ -23,10 +23,11 @@ public class RoverHandlerImpl implements RoverHandler {
 	final GpioController gpio = GpioFactory.getInstance();
 
 	public RoverHandlerImpl() {
-
+        LOGGER.info("RoverHandlerImpl startup");
 	}
 
 	public String handlePing(int sqn) {
+        LOGGER.debug("handling ping for sqn " + sqn);
 		return "pong " + (sqn + 1);
 	}
 

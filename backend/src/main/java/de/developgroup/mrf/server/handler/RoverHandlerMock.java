@@ -14,10 +14,11 @@ public class RoverHandlerMock implements RoverHandler {
 			.getLogger(RoverHandlerMock.class);
 
 	public RoverHandlerMock() {
-
+		LOGGER.info("Setting up RoverHandlerMock");
 	}
 
 	public String handlePing(int sqn) {
+		LOGGER.debug("handling ping for sqn " + sqn);
 		return "pong " + (sqn + 1);
 	}
 

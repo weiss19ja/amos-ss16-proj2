@@ -31,26 +31,26 @@ public abstract class JsonRpcSocket extends WebSocketAdapter {
 	static final int CODE_INVALID_PARAMETERS = -32602;
 	static final int CODE_INTERNAL_ERROR = -32603;
 
-	private static final Logger LOG = LoggerFactory.getLogger(JsonRpcSocket.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(JsonRpcSocket.class);
 
 	@Override
 	public void onWebSocketConnect(final Session sess) {
 		super.onWebSocketConnect(sess);
-		LOG.info("Socket connected: {}", sess);
+		LOGGER.debug("Socket connected: {}", sess);
 	}
 
 	@Override
 	public void onWebSocketText(String message) {
-		LOG.trace("Received message: {}", message);
+		LOGGER.debug("Received message: {}", message);
 
 		String replyStr = processMessage(message);
 
 		try {
 			// TODO Make async?
-			LOG.trace("Sending reply: {}", replyStr);
+			LOGGER.debug("Sending reply: {}", replyStr);
 			getRemote().sendString(replyStr);
 		} catch (IOException e) {
-			LOG.error("Could not send reply: " + e.getMessage(), e);
+			LOGGER.error("Could not send reply: " + e.getMessage(), e);
 		}
 	}
 
@@ -108,13 +108,13 @@ public abstract class JsonRpcSocket extends WebSocketAdapter {
 	@Override
 	public void onWebSocketClose(int statusCode, String reason) {
 		super.onWebSocketClose(statusCode, reason);
-		LOG.info("Socket closed: [{}] {}", statusCode, reason);
+		LOGGER.debug("Socket closed: [{}] {}", statusCode, reason);
 	}
 
 	@Override
 	public void onWebSocketError(Throwable cause) {
 		super.onWebSocketError(cause);
-		LOG.error("Socket error: " + cause.getMessage(), cause);
+		LOGGER.error("Socket error: " + cause.getMessage(), cause);
 	}
 
 }
