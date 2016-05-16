@@ -1,5 +1,8 @@
 'use strict';
 
+/**
+ * Service to communicate with the rover via websockets and JSON-RPC.
+ */
 angular.module("myApp.roverService",['ngWebSocket'])
 .factory("roverService", function ($websocket, $location ) {
 
@@ -9,6 +12,7 @@ angular.module("myApp.roverService",['ngWebSocket'])
   var responses = [];
   var driveStepDuration = 1000; // in ms
   var turnAngle = 45;
+  var cameraMoveStep = 1;
 
 	function generateMessage(method,params){
 			return {
@@ -82,6 +86,19 @@ angular.module("myApp.roverService",['ngWebSocket'])
         },
         turnRight : function(){
           send("turnRight",turnAngle);
+        },
+        cameraMoveUp : function () {
+            send("cameraMoveUp",cameraMoveStep);
+        },
+        cameraMoveDown : function () {
+            send("cameraMoveDown",cameraMoveStep);
+        },
+        cameraMoveLeft : function () {
+            send("cameraMoveLeft",cameraMoveStep);
+        },
+        cameraMoveRight : function () {
+            send("cameraMoveRight",cameraMoveStep);
         }
+
       };
 });
