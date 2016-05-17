@@ -13,6 +13,7 @@ angular.module("myApp.roverService",['ngWebSocket'])
   var driveStepDuration = 1000; // in ms
   var turnAngle = 45;
   var cameraMoveStep = 1;
+  var lastSendMsg;
   
   function generateMessage(method,params){
     return {
@@ -28,6 +29,7 @@ angular.module("myApp.roverService",['ngWebSocket'])
     var msg = JSON.stringify(generateMessage(method,params));
     console.log(msg);
     ws.send(msg);
+    lastSendMsg = msg;
 	}
 
   ws.onMessage(function(message) {
@@ -69,6 +71,9 @@ angular.module("myApp.roverService",['ngWebSocket'])
         },
         error: function(){
           return {};
+        },
+        getLastSendMsg:function(){
+          return lastSendMsg;
         },
         sendPing: function () {
           send("ping",[lastId]);
