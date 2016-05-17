@@ -4,7 +4,7 @@
  * Module to enable a D-Pad component. The D-Pad has 4 buttons for directions plus one stop button.
  * D-Pad can be used to drive the rover and to move the camera.
  * Drive mode is enabled as default.
- * To use camera mode add this attribute mode="camera".
+ * To use camera mode add this attribute: mode="camera".
  * 
  * For communication with the rover 'roverService' is used. 
  */
@@ -30,7 +30,7 @@ angular.module('myApp.dpad', [])
             stop:function () {
                 roverService.stop();
             }
-        }
+        };
 
         var modeCamera = {
             up:function () {
@@ -48,7 +48,7 @@ angular.module('myApp.dpad', [])
             stop:function () {
                 
             }
-        }
+        };
 
         var modeSelected = modeDriver;
 
@@ -59,7 +59,7 @@ angular.module('myApp.dpad', [])
                 $scope.hideStopButton = true;
                 modeSelected = modeCamera;
             }
-        }
+        };
 
         $scope.up = function() {
             console.debug("up");

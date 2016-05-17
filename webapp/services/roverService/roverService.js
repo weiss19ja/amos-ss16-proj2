@@ -13,14 +13,14 @@ angular.module("myApp.roverService",['ngWebSocket'])
   var driveStepDuration = 1000; // in ms
   var turnAngle = 45;
   var cameraMoveStep = 1;
-
-	function generateMessage(method,params){
-			return {
-    		"jsonrpc":"2.0",
-    		"method":method,
-    		"params":params,
-    		"id": ++lastId
-    		};
+  
+  function generateMessage(method,params){
+    return {
+        "jsonrpc":"2.0",
+        "method":method,
+        "params":params,
+        "id": ++lastId
+        };
   }
 
 	function send(method,params){
@@ -49,20 +49,21 @@ angular.module("myApp.roverService",['ngWebSocket'])
   });
 
   return {
+        /**
+        * Get the state of the websocket connection.
+        * @return {number} 0 = CONNECTING, 1 = OPEN, 2 = CLOSING, 3 = CLOSED.
+        */
         readyState: function(){
-          /*
-          0 = CONNECTING
-          1 = OPEN
-          2 = CLOSING
-          3 = CLOSED
-          */
           return ws.readyState;
         },
-        driverModeAvailable: function(){
+        /**
+         * Check for driver mode is available.
+         * @return {boolean} true if driver mode is available.
+         */
+        isdriverModeAvailable: function(){
           return true;
         },
         responses: responses,
-        demo: 'demo',
         notifications: function(){
           return [];
         },
@@ -72,30 +73,57 @@ angular.module("myApp.roverService",['ngWebSocket'])
         sendPing: function () {
           send("ping",[lastId]);
         },
+        /**
+         * Stop rover movements
+         */
         stop: function () {
           send("stop","");
         },
+        /**
+         * Drive rover forward
+         */
         driveForward : function(){
           send("driveForward",driveStepDuration);
         },
+         /**
+          * Drive rover backward
+          */
         driveBackward : function(){
           send("driveBackward",driveStepDuration);
         },
+        /**
+         * Turn rover left
+         */
         turnLeft : function(){
           send("turnLeft",turnAngle);
         },
+        /**
+         * Turn rover right
+         */
         turnRight : function(){
           send("turnRight",turnAngle);
         },
+        /**
+         * Move camera up
+         */
         cameraMoveUp : function () {
             send("cameraMoveUp",cameraMoveStep);
         },
+        /**
+         * Move camera down
+         */
         cameraMoveDown : function () {
             send("cameraMoveDown",cameraMoveStep);
         },
+        /**
+         * Move camera left
+         */
         cameraMoveLeft : function () {
             send("cameraMoveLeft",cameraMoveStep);
         },
+        /**
+         * Move camera right
+         */
         cameraMoveRight : function () {
             send("cameraMoveRight",cameraMoveStep);
         }
