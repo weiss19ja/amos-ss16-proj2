@@ -43,7 +43,6 @@ public class RoverControllerImpl implements RoverController {
 	private ServoController tiltServo;
 
 	private GpioPinDigitalOutput directionPinLeft;
-
 	private GpioPinDigitalOutput directionPinRight;
 
 	private Process videoStream;

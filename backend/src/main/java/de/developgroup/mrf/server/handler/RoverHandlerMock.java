@@ -44,4 +44,10 @@ public class RoverHandlerMock implements RoverHandler {
 	public void driveBackward(int desiredSpeed) {
 
 	}
+
+	@Override
+	public void stop() {
+		// TODO Auto-generated method stub
+
+	}
 }

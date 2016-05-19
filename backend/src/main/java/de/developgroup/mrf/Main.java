@@ -1,6 +1,7 @@
 package de.developgroup.mrf;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -63,7 +64,11 @@ public class Main {
 			roverHandler.initRover(roverProperties);
 		} catch (IllegalStateException ex) {
 			LOGGER.error("", ex);
-			LOGGER.error("RoverHandler could not be initialized, because of missing rover.properties file or missing a property in this file. Stop execution of program!");
+			LOGGER.error("RoverHandler could not be initialized, because of missing rover.properties file or missing a property in this file.");
+			return;
+		} catch (IOException ex) {
+			LOGGER.error("", ex);
+			LOGGER.error("RoverHandler could not be initialized, because I2CBus not found.");
 			return;
 		}
 

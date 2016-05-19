@@ -1,5 +1,7 @@
 package de.developgroup.mrf.server.socket;
 
+import java.io.IOException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,12 +25,17 @@ public class RoverSocket extends JsonRpcSocket {
 		return roverHandler.handlePing(sqn.intValue());
 	}
 
-	public void driveForward(Number desiredSpeed) {
+	public void driveForward(Number desiredSpeed) throws IOException {
 		LOGGER.trace("driveForeward({})", desiredSpeed);
-		LOGGER.info("driveForeward called");
+		roverHandler.driveForward(desiredSpeed.intValue());
 	}
 
-	public void driveBackward(Number desiredSpeed) {
+	public void driveBackward(Number desiredSpeed) throws IOException {
 		LOGGER.trace("driveBackward({})", desiredSpeed);
+		roverHandler.driveBackward(desiredSpeed.intValue());
+	}
+
+	public void stop() {
+		LOGGER.trace("stop()");
 	}
 }
