@@ -1,7 +1,9 @@
 package de.developgroup.mrf.server.handler;
 
+import java.io.IOException;
 import java.util.Observable;
 
+import org.cfg4j.provider.ConfigurationProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,11 +28,39 @@ public class RoverHandlerMock implements RoverHandler {
 	}
 
 	@Override
-	public void initRover() {
+	public void initRover(ConfigurationProvider roverProperties) {
 	}
 
 	@Override
 	public void shutdownRover() {
+
+	}
+
+	@Override
+	public void driveForward(int desiredSpeed) {
+
+	}
+
+	@Override
+	public void driveBackward(int desiredSpeed) {
+
+	}
+
+	@Override
+	public void stop() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void turnLeft(int turnRate) throws IOException {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void turnRight(int turnRate) throws IOException {
+		// TODO Auto-generated method stub
 
 	}
 }

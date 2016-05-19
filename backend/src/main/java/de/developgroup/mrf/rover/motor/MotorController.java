@@ -12,8 +12,9 @@ public interface MotorController {
 	 * Set the motor speed and direction.
 	 * 
 	 * @param speed
-	 *            A value between {@link #SPEED_MAX_FORWARD} and {@link #SPEED_MAX_BACKWARD}. {@link #SPEED_STOP}
-	 *            stops the motor.
+	 *            A value between {@link #SPEED_MAX_FORWARD} and
+	 *            {@link #SPEED_MAX_BACKWARD}. {@link #SPEED_STOP} stops the
+	 *            motor.
 	 * @throws IOException
 	 */
 	void setSpeed(int speed) throws IOException;

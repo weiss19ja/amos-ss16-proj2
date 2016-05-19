@@ -43,7 +43,6 @@ public class RoverControllerImpl implements RoverController {
 	private ServoController tiltServo;
 
 	private GpioPinDigitalOutput directionPinLeft;
-
 	private GpioPinDigitalOutput directionPinRight;
 
 	private Process videoStream;
@@ -154,10 +153,10 @@ public class RoverControllerImpl implements RoverController {
 					.build();
 
 			leftMotor = new MotorControllerImpl(driver.getOutput(14),
-					directionPinLeft, provider.bind("motorLeft",
+					provider.bind("motorLeft",
 							MotorControllerConfiguration.class));
 			rightMotor = new MotorControllerImpl(driver.getOutput(15),
-					directionPinRight, provider.bind("motorRight",
+					provider.bind("motorRight",
 							MotorControllerConfiguration.class));
 			panServo = new ServoControllerImpl(driver.getOutput(1),
 					provider.bind("servo1", ServoConfiguration.class));
