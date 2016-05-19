@@ -1,13 +1,14 @@
 package de.developgroup.mrf.server.socket;
 
 import java.io.IOException;
-import de.developgroup.mrf.server.ClientManager;
+
 import org.eclipse.jetty.websocket.api.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
+import de.developgroup.mrf.server.ClientManager;
 import de.developgroup.mrf.server.handler.RoverHandler;
 import de.developgroup.mrf.server.rpc.JsonRpcSocket;
 
@@ -34,8 +35,12 @@ public class RoverSocket extends JsonRpcSocket {
 	public void onWebSocketClose(int statusCode, String reason) {
 		super.onWebSocketClose(statusCode, reason);
 		clientManager.removeClosedSessions();
-		if(clientManager.isNoClientConnected()){
-			roverHandler.stop();
+		if (clientManager.isNoClientConnected()) {
+			try {
+				roverHandler.stop();
+			} catch (IOException e) {
+				LOGGER.info("stop movement error detected ", e);
+			}
 		}
 	}
 
