@@ -4,7 +4,6 @@
 angular.module('myApp', [
   'ngRoute',
   'ngWebSocket',
-  'ngWebSocketMock',
   'ngMaterial',
   'angularCSS',
   'myApp.main',
