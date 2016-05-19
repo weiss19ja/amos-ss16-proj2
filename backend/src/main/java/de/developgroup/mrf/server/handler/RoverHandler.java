@@ -15,6 +15,10 @@ public interface RoverHandler extends Observer {
 
 	void stop() throws IOException;
 
+	void turnLeft(int turnRate) throws IOException;
+
+	void turnRight(int turnRate) throws IOException;
+
 	void initRover(ConfigurationProvider roverProperties) throws IOException;
 
 	void shutdownRover();

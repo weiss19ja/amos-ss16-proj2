@@ -35,7 +35,18 @@ public class RoverSocket extends JsonRpcSocket {
 		roverHandler.driveBackward(desiredSpeed.intValue());
 	}
 
-	public void stop() {
+	public void stop() throws IOException {
 		LOGGER.trace("stop()");
+		roverHandler.stop();
+	}
+
+	public void turnLeft(Number turnRate) throws IOException {
+		LOGGER.trace("turnLeft({})", turnRate);
+		roverHandler.turnLeft(turnRate.intValue());
+	}
+
+	public void turnRight(Number turnRate) throws IOException {
+		LOGGER.trace("turnRight({})", turnRate);
+		roverHandler.turnRight(turnRate.intValue());
 	}
 }

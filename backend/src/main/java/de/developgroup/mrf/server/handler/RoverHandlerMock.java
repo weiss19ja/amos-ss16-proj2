@@ -1,5 +1,6 @@
 package de.developgroup.mrf.server.handler;
 
+import java.io.IOException;
 import java.util.Observable;
 
 import org.cfg4j.provider.ConfigurationProvider;
@@ -47,6 +48,18 @@ public class RoverHandlerMock implements RoverHandler {
 
 	@Override
 	public void stop() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void turnLeft(int turnRate) throws IOException {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void turnRight(int turnRate) throws IOException {
 		// TODO Auto-generated method stub
 
 	}

@@ -62,6 +62,7 @@ public class RoverHandlerImpl implements RoverHandler {
 		LOGGER.debug("driveForeward() with speed " + desiredSpeed);
 		LOGGER.info("driveForeward() with speed " + desiredSpeed);
 		this.desiredSpeed = desiredSpeed;
+		this.desiredTurnRate = 0;
 		updateMotors();
 	}
 
@@ -88,6 +89,7 @@ public class RoverHandlerImpl implements RoverHandler {
 		LOGGER.debug("driveBackward() with speed " + desiredSpeed);
 		LOGGER.info("driveBackward() with speed " + desiredSpeed);
 		this.desiredSpeed = -desiredSpeed;
+		this.desiredTurnRate = 0;
 		updateMotors();
 	}
 
@@ -119,8 +121,26 @@ public class RoverHandlerImpl implements RoverHandler {
 	}
 
 	@Override
-	public void stop() {
-		// TODO Auto-generated method stub
+	public void stop() throws IOException {
+		desiredSpeed = 0;
+		desiredTurnRate = 0;
+		updateMotors();
 
+	}
+
+	@Override
+	public void turnLeft(int turnRate) throws IOException {
+		// links negativ recht pos
+		this.desiredSpeed = 0;
+		this.desiredTurnRate = turnRate;
+		updateMotors();
+
+	}
+
+	@Override
+	public void turnRight(int turnRate) throws IOException {
+		this.desiredSpeed = 0;
+		this.desiredTurnRate = -turnRate;
+		updateMotors();
 	}
 }

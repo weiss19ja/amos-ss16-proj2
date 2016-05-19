@@ -6,13 +6,15 @@
 angular.module("myApp.roverService",['ngWebSocket'])
 .factory("roverService", function ($websocket, $location ) {
 
-  var ws = $websocket('ws://localhost:' + $location.port() + '/rover');
+  var ws = $websocket('ws://' + $location.host() + ':' + $location.port() + '/rover');
+  console.log('create websocket on ws://' + $location.host() + ':' + $location.port() + '/rover');
 
   var lastId = 0;
   var responses = [];
   var driveStepDuration = 1000; // in ms
-  var desiredSpeed = 50;
+  var desiredSpeed = 500;
   var turnAngle = 45;
+  var turnRate = 300;
   var cameraMoveStep = 1;
   var lastSendMsg;
   
@@ -83,7 +85,7 @@ angular.module("myApp.roverService",['ngWebSocket'])
          * Stop rover movements
          */
         stop: function () {
-          send("stop","");
+          send("stop",[]);
         },
         /**
          * Drive rover forward
@@ -101,13 +103,13 @@ angular.module("myApp.roverService",['ngWebSocket'])
          * Turn rover left
          */
         turnLeft : function(){
-          send("turnLeft",turnAngle);
+          send("turnLeft",[turnRate]);
         },
         /**
          * Turn rover right
          */
         turnRight : function(){
-          send("turnRight",turnAngle);
+          send("turnRight",[turnRate]);
         },
         /**
          * Move camera up
