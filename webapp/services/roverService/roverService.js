@@ -11,6 +11,7 @@ angular.module("myApp.roverService",['ngWebSocket'])
   var lastId = 0;
   var responses = [];
   var driveStepDuration = 1000; // in ms
+  var desiredSpeed = 50;
   var turnAngle = 45;
   var cameraMoveStep = 1;
   var lastSendMsg;
@@ -88,13 +89,13 @@ angular.module("myApp.roverService",['ngWebSocket'])
          * Drive rover forward
          */
         driveForward : function(){
-          send("driveForward",driveStepDuration);
+          send("driveForward",[desiredSpeed]);
         },
          /**
           * Drive rover backward
           */
         driveBackward : function(){
-          send("driveBackward",driveStepDuration);
+          send("driveBackward",[desiredSpeed]);
         },
         /**
          * Turn rover left

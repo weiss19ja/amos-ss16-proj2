@@ -2,6 +2,7 @@ package de.developgroup.mrf.server.handler;
 
 import java.util.Observable;
 
+import org.cfg4j.provider.ConfigurationProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,11 +24,11 @@ public class RoverHandlerImpl implements RoverHandler {
 	final GpioController gpio = GpioFactory.getInstance();
 
 	public RoverHandlerImpl() {
-        LOGGER.info("RoverHandlerImpl startup");
+		LOGGER.info("RoverHandlerImpl startup");
 	}
 
 	public String handlePing(int sqn) {
-        LOGGER.debug("handling ping for sqn " + sqn);
+		LOGGER.debug("handling ping for sqn " + sqn);
 		return "pong " + (sqn + 1);
 	}
 
@@ -43,9 +44,21 @@ public class RoverHandlerImpl implements RoverHandler {
 	}
 
 	@Override
-	public void initRover() {
+	public void driveForward(int desiredSpeed) {
+		LOGGER.debug("driveForeward() with speed " + desiredSpeed);
+	}
+
+	@Override
+	public void driveBackward(int desiredSpeed) {
+		LOGGER.debug("driveBackward() with speed " + desiredSpeed);
+
+	}
+
+	@Override
+	public void initRover(ConfigurationProvider roverProperties) {
 		((Observable) collisionController).addObserver(this);
 		LOGGER.info("Rover initialized for collistion detection");
+
 	}
 
 	@Override

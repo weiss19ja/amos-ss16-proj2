@@ -22,4 +22,13 @@ public class RoverSocket extends JsonRpcSocket {
 		LOGGER.trace("ping({})", sqn);
 		return roverHandler.handlePing(sqn.intValue());
 	}
+
+	public void driveForward(Number desiredSpeed) {
+		LOGGER.trace("driveForeward({})", desiredSpeed);
+		LOGGER.info("driveForeward called");
+	}
+
+	public void driveBackward(Number desiredSpeed) {
+		LOGGER.trace("driveBackward({})", desiredSpeed);
+	}
 }
