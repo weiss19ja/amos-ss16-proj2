@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.Observable;
 
 import org.cfg4j.provider.ConfigurationProvider;
+import com.google.inject.Inject;
+import de.developgroup.mrf.server.ClientManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,6 +30,9 @@ public class RoverHandlerImpl implements RoverHandler {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(RoverHandlerImpl.class);
 
+	@Inject
+	private static ClientManager clientManager;
+
 	final CollisionController collisionController = new CollisionControllerImpl();
 	final GpioController gpio = GpioFactory.getInstance();
 
@@ -38,11 +43,11 @@ public class RoverHandlerImpl implements RoverHandler {
 	private int desiredTurnRate;
 
 	public RoverHandlerImpl() {
-		LOGGER.info("RoverHandlerImpl startup");
+        LOGGER.info("RoverHandlerImpl startup");
 	}
 
 	public String handlePing(int sqn) {
-		LOGGER.debug("handling ping for sqn " + sqn);
+        LOGGER.debug("handling ping for sqn " + sqn);
 		return "pong " + (sqn + 1);
 	}
 

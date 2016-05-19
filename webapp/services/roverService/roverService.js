@@ -17,6 +17,7 @@ angular.module("myApp.roverService",['ngWebSocket'])
   var turnRate = 300;
   var cameraMoveStep = 1;
   var lastSendMsg;
+  var clientId;
   
   function generateMessage(method,params){
     return {
@@ -37,8 +38,11 @@ angular.module("myApp.roverService",['ngWebSocket'])
 
   ws.onMessage(function(message) {
       console.log('new Msg:');
-      console.log(message);
       responses.push(JSON.parse(message.data));
+      var req = JSON.parse(message.data);
+      if (req.method == "setClientId")  {
+        setClientId(req.params[0]);
+      }
   });
 
   ws.onError(function(event) {
@@ -52,6 +56,27 @@ angular.module("myApp.roverService",['ngWebSocket'])
   ws.onOpen(function() {
     console.log('connection open');
   });
+
+  /**
+  * Set id of client given by the server.
+  */
+  function setClientId(id){
+    clientId = id;
+    console.log("ID of this client is now "+id);
+  }
+
+  /**
+  * Add new notification to notifications list.
+  * Notification object:
+  * {
+  * message: "notification message",
+  * time: "12:03:00",
+  * seen: false
+  * }
+  */
+  function addNotification(msg){
+    console.log("new notification: "+msg);
+  }
 
   return {
         /**
