@@ -2,6 +2,7 @@ package de.developgroup.mrf;
 
 import com.google.inject.AbstractModule;
 
+import de.developgroup.mrf.server.ClientManager;
 import de.developgroup.mrf.server.handler.RoverHandler;
 import de.developgroup.mrf.server.handler.RoverHandlerImpl;
 import de.developgroup.mrf.server.handler.RoverHandlerMock;
@@ -30,6 +31,7 @@ public class NonServletModule extends AbstractModule {
 			bind(RoverHandler.class).to(RoverHandlerMock.class);
 		} else {
 			bind(RoverHandler.class).to(RoverHandlerImpl.class);
+			bind(ClientManager.class).to(ClientManager.class);
 		}
 
 		requestStaticInjection(RoverSocket.class);

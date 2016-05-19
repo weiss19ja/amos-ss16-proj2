@@ -2,6 +2,8 @@ package de.developgroup.mrf.server.handler;
 
 import java.util.Observable;
 
+import com.google.inject.Inject;
+import de.developgroup.mrf.server.ClientManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,6 +20,9 @@ public class RoverHandlerImpl implements RoverHandler {
 
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(RoverHandlerImpl.class);
+
+	@Inject
+	private static ClientManager clientManager;
 
 	final CollisionController collisionController = new CollisionControllerImpl();
 	final GpioController gpio = GpioFactory.getInstance();
