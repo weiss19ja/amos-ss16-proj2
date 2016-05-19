@@ -16,9 +16,11 @@ import com.google.gson.JsonSyntaxException;
 
 /**
  * 
- * This is an implementation of the JSON RPC protocol version 2.0. See http://www.jsonrpc.org/specification for details.
+ * This is an implementation of the JSON RPC protocol version 2.0. See
+ * http://www.jsonrpc.org/specification for details.
  * 
- * This implementation supports only protocol version 2.0, with ids of type integer, and positional parameters.
+ * This implementation supports only protocol version 2.0, with ids of type
+ * integer, and positional parameters.
  *
  */
 public abstract class JsonRpcSocket extends WebSocketAdapter {
@@ -31,7 +33,8 @@ public abstract class JsonRpcSocket extends WebSocketAdapter {
 	static final int CODE_INVALID_PARAMETERS = -32602;
 	static final int CODE_INTERNAL_ERROR = -32603;
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(JsonRpcSocket.class);
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(JsonRpcSocket.class);
 
 	@Override
 	public void onWebSocketConnect(final Session sess) {
@@ -82,23 +85,27 @@ public abstract class JsonRpcSocket extends WebSocketAdapter {
 						}
 					}
 
-					result = MethodUtils.invokeMethod(this, request.getMethod(), params);
+					result = MethodUtils.invokeMethod(this,
+							request.getMethod(), params);
 					reply = new JsonRpcReply(request.getId(), result);
 
 				} catch (NoSuchMethodException | IllegalAccessException e) {
-					reply = new JsonRpcErrorReply(request.getId(), CODE_METHOD_NOT_FOUND, e.getMessage(), null);
+					reply = new JsonRpcErrorReply(request.getId(),
+							CODE_METHOD_NOT_FOUND, e.getMessage(), null);
 				} catch (InvocationTargetException e) {
-					reply = new JsonRpcErrorReply(request.getId(), CODE_INTERNAL_ERROR, e.getCause().getMessage(),
+					reply = new JsonRpcErrorReply(request.getId(),
+							CODE_INTERNAL_ERROR, e.getCause().getMessage(),
 							null);
 				}
 			} else {
-				reply = new JsonRpcErrorReply(request.getId(), CODE_INVALID_REQUEST, "Invalid request",
+				reply = new JsonRpcErrorReply(request.getId(),
+						CODE_INVALID_REQUEST, "Invalid request",
 						validationResult);
 			}
 
 		} catch (JsonSyntaxException e) {
-			reply = new JsonRpcErrorReply(null, CODE_PARSE_ERROR, "The request could not be parsed: " + e.getMessage(),
-					null);
+			reply = new JsonRpcErrorReply(null, CODE_PARSE_ERROR,
+					"The request could not be parsed: " + e.getMessage(), null);
 		}
 
 		String replyStr = new Gson().toJson(reply);
