@@ -31,7 +31,6 @@ public class NonServletModule extends AbstractModule {
 			bind(RoverHandler.class).to(RoverHandlerMock.class);
 		} else {
 			bind(RoverHandler.class).to(RoverHandlerImpl.class);
-			bind(ClientManager.class).to(ClientManager.class);
 		}
 
 		requestStaticInjection(RoverSocket.class);
