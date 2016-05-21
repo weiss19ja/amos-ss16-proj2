@@ -2,6 +2,10 @@ package de.developgroup.mrf;
 
 import com.google.inject.AbstractModule;
 
+import com.pi4j.io.gpio.GpioController;
+import de.developgroup.mrf.rover.collision.CollisionController;
+import de.developgroup.mrf.rover.collision.CollisionControllerImpl;
+import de.developgroup.mrf.rover.gpio.GpioControllerProvider;
 import de.developgroup.mrf.server.ClientManager;
 import de.developgroup.mrf.server.handler.RoverHandler;
 import de.developgroup.mrf.server.handler.RoverHandlerImpl;
@@ -32,6 +36,9 @@ public class NonServletModule extends AbstractModule {
 		} else {
 			bind(RoverHandler.class).to(RoverHandlerImpl.class);
 		}
+
+		bind(CollisionController.class).to(CollisionControllerImpl.class);
+		bind(GpioController.class).toProvider(GpioControllerProvider.class);
 
 		requestStaticInjection(RoverSocket.class);
 		requestStaticInjection(Main.class);

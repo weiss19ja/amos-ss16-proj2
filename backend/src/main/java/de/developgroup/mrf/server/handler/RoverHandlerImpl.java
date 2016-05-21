@@ -33,8 +33,9 @@ public class RoverHandlerImpl implements RoverHandler {
 	@Inject
 	private static ClientManager clientManager;
 
-	final CollisionController collisionController = new CollisionControllerImpl();
-	final GpioController gpio = GpioFactory.getInstance();
+	final CollisionController collisionController;
+
+	final GpioController gpio;
 
 	private I2CBus bus;
 	MotorController leftMotor;
@@ -42,8 +43,11 @@ public class RoverHandlerImpl implements RoverHandler {
 	private int desiredSpeed;
 	private int desiredTurnRate;
 
-	public RoverHandlerImpl() {
+	@Inject
+	public RoverHandlerImpl(CollisionController collisionController, GpioController gpio) {
         LOGGER.info("RoverHandlerImpl startup");
+		this.collisionController = collisionController;
+		this.gpio = gpio;
 	}
 
 	public String handlePing(int sqn) {
