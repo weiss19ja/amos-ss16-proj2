@@ -21,5 +21,11 @@ public interface RoverHandler extends Observer {
 
 	void initRover(ConfigurationProvider roverProperties) throws IOException;
 
+	void turnHeadUp();
+	void turnHeadDown();
+	void turnHeadLeft();
+	void turnHeadRight();
+	void stopHead();
+
 	void shutdownRover();
 }

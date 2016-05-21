@@ -63,4 +63,29 @@ public class RoverHandlerMock implements RoverHandler {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public void turnHeadUp() {
+		LOGGER.debug("Turning head up");
+	}
+
+	@Override
+	public void turnHeadDown() {
+		LOGGER.debug("Turning head down");
+	}
+
+	@Override
+	public void turnHeadLeft() {
+		LOGGER.debug("Turning head left");
+	}
+
+	@Override
+	public void turnHeadRight() {
+		LOGGER.debug("Turning head right");
+	}
+
+	@Override
+	public void stopHead() {
+		LOGGER.debug("Stopping head");
+	}
 }

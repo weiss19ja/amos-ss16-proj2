@@ -148,4 +148,38 @@ public class RoverHandlerImpl implements RoverHandler {
 		this.desiredTurnRate = -turnRate;
 		updateMotors();
 	}
+
+	private void updateHeadMotors() throws IOException {
+		final int leftSpeed = limit(desiredSpeed - desiredTurnRate);
+		final int rightSpeed = limit(desiredSpeed + desiredTurnRate);
+
+		leftMotor.setSpeed(leftSpeed);
+		rightMotor.setSpeed(rightSpeed);
+	}
+
+	@Override
+	public void turnHeadUp(){
+		LOGGER.debug("turnHeadUp()");
+		LOGGER.info("turnHeadUp()");
+	}
+
+	@Override
+	public void turnHeadDown() {
+
+	}
+
+	@Override
+	public void turnHeadLeft() {
+
+	}
+
+	@Override
+	public void turnHeadRight() {
+
+	}
+
+	@Override
+	public void stopHead() {
+
+	}
 }
