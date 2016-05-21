@@ -60,6 +60,11 @@ public class RoverHandlerImpl implements RoverHandler {
 		if (event.getState().isHigh()) {
 			LOGGER.info("Sensor " + event.getPin().getName()
 					+ " Collision detected");
+			try {
+				stop();
+			} catch(IOException io) {
+				LOGGER.error("Cannot stop rover on collision event. Goodbye.");
+			}
 		} else {
 			LOGGER.info("Sensor " + event.getPin().getName()
 					+ " Collision voided");
@@ -134,7 +139,6 @@ public class RoverHandlerImpl implements RoverHandler {
 		desiredSpeed = 0;
 		desiredTurnRate = 0;
 		updateMotors();
-
 	}
 
 	@Override
@@ -143,7 +147,6 @@ public class RoverHandlerImpl implements RoverHandler {
 		this.desiredSpeed = 0;
 		this.desiredTurnRate = turnRate;
 		updateMotors();
-
 	}
 
 	@Override
