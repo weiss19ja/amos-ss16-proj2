@@ -45,6 +45,14 @@ public class MotorControllerImpl implements MotorController {
 
 	}
 
+	public MotorControllerImpl(PWMOutput output,
+			GpioPinDigitalOutput directionPin,
+			MotorControllerConfiguration configuration) {
+		this.output = output;
+		this.motorPin = directionPin;
+		this.configuration = configuration;
+	}
+
 	@Override
 	public void setSpeed(int speed) throws IOException {
 		motorPin.setState(speed < 0 ^ configuration.reversed() ? PinState.LOW

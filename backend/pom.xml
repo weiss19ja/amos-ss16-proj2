@@ -67,7 +67,7 @@
         <version>2.7</version>
         <executions>
           <execution>
-            <id>copy-resources</id>
+            <id>copy-template-clean</id>
             <!-- here the phase you need -->
             <phase>clean</phase>
             <goals>
@@ -78,6 +78,27 @@
               <resources>
                 <resource>
                   <directory>src/main/webapp/template</directory>
+                  <filtering>true</filtering>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+          <execution>
+            <id>copy-ressources-package</id>
+            <!-- here the phase you need -->
+            <phase>package</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${basedir}/target</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>src/main/resources</directory>
+                  <includes>
+                  	<include>rover.properties</include>
+                  	<include>openstream.sh</include>
+                  </includes>
                   <filtering>true</filtering>
                 </resource>
               </resources>

@@ -7,7 +7,6 @@ import java.io.IOException;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.pi4j.io.gpio.PinState;
@@ -35,7 +34,7 @@ public class MotorControllerTest {
 		directionPinMock = new GpioPinDigitalOutputMock();
 		configuration = new MotorConfigurationMock();
 		motorController = new MotorControllerImpl(pwmGen.getOutput(CHANNEL),
-				configuration);
+				directionPinMock, configuration);
 
 	}
 
@@ -44,7 +43,6 @@ public class MotorControllerTest {
 	}
 
 	@Test
-	@Ignore
 	public void testSetSpeed() throws IOException {
 		motorController.setSpeed(MotorController.SPEED_STOP);
 
@@ -67,7 +65,6 @@ public class MotorControllerTest {
 	}
 
 	@Test
-	@Ignore
 	public void testSetSpeedReversed() throws IOException {
 		configuration.reversed = true;
 

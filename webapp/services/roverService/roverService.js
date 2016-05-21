@@ -37,10 +37,10 @@ angular.module("myApp.roverService",['ngWebSocket'])
 	}
 
   ws.onMessage(function(message) {
-      console.log('new Msg:');
-      responses.push(JSON.parse(message.data));
-      var req = JSON.parse(message.data);
-      if (req.method == "setClientId")  {
+      console.log('new Msg:' + message.data);
+      var messageData = JSON.parse(message.data);
+      responses.push(messageData);
+      if (messageData.method == "setClientId")  {
         setClientId(req.params[0]);
       }
   });
