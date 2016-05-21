@@ -170,26 +170,32 @@ angular.module("myApp.roverService",['ngWebSocket'])
          * Move camera up
          */
         cameraMoveUp : function () {
-            send("cameraMoveUp",cameraMoveStep);
+            send("turnHeadUp",[cameraMoveStep]);
         },
         /**
          * Move camera down
          */
         cameraMoveDown : function () {
-            send("cameraMoveDown",cameraMoveStep);
+            send("turnHeadDown",[cameraMoveStep]);
         },
         /**
          * Move camera left
          */
         cameraMoveLeft : function () {
-            send("cameraMoveLeft",cameraMoveStep);
+            send("turnHeadLeft",[cameraMoveStep]);
         },
         /**
          * Move camera right
          */
         cameraMoveRight : function () {
-            send("cameraMoveRight",cameraMoveStep);
-        }
+            send("turnHeadRight",[cameraMoveStep]);
+        },
+      /**
+       * Stop camera head movement
+       */
+      stopHead : function () {
+          send("stopHead");
+      }
 
       };
 });

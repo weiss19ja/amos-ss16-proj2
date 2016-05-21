@@ -65,27 +65,27 @@ public class RoverHandlerMock implements RoverHandler {
 	}
 
 	@Override
-	public void turnHeadUp() {
-		LOGGER.debug("Turning head up");
+	public void turnHeadUp(int angle) {
+		LOGGER.debug("Mock says: Turning head up");
 	}
 
 	@Override
-	public void turnHeadDown() {
-		LOGGER.debug("Turning head down");
+	public void turnHeadDown(int angle) {
+		LOGGER.debug("Mock says: Turning head down");
 	}
 
 	@Override
-	public void turnHeadLeft() {
-		LOGGER.debug("Turning head left");
+	public void turnHeadLeft(int angle) {
+		LOGGER.debug("Mock says: Turning head left");
 	}
 
 	@Override
-	public void turnHeadRight() {
-		LOGGER.debug("Turning head right");
+	public void turnHeadRight(int angle) {
+		LOGGER.debug("Mock says: Turning head right");
 	}
 
 	@Override
 	public void stopHead() {
-		LOGGER.debug("Stopping head");
+		LOGGER.debug("Mock says: Stopping head");
 	}
 }

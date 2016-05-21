@@ -158,28 +158,27 @@ public class RoverHandlerImpl implements RoverHandler {
 	}
 
 	@Override
-	public void turnHeadUp(){
-		LOGGER.debug("turnHeadUp()");
-		LOGGER.info("turnHeadUp()");
+	public void turnHeadUp(int angle){
+		LOGGER.debug("Handler: turnHeadUp()");
 	}
 
 	@Override
-	public void turnHeadDown() {
-
+	public void turnHeadDown(int angle) {
+		LOGGER.debug("Handler: turnHeadDown");
 	}
 
 	@Override
-	public void turnHeadLeft() {
-
+	public void turnHeadLeft(int angle) {
+		LOGGER.debug("Handler: turnHeadLeft");
 	}
 
 	@Override
-	public void turnHeadRight() {
-
+	public void turnHeadRight(int angle) {
+		LOGGER.debug("Handler: turnHeadRight");
 	}
 
 	@Override
 	public void stopHead() {
-
+		LOGGER.debug("Handler: stopHead");
 	}
 }
