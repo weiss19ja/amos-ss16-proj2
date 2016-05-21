@@ -6,8 +6,8 @@
 angular.module("myApp.roverService",['ngWebSocket'])
 .factory("roverService", function ($websocket, $location ) {
 
-  var ws = $websocket('ws://' + $location.host() + ':' + $location.port() + '/rover');
-  console.log('create websocket on ws://' + $location.host() + ':' + $location.port() + '/rover');
+  var wsURL = 'ws://' + $location.host() + ':' + $location.port() + '/rover';
+  var ws = $websocket(wsURL);
 
   var lastId = 0;
   var responses = [];
@@ -18,32 +18,23 @@ angular.module("myApp.roverService",['ngWebSocket'])
   var cameraMoveStep = 1;
   var lastSendMsg;
   var clientId;
-  
+
   function generateMessage(method,params){
     return {
-        "jsonrpc":"2.0",
-        "method":method,
-        "params":params,
-        "id": ++lastId
-        };
+      "jsonrpc":"2.0",
+      "method":method,
+      "params":params,
+      "id": ++lastId
+    };
   }
 
-	function send(method,params){
+  function send(method,params){
     console.log("send JRPC");
     var msg = JSON.stringify(generateMessage(method,params));
     console.log(msg);
     ws.send(msg);
     lastSendMsg = msg;
-	}
-
-  ws.onMessage(function(message) {
-      console.log('new Msg:' + message.data);
-      var messageData = JSON.parse(message.data);
-      responses.push(messageData);
-      if (messageData.method == "setClientId")  {
-        setClientId(req.params[0]);
-      }
-  });
+  }
 
   ws.onError(function(event) {
     console.log('connection Error', event);
@@ -54,8 +45,47 @@ angular.module("myApp.roverService",['ngWebSocket'])
   });
 
   ws.onOpen(function() {
-    console.log('connection open');
+    console.log('connection open to '+wsURL);
   });
+
+  ws.onMessage(function(message) {
+    console.log('new Msg:' + message.data);
+    var msgData = JSON.parse(message.data);
+
+    if(msgData.method){
+      handleMethodCall(msgData);
+    } else if (msgData.result){
+      handlerResponse(msgData);
+    } else if (msgData.error){
+      handleError(msgData);
+    }
+  });
+
+  /**
+   * Handles JSON-RPC method calls
+   */
+  function handleMethodCall(request) {
+    var fn = request.method;
+    if(typeof fn === 'function') {
+      fn(request.params[0]);
+    } else {
+      console.log('error on handleMethodCall: function '+request.method+' does not exist');
+    }
+  }
+
+  /**
+   * Handles JSON-RPC response
+   */
+  function handlerResponse(response) {
+    responses.push(response);
+  }
+
+  /**
+   * Handles JSON-RPC error response
+   */
+  function handleError(error) {
+
+  }
 
   /**
   * Set id of client given by the server.
