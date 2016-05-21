@@ -6,7 +6,7 @@ describe('myApp.roverService service', function() {
   var $websocket;
   var $websocketBackend;
   var $location;
-  
+
   beforeEach(module('myApp.roverService'));
   beforeEach(angular.mock.module('ngWebSocket', 'ngWebSocketMock'));
 
@@ -17,8 +17,8 @@ describe('myApp.roverService service', function() {
     $location = _$location_;
 
     $websocketBackend.mock();
-    $websocketBackend.expectConnect('ws://localhost:' + $location.port() + '/rover');
-    $websocketBackend.expectSend({data: JSON.stringify({test: true})});
+    $websocketBackend.expectConnect('ws://' + $location.host() + ':' + $location.port() + '/rover');
+    $websocketBackend.expectSend({data: JSON.stringify({result: true})});
 
   }));
 
@@ -64,36 +64,35 @@ describe('myApp.roverService service', function() {
   });
 
   describe('myApp.roverService drive tests', function() {
-
-    var driveStepDuration = 1000;
-    var turnAngle = 45;
+    var desiredSpeed = 500;
+    var turnRate = 300;
 
     it('should send drive forward json-rpc', function () {
       roverService.driveForward();
       expect(roverService.responses.length).toBe(1);
       var msg = roverService.getLastSendMsg();
-      expect(msg).toBe('{"jsonrpc":"2.0","method":"driveForward","params":'+driveStepDuration+',"id":1}');
+      expect(msg).toBe('{"jsonrpc":"2.0","method":"driveForward","params":['+desiredSpeed+'],"id":1}');
     });
 
     it('should send drive backward json-rpc', function () {
       roverService.driveBackward();
       expect(roverService.responses.length).toBe(1);
       var msg = roverService.getLastSendMsg();
-      expect(msg).toBe('{"jsonrpc":"2.0","method":"driveBackward","params":'+driveStepDuration+',"id":1}');
+      expect(msg).toBe('{"jsonrpc":"2.0","method":"driveBackward","params":['+desiredSpeed+'],"id":1}');
     });
 
     it('should send turn left json-rpc', function () {
       roverService.turnLeft();
       expect(roverService.responses.length).toBe(1);
       var msg = roverService.getLastSendMsg();
-      expect(msg).toBe('{"jsonrpc":"2.0","method":"turnLeft","params":'+turnAngle+',"id":1}');
+      expect(msg).toBe('{"jsonrpc":"2.0","method":"turnLeft","params":['+turnRate+'],"id":1}');
     });
 
     it('should send turn right json-rpc', function () {
       roverService.turnRight();
       expect(roverService.responses.length).toBe(1);
       var msg = roverService.getLastSendMsg();
-      expect(msg).toBe('{"jsonrpc":"2.0","method":"turnRight","params":'+turnAngle+',"id":1}');
+      expect(msg).toBe('{"jsonrpc":"2.0","method":"turnRight","params":['+turnRate+'],"id":1}');
     });
 
     xit('should send stop json-rpc', function () {
