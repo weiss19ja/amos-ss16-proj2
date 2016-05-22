@@ -32,7 +32,7 @@ describe('myApp.roverService service', function() {
 
   describe('myApp.roverService camera head tests', function() {
 
-    var cameraMoveStep = 1;
+    var cameraMoveStep = 20;
 
     it('should send camera move up json-rpc', function () {
       roverService.cameraMoveUp();

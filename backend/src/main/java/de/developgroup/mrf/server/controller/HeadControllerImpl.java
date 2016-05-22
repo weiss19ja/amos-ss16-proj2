@@ -29,8 +29,8 @@ public class HeadControllerImpl implements HeadController{
     private ServoController verticalHeadMotor;
     private ServoController horizontalHeadMotor;
 
-    private int headPositionVertical = 0;
-    private int headPositionHorizontal = 0;
+    private int headPositionHorizontal = ServoController.POS_NEUTRAL;
+    private int headPositionVertical = ServoController.POS_NEUTRAL;
 
     @Inject
     public HeadControllerImpl() throws IOException {
@@ -48,6 +48,10 @@ public class HeadControllerImpl implements HeadController{
                 configurationProvider.bind("servo1", ServoConfiguration.class));
         verticalHeadMotor = new ServoControllerImpl(driver.getOutput(0),
                 configurationProvider.bind("servo0", ServoConfiguration.class));
+
+        // Set head to look straight foreward as initial positon
+        horizontalHeadMotor.setPosition(ServoController.POS_NEUTRAL);
+        verticalHeadMotor.setPosition(ServoController.POS_NEUTRAL);
 
         LOGGER.debug("Completed setting up HeadController");
     }

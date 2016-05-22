@@ -86,6 +86,10 @@ public class RoverHandlerImpl implements RoverHandler {
 			throws IOException {
 
 		driveController.initialize(roverProperties);
+		LOGGER.info("Rover initialized for driving");
+
+		headController.initialize(roverProperties);
+		LOGGER.info("Rover initialized for head movement");
 
 		// listen for collisions
 		((Observable) collisionController).addObserver(this);
@@ -116,25 +120,25 @@ public class RoverHandlerImpl implements RoverHandler {
 
 	@Override
 	public void turnHeadUp(int angle) throws IOException{
-		LOGGER.debug("Turn head up by " + angle + "degree");
+		LOGGER.debug("Turn head up by " + angle + " degree");
 		headController.turnHeadUp(angle);
 	}
 
 	@Override
 	public void turnHeadDown(int angle)throws IOException {
-		LOGGER.debug("Turn head down by " + angle + "degree");
+		LOGGER.debug("Turn head down by " + angle + " degree");
 		headController.turnHeadDown(angle);
 	}
 
 	@Override
 	public void turnHeadLeft(int angle) throws IOException{
-		LOGGER.debug("Turn head left by " + angle + "degree");
+		LOGGER.debug("Turn head left by " + angle + " degree");
 		headController.turnHeadLeft(angle);
 	}
 
 	@Override
 	public void turnHeadRight(int angle) throws IOException{
-		LOGGER.debug("Turn head right by " + angle + "degree");
+		LOGGER.debug("Turn head right by " + angle + " degree");
 		headController.turnHeadRight(angle);
 	}
 }

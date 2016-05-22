@@ -15,7 +15,7 @@ angular.module("myApp.roverService",['ngWebSocket'])
   var desiredSpeed = 500;
   var turnAngle = 45;
   var turnRate = 300;
-  var cameraMoveStep = 1;
+  var cameraMoveStep = 20;
   var lastSendMsg;
   var clientId;
 
