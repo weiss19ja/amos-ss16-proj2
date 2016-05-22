@@ -6,6 +6,10 @@ import com.pi4j.io.gpio.trigger.GpioTrigger;
 
 import java.util.Collection;
 
+/**
+ * Auto-generated class for mocking a GpioController in testing mode on developer PCs.
+ * TODO can this be done by a mocking framework?
+ */
 public class GpioControllerMock implements GpioController {
     @Override
     public void export(PinMode pinMode, PinState pinState, GpioPin... gpioPins) {

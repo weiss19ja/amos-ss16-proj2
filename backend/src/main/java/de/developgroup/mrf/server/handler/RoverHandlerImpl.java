@@ -73,6 +73,10 @@ public class RoverHandlerImpl implements RoverHandler {
 		driveController.setAndApply(-desiredSpeed, 0);
 	}
 
+	/**
+	 * @param roverProperties
+	 * @throws IOException
+	 */
 	@Override
 	public void initRover(ConfigurationProvider roverProperties)
 			throws IOException {

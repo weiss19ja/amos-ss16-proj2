@@ -30,10 +30,6 @@ public class DriveControllerImpl extends AbstractDriveController {
     private int desiredSpeed = 0;
     private int desiredTurnrate = 0;
 
-    /**
-     * Important: Set up via initialize() providing a valid ConfigurationProvider before usage
-     * @throws IOException
-     */
     @Inject
     public DriveControllerImpl() throws IOException {
     }
