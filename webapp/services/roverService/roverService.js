@@ -11,12 +11,13 @@ angular.module("myApp.roverService",['ngWebSocket'])
 
   var lastId = 0;
   var responses = [];
-  var driveStepDuration = 1000; // in ms
+  var errorResponses = [];
+  var notifications = [];
   var desiredSpeed = 500;
-  var turnAngle = 45;
   var turnRate = 300;
   var cameraMoveStep = 1;
   var lastSendMsg;
+  var lastErrorResponse;
   var clientId;
 
   function generateMessage(method,params){
@@ -65,11 +66,12 @@ angular.module("myApp.roverService",['ngWebSocket'])
    * Handles JSON-RPC method calls
    */
   function handleMethodCall(request) {
-    var fn = request.method;
-    if(typeof fn === 'function') {
-      fn(request.params[0]);
-    } else {
-      console.log('error on handleMethodCall: function '+request.method+' does not exist');
+    switch(request.method) {
+      case 'setClientId':
+        setClientId(request.params.id);
+        break;
+      default:
+        console.log('error on handleMethodCall: call function '+request.method+' is not allowed.');
     }
   }
 
@@ -84,7 +86,8 @@ angular.module("myApp.roverService",['ngWebSocket'])
    * Handles JSON-RPC error response
    */
   function handleError(error) {
-
+    lastErrorResponse = error;
+    errorResponses.push(error);
   }
 
   /**
@@ -105,6 +108,7 @@ angular.module("myApp.roverService",['ngWebSocket'])
   * }
   */
   function addNotification(msg){
+    notifications.push(msg);
     console.log("new notification: "+msg);
   }
 
@@ -123,12 +127,18 @@ angular.module("myApp.roverService",['ngWebSocket'])
         isdriverModeAvailable: function(){
           return true;
         },
-        responses: responses,
-        notifications: function(){
-          return [];
+        /**
+        * Get the id of the client given by the server
+        * @return {number} id.
+        */
+        getClientId: function () {
+          return clientId;
         },
-        error: function(){
-          return {};
+        responses: responses,
+        notifications: notifications,
+        errors: errorResponses,
+        getLastErrorResponse:function () {
+          return lastErrorResponse;
         },
         getLastSendMsg:function(){
           return lastSendMsg;
