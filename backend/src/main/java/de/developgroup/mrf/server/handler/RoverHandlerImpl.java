@@ -3,6 +3,9 @@ package de.developgroup.mrf.server.handler;
 import java.io.IOException;
 import java.util.Observable;
 
+import de.developgroup.mrf.rover.servo.ServoConfiguration;
+import de.developgroup.mrf.rover.servo.ServoController;
+import de.developgroup.mrf.rover.servo.ServoControllerImpl;
 import org.cfg4j.provider.ConfigurationProvider;
 import com.google.inject.Inject;
 import de.developgroup.mrf.server.ClientManager;
@@ -39,8 +42,12 @@ public class RoverHandlerImpl implements RoverHandler {
 	private I2CBus bus;
 	MotorController leftMotor;
 	MotorController rightMotor;
+	private ServoController verticalHeadMotor;
+	private ServoController horizontalHeadMotor;
 	private int desiredSpeed;
 	private int desiredTurnRate;
+	private int headPositionVertical = 0;
+	private int headPositionHorizontal = 0;
 
 	public RoverHandlerImpl() {
         LOGGER.info("RoverHandlerImpl startup");
@@ -158,27 +165,76 @@ public class RoverHandlerImpl implements RoverHandler {
 	}
 
 	@Override
-	public void turnHeadUp(int angle){
-		LOGGER.debug("Handler: turnHeadUp()");
+	public void turnHeadUp(int angle) throws IOException{
+			turnHeadVertically(angle);
 	}
 
 	@Override
-	public void turnHeadDown(int angle) {
-		LOGGER.debug("Handler: turnHeadDown");
+	public void turnHeadDown(int angle)throws IOException {
+			turnHeadVertically(-angle);
 	}
 
 	@Override
-	public void turnHeadLeft(int angle) {
-		LOGGER.debug("Handler: turnHeadLeft");
+	public void turnHeadLeft(int angle) throws IOException{
+			turnHeadHorizontally(-angle);
 	}
 
 	@Override
-	public void turnHeadRight(int angle) {
-		LOGGER.debug("Handler: turnHeadRight");
+	public void turnHeadRight(int angle) throws IOException{
+			turnHeadHorizontally(angle);
 	}
 
 	@Override
 	public void stopHead() {
-		LOGGER.debug("Handler: stopHead");
+	}
+
+	/**
+	 * Convert an angle given in degree to a servo controller position.
+	 *
+	 * @param angle
+	 * @return ServoControllerPosition
+	 */
+	private int calculateHeadTurnRate(int angle) {
+		int arcsec = angle * 3600;
+		int result = (arcsec * ServoController.POS_MAX) / (60 * 3600);
+		return result;
+	}
+
+	/**
+	 * Clamp val to [min, max]
+	 * @param val
+	 * @param min
+	 * @param max
+     * @return Clamped value
+     */
+	private int clamp(int val, int min, int max) {
+		return Math.max(min, Math.min(max, val));
+	}
+
+	/**
+	 * Turn head by defined angle, negative angle turns down, positive angle up.
+	 * Only turns until max/min angle is reached
+	 * @param angle Angle in degree
+	 * @throws IOException
+	 */
+	public void turnHeadVertically(int angle) throws IOException {
+		headPositionVertical = headPositionVertical + calculateHeadTurnRate(angle);
+		// limit head turning
+		headPositionVertical = clamp(headPositionVertical, ServoController.POS_MIN, ServoController.POS_MAX);
+		verticalHeadMotor.setPosition(headPositionVertical);
+		LOGGER.debug("Set Position Vertical to: "+ headPositionVertical);
+	}
+
+	/**
+	 * Turn head by defined angle, negative angle turns left, positive angle right
+	 * @param angle Angle in degree
+	 * @throws IOException
+     */
+	public void turnHeadHorizontally(int angle) throws IOException {
+		headPositionHorizontal = headPositionHorizontal + calculateHeadTurnRate(angle);
+		// limit head turning
+		headPositionHorizontal = clamp(headPositionHorizontal, ServoController.POS_MIN, ServoController.POS_MAX);
+		horizontalHeadMotor.setPosition(headPositionHorizontal);
+		LOGGER.debug("Set Position Horizontal to: "+ headPositionHorizontal);
 	}
 }
