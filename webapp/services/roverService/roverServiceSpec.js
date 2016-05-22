@@ -30,7 +30,7 @@ describe('myApp.roverService service', function() {
     expect(roverService.notifications().length).toBe(0);
   });
 
-  describe('myApp.roverService camera tests', function() {
+  describe('myApp.roverService camera head tests', function() {
 
     var cameraMoveStep = 1;
 
@@ -38,28 +38,28 @@ describe('myApp.roverService service', function() {
       roverService.cameraMoveUp();
       expect(roverService.responses.length).toBe(1);
       var msg = roverService.getLastSendMsg();
-      expect(msg).toBe('{"jsonrpc":"2.0","method":"cameraMoveUp","params":'+cameraMoveStep+',"id":1}');
+      expect(msg).toBe('{"jsonrpc":"2.0","method":"turnHeadUp","params":['+cameraMoveStep+'],"id":1}');
     });
 
     it('should send camera move down json-rpc', function () {
       roverService.cameraMoveDown();
       expect(roverService.responses.length).toBe(1);
       var msg = roverService.getLastSendMsg();
-      expect(msg).toBe('{"jsonrpc":"2.0","method":"cameraMoveDown","params":'+cameraMoveStep+',"id":1}');
+      expect(msg).toBe('{"jsonrpc":"2.0","method":"turnHeadDown","params":['+cameraMoveStep+'],"id":1}');;
     });
 
     it('should send camera move left json-rpc', function () {
       roverService.cameraMoveLeft();
       expect(roverService.responses.length).toBe(1);
       var msg = roverService.getLastSendMsg();
-      expect(msg).toBe('{"jsonrpc":"2.0","method":"cameraMoveLeft","params":'+cameraMoveStep+',"id":1}');
+      expect(msg).toBe('{"jsonrpc":"2.0","method":"turnHeadLeft","params":['+cameraMoveStep+'],"id":1}');
     });
 
     it('should send camera move right json-rpc', function () {
       roverService.cameraMoveRight();
       expect(roverService.responses.length).toBe(1);
       var msg = roverService.getLastSendMsg();
-      expect(msg).toBe('{"jsonrpc":"2.0","method":"cameraMoveRight","params":'+cameraMoveStep+',"id":1}');
+      expect(msg).toBe('{"jsonrpc":"2.0","method":"turnHeadRight","params":['+cameraMoveStep+'],"id":1}');
     });
   });
 
@@ -95,7 +95,7 @@ describe('myApp.roverService service', function() {
       expect(msg).toBe('{"jsonrpc":"2.0","method":"turnRight","params":['+turnRate+'],"id":1}');
     });
 
-    xit('should send stop json-rpc', function () {
+    it('should send stop json-rpc', function () {
       roverService.stop();
       expect(roverService.responses.length).toBe(1);
       var msg = roverService.getLastSendMsg();
