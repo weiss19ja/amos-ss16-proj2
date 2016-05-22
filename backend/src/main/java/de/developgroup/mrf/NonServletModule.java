@@ -2,10 +2,16 @@ package de.developgroup.mrf;
 
 import com.google.inject.AbstractModule;
 
-import de.developgroup.mrf.server.ClientManager;
-import de.developgroup.mrf.server.handler.RoverHandler;
-import de.developgroup.mrf.server.handler.RoverHandlerImpl;
-import de.developgroup.mrf.server.handler.RoverHandlerMock;
+import com.pi4j.io.gpio.GpioController;
+import de.developgroup.mrf.rover.collision.CollisionController;
+import de.developgroup.mrf.rover.collision.CollisionControllerImpl;
+import de.developgroup.mrf.rover.collision.CollisionControllerMock;
+import de.developgroup.mrf.rover.gpio.GpioControllerMockProvider;
+import de.developgroup.mrf.rover.gpio.GpioControllerProvider;
+import de.developgroup.mrf.server.controller.DriveController;
+import de.developgroup.mrf.server.controller.DriveControllerImpl;
+import de.developgroup.mrf.server.controller.DriveControllerMock;
+import de.developgroup.mrf.server.handler.*;
 import de.developgroup.mrf.server.socket.RoverSocket;
 
 public class NonServletModule extends AbstractModule {
@@ -13,24 +19,29 @@ public class NonServletModule extends AbstractModule {
 	private boolean useMocks = false;
 
 	public NonServletModule(){
-
 	}
 
 	public NonServletModule(boolean useMocks){
 		this.useMocks=useMocks;
 	}
 
-
-
 	@Override
 	protected void configure() {
 		// here you can list all bindings of non-servlet classes needed in the
 		// backend
 
+		bind(RoverHandler.class).to(RoverHandlerImpl.class);
+
 		if(useMocks){
-			bind(RoverHandler.class).to(RoverHandlerMock.class);
+			// use mocking classes that need no rover hardware
+			bind(CollisionController.class).to(CollisionControllerMock.class);
+			bind(DriveController.class).to(DriveControllerMock.class);
+			bind(GpioController.class).toProvider(GpioControllerMockProvider.class);
 		} else {
-			bind(RoverHandler.class).to(RoverHandlerImpl.class);
+			// use actual classes with hardware control
+			bind(CollisionController.class).to(CollisionControllerImpl.class);
+			bind(DriveController.class).to(DriveControllerImpl.class);
+			bind(GpioController.class).toProvider(GpioControllerProvider.class);
 		}
 
 		requestStaticInjection(RoverSocket.class);
