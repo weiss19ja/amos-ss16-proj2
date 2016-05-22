@@ -11,7 +11,7 @@
     "angular-loader": "1.5.5",
     "angular-mocks": "1.5.5",
     "html5-boilerplate": "~5.2.0",
-    "angular-websocket": "^1.1.0",
+    "angular-websocket": "2.0.0",
     "angular-material": "^1.0.8",
     "angular-css": "^1.0.8"
   },

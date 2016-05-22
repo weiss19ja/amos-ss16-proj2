@@ -1,7 +1,7 @@
 'use strict';
 
 describe('myApp.roverService service', function() {
-
+  
   var roverService;
   var $websocket;
   var $websocketBackend;
@@ -27,7 +27,34 @@ describe('myApp.roverService service', function() {
   });
 
   it('should notifications be empty at begin',function () {
-    expect(roverService.notifications().length).toBe(0);
+    expect(roverService.notifications.length).toBe(0);
+  });
+
+  it('should set client id',function () {
+    roverService.sendPing();
+    $websocketBackend.expectSend({data: JSON.stringify({jsonrpc: "2.0",method: "setClientId", params: {id:1234}})});
+    roverService.sendPing();
+    var clientId = roverService.getClientId();
+    expect(clientId).toBe(1234);
+  });
+
+  it('should handle responses',function () {
+    roverService.sendPing();
+    expect(roverService.responses.length).toBe(1);
+  });
+
+  it('should handle errors',function () {
+    var errorCode = -3260;
+    var errorMessage = "Invalid Request";
+
+    roverService.sendPing();
+    $websocketBackend.expectSend({data: JSON.stringify({jsonrpc: "2.0",error: {code:errorCode,message:errorMessage}, id:1000})});
+    roverService.sendPing();
+    expect(roverService.errors.length).toBe(1);
+    var errorResponse = roverService.getLastErrorResponse();
+    expect(errorResponse.error.code).toBe(errorCode);
+    expect(errorResponse.error.message).toBe(errorMessage);
+
   });
 
   describe('myApp.roverService camera head tests', function() {
@@ -99,7 +126,7 @@ describe('myApp.roverService service', function() {
       roverService.stop();
       expect(roverService.responses.length).toBe(1);
       var msg = roverService.getLastSendMsg();
-      expect(msg).toBe('{"jsonrpc":"2.0","method":"stop","params":"","id":1}');
+      expect(msg).toBe('{"jsonrpc":"2.0","method":"stop","params":[],"id":1}');
     });
 
   });
