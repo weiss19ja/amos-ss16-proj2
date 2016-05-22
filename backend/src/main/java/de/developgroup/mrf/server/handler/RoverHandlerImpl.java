@@ -105,6 +105,10 @@ public class RoverHandlerImpl implements RoverHandler {
 		updateMotors();
 	}
 
+	/**
+	 * @param roverProperties
+	 * @throws IOException
+	 */
 	@Override
 	public void initRover(ConfigurationProvider roverProperties)
 			throws IOException {
