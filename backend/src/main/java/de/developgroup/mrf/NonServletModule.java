@@ -8,9 +8,7 @@ import de.developgroup.mrf.rover.collision.CollisionControllerImpl;
 import de.developgroup.mrf.rover.collision.CollisionControllerMock;
 import de.developgroup.mrf.rover.gpio.GpioControllerMockProvider;
 import de.developgroup.mrf.rover.gpio.GpioControllerProvider;
-import de.developgroup.mrf.server.controller.DriveController;
-import de.developgroup.mrf.server.controller.DriveControllerImpl;
-import de.developgroup.mrf.server.controller.DriveControllerMock;
+import de.developgroup.mrf.server.controller.*;
 import de.developgroup.mrf.server.handler.*;
 import de.developgroup.mrf.server.socket.RoverSocket;
 
@@ -36,11 +34,13 @@ public class NonServletModule extends AbstractModule {
 			// use mocking classes that need no rover hardware
 			bind(CollisionController.class).to(CollisionControllerMock.class);
 			bind(DriveController.class).to(DriveControllerMock.class);
+			bind(HeadController.class).to(HeadControllerMock.class);
 			bind(GpioController.class).toProvider(GpioControllerMockProvider.class);
 		} else {
 			// use actual classes with hardware control
 			bind(CollisionController.class).to(CollisionControllerImpl.class);
 			bind(DriveController.class).to(DriveControllerImpl.class);
+            bind(HeadController.class).to(HeadControllerImpl.class);
 			bind(GpioController.class).toProvider(GpioControllerProvider.class);
 		}
 

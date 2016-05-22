@@ -15,6 +15,4 @@ public interface HeadController {
     void turnHeadLeft(int angle) throws IOException;
 
     void turnHeadRight(int angle) throws IOException;
-
-    void stopHead();
 }

@@ -34,9 +34,4 @@ public class HeadControllerMock implements HeadController{
     public void turnHeadRight(int angle) {
         LOGGER.debug("Turning head right");
     }
-
-    @Override
-    public void stopHead() {
-        LOGGER.debug("Stopping head");
-    }
 }

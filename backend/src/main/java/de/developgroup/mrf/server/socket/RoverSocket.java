@@ -93,9 +93,4 @@ public class RoverSocket extends JsonRpcSocket {
 		LOGGER.trace("turnHeadRight({})", angle);
 		roverHandler.turnHeadRight(angle.intValue());
 	}
-
-	public void stopHead() throws IOException {
-		LOGGER.trace("stopHead()");
-		roverHandler.stopHead();
-	}
 }

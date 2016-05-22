@@ -47,7 +47,6 @@ public interface RoverHandler extends Observer {
 	 * @throws IOException
 	 */
 	void turnRight(int turnRate) throws IOException;
-    void stop() throws IOException;
 
 	/**
 	 * Set up the connections and initialize the driver controller.
@@ -56,11 +55,34 @@ public interface RoverHandler extends Observer {
 	 */
 	void initRover(ConfigurationProvider roverProperties) throws IOException;
 
+	/**
+	 * Turn the head upwards by a given angle. Angle should be positive
+	 * @param angle
+	 * @throws IOException
+     */
 	void turnHeadUp(int angle) throws IOException;
+
+	/**
+	 * Turn the head downwards by a given angle. Angle should be positive
+	 * @param angle
+	 * @throws IOException
+	 */
 	void turnHeadDown(int angle)  throws IOException;
+
+	/**
+	 * Turn the head left by a given angle. Angle should be positive
+	 * @param angle
+	 * @throws IOException
+	 */
 	void turnHeadLeft(int angle) throws IOException;
+
+	/**
+	 * Turn the head right by a given angle. Angle should be positive
+	 * @param angle
+	 * @throws IOException
+	 */
 	void turnHeadRight(int angle) throws IOException;
-	void stopHead();
+
 
 	/**
 	 * Send the shutdown command to the GPIO controller.

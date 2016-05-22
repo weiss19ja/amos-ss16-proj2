@@ -32,10 +32,6 @@ public class HeadControllerImpl implements HeadController{
     private int headPositionVertical = 0;
     private int headPositionHorizontal = 0;
 
-    /**
-     * Important: Set up via initialize() providing a valid ConfigurationProvider before usage
-     * @throws IOException
-     */
     @Inject
     public HeadControllerImpl() throws IOException {
     }
@@ -76,9 +72,6 @@ public class HeadControllerImpl implements HeadController{
         turnHeadHorizontally(angle);
     }
 
-    @Override
-    public void stopHead() {
-    }
 
     /**
      * Convert an angle given in degree to a servo controller position.
