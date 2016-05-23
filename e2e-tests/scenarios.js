@@ -82,6 +82,11 @@ describe ('settings view', function() {
     browser.get('#/settings');
   });
 
+  it('should display the settings view headline', function() {
+    // there are two h2 headers in ng-scope --> the second one is the settings view text
+    expect(element(by.css('.ng-scope')).all(by.tagName('h2')).get(1).getText()).toBe('Settings View');
+  });
+
 
 });
 
