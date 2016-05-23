@@ -22,15 +22,13 @@ import java.io.IOException;
  * Not testable - hardware dependant!
  */
 @Singleton
-public class HeadControllerImpl implements HeadController{
+public class HeadControllerImpl extends AbstractHeadController implements HeadController{
 
     private static Logger LOGGER = LoggerFactory.getLogger(HeadControllerImpl.class);
 
     private ServoController verticalHeadMotor;
     private ServoController horizontalHeadMotor;
 
-    private int headPositionHorizontal = ServoController.POS_NEUTRAL;
-    private int headPositionVertical = ServoController.POS_NEUTRAL;
 
     @Inject
     public HeadControllerImpl() throws IOException {
@@ -57,72 +55,15 @@ public class HeadControllerImpl implements HeadController{
     }
 
     @Override
-    public void turnHeadUp(int angle) throws IOException{
-        turnHeadVertically(angle);
-    }
-
-    @Override
-    public void turnHeadDown(int angle)throws IOException {
-        turnHeadVertically(-angle);
-    }
-
-    @Override
-    public void turnHeadLeft(int angle) throws IOException{
-        turnHeadHorizontally(-angle);
-    }
-
-    @Override
-    public void turnHeadRight(int angle) throws IOException{
-        turnHeadHorizontally(angle);
-    }
-
-
-    /**
-     * Convert an angle given in degree to a servo controller position.
-     *
-     * @param angle
-     * @return ServoControllerPosition
-     */
-    private int calculateHeadTurnRate(int angle) {
-        int arcsec = angle * 3600;
-        int result = (arcsec * ServoController.POS_MAX) / (60 * 3600);
-        return result;
-    }
-
-    /**
-     * Clamp val to [min, max]
-     * @param val
-     * @param min
-     * @param max
-     * @return Clamped value
-     */
-    private int clamp(int val, int min, int max) {
-        return Math.max(min, Math.min(max, val));
-    }
-
-    /**
-     * Turn head by defined angle, negative angle turns down, positive angle up.
-     * Only turns until max/min angle is reached
-     * @param angle Angle in degree
-     * @throws IOException
-     */
     public void turnHeadVertically(int angle) throws IOException {
-        headPositionVertical = headPositionVertical + calculateHeadTurnRate(angle);
-        // limit head turning
-        headPositionVertical = clamp(headPositionVertical, ServoController.POS_MIN, ServoController.POS_MAX);
+        super.turnHeadVertically(angle);
         verticalHeadMotor.setPosition(headPositionVertical);
         LOGGER.debug("Set Position Vertical to: "+ headPositionVertical);
     }
 
-    /**
-     * Turn head by defined angle, negative angle turns left, positive angle right
-     * @param angle Angle in degree
-     * @throws IOException
-     */
+    @Override
     public void turnHeadHorizontally(int angle) throws IOException {
-        headPositionHorizontal = headPositionHorizontal + calculateHeadTurnRate(angle);
-        // limit head turning
-        headPositionHorizontal = clamp(headPositionHorizontal, ServoController.POS_MIN, ServoController.POS_MAX);
+        super.turnHeadHorizontally(angle);
         horizontalHeadMotor.setPosition(headPositionHorizontal);
         LOGGER.debug("Set Position Horizontal to: "+ headPositionHorizontal);
     }

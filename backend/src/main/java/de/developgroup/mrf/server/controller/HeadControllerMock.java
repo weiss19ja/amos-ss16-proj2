@@ -6,32 +6,26 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-public class HeadControllerMock implements HeadController{
+public class HeadControllerMock extends AbstractHeadController implements HeadController {
 
     private static Logger LOGGER = LoggerFactory.getLogger(HeadControllerMock.class);
 
     @Override
     public void initialize(ConfigurationProvider configurationProvider) throws IOException {
-        LOGGER.info("initializing HeadController");
+        super.initialize(configurationProvider);
+        LOGGER.debug("Completed setting up HeadController");
     }
 
     @Override
-    public void turnHeadUp(int angle) {
-        LOGGER.debug("Turning head up");
+    public void turnHeadVertically(int angle) throws IOException {
+        super.turnHeadVertically(angle);
+        LOGGER.debug("Set Position Vertical to: " + headPositionVertical);
     }
 
     @Override
-    public void turnHeadDown(int angle) {
-        LOGGER.debug("Turning head down");
+    public void turnHeadHorizontally(int angle) throws IOException {
+        super.turnHeadHorizontally(angle);
+        LOGGER.debug("Set Position Horizontal to: " + headPositionHorizontal);
     }
 
-    @Override
-    public void turnHeadLeft(int angle) {
-        LOGGER.debug("Turning head left");
-    }
-
-    @Override
-    public void turnHeadRight(int angle) {
-        LOGGER.debug("Turning head right");
-    }
 }
