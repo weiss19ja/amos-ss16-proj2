@@ -5,7 +5,10 @@ import org.cfg4j.provider.ConfigurationProvider;
 
 import java.io.IOException;
 
-public abstract class AbstractHeadController implements  HeadController{
+/**
+ * This class provides all methods that can be used by both by the mock and the actual implementation
+ */
+public abstract class AbstractHeadController implements HeadController {
 
     protected int headPositionHorizontal = ServoController.POS_NEUTRAL;
     protected int headPositionVertical = ServoController.POS_NEUTRAL;
@@ -18,53 +21,33 @@ public abstract class AbstractHeadController implements  HeadController{
         headPositionVertical = ServoController.POS_NEUTRAL;
     }
 
-    /**
-     * Turn head upwards by given angle, will always turn upwards, regardless of angle's sign
-     * Will stop when moving limit is reached
-     * @param angle
-     * @throws IOException
-     */
     @Override
-    public void turnHeadUp(int angle) throws IOException{
+    public void turnHeadUp(int angle) throws IOException {
         turnHeadVertically(Math.abs(angle));
     }
 
-    /**
-     * Turn head downward by given angle, will always turn upwards, regardless of angle's sign
-     * Will stop when moving limit is reached
-     * @param angle
-     * @throws IOException
-     */
+
     @Override
-    public void turnHeadDown(int angle)throws IOException {
+    public void turnHeadDown(int angle) throws IOException {
         turnHeadVertically(-Math.abs(angle));
     }
 
-    /**
-     * Turn head left by given angle, will always turn upwards, regardless of angle's sign
-     * Will stop when moving limit is reached
-     * @param angle
-     * @throws IOException
-     */
+
     @Override
-    public void turnHeadLeft(int angle) throws IOException{
+    public void turnHeadLeft(int angle) throws IOException {
         turnHeadHorizontally(-Math.abs(angle));
     }
 
-    /**
-     * Turn head right by given angle, will always turn upwards, regardless of angle's sign
-     * Will stop when moving limit is reached
-     * @param angle
-     * @throws IOException
-     */
+
     @Override
-    public void turnHeadRight(int angle) throws IOException{
+    public void turnHeadRight(int angle) throws IOException {
         turnHeadHorizontally(Math.abs(angle));
     }
 
 
     /**
      * Convert an angle given in degree to a servo controller position.
+     *
      * @param angle
      * @return ServoControllerPosition
      */
@@ -76,6 +59,7 @@ public abstract class AbstractHeadController implements  HeadController{
 
     /**
      * Clamp val to [min, max]
+     *
      * @param val
      * @param min
      * @param max
@@ -88,6 +72,7 @@ public abstract class AbstractHeadController implements  HeadController{
     /**
      * Turn head by defined angle, negative angle turns down, positive angle up.
      * Only turns until max/min angle is reached
+     *
      * @param angle Angle in degree
      * @throws IOException
      */
@@ -99,6 +84,7 @@ public abstract class AbstractHeadController implements  HeadController{
 
     /**
      * Turn head by defined angle, negative angle turns left, positive angle right
+     *
      * @param angle Angle in degree
      * @throws IOException
      */
