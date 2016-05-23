@@ -92,28 +92,51 @@ describe ('settings view', function() {
 
 describe ('sidebar navigation', function() {
 
+  var sidebarItems;
+  var sideBarToggleButton;
 
-  it('should have 7 elements', function() {
-
-    element.all(by.tagName('md-menu-item')).then(function(items) {
-      expect(items.length).toBe(7);
-      });
-    
-    var sidebarItems = element(by.css('.md-sidenav-left')).all(by.tagName('md-menu-item'));
-    expect (sidebarItems.count()).toBe(7);
-
-    expect (sidebarItems.get(1).isDisplayed()).toBe(false);
-
-    // erst menü ausklappen --> erneut testen is displayed = true
-    // dann klicken --> auf jeweiliger seite
-
-    //sidebarItems.get(1).click();
-    //expect (sidebarItems.get(1).getText()).toBe('Test');
-    //sidebarItems.get(1).by.css
-
-    //expect(browser.getLocationAbsUrl()).toMatch("/main");
-
+  beforeEach(function() {
+    browser.get('#/main');
+    sidebarItems = element(by.css('.md-sidenav-left')).all(by.tagName('md-menu-item'));
+    //TODO:Maxi only when promise fulfilled and displayed == false --> so it works for all diplay sizes
+    sideBarToggleButton = element(by.css('.hide-gt-md'));
+    sideBarToggleButton.click();
   });
+
+
+  it('should have seven entries', function() {
+    expect (sidebarItems.count()).toBe(7);
+  });
+
+
+  it('should be displayed', function() {
+    expect (sidebarItems.get(1).isDisplayed()).toBe(true);
+  });
+
+  it('should be redirect to main page when driver is Main', function() {
+    expect (sidebarItems.get(0).getText()).toBe('Main');
+    sidebarItems.get(0).click();
+    expect(browser.getLocationAbsUrl()).toMatch("/main");
+  });
+
+  it('should be redirect to drive page when driver is clicked', function() {
+    expect (sidebarItems.get(1).getText()).toBe('Driver');
+    sidebarItems.get(1).click();
+    expect(browser.getLocationAbsUrl()).toMatch("/drive");
+  });
+
+  it('should be redirect to observe page when Observer is clicked', function() {
+    expect (sidebarItems.get(2).getText()).toBe('Observer');
+    sidebarItems.get(2).click();
+    expect(browser.getLocationAbsUrl()).toMatch("/observe");
+  });
+
+  it('should be redirect to settings page when Settings is clicked', function() {
+    expect (sidebarItems.get(3).getText()).toBe('Settings');
+    sidebarItems.get(3).click();
+    expect(browser.getLocationAbsUrl()).toMatch("/settings");
+  });
+
 
 
 });
