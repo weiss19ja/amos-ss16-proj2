@@ -36,6 +36,8 @@ public class HeadControllerImpl extends AbstractHeadController implements HeadCo
 
     @Override
     public void initialize(ConfigurationProvider configurationProvider) throws IOException {
+        super.initialize(configurationProvider);
+
         I2CBus bus = I2CFactory.getInstance(I2CBus.BUS_1);
         I2CDevice device = bus.getDevice(0x40);
         PCA9685PWMGenerator driver = new PCA9685PWMGenerator(device);
@@ -47,10 +49,8 @@ public class HeadControllerImpl extends AbstractHeadController implements HeadCo
         verticalHeadMotor = new ServoControllerImpl(driver.getOutput(0),
                 configurationProvider.bind("servo0", ServoConfiguration.class));
 
-        // Set head to look straight foreward as initial positon
-        horizontalHeadMotor.setPosition(ServoController.POS_NEUTRAL);
-        verticalHeadMotor.setPosition(ServoController.POS_NEUTRAL);
-
+        horizontalHeadMotor.setPosition(headPositionHorizontal);
+        verticalHeadMotor.setPosition(headPositionVertical);
         LOGGER.debug("Completed setting up HeadController");
     }
 

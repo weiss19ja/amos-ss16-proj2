@@ -111,7 +111,7 @@ public class Main {
 		}
 	}
 
-	private static ConfigurationProvider getPropertiesProvider() {
+	public static ConfigurationProvider getPropertiesProvider() {
 
 		Path pathToRoverProperties = getRoverPropertiesPath();
 		ConfigurationSource source = new FilesConfigurationSource(

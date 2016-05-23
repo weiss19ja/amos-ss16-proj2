@@ -1,6 +1,7 @@
 package de.developgroup.mrf.server.controller;
 
 import de.developgroup.mrf.rover.servo.ServoController;
+import org.cfg4j.provider.ConfigurationProvider;
 
 import java.io.IOException;
 
@@ -9,6 +10,13 @@ public abstract class AbstractHeadController implements  HeadController{
     protected int headPositionHorizontal = ServoController.POS_NEUTRAL;
     protected int headPositionVertical = ServoController.POS_NEUTRAL;
 
+
+    @Override
+    public void initialize(ConfigurationProvider configurationProvider) throws IOException {
+        // Set head to look straight foreward as initial positon
+        headPositionHorizontal = ServoController.POS_NEUTRAL;
+        headPositionVertical = ServoController.POS_NEUTRAL;
+    }
 
     /**
      * Turn head upwards by given angle, will always turn upwards, regardless of angle's sign
@@ -98,5 +106,13 @@ public abstract class AbstractHeadController implements  HeadController{
         headPositionHorizontal = headPositionHorizontal + calculateHeadTurnRate(angle);
         // limit head turning
         headPositionHorizontal = clamp(headPositionHorizontal, ServoController.POS_MIN, ServoController.POS_MAX);
+    }
+
+    public int getHeadPositionVertical() {
+        return headPositionVertical;
+    }
+
+    public int getHeadPositionHorizontal() {
+        return headPositionHorizontal;
     }
 }
