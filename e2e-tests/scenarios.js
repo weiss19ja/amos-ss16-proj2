@@ -98,9 +98,13 @@ describe ('sidebar navigation', function() {
   beforeEach(function() {
     browser.get('#/main');
     sidebarItems = element(by.css('.md-sidenav-left')).all(by.tagName('md-menu-item'));
-    //TODO:Maxi only when promise fulfilled and displayed == false --> so it works for all diplay sizes
-    sideBarToggleButton = element(by.css('.hide-gt-md'));
-    sideBarToggleButton.click();
+    sidebarItems.get(1).isDisplayed().then(function(visible) {
+      if (! visible)
+      {
+        sideBarToggleButton = element(by.css('.hide-gt-md'));
+        sideBarToggleButton.click();
+      }
+    });
   });
 
 
@@ -136,7 +140,6 @@ describe ('sidebar navigation', function() {
     sidebarItems.get(3).click();
     expect(browser.getLocationAbsUrl()).toMatch("/settings");
   });
-
-
+  
 
 });
