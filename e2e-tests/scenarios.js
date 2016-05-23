@@ -123,19 +123,19 @@ describe ('sidebar navigation', function() {
     expect(browser.getLocationAbsUrl()).toMatch("/main");
   });
 
-  it('should be redirect to drive page when driver is clicked', function() {
+  xit('should be redirect to drive page when driver is clicked', function() {
     expect (sidebarItems.get(1).getText()).toBe('Driver');
     sidebarItems.get(1).click();
     expect(browser.getLocationAbsUrl()).toMatch("/drive");
   });
 
-  it('should be redirect to observe page when Observer is clicked', function() {
+  xit('should be redirect to observe page when Observer is clicked', function() {
     expect (sidebarItems.get(2).getText()).toBe('Observer');
     sidebarItems.get(2).click();
     expect(browser.getLocationAbsUrl()).toMatch("/observe");
   });
 
-  it('should be redirect to settings page when Settings is clicked', function() {
+  xit('should be redirect to settings page when Settings is clicked', function() {
     expect (sidebarItems.get(3).getText()).toBe('Settings');
     sidebarItems.get(3).click();
     expect(browser.getLocationAbsUrl()).toMatch("/settings");
