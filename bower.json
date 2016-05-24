@@ -13,7 +13,8 @@
     "html5-boilerplate": "~5.2.0",
     "angular-websocket": "2.0.0",
     "angular-material": "^1.0.8",
-    "angular-css": "^1.0.8"
+    "angular-css": "^1.0.8",
+    "angular-img-fallback": "^0.1.4"
   },
   "resolutions": {
     "angular": "1.5.5"

@@ -1,6 +1,9 @@
 <div layout="column">
-  <md-card>
-    <img ng-src="{{mjpegStreamURL}}" class="md-card-image" alt="Video-Stream">
+  <md-card layout="column" layout-align="center center">
+    <!-- Mobile View -->
+    <img hide-gt-xs ng-src="{{mjpegStreamURL}}" fallback-src="{{'assets/icons/ic_videocam_off_48px.svg'}}" class="md-card-image" alt="Video-Stream">
+    <!-- Desktop View -->
+    <img hide-xs ng-src="{{mjpegStreamURL}}" fallback-src="{{'assets/icons/ic_videocam_off_48px.svg'}}" style="max-width: calc(100% / 4)" class="md-card-image" alt="Video-Stream">
   </md-card>
 </div>
 
@@ -10,12 +13,20 @@
     <dpad></dpad>
   </div>
   <span flex></span>
-  <div>
-    <md-button class="md-raised md-warn">Stop</md-button>
+
+  <!-- Desktop View -->
+  <div hide-xs>
+    <md-button class="md-raised md-warn" ng-click="stop()">Stop</md-button>
   </div>
+
   <span flex></span>
   <div layout="column" layout-align="center center">
       Camera
       <dpad mode="camera"></dpad>
   </div>
+</div>
+
+<!-- Mobile View -->
+<div layout="column" layout-align="center center" hide-gt-xs>
+  <md-button class="md-raised md-warn" ng-click="stop()"> Stop</md-button>
 </div>

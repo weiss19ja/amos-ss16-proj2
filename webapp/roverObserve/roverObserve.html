@@ -1,13 +1,14 @@
 <div>
     <md-toolbar class="md-toolbar-tools md-hue-2" >
-
         <h3>Observer Mode</h3>
-
     </md-toolbar>
 
     <div layout="column">
-        <md-card>
-            <img ng-src="{{mjpegStreamURL}}" class="md-card-image" alt="Video-Stream">
+        <md-card layout="column" layout-align="center center">
+            <!-- Mobile View -->
+            <img hide-gt-xs ng-src="{{mjpegStreamURL}}" fallback-src="{{'assets/icons/ic_videocam_off_48px.svg'}}" class="md-card-image" alt="Video-Stream">
+            <!-- Desktop View -->
+            <img hide-xs ng-src="{{mjpegStreamURL}}" fallback-src="{{'assets/icons/ic_videocam_off_48px.svg'}}" style="max-width: calc(100% / 3)" class="md-card-image" alt="Video-Stream">
         </md-card>
     </div>
 

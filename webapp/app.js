@@ -6,6 +6,7 @@ angular.module('myApp', [
   'ngWebSocket',
   'ngMaterial',
   'angularCSS',
+  'dcbImgFallback',
   'myApp.main',
   'myApp.roverDrive',
   'myApp.roverObserve',
