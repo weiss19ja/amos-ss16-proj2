@@ -5,10 +5,10 @@
 
     </md-toolbar>
 
-    <md-content id="canvascontainer" class="layout-fill flex" flex = "">
-
-        <canvas id="canvas" width="500" height="200"></canvas>
-
-    </md-content>
+    <div layout="column">
+        <md-card>
+            <img ng-src="{{mjpegStreamURL}}" class="md-card-image" alt="Video-Stream">
+        </md-card>
+    </div>
 
 </div>
