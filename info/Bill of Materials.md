@@ -105,7 +105,14 @@ Version: 1.7.9
 License: MIT License
 ``` 
 
+## Raspbery Pi
 
+### Video Stream
+
+```
+Name: UV4L, User space Video4Linux collection
+Version: 4.12.5
+```
 
 ## Project Structure
 ```
@@ -123,6 +130,7 @@ backend/                      // Java backend
 +--target/	                 // generated jar file  
 |  
 info/                        // pdf files about rover hardware
+videostream/		         // shellscripts and config file to install/remove uv4l on the pi
 webapp/                      // webproject
 |  index.html                // landing page
 |  app.js

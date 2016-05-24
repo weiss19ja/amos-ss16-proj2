@@ -8,6 +8,10 @@
 * NPM  -> https://www.npmjs.org/
 * Maven -> https://maven.apache.org/
 
+### Setup the raspberry pi
+
+To get the video stream to work on the raspberry pi please have a look at our [setup video stream wiki page](https://github.com/weiss19ja/amos-ss16-proj2/wiki/Installing-and-running-video-stream).
+
 ### Install Dependencies
 
 Global packages:
