@@ -92,6 +92,11 @@ Name: Jsmpg
 Version: 1.0
 License: MIT License
 ``` 
+``` 
+Name: Angular Image Fallback
+Verion: 0.1.4
+License: MIT License
+``` 
 
 ### Build and Package Tool
 ``` 
@@ -105,6 +110,12 @@ Version: 1.7.9
 License: MIT License
 ``` 
 
+### Images and Icons
+The icons in the webapp are the official material design icons from Google.
+
+License: Creative Common Attribution 4.0 International License (CC-BY 4.0)  
+[Link to GitHub](https://github.com/google/material-design-icons/)
+
 ## Raspbery Pi
 
 ### Video Stream
@@ -112,6 +123,7 @@ License: MIT License
 ```
 Name: UV4L, User space Video4Linux collection
 Version: 4.12.5
+License: Public Domain
 ```
 
 ## Project Structure
