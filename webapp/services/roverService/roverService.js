@@ -7,7 +7,7 @@ angular.module("myApp.roverService",['ngWebSocket'])
 .factory("roverService", function ($websocket, $location ) {
 
   var wsURL = 'ws://' + $location.host() + ':' + $location.port() + '/rover';
-  var ws = $websocket(wsURL);
+  var ws = $websocket(getWsURL());
 
   var lastId = 0;
   var responses = [];
@@ -19,6 +19,28 @@ angular.module("myApp.roverService",['ngWebSocket'])
   var lastSendMsg;
   var lastErrorResponse;
   var clientId;
+
+  /**
+   * Get URL for websocket connection depending on used protocol (http or https)
+   *
+   * At the moment websocket connections over https are not provided by the backend,
+   * so this function returns an emtpy string and no websocket connection will be established.
+   * Trying to connect to the backend via https will crash the webapp.
+   *
+   * TODO: Provide https websocket in the backand or prevent crash of the webapp
+   *
+   * @returns {string} websocket url, if protocol is https returning empty string
+   */
+  function getWsURL() {
+    var port = $location.port();
+    var url = "";
+    if(port == 443){
+      console.log('Can not use websockets with https');
+    } else {
+      url = wsURL;
+    }
+    return url;
+  }
 
   function generateMessage(method,params){
     return {
