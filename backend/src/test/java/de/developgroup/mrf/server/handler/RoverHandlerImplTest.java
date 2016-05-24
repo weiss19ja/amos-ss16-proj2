@@ -6,6 +6,7 @@ import de.developgroup.mrf.rover.collision.CollisionControllerMock;
 import de.developgroup.mrf.rover.gpio.GpioControllerMock;
 import de.developgroup.mrf.server.controller.DriveController;
 import de.developgroup.mrf.server.controller.DriveControllerMock;
+import de.developgroup.mrf.server.controller.HeadController;
 import org.cfg4j.provider.ConfigurationProvider;
 import org.junit.After;
 import org.junit.Before;
@@ -25,7 +26,8 @@ public class RoverHandlerImplTest {
         handler = new RoverHandlerImpl(
                 mock(CollisionController.class),
                 mock(GpioController.class),
-                mock(DriveController.class)
+                mock(DriveController.class),
+                mock(HeadController.class)
         );
     }
 
