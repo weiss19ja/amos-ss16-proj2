@@ -9,10 +9,10 @@ import de.developgroup.mrf.rover.collision.CollisionController;
 import de.developgroup.mrf.rover.motor.MotorController;
 import de.developgroup.mrf.server.ClientManager;
 import de.developgroup.mrf.server.controller.DriveController;
-import de.developgroup.mrf.server.controller.HeadController;
 import org.cfg4j.provider.ConfigurationProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import de.developgroup.mrf.server.controller.HeadController;
 
 import java.io.IOException;
 import java.util.Observable;

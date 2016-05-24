@@ -6,8 +6,6 @@ import de.developgroup.mrf.rover.collision.CollisionControllerMock;
 import de.developgroup.mrf.rover.gpio.GpioControllerMock;
 import de.developgroup.mrf.server.controller.DriveController;
 import de.developgroup.mrf.server.controller.DriveControllerMock;
-import de.developgroup.mrf.server.controller.HeadController;
-import de.developgroup.mrf.server.controller.HeadControllerMock;
 import org.cfg4j.provider.ConfigurationProvider;
 import org.junit.After;
 import org.junit.Before;
@@ -27,8 +25,7 @@ public class RoverHandlerImplTest {
         handler = new RoverHandlerImpl(
                 mock(CollisionController.class),
                 mock(GpioController.class),
-                mock(DriveController.class),
-                mock(HeadController.class)
+                mock(DriveController.class)
         );
     }
 
@@ -69,34 +66,6 @@ public class RoverHandlerImplTest {
         handler.turnRight(20);
 
         verify(handler.driveController).setAndApply(0, -20);
-    }
-
-    @Test
-    public void testTurnHeadUp() throws IOException {
-        handler.turnHeadUp(20);
-
-        verify(handler.headController).turnHeadUp(20);
-    }
-
-    @Test
-    public void testTurnHeadDown() throws IOException {
-        handler.turnHeadDown(20);
-
-        verify(handler.headController).turnHeadDown(20);
-    }
-
-    @Test
-    public void testTurnHeadLeft() throws IOException {
-        handler.turnHeadLeft(20);
-
-        verify(handler.headController).turnHeadLeft(20);
-    }
-
-    @Test
-    public void testTurnHeadRight() throws IOException {
-        handler.turnHeadRight(20);
-
-        verify(handler.headController).turnHeadRight(20);
     }
 
     @Test

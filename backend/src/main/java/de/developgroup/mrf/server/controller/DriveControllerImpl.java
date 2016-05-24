@@ -20,7 +20,7 @@ import java.io.IOException;
  * Not testable - hardware dependant!
  */
 @Singleton
-public class DriveControllerImpl implements DriveController {
+public class DriveControllerImpl extends AbstractDriveController {
 
     private static Logger LOGGER = LoggerFactory.getLogger(DriveControllerImpl.class);
 
@@ -53,13 +53,6 @@ public class DriveControllerImpl implements DriveController {
                 configurationProvider.bind("motorRight", MotorControllerConfiguration.class));
 
         LOGGER.debug("Completed setting up DriveController");
-    }
-
-    @Override
-    public void setAndApply(int speed, int turnrate) throws IOException {
-        setDesiredSpeed(speed);
-        setDesiredTurnrate(turnrate);
-        updateMotors();
     }
 
     @Override
