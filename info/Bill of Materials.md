@@ -88,11 +88,6 @@ Version: 1.0
 License: MIT License
 ``` 
 ``` 
-Name: Jsmpg
-Version: 1.0
-License: MIT License
-``` 
-``` 
 Name: Angular Image Fallback
 Verion: 0.1.4
 License: MIT License
