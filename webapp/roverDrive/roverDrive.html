@@ -2,8 +2,10 @@
   <md-card layout="column" layout-align="center center">
     <!-- Mobile View -->
     <img hide-gt-xs ng-src="{{mjpegStreamURL}}" fallback-src="{{'assets/icons/ic_videocam_off_48px.svg'}}" class="md-card-image" alt="Video-Stream">
+    <!-- Mobile Landscape View -->
+    <img hide-xs hide-gt-md ng-src="{{mjpegStreamURL}}" fallback-src="{{'assets/icons/ic_videocam_off_48px.svg'}}" style="width: calc(100% / 3.5)" class="md-card-image" alt="Video-Stream">
     <!-- Desktop View -->
-    <img hide-xs ng-src="{{mjpegStreamURL}}" fallback-src="{{'assets/icons/ic_videocam_off_48px.svg'}}" style="max-width: calc(100% / 4)" class="md-card-image" alt="Video-Stream">
+    <img hide-xs hide-md hide-sm ng-src="{{mjpegStreamURL}}" fallback-src="{{'assets/icons/ic_videocam_off_48px.svg'}}" style="width: calc(100% / 2)" class="md-card-image" alt="Video-Stream">
   </md-card>
 </div>
 
