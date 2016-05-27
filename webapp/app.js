@@ -20,14 +20,14 @@ angular.module('myApp', [
 ])
 .config(function ($mdThemingProvider) {
 		$mdThemingProvider.theme('default')
-			.primaryPalette('blue',{
+			.primaryPalette('cyan',{
 				'default': '800',
-				'hue-1': '200',
-				'hue-2': '600',
+				'hue-1': '400',
+				'hue-2': '700',
 				'hue-3': '800'
 			})
-			.accentPalette('green',{'default': '500'})
-			.warnPalette('red');
+			.accentPalette('blue-grey',{'default': '500'})
+			.warnPalette('red', {'default': '800'});
 	})
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.
