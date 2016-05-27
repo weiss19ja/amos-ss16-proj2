@@ -15,6 +15,7 @@ angular.module('myApp', [
   'myApp.settings',
   'myApp.example',
   'myApp.info',
+  'myApp.devOpts',
   'myApp.version',
   'myApp.dpad'
 ])
@@ -58,6 +59,10 @@ angular.module('myApp', [
 	when('/example', {
 	  templateUrl: 'example/example.html',
     controller: 'ExampleCtrl'
+  }).
+  when('/devOpts', {
+      templateUrl: 'developerOptions/devOpts.html',
+      controller: 'DevOptsCtrl'
   }).
 	otherwise({redirectTo: '/main'});
 
