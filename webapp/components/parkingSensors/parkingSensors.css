@@ -1,0 +1,39 @@
+parking-sensors {
+}
+
+parking-sensors .header {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+/* collision left front */
+parking-sensors .collision-lf {
+}
+
+/* collision right front */
+parking-sensors .collision-rf {
+
+}
+
+/* collision left back */
+parking-sensors .collision-lb {
+
+}
+
+/* collision right back */
+parking-sensors .collision-rb {
+
+}
+
+parking-sensors .tracks {
+    fill: black;
+}
+
+parking-sensors .rover-body {
+    fill: #009d97;
+}
+
+parking-sensors .rover-camera {
+    fill: #00365b;
+}
