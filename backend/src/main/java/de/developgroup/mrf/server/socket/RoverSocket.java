@@ -137,7 +137,7 @@ public class RoverSocket extends JsonRpcSocket {
 	 * @return returns true if actions are blocked, false otherwise
      */
 	public boolean isBlocked(){
-		return isBlocked();
+		return isBlocked;
 	}
 
 	/**
