@@ -142,16 +142,16 @@ public class RoverSocket extends JsonRpcSocket {
 
 	/**
 	 * Blocks or unblocks rover-actions
-	 * @param isBlocked if true, actions get blocked, if false, clients can steer the rover
+	 * @param newBlockedState if true, actions get blocked, if false, clients can steer the rover
      */
-	public void setBlocked(Boolean isBlocked){
-		LOGGER.debug("Blocked state is: " + isBlocked);
-		if(isBlocked){
-			//stop();
-			this.isBlocked = true;
+	public void setBlocked(Boolean newBlockedState) throws IOException {
+		LOGGER.debug("Blocked state is: " + newBlockedState);
+		if(newBlockedState){
+			stop();
+			isBlocked = newBlockedState;
 		}
 		else {
-			this.isBlocked = false;
+			isBlocked = newBlockedState;
 		}
 	}
 }
