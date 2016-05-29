@@ -47,15 +47,16 @@ public class ClientManager {
     }
 
     public boolean isClientConnected(int clientId){
-        return false;
+        Session session = sessions.get(clientId);
+        boolean isClientConnected = session != null;
+        return isClientConnected;
     }
 
-    public void notifyAllClients(String msg){
+    public void notifyAllClients(JsonRpc2Request notification){
 
     }
 
-    public void notifyClientById(int clientId, String msg){
-
+    public void notifyClientById(int clientId, JsonRpc2Request notification){
     }
 
     private int generateClientId(){

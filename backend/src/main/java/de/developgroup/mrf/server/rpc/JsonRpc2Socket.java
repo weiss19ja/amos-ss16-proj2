@@ -17,7 +17,7 @@ import java.util.List;
  * http://www.jsonrpc.org/specification for details.
  *
  * This implementation supports only protocol version 2.0, with ids of type
- * long, and positional parameters.
+ * long, and parameters as array.
  *
  */
 public class JsonRpc2Socket extends WebSocketAdapter {
