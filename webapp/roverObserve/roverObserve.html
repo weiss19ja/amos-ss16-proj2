@@ -1,17 +1,65 @@
 <div>
-    <md-toolbar class="md-toolbar-tools md-hue-2" >
-        <h3>Observer Mode</h3>
+    <md-toolbar class="md-toolbar-tools md-hue-2">
+        <h3>
+            <span>Observer Mode</span>
+        </h3>
+        <span flex></span>
+        <md-button class="md-fab md-mini" aria-label="Snapshot" ng-click="snapshotClicked($event)" ng-show="snapshotEnabled">
+            <md-icon md-svg-icon="assets/icons/ic_camera_enhance_black_48px.svg"></md-icon>
+        </md-button>
     </md-toolbar>
 
-    <div layout="column">
-        <md-card layout="column" layout-align="center center">
-            <!-- Mobile View -->
-            <img hide-gt-xs ng-src="{{mjpegStreamURL}}" fallback-src="{{'assets/icons/ic_videocam_off_48px.svg'}}" class="md-card-image" alt="Video-Stream">
-            <!-- Mobile Landscape View -->
-            <img hide-xs hide-gt-md ng-src="{{mjpegStreamURL}}" fallback-src="{{'assets/icons/ic_videocam_off_48px.svg'}}" style="width: calc(100% / 3.5)" class="md-card-image" alt="Video-Stream">
-            <!-- Desktop View -->
-            <img hide-xs hide-md hide-sm ng-src="{{mjpegStreamURL}}" fallback-src="{{'assets/icons/ic_videocam_off_48px.svg'}}" style="width: calc(100% / 2)" class="md-card-image" alt="Video-Stream">
+    <div layout="column" class="relative" layout-fill role="main">
+        <md-card layout="row" layout-align="center center">
+                <!-- Mobile View -->
+                <img hide-gt-xs ng-src="{{mjpegStreamURL}}" fallback-src="{{'assets/icons/ic_videocam_off_48px.svg'}}"
+                     class="md-card-image" alt="Video-Stream" align="middle">
+                <!-- Mobile Landscape View -->
+                <img hide-xs hide-gt-md ng-src="{{mjpegStreamURL}}"
+                     fallback-src="{{'assets/icons/ic_videocam_off_48px.svg'}}" style="width: calc(100% / 3.5)"
+                     class="md-card-image" alt="Video-Stream">
+                <!-- Desktop View -->
+                <img hide-xs hide-md hide-sm ng-src="{{mjpegStreamURL}}"
+                     fallback-src="{{'assets/icons/ic_videocam_off_48px.svg'}}" style="width: calc(100% / 2)"
+                     class="md-card-image" alt="Video-Stream">
+            <!--<md-card-actions layout="column">-->
+
+            <!--</md-card-actions>-->
         </md-card>
     </div>
+
+    <!--<md-card>-->
+    <!--<md-card-title>-->
+    <!--<md-card-title-text>-->
+    <!--<span class="md-headline">Card with  image</span>-->
+    <!--<span class="md-subhead">Extra Large</span>-->
+    <!--</md-card-title-text>-->
+    <!--</md-card-title>-->
+    <!--<md-card-content layout="row" layout-align="space-between">-->
+    <!--<div class="md-media-xl card-media"></div>-->
+    <!--<md-card-actions layout="row" layout-align="end center">-->
+    <!--<md-button class="md-icon-button" aria-label="Favorite">-->
+    <!--<md-icon md-svg-icon="assets/icons/ic_camera_enhance_black_48px.svg"></md-icon>-->
+    <!--</md-button>-->
+    <!--</md-card-actions>-->
+    <!--</md-card-content>-->
+    <!--</md-card>-->
+
+    <!--<div layout="column">-->
+    <!--<md-card layout="column" layout-align="center center">-->
+    <!--&lt;!&ndash; Snapshot button &ndash;&gt;-->
+    <!--<md-card-actions layout="row" layout-align="end center">-->
+    <!--<md-button class="md-icon-button" aria-label="Favorite">-->
+    <!--<md-icon md-svg-icon="assets/icons/ic_camera_enhance_black_48px.svg"></md-icon>-->
+    <!--</md-button>-->
+    <!--</md-card-actions>-->
+    <!--&lt;!&ndash; Mobile View &ndash;&gt;-->
+    <!--<img hide-gt-xs ng-src="{{mjpegStreamURL}}" fallback-src="{{'assets/icons/ic_videocam_off_48px.svg'}}" class="md-card-image" alt="Video-Stream">-->
+    <!--&lt;!&ndash; Mobile Landscape View &ndash;&gt;-->
+    <!--<img hide-xs hide-gt-md ng-src="{{mjpegStreamURL}}" fallback-src="{{'assets/icons/ic_videocam_off_48px.svg'}}" style="width: calc(100% / 3.5)" class="md-card-image" alt="Video-Stream">-->
+    <!--&lt;!&ndash; Desktop View &ndash;&gt;-->
+    <!--<img hide-xs hide-md hide-sm ng-src="{{mjpegStreamURL}}" fallback-src="{{'assets/icons/ic_videocam_off_48px.svg'}}" style="width: calc(100% / 2)" class="md-card-image" alt="Video-Stream">-->
+    <!--</md-card>-->
+    <!--</div>-->
 
 </div>
