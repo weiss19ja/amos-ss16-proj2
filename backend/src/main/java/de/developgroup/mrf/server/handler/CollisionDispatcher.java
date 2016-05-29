@@ -1,5 +1,6 @@
 package de.developgroup.mrf.server.handler;
 
+import com.google.gson.Gson;
 import com.google.inject.Inject;
 import de.developgroup.mrf.rover.collision.CollisionController;
 import de.developgroup.mrf.server.ClientManager;
@@ -33,7 +34,36 @@ public class CollisionDispatcher implements Observer {
             return;
         }
 
+        CollisionEvent collisionState = new CollisionEvent();
+
+        collisionState.frontLeft = collisionController.hasCollisionFrontLeft();
+        collisionState.frontRight = collisionController.hasCollisionFrontRight();
+        collisionState.backLeft = collisionController.hasCollisionBackLeft();
+        collisionState.backRight = collisionController.hasCollisionBackRight();
+
+        Gson gson = new Gson();
+
         LOGGER.debug("dispatching collision to clients");
-        clientManager.notifyAllClients("collision occurred");
+        clientManager.notifyAllClients(gson.toJson(collisionState));
+    }
+
+    /**
+     * Container for the robot's collision state.
+     * Serializable to JSON.
+     *
+     * TODO: refactor once the notification bus is available
+     */
+    private class CollisionEvent {
+        
+        public String eventName = "collision-event";
+
+        public boolean frontLeft;
+
+        public boolean frontRight;
+
+        public boolean backLeft;
+
+        public boolean backRight;
+
     }
 }
