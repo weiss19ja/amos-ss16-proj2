@@ -1,7 +1,7 @@
 'use strict';
 
 describe('myApp.roverService service', function() {
-  
+
   var roverService;
   var $websocket;
   var $websocketBackend;
@@ -32,7 +32,7 @@ describe('myApp.roverService service', function() {
 
   it('should set client id',function () {
     roverService.sendPing();
-    $websocketBackend.expectSend({data: JSON.stringify({jsonrpc: "2.0",method: "setClientId", params: {id:1234}})});
+    $websocketBackend.expectSend({data: JSON.stringify({jsonrpc: "2.0",method: "setClientId", params: [1234]})});
     roverService.sendPing();
     var clientId = roverService.getClientId();
     expect(clientId).toBe(1234);
