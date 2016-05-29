@@ -90,8 +90,10 @@ public class Main {
 
 		// This is used for allowing access to different domains/ports.
 		FilterHolder filterHolder = new FilterHolder(CrossOriginFilter.class);
-		filterHolder.setInitParameter("allowedOrigins", "*");
-		filterHolder.setInitParameter("allowedMethods", "GET, POST");
+		filterHolder.setInitParameter(CrossOriginFilter.ALLOWED_ORIGINS_PARAM, "*");
+		filterHolder.setInitParameter(CrossOriginFilter.ACCESS_CONTROL_ALLOW_ORIGIN_HEADER,"*");
+		filterHolder.setInitParameter(CrossOriginFilter.ALLOWED_METHODS_PARAM, "GET");
+		filterHolder.setInitParameter(CrossOriginFilter.ACCESS_CONTROL_ALLOW_METHODS_HEADER, "GET");
 		servletContextHandler.addFilter(filterHolder, "/*", null);
 
 		servletContextHandler.addServlet(DefaultServlet.class, "/");
