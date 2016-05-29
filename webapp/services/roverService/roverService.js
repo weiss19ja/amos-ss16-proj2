@@ -90,7 +90,7 @@ angular.module("myApp.roverService",['ngWebSocket'])
   function handleMethodCall(request) {
     switch(request.method) {
       case 'setClientId':
-        setClientId(request.params.id);
+        setClientId(request.params[0]);
         break;
       default:
         console.log('error on handleMethodCall: call function '+request.method+' is not allowed.');
