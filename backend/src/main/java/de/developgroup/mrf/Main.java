@@ -22,7 +22,9 @@ import org.eclipse.jetty.server.handler.DefaultHandler;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.DefaultServlet;
+import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlets.CrossOriginFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -85,6 +87,12 @@ public class Main {
 				server, "/", ServletContextHandler.SESSIONS);
 		servletContextHandler.addFilter(GuiceFilter.class, "/*",
 				EnumSet.allOf(DispatcherType.class));
+
+		// This is used for allowing access to different domains/ports.
+		FilterHolder filterHolder = new FilterHolder(CrossOriginFilter.class);
+		filterHolder.setInitParameter("allowedOrigins", "*");
+		filterHolder.setInitParameter("allowedMethods", "GET, POST");
+		servletContextHandler.addFilter(filterHolder, "/*", null);
 
 		servletContextHandler.addServlet(DefaultServlet.class, "/");
 
