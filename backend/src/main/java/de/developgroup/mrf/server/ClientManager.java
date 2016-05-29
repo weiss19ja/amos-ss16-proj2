@@ -51,7 +51,7 @@ public class ClientManager {
     }
 
     public void notifyAllClients(String msg){
-
+        LOGGER.debug("Message to clients " + msg);
     }
 
     public void notifyClientById(int clientId, String msg){
