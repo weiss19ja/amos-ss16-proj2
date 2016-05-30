@@ -19,6 +19,12 @@ angular.module("myApp.roverService",['ngWebSocket'])
   var lastSendMsg;
   var lastErrorResponse;
   var clientId;
+  var collisionDetection = {
+    frontRight : false,
+    frontLeft: false,
+    backRight: false,
+    backLeft :false
+  }
 
   /**
    * Get URL for websocket connection depending on used protocol (http or https)
@@ -95,6 +101,9 @@ angular.module("myApp.roverService",['ngWebSocket'])
       case 'incomingNotification':
         incomingNotification(request.params[0]);
         break;
+      case 'updateCollisionInformation':
+        updateCollisionInformation(request.params);
+        break;
       default:
         console.log('error on handleMethodCall: call function '+request.method+' is not allowed.');
     }
@@ -123,8 +132,6 @@ angular.module("myApp.roverService",['ngWebSocket'])
     console.log("ID of this client is now "+id);
   }
 
-
-
   /**
   * Add new notification to notifications list pushed by the server.
   */
@@ -133,6 +140,17 @@ angular.module("myApp.roverService",['ngWebSocket'])
     console.log("new notification: "+msg);
     $mdToast.show($mdToast.simple().textContent(msg).position('top right'));
 
+  }
+
+  /**
+   * Update collision detection information by the server.
+   */
+  function updateCollisionInformation(collisionInfo){
+    collisionDetection.frontRight = collisionInfo[0];
+    collisionDetection.frontLeft = collisionInfo[1];
+    collisionDetection.backRight = collisionInfo[2];
+    collisionDetection.backLeft = collisionInfo[3];
+    console.log("new collision detection information: "+JSON.stringify(collisionDetection));
   }
 
   return {
