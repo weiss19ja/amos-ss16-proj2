@@ -131,5 +131,17 @@ describe('myApp.roverService service', function() {
 
   });
 
+  describe('myApp.roverService killswitch tests', function() {
+
+    var isKillswitchEnabled = true;
+
+    it('should send setBlocked json-rpc', function () {
+      roverService.setBlocked(isKillswitchEnabled);
+      expect(roverService.responses.length).toBe(1);
+      var msg = roverService.getLastSendMsg();
+      expect(msg).toBe('{"jsonrpc":"2.0","method":"setBlocked","params":[' + isKillswitchEnabled + '],"id":1}');
+    });
+
+  });
 
 });
