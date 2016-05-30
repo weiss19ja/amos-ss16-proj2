@@ -12,6 +12,7 @@ import de.developgroup.mrf.rover.servo.ServoConfiguration;
 import de.developgroup.mrf.rover.servo.ServoController;
 import de.developgroup.mrf.rover.servo.ServoControllerImpl;
 import org.cfg4j.provider.ConfigurationProvider;
+import org.eclipse.jetty.util.IO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,5 +67,12 @@ public class HeadControllerImpl extends AbstractHeadController implements HeadCo
         super.turnHeadHorizontally(angle);
         horizontalHeadMotor.setPosition(headPositionHorizontal);
         LOGGER.debug("Set Position Horizontal to: "+ headPositionHorizontal);
+    }
+
+    @Override
+    public void resetHeadPosition() throws IOException {
+        super.resetHeadPosition();
+        horizontalHeadMotor.setPosition(headPositionHorizontal);
+        verticalHeadMotor.setPosition(headPositionVertical);
     }
 }

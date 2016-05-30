@@ -4,7 +4,7 @@ dpad {
     position: relative;
 }
 
-.stop-button {
+.stop-button, .camera-reset-button {
     position: absolute;
     right: 0em;
 }

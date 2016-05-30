@@ -83,6 +83,12 @@ public interface RoverHandler extends Observer {
 	 */
 	void turnHeadRight(int angle) throws IOException;
 
+	/**
+	 * Reset the head to neutral position.
+	 * @throws IOException
+	 */
+	void resetHeadPosition() throws IOException;
+
 
 	/**
 	 * Send the shutdown command to the GPIO controller.

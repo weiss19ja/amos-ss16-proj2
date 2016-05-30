@@ -44,6 +44,11 @@ public abstract class AbstractHeadController implements HeadController {
         turnHeadHorizontally(Math.abs(angle));
     }
 
+    @Override
+    public void resetHeadPosition() throws IOException {
+        headPositionHorizontal = ServoController.POS_NEUTRAL;
+        headPositionVertical = ServoController.POS_NEUTRAL;
+    }
 
     /**
      * Convert an angle given in degree to a servo controller position.

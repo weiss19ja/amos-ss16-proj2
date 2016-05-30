@@ -1,7 +1,7 @@
 'use strict';
 
 describe('myApp.roverService service', function() {
-  
+
   var roverService;
   var $websocket;
   var $websocketBackend;
@@ -32,7 +32,7 @@ describe('myApp.roverService service', function() {
 
   it('should set client id',function () {
     roverService.sendPing();
-    $websocketBackend.expectSend({data: JSON.stringify({jsonrpc: "2.0",method: "setClientId", params: {id:1234}})});
+    $websocketBackend.expectSend({data: JSON.stringify({jsonrpc: "2.0",method: "setClientId", params: [1234]})});
     roverService.sendPing();
     var clientId = roverService.getClientId();
     expect(clientId).toBe(1234);
@@ -131,5 +131,17 @@ describe('myApp.roverService service', function() {
 
   });
 
+  describe('myApp.roverService killswitch tests', function() {
+
+    var isKillswitchEnabled = true;
+
+    it('should send setBlocked json-rpc', function () {
+      roverService.setBlocked(isKillswitchEnabled);
+      expect(roverService.responses.length).toBe(1);
+      var msg = roverService.getLastSendMsg();
+      expect(msg).toBe('{"jsonrpc":"2.0","method":"setBlocked","params":[' + isKillswitchEnabled + '],"id":1}');
+    });
+
+  });
 
 });

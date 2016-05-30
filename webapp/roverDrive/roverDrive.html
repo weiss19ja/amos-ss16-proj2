@@ -17,8 +17,13 @@
   <span flex></span>
 
   <!-- Desktop View -->
-  <div hide-xs>
-    <md-button class="md-raised md-warn" ng-click="stop()">Stop</md-button>
+  <div hide-xs layout="column" layout-align="center center">
+    <div>
+      <parking-sensors></parking-sensors>
+    </div>
+    <div>
+      <md-button class="md-raised md-warn" ng-click="stop()">Stop</md-button>
+    </div>
   </div>
 
   <span flex></span>
@@ -29,6 +34,9 @@
 </div>
 
 <!-- Mobile View -->
-<div layout="column" layout-align="center center" hide-gt-xs>
+<div layout="row" layout-align="center center" hide-gt-xs>
   <md-button class="md-raised md-warn" ng-click="stop()"> Stop</md-button>
+  <div>
+    <parking-sensors></parking-sensors>
+  </div>
 </div>

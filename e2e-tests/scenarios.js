@@ -44,7 +44,7 @@ describe ('Main view', function() {
     mainViewButtons.get(1).click();
     expect(browser.getLocationAbsUrl()).toMatch("/observe");
   });
-  
+
 });
 
 describe ('Drive view', function() {
@@ -90,6 +90,30 @@ describe ('settings view', function() {
 
 });
 
+describe ('developer view', function() {
+
+  beforeEach(function() {
+    browser.get('#/developer');
+  });
+
+  it('should display the developer view headline', function() {
+    // there are two h2 headers in ng-scope --> the second one is the settings view text
+    expect(element(by.css('.ng-scope')).all(by.tagName('h2')).get(1).getText()).toBe('Developer options');
+  });
+
+  it('should display the killswitch with default text "allowed"', function() {
+    expect(element(by.binding('killswitchText')).getText()).toBe('User interaction with rover: allowed');
+  });
+
+  it('should click the killswitch and text should be "blocked"', function() {
+    var input = element(by.model('killswitch.isEnabled'));
+    input.click();
+    expect(element(by.binding('killswitchText')).getText()).toBe('User interaction with rover: blocked');
+  });
+
+
+});
+
 describe ('sidebar navigation', function() {
 
   var sidebarItems;
@@ -120,26 +144,30 @@ describe ('sidebar navigation', function() {
   it('should be redirect to main page when driver is Main', function() {
     expect (sidebarItems.get(0).getText()).toBe('Main');
     sidebarItems.get(0).click();
+    browser.refresh();
     expect(browser.getLocationAbsUrl()).toMatch("/main");
   });
 
-  xit('should be redirect to drive page when driver is clicked', function() {
+  it('should be redirect to drive page when driver is clicked', function() {
     expect (sidebarItems.get(1).getText()).toBe('Driver');
     sidebarItems.get(1).click();
+    browser.refresh(); 
     expect(browser.getLocationAbsUrl()).toMatch("/drive");
   });
 
-  xit('should be redirect to observe page when Observer is clicked', function() {
+  it('should be redirect to observe page when Observer is clicked', function() {
     expect (sidebarItems.get(2).getText()).toBe('Observer');
     sidebarItems.get(2).click();
+    browser.refresh();
     expect(browser.getLocationAbsUrl()).toMatch("/observe");
   });
 
-  xit('should be redirect to settings page when Settings is clicked', function() {
+  it('should be redirect to settings page when Settings is clicked', function() {
     expect (sidebarItems.get(3).getText()).toBe('Settings');
     sidebarItems.get(3).click();
+    browser.refresh();
     expect(browser.getLocationAbsUrl()).toMatch("/settings");
   });
-  
+
 
 });

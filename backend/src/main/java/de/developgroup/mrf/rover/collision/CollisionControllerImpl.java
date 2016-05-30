@@ -2,6 +2,7 @@ package de.developgroup.mrf.rover.collision;
 
 import java.util.Observable;
 
+import com.google.inject.Singleton;
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.GpioPinDigitalInput;
@@ -17,6 +18,7 @@ import com.pi4j.io.gpio.event.GpioPinListenerDigital;
  * sensor value changes
  * 
  */
+@Singleton
 public class CollisionControllerImpl extends Observable implements
 		CollisionController {
 
