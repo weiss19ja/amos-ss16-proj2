@@ -1,0 +1,7 @@
+<h2> Developer options </h2>
+
+<section ng-controller="DeveloperCtrl">
+        <md-switch ng-model="isKillswitchEnabled" aria-label="Killswitch" ng-change="onChange(isKillswitchEnabled)" class="md-warn">
+                User interaction with rover: {{ killswitchText }}
+        </md-switch>
+</section>

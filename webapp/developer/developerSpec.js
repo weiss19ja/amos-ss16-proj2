@@ -1,6 +1,6 @@
 'use strict';
 
-describe('myApp.devOpts module', function() {
+xdescribe('myApp.devOpts module', function() {
 
   var scope;
   beforeEach(module('myApp.devOpts'));
