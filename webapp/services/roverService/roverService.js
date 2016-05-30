@@ -19,6 +19,7 @@ angular.module("myApp.roverService",['ngWebSocket'])
   var lastSendMsg;
   var lastErrorResponse;
   var clientId;
+  var killswitchEnabled = false;
   var collisionDetection = {
     frontLeft: false,
     frontRight : false,
@@ -101,6 +102,9 @@ angular.module("myApp.roverService",['ngWebSocket'])
       case 'incomingNotification':
         incomingNotification(request.params[0]);
         break;
+      case 'updateKillswitchEnabled':
+        updateKillswitchEnabled(request.params[0]);
+        break;
       case 'updateCollisionInformation':
         updateCollisionInformation(request.params);
         break;
@@ -142,6 +146,11 @@ angular.module("myApp.roverService",['ngWebSocket'])
 
   }
 
+  function updateKillswitchEnabled(state){
+      killswitchEnabled = state;
+      console.log("Updating Killswitch state received from server to: "+state);
+  }
+
   /**
    * Update collision detection information by the server.
    */
@@ -178,6 +187,7 @@ angular.module("myApp.roverService",['ngWebSocket'])
         },
         responses: responses,
         notifications: notifications,
+        killswitchState: killswitchEnabled,
         collisions: collisionDetection,
         errors: errorResponses,
         getLastErrorResponse:function () {
@@ -249,14 +259,14 @@ angular.module("myApp.roverService",['ngWebSocket'])
         /**
          * block or unblock the rover movements (depends on variable isBlocked)
          */
-        setBlocked: function (isBlocked) {
-            send("setBlocked", [isBlocked]);
+        setKillswitch: function (killswitchEnabled) {
+            send("setKillswitch", [killswitchEnabled]);
         },
         /**
          * check whether developer blocked user interaction with rover
          */
-        isBlocked: function() {
-            send("isBlocked", []);
+        getKillswitchState: function() {
+            send("getKillswitchState", []);
         }
       };
 });

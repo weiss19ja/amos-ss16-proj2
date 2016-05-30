@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 import javax.servlet.DispatcherType;
 
 import de.developgroup.mrf.server.handler.CollisionDispatcher;
+import de.developgroup.mrf.server.handler.DeveloperSettingsHandler;
 import org.cfg4j.provider.ConfigurationProvider;
 import org.cfg4j.provider.ConfigurationProviderBuilder;
 import org.cfg4j.source.ConfigurationSource;
@@ -47,6 +48,9 @@ public class Main {
 
 	@Inject
 	public static CollisionDispatcher collisionDispatcher;
+
+	@Inject
+	public static DeveloperSettingsHandler developerSettingsHandler;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 

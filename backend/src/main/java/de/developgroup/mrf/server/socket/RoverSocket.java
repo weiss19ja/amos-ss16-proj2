@@ -2,6 +2,7 @@ package de.developgroup.mrf.server.socket;
 
 import java.io.IOException;
 
+import de.developgroup.mrf.server.handler.DeveloperSettingsHandler;
 import org.eclipse.jetty.websocket.api.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,9 +21,10 @@ public class RoverSocket extends JsonRpc2Socket {
 	public static RoverHandler roverHandler;
 
 	@Inject
-	private static ClientManager clientManager;
+	public static DeveloperSettingsHandler developerSettingsHandler;
 
-	protected boolean isBlocked = false;
+	@Inject
+	private static ClientManager clientManager;
 
 	public RoverSocket() {
 	}
@@ -52,8 +54,7 @@ public class RoverSocket extends JsonRpc2Socket {
 	}
 
 	public void driveForward(Number desiredSpeed) throws IOException {
-		if(isBlocked()){
-			LOGGER.trace("Developer blocked this action");
+		if(developerSettingsHandler.checkKillswitchEnabled()){
 			return;
 		}
 		LOGGER.trace("driveForeward({})", desiredSpeed);
@@ -61,8 +62,7 @@ public class RoverSocket extends JsonRpc2Socket {
 	}
 
 	public void driveBackward(Number desiredSpeed) throws IOException {
-		if(isBlocked()){
-			LOGGER.trace("Developer blocked this action");
+		if(developerSettingsHandler.checkKillswitchEnabled()){
 			return;
 		}
 		LOGGER.trace("driveBackward({})", desiredSpeed);
@@ -70,8 +70,7 @@ public class RoverSocket extends JsonRpc2Socket {
 	}
 
 	public void stop() throws IOException {
-		if(isBlocked()){
-			LOGGER.trace("Developer blocked this action");
+		if(developerSettingsHandler.checkKillswitchEnabled()){
 			return;
 		}
 		LOGGER.trace("stop()");
@@ -79,8 +78,7 @@ public class RoverSocket extends JsonRpc2Socket {
 	}
 
 	public void turnLeft(Number turnRate) throws IOException {
-		if(isBlocked()){
-			LOGGER.trace("Developer blocked this action");
+		if(developerSettingsHandler.checkKillswitchEnabled()){
 			return;
 		}
 		LOGGER.trace("turnLeft({})", turnRate);
@@ -88,8 +86,7 @@ public class RoverSocket extends JsonRpc2Socket {
 	}
 
 	public void turnRight(Number turnRate) throws IOException {
-		if(isBlocked()){
-			LOGGER.trace("Developer blocked this action");
+		if(developerSettingsHandler.checkKillswitchEnabled()){
 			return;
 		}
 		LOGGER.trace("turnRight({})", turnRate);
@@ -97,8 +94,7 @@ public class RoverSocket extends JsonRpc2Socket {
 	}
 
 	public void turnHeadUp(Number angle) throws IOException {
-		if(isBlocked()){
-			LOGGER.trace("Developer blocked this action");
+		if(developerSettingsHandler.checkKillswitchEnabled()){
 			return;
 		}
 		LOGGER.trace("turnHeadUp({})", angle);
@@ -106,8 +102,7 @@ public class RoverSocket extends JsonRpc2Socket {
 	}
 
 	public void turnHeadDown(Number angle) throws IOException {
-		if(isBlocked()){
-			LOGGER.trace("Developer blocked this action");
+		if(developerSettingsHandler.checkKillswitchEnabled()){
 			return;
 		}
 		LOGGER.trace("turnHeadDown({})", angle);
@@ -115,8 +110,7 @@ public class RoverSocket extends JsonRpc2Socket {
 	}
 
 	public void turnHeadLeft(Number angle) throws IOException {
-		if(isBlocked()){
-			LOGGER.trace("Developer blocked this action");
+		if(developerSettingsHandler.checkKillswitchEnabled()){
 			return;
 		}
 		LOGGER.trace("turnHeadLeft({})", angle);
@@ -124,8 +118,7 @@ public class RoverSocket extends JsonRpc2Socket {
 	}
 
 	public void turnHeadRight(Number angle) throws IOException {
-		if(isBlocked()){
-			LOGGER.trace("Developer blocked this action");
+		if(developerSettingsHandler.checkKillswitchEnabled()){
 			return;
 		}
 		LOGGER.trace("turnHeadRight({})", angle);
@@ -133,34 +126,18 @@ public class RoverSocket extends JsonRpc2Socket {
 	}
 
 	public void resetHeadPosition() throws IOException {
-		if (isBlocked()) {
-			LOGGER.trace("Developer blocked this action");
+		if (developerSettingsHandler.checkKillswitchEnabled()) {
 			return;
 		}
 		LOGGER.trace("resetHeadPosition()");
 		roverHandler.resetHeadPosition();
 	}
 
-	/**
-	 * Checks whether rover-actions are being blocked by a developer via the killswitch
-	 * @return returns true if actions are blocked, false otherwise
-     */
-	public boolean isBlocked(){
-		return isBlocked;
+	public void setKillswitch(Boolean killswitchEnabled) throws IOException {
+		developerSettingsHandler.setKillswitchEnabled(killswitchEnabled);
 	}
 
-	/**
-	 * Blocks or unblocks rover-actions
-	 * @param newBlockedState if true, actions get blocked, if false, clients can steer the rover
-     */
-	public void setBlocked(Boolean newBlockedState) throws IOException {
-		LOGGER.debug("Blocked state is: " + newBlockedState);
-		if(newBlockedState){
-			stop();
-			isBlocked = newBlockedState;
-		}
-		else {
-			isBlocked = newBlockedState;
-		}
+	public Boolean getKillswitchState(){
+		return developerSettingsHandler.isKillswitchEnabled();
 	}
 }
