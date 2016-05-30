@@ -14,6 +14,8 @@ angular.module('myApp.dpad', [])
         
         $scope.hideStopButton = false;
 
+        $scope.hideCameraButton = true;
+
         var modeDriver = {
             up:function () {
                 roverService.driveForward();
@@ -29,6 +31,9 @@ angular.module('myApp.dpad', [])
             },
             stop:function () {
                 roverService.stop();
+            },
+            resetCameraPosition: function() {
+
             }
         };
 
@@ -47,6 +52,10 @@ angular.module('myApp.dpad', [])
             },
             stop:function () {
                 
+            },
+            resetCameraPosition: function() {
+                roverService.cameraResetPosition();
+
             }
         };
 
@@ -57,6 +66,7 @@ angular.module('myApp.dpad', [])
             // switch to camera mode
             if($attrs.mode == 'camera'){
                 $scope.hideStopButton = true;
+                $scope.hideCameraButton = false;
                 modeSelected = modeCamera;
             }
         };
@@ -84,6 +94,11 @@ angular.module('myApp.dpad', [])
         $scope.stop = function() {
             console.debug("stop");
             modeSelected.stop();
+        };
+
+        $scope.resetCameraPosition = function() {
+            console.debug("reset camera position");
+            modeSelected.resetCameraPosition();
         };
     }])
     .component('dpad', {

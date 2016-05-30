@@ -222,7 +222,9 @@ angular.module("myApp.roverService",['ngWebSocket'])
         cameraMoveRight : function () {
             send("turnHeadRight",[cameraMoveStep]);
         },
-
+        cameraResetPosition : function() {
+            send("resetHeadPosition", []);
+        },
         /**
          * block or unblock the rover movements (depends on variable isBlocked)
          */
