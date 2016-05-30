@@ -27,7 +27,7 @@ before_script:
 
 script:
   - node_modules/.bin/karma start karma.conf.js --no-auto-watch --single-run --reporters=dots
-  - node_modules/.bin/protractor e2e-tests/protractor.conf.js --browser=Chrome_travis_ci
+  - node_modules/.bin/protractor e2e-tests/protractor.conf.js
   - docker pull mobilerobotframework/app
   - npm run build
   - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
