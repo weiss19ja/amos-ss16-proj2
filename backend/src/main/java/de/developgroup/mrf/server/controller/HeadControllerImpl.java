@@ -73,6 +73,6 @@ public class HeadControllerImpl extends AbstractHeadController implements HeadCo
     public void resetHeadPosition() throws IOException {
         super.resetHeadPosition();
         horizontalHeadMotor.setPosition(headPositionHorizontal);
-        horizontalHeadMotor.setPosition(headPositionVertical);
+        verticalHeadMotor.setPosition(headPositionVertical);
     }
 }
