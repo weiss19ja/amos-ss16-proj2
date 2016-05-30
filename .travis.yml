@@ -2,7 +2,9 @@ sudo: required
 
 services:
   - docker
-      
+addons:
+  firefox: "40.0"
+
 language: node_js
 node_js:
   - "0.10"
@@ -25,4 +27,4 @@ script:
   - npm run docker:push
 
 notifications:
-  slack: mobilerobotframework:W3tBJqXBF4nYgnoP8q3tAcmp 
+  slack: mobilerobotframework:W3tBJqXBF4nYgnoP8q3tAcmp
