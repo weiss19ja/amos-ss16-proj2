@@ -4,7 +4,7 @@
  * Service to communicate with the rover via websockets and JSON-RPC.
  */
 angular.module("myApp.roverService",['ngWebSocket'])
-.factory("roverService", function ($websocket, $location,$mdToast) {
+.factory("roverService", function ($websocket, $location) {
 
   var wsURL = 'ws://' + $location.host() + ':' + $location.port() + '/rover';
   var ws = $websocket(getWsURL());
@@ -138,7 +138,7 @@ angular.module("myApp.roverService",['ngWebSocket'])
   function incomingNotification(msg){
     notifications.push(msg);
     console.log("new notification: "+msg);
-    $mdToast.show($mdToast.simple().textContent(msg).position('top right'));
+    //$mdToast.show($mdToast.simple().textContent(msg).position('top right'));
 
   }
 
