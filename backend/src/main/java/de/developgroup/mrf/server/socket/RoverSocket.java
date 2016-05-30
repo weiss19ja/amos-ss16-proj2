@@ -10,9 +10,9 @@ import com.google.inject.Inject;
 
 import de.developgroup.mrf.server.ClientManager;
 import de.developgroup.mrf.server.handler.RoverHandler;
-import de.developgroup.mrf.server.rpc.JsonRpcSocket;
+import de.developgroup.mrf.server.rpc.JsonRpc2Socket;
 
-public class RoverSocket extends JsonRpcSocket {
+public class RoverSocket extends JsonRpc2Socket {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(RoverSocket.class);
 

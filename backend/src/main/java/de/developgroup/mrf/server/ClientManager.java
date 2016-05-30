@@ -1,6 +1,7 @@
 package de.developgroup.mrf.server;
 
 import com.google.inject.Singleton;
+import de.developgroup.mrf.server.rpc.JsonRpc2Request;
 import org.eclipse.jetty.websocket.api.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,13 +15,13 @@ public class ClientManager {
     private static final Logger LOGGER = LoggerFactory.getLogger(ClientManager.class);
 
     private static final Map<Integer, Session > sessions = Collections.synchronizedMap( new HashMap<Integer, Session>() );
-    private AtomicInteger lastClientId = new AtomicInteger(1000);
+    private AtomicInteger lastClientId = new AtomicInteger(5000);
 
     public void addClient(final Session session){
         int clientId = generateClientId();
         sessions.put(clientId, session );
         try {
-            session.getRemote().sendString("{\"jsonrpc\": \"2.0\", \"method\": \"setClientId\", \"params\": ["+clientId+"]}");
+            sendClientId(session, clientId);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -35,7 +36,6 @@ public class ClientManager {
                 iter.remove();
             }
         }
-
     }
 
     public int getConnectedClientsCount(){
@@ -47,19 +47,27 @@ public class ClientManager {
     }
 
     public boolean isClientConnected(int clientId){
-        return false;
+        Session session = sessions.get(clientId);
+        boolean isClientConnected = session != null;
+        return isClientConnected;
     }
 
-    public void notifyAllClients(String msg){
+    public void notifyAllClients(JsonRpc2Request notification){
 
     }
 
-    public void notifyClientById(int clientId, String msg){
-
+    public void notifyClientById(int clientId, JsonRpc2Request notification){
     }
 
     private int generateClientId(){
         return lastClientId.getAndIncrement();
+    }
+
+    private void sendClientId(final Session session, final int clientId) throws IOException{
+        List<Object> params = new ArrayList<>();
+        params.add(clientId);
+        JsonRpc2Request notification = new JsonRpc2Request("setClientId",params);
+        session.getRemote().sendString(notification.toString());
     }
 
 }

@@ -90,7 +90,7 @@ angular.module("myApp.roverService",['ngWebSocket'])
   function handleMethodCall(request) {
     switch(request.method) {
       case 'setClientId':
-        setClientId(request.params.id);
+        setClientId(request.params[0]);
         break;
       default:
         console.log('error on handleMethodCall: call function '+request.method+' is not allowed.');
@@ -223,12 +223,15 @@ angular.module("myApp.roverService",['ngWebSocket'])
             send("turnHeadRight",[cameraMoveStep]);
         },
 
+        /**
+         * block or unblock the rover movements (depends on variable isBlocked)
+         */
         setBlocked: function (isBlocked) {
             send("setBlocked", [isBlocked]);
         },
-      /**
-       * check whether developer blocked user interaction with rover
-       */
+        /**
+         * check whether developer blocked user interaction with rover
+         */
         isBlocked: function() {
             send("isBlocked", []);
         }

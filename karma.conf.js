@@ -11,6 +11,7 @@ module.exports = function(config){
       'webapp/bower_components/angular-websocket/dist/angular-websocket.js',
       'webapp/bower_components/angular-websocket/dist/angular-websocket-mock.js',
       'webapp/components/**/*.js',
+      'webapp/developer/**/*.js',
       'webapp/main/**/*.js',
       'webapp/info/**/*.js',
       'webapp/example/**/*.js',
