@@ -15,19 +15,20 @@ angular.module('myApp', [
   'myApp.settings',
   'myApp.example',
   'myApp.info',
+  'myApp.devOpts',
   'myApp.version',
   'myApp.dpad'
 ])
 .config(function ($mdThemingProvider) {
 		$mdThemingProvider.theme('default')
-			.primaryPalette('blue',{
+			.primaryPalette('cyan',{
 				'default': '800',
-				'hue-1': '200',
-				'hue-2': '600',
+				'hue-1': '400',
+				'hue-2': '700',
 				'hue-3': '800'
 			})
-			.accentPalette('green',{'default': '500'})
-			.warnPalette('red');
+			.accentPalette('blue-grey',{'default': '500'})
+			.warnPalette('red', {'default': '800'});
 	})
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.
@@ -58,6 +59,10 @@ angular.module('myApp', [
 	when('/example', {
 	  templateUrl: 'example/example.html',
     controller: 'ExampleCtrl'
+  }).
+  when('/devOpts', {
+      templateUrl: 'developerOptions/devOpts.html',
+      controller: 'DevOptsCtrl'
   }).
 	otherwise({redirectTo: '/main'});
 

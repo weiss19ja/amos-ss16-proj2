@@ -162,10 +162,10 @@ angular.module("myApp.roverService",['ngWebSocket'])
         getLastErrorResponse:function () {
           return lastErrorResponse;
         },
-        getLastSendMsg:function(){
+        getLastSendMsg : function(){
           return lastSendMsg;
         },
-        sendPing: function () {
+        sendPing : function () {
           send("ping",[lastId]);
         },
         /**
@@ -221,6 +221,16 @@ angular.module("myApp.roverService",['ngWebSocket'])
          */
         cameraMoveRight : function () {
             send("turnHeadRight",[cameraMoveStep]);
+        },
+
+        setBlocked: function (isBlocked) {
+            send("setBlocked", [isBlocked]);
+        },
+      /**
+       * check whether developer blocked user interaction with rover
+       */
+        isBlocked: function() {
+            send("isBlocked", []);
         }
       };
 });

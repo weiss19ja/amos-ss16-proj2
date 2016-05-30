@@ -108,8 +108,8 @@ describe ('sidebar navigation', function() {
   });
 
 
-  it('should have seven entries', function() {
-    expect (sidebarItems.count()).toBe(7);
+  it('should have eight entries', function() {
+    expect (sidebarItems.count()).toBe(8);
   });
 
 
