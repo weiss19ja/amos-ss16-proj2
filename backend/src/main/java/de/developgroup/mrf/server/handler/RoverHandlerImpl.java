@@ -66,18 +66,6 @@ public class RoverHandlerImpl implements RoverHandler {
 			LOGGER.info("Sensor " + event.getPin().getName()
 					+ " Collision voided");
 		}
-		sendCollisionDetectionInformationToAllClients();
-	}
-
-	private void sendCollisionDetectionInformationToAllClients(){
-		List<Object> params = new ArrayList<>();
-		params.add(collisionController.hasCollisionFrontRight());
-		params.add(collisionController.hasCollisionFrontLeft());
-		params.add(collisionController.hasCollisionBackRight());
-		params.add(collisionController.hasCollisionBackLeft());
-
-		JsonRpc2Request notification = new JsonRpc2Request("updateCollisionInformation",params);
-		clientManager.notifyAllClients(notification);
 	}
 
 	@Override

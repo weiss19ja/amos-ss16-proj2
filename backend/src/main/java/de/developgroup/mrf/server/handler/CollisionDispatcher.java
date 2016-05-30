@@ -4,9 +4,11 @@ import com.google.gson.Gson;
 import com.google.inject.Inject;
 import de.developgroup.mrf.rover.collision.CollisionController;
 import de.developgroup.mrf.server.ClientManager;
+import de.developgroup.mrf.server.rpc.JsonRpc2Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -34,6 +36,7 @@ public class CollisionDispatcher implements Observer {
             return;
         }
 
+        // store collision state
         CollisionEvent collisionState = new CollisionEvent();
 
         collisionState.frontLeft = collisionController.hasCollisionFrontLeft();
@@ -41,10 +44,14 @@ public class CollisionDispatcher implements Observer {
         collisionState.backLeft = collisionController.hasCollisionBackLeft();
         collisionState.backRight = collisionController.hasCollisionBackRight();
 
-        Gson gson = new Gson();
+        // create JSON RPC object
+        ArrayList<Object> params = new ArrayList<>();
+        params.add(collisionState);
+
+        JsonRpc2Request jsonRpc2Request = new JsonRpc2Request("updateCollisionInformation", params);
 
         LOGGER.debug("dispatching collision to clients");
-        clientManager.notifyAllClients(gson.toJson(collisionState));
+        clientManager.notifyAllClients(jsonRpc2Request);
     }
 
     /**
@@ -55,7 +62,7 @@ public class CollisionDispatcher implements Observer {
      */
     private class CollisionEvent {
         
-        public String eventName = "collision-event";
+        public String eventName = "collisionEvent";
 
         public boolean frontLeft;
 

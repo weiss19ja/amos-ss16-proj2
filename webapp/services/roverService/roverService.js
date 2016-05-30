@@ -20,11 +20,11 @@ angular.module("myApp.roverService",['ngWebSocket'])
   var lastErrorResponse;
   var clientId;
   var collisionDetection = {
-    frontRight : false,
     frontLeft: false,
-    backRight: false,
-    backLeft :false
-  }
+    frontRight : false,
+    backLeft :false,
+    backRight: false
+  };
 
   /**
    * Get URL for websocket connection depending on used protocol (http or https)
@@ -146,11 +146,12 @@ angular.module("myApp.roverService",['ngWebSocket'])
    * Update collision detection information by the server.
    */
   function updateCollisionInformation(collisionInfo){
-    collisionDetection.frontRight = collisionInfo[0];
-    collisionDetection.frontLeft = collisionInfo[1];
-    collisionDetection.backRight = collisionInfo[2];
-    collisionDetection.backLeft = collisionInfo[3];
-    console.log("new collision detection information: "+JSON.stringify(collisionDetection));
+      var collisionState = collisionInfo[0];
+
+      collisionDetection.frontLeft = !!collisionState.frontLeft;
+      collisionDetection.frontRight = !!collisionState.frontRight;
+      collisionDetection.backLeft = !!collisionState.backLeft;
+      collisionDetection.backRight = !!collisionState.backRight;
   }
 
   return {
@@ -177,6 +178,7 @@ angular.module("myApp.roverService",['ngWebSocket'])
         },
         responses: responses,
         notifications: notifications,
+        collisions: collisionDetection,
         errors: errorResponses,
         getLastErrorResponse:function () {
           return lastErrorResponse;
