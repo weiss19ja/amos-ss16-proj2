@@ -3,6 +3,9 @@
 angular.module('myApp.developer', [])
     .controller('DeveloperCtrl', ['$scope', 'roverService', function($scope, roverService) {
         $scope.killswitchText = 'allowed';
+        $scope.killswitch = {
+          isEnabled : false
+        };
 
         $scope.onChange = function(isKillswitchEnabled) {
             if(isKillswitchEnabled == true){
@@ -11,7 +14,7 @@ angular.module('myApp.developer', [])
             else{
                 $scope.killswitchText = 'allowed';
             }
-            console.log('onChange('+isKillswitchEnabled+')');
+            console.log('Killswitch: onChange('+isKillswitchEnabled+')');
             roverService.setBlocked(isKillswitchEnabled);
         };
 

@@ -106,7 +106,7 @@ describe ('developer view', function() {
   });
 
   it('should click the killswitch and text should be "blocked"', function() {
-    var input = element(by.model('isKillswitchEnabled'));
+    var input = element(by.model('killswitch.isEnabled'));
     input.click();
     expect(element(by.binding('killswitchText')).getText()).toBe('User interaction with rover: blocked');
   });
