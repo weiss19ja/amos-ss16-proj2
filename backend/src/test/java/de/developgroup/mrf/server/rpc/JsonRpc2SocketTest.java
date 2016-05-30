@@ -8,7 +8,7 @@ import org.mockito.Mockito;
 import static org.junit.Assert.assertThat;
 import static org.junit.matchers.JUnitMatchers.containsString;
 
-public class JsonRpcSocketTest {
+public class JsonRpc2SocketTest {
 
 	class CallMock {
 		public void method0Throw() {
@@ -25,7 +25,7 @@ public class JsonRpcSocketTest {
 		}
 	}
 
-	class TestJsonRpcSocket extends JsonRpcSocket {
+	class TestJsonRpcSocket extends JsonRpc2Socket {
 
 		final CallMock mock = Mockito.mock(CallMock.class);
 
@@ -73,7 +73,7 @@ public class JsonRpcSocketTest {
 
 	@Test
 	public void testInvalidRequest() {
-		String msg = "{\"jsonrpc\":\"1.0\"}";
+		String msg = "{\"jsonrpc\":\"1.0\",\"id\":2}";
 
 		String result = socket.invokeProcessMessage(msg);
 

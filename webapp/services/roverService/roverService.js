@@ -4,7 +4,7 @@
  * Service to communicate with the rover via websockets and JSON-RPC.
  */
 angular.module("myApp.roverService",['ngWebSocket'])
-.factory("roverService", function ($websocket, $location ) {
+.factory("roverService", function ($websocket, $location) {
 
   var wsURL = 'ws://' + $location.host() + ':' + $location.port() + '/rover';
   var ws = $websocket(getWsURL());
@@ -19,6 +19,12 @@ angular.module("myApp.roverService",['ngWebSocket'])
   var lastSendMsg;
   var lastErrorResponse;
   var clientId;
+  var collisionDetection = {
+    frontRight : false,
+    frontLeft: false,
+    backRight: false,
+    backLeft :false
+  }
 
   /**
    * Get URL for websocket connection depending on used protocol (http or https)
@@ -90,7 +96,13 @@ angular.module("myApp.roverService",['ngWebSocket'])
   function handleMethodCall(request) {
     switch(request.method) {
       case 'setClientId':
-        setClientId(request.params.id);
+        setClientId(request.params[0]);
+        break;
+      case 'incomingNotification':
+        incomingNotification(request.params[0]);
+        break;
+      case 'updateCollisionInformation':
+        updateCollisionInformation(request.params);
         break;
       default:
         console.log('error on handleMethodCall: call function '+request.method+' is not allowed.');
@@ -121,17 +133,24 @@ angular.module("myApp.roverService",['ngWebSocket'])
   }
 
   /**
-  * Add new notification to notifications list.
-  * Notification object:
-  * {
-  * message: "notification message",
-  * time: "12:03:00",
-  * seen: false
-  * }
+  * Add new notification to notifications list pushed by the server.
   */
-  function addNotification(msg){
+  function incomingNotification(msg){
     notifications.push(msg);
     console.log("new notification: "+msg);
+    //$mdToast.show($mdToast.simple().textContent(msg).position('top right'));
+
+  }
+
+  /**
+   * Update collision detection information by the server.
+   */
+  function updateCollisionInformation(collisionInfo){
+    collisionDetection.frontRight = collisionInfo[0];
+    collisionDetection.frontLeft = collisionInfo[1];
+    collisionDetection.backRight = collisionInfo[2];
+    collisionDetection.backLeft = collisionInfo[3];
+    console.log("new collision detection information: "+JSON.stringify(collisionDetection));
   }
 
   return {
@@ -162,10 +181,10 @@ angular.module("myApp.roverService",['ngWebSocket'])
         getLastErrorResponse:function () {
           return lastErrorResponse;
         },
-        getLastSendMsg:function(){
+        getLastSendMsg : function(){
           return lastSendMsg;
         },
-        sendPing: function () {
+        sendPing : function () {
           send("ping",[lastId]);
         },
         /**
@@ -221,6 +240,19 @@ angular.module("myApp.roverService",['ngWebSocket'])
          */
         cameraMoveRight : function () {
             send("turnHeadRight",[cameraMoveStep]);
+        },
+
+        /**
+         * block or unblock the rover movements (depends on variable isBlocked)
+         */
+        setBlocked: function (isBlocked) {
+            send("setBlocked", [isBlocked]);
+        },
+        /**
+         * check whether developer blocked user interaction with rover
+         */
+        isBlocked: function() {
+            send("isBlocked", []);
         }
       };
 });
