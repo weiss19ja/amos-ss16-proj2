@@ -3,12 +3,14 @@ package de.developgroup.mrf.server.controller;
 import de.developgroup.mrf.Main;
 import de.developgroup.mrf.rover.servo.ServoController;
 import org.cfg4j.provider.ConfigurationProvider;
+import org.eclipse.jetty.util.IO;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
@@ -84,6 +86,17 @@ public class HeadControllerLogicTest {
         assertTrue("Before turning, the head position was " + initialPos +
                 " after turning right, the head position is " + newPos +
                 ". The new position should be greater than the initial one", initialPos < newPos);
+    }
+
+    @Test
+    public void testHeadReset() throws IOException {
+        controller.turnHeadRight(10);
+        controller.turnHeadDown(30);
+
+        controller.resetHeadPosition();
+
+        assertEquals(ServoController.POS_NEUTRAL, controller.getHeadPositionHorizontal());
+        assertEquals(ServoController.POS_NEUTRAL, controller.getHeadPositionVertical());
     }
 
     @Test

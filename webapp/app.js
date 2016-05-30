@@ -17,7 +17,8 @@ angular.module('myApp', [
   'myApp.info',
   'myApp.developer',
   'myApp.version',
-  'myApp.dpad'
+  'myApp.dpad',
+  'myApp.parkingSensors'
 ])
   .config(function ($mdThemingProvider) {
     $mdThemingProvider.theme('default')
