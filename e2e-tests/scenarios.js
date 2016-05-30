@@ -90,6 +90,30 @@ describe ('settings view', function() {
 
 });
 
+describe ('developer view', function() {
+
+  beforeEach(function() {
+    browser.get('#/developer');
+  });
+
+  it('should display the developer view headline', function() {
+    // there are two h2 headers in ng-scope --> the second one is the settings view text
+    expect(element(by.css('.ng-scope')).all(by.tagName('h2')).get(1).getText()).toBe('Developer options');
+  });
+
+  it('should display the killswitch with default text "allowed"', function() {
+    expect(element(by.binding('killswitchText')).getText()).toBe('User interaction with rover: allowed');
+  });
+
+  it('should click the killswitch and text should be "blocked"', function() {
+    var input = element(by.model('killswitch.isEnabled'));
+    input.click();
+    expect(element(by.binding('killswitchText')).getText()).toBe('User interaction with rover: blocked');
+  });
+
+
+});
+
 describe ('sidebar navigation', function() {
 
   var sidebarItems;
