@@ -144,24 +144,28 @@ describe ('sidebar navigation', function() {
   it('should be redirect to main page when driver is Main', function() {
     expect (sidebarItems.get(0).getText()).toBe('Main');
     sidebarItems.get(0).click();
+    browser.refresh();
     expect(browser.getLocationAbsUrl()).toMatch("/main");
   });
 
   it('should be redirect to drive page when driver is clicked', function() {
     expect (sidebarItems.get(1).getText()).toBe('Driver');
     sidebarItems.get(1).click();
+    browser.refresh(); 
     expect(browser.getLocationAbsUrl()).toMatch("/drive");
   });
 
   it('should be redirect to observe page when Observer is clicked', function() {
     expect (sidebarItems.get(2).getText()).toBe('Observer');
     sidebarItems.get(2).click();
+    browser.refresh();
     expect(browser.getLocationAbsUrl()).toMatch("/observe");
   });
 
   it('should be redirect to settings page when Settings is clicked', function() {
     expect (sidebarItems.get(3).getText()).toBe('Settings');
     sidebarItems.get(3).click();
+    browser.refresh();
     expect(browser.getLocationAbsUrl()).toMatch("/settings");
   });
 
