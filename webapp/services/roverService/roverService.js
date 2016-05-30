@@ -223,12 +223,15 @@ angular.module("myApp.roverService",['ngWebSocket'])
             send("turnHeadRight",[cameraMoveStep]);
         },
 
+        /**
+         * block or unblock the rover movements (depends on variable isBlocked)
+         */
         setBlocked: function (isBlocked) {
             send("setBlocked", [isBlocked]);
         },
-      /**
-       * check whether developer blocked user interaction with rover
-       */
+        /**
+         * check whether developer blocked user interaction with rover
+         */
         isBlocked: function() {
             send("isBlocked", []);
         }
