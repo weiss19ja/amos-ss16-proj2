@@ -141,4 +141,10 @@ public class RoverHandlerImpl implements RoverHandler {
 		LOGGER.debug("Turn head right by " + angle + " degree");
 		headController.turnHeadRight(angle);
 	}
+
+	@Override
+	public void resetHeadPosition() throws IOException {
+		LOGGER.debug("Reset head position");
+		headController.resetHeadPosition();
+	}
 }
