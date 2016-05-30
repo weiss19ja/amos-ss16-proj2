@@ -48,4 +48,10 @@ public interface HeadController {
      * @throws IOException
      */
     void turnHeadRight(int angle) throws IOException;
+
+    /**
+     * Reset head to neutral position (angles 0, 0).
+     * @throws IOException
+     */
+    void resetHeadPosition() throws IOException;
 }

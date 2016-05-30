@@ -132,6 +132,15 @@ public class RoverSocket extends JsonRpc2Socket {
 		roverHandler.turnHeadRight(angle.intValue());
 	}
 
+	public void resetHeadPosition() throws IOException {
+		if (isBlocked()) {
+			LOGGER.trace("Developer blocked this action");
+			return;
+		}
+		LOGGER.trace("resetHeadPosition()");
+		roverHandler.resetHeadPosition();
+	}
+
 	/**
 	 * Checks whether rover-actions are being blocked by a developer via the killswitch
 	 * @return returns true if actions are blocked, false otherwise
