@@ -1,19 +1,19 @@
 'use strict';
 
-xdescribe('myApp.main module', function() {
+describe('myApp.main module', function() {
 
   beforeEach(module('myApp.main'));
+  beforeEach(module('myApp.roverService'));
 
   describe('main controller', function(){
-     var scope;
+    var scope, mainCtrl;
 
     beforeEach(inject(function($rootScope, $controller) {
       scope = $rootScope.$new();
+      mainCtrl = $controller('MainCtrl', {$scope: scope});
     }));
 
-    it('should ....', inject(function($controller) {
-      //spec body
-      var mainCtrl = $controller('MainCtrl',{$scope: scope});
+    it('should define the main Controller', (function() {
       expect(mainCtrl).toBeDefined();
     }));
 
@@ -21,8 +21,7 @@ xdescribe('myApp.main module', function() {
       var pass = true;
       	expect(pass).toBe(true);
     });
-
-
+    
   });
 
 });
