@@ -18,13 +18,17 @@ describe('myApp.developer module', function () {
       expect(developerCtrl).toBeDefined();
     });
 
-    it ('should set the default values for killswitch', function () {
-      expect(scope.killswitchText).toEqual('allowed');
-      expect(scope.killswitch.isEnabled).toEqual(false);
-    })
+    it ('should have the matching text for killswitch state', function () {
+      if (scope.killswitch.enabled) {
+        expect(scope.killswitchText).toEqual('blocked');
+      }
+      else {
+         expect(scope.killswitchText).toEqual('allowed');
+      }
+    });
 
     it('should change the killswitch text when it gets enabled'), function() {
-      scope.killswitch.isEnabled = true;
+      scope.killswitch.enabled = true;
       expect(scope.killswitchText).toEqual('blocked');
     }
 

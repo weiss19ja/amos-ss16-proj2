@@ -106,9 +106,16 @@ describe ('developer view', function() {
   });
 
   it('should click the killswitch and text should be "blocked"', function() {
-    var input = element(by.model('killswitch.isEnabled'));
+    var input = element(by.model('killswitch.enabled'));
     input.click();
     expect(element(by.binding('killswitchText')).getText()).toBe('User interaction with rover: blocked');
+  });
+
+  it('should have the same text after page reload', function(){
+    var input = element(by.model('killswitch.enabled'));
+    var textBefore = element(by.binding('killswitchText')).getText();
+    browser.refresh();
+    expect(element(by.binding('killswitchText')).getText()).toBe(textBefore);
   });
 
 

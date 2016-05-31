@@ -136,7 +136,7 @@ describe('myApp.roverService service', function() {
     var isKillswitchEnabled = true;
 
     it('should send setKillswitch json-rpc', function () {
-      roverService.setBlocked(isKillswitchEnabled);
+      roverService.setKillswitch(isKillswitchEnabled);
       expect(roverService.responses.length).toBe(1);
       var msg = roverService.getLastSendMsg();
       expect(msg).toBe('{"jsonrpc":"2.0","method":"setKillswitch","params":[' + isKillswitchEnabled + '],"id":1}');

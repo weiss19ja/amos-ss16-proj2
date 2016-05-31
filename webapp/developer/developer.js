@@ -2,7 +2,7 @@
 
 angular.module('myApp.developer', [])
     .controller('DeveloperCtrl', ['$scope', 'roverService', function($scope, roverService) {
-
+        $scope.killswitchText = 'allowed';
         $scope.killswitch = roverService.killswitch;
         roverService.getKillswitchState();
 
