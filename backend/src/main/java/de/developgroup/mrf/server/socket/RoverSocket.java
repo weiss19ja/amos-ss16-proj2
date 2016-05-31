@@ -141,14 +141,14 @@ public class RoverSocket extends JsonRpc2Socket {
 		roverHandler.resetHeadPosition();
 	}
 
-    public void getCameraSnapshot(int clientId) throws IOException {
+    public void getCameraSnapshot(Number clientId) throws IOException {
         if (isBlocked()) {
             LOGGER.trace("Developer blocked this action");
             //TODO: Send error to frontend with clientId
             return;
         }
         LOGGER.trace("getCameraSnapshot()");
-        roverHandler.getCameraSnapshot(clientId);
+        roverHandler.getCameraSnapshot(clientId.intValue());
     }
 
 	/**

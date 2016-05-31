@@ -11,9 +11,13 @@ angular.module('myApp.roverObserve', [])
 
     $scope.snapshotClicked = function(clickEvent) {
         roverService.getCameraSnapshot(function (imageData) {
-            $scope.snapshotURL = 'data:image/jpeg;' + imageData;
-            console.log($scope.snapshotURL);
-            $scope.isSnapshotFetched = true;
+            $scope.$apply(function () {
+                $scope.snapshotURL = imageData[0];
+                $scope.isSnapshotFetched = true;
+            });
+            // var image = new Image();
+            // image.src = imageData;
+            // document.body.appendChild(image);
         });
     };
 }]);

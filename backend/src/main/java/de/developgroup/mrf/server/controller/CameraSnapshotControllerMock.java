@@ -17,17 +17,13 @@ public class CameraSnapshotControllerMock extends AbstractCameraSnapshotControll
 
     private static Logger LOGGER = LoggerFactory.getLogger(CameraSnapshotControllerMock.class);
 
-    private ClientManager clientManager;
+    private final ClientManager clientManager;
     private String urlString;
 
     @Inject
-    public CameraSnapshotControllerMock() throws IOException {};
-
-    @Override
-    public void initialize(ClientManager clientManager) throws IOException {
+    public CameraSnapshotControllerMock(ClientManager clientManager) throws IOException {
         this.clientManager = clientManager;
-        this.urlString = "./testSnapshot.jpeg";
-    }
+    };
 
     @Override
     public void getCameraSnapshot(int clientId) throws IOException {

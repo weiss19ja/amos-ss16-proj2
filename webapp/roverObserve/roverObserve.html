@@ -22,45 +22,12 @@
                 <img hide-xs hide-md hide-sm ng-src="{{mjpegStreamURL}}"
                      fallback-src="{{'assets/icons/ic_videocam_off_48px.svg'}}" style="width: calc(100% / 2)"
                      class="md-card-image" alt="Video-Stream">
-            <!--<md-card-actions layout="column">-->
-
-            <!--</md-card-actions>-->
         </md-card>
     </div>
-    <img ng-show="isSnapShotFetched" ng-src="{{snapshotURL}}">
 
-    <!--<md-card>-->
-    <!--<md-card-title>-->
-    <!--<md-card-title-text>-->
-    <!--<span class="md-headline">Card with  image</span>-->
-    <!--<span class="md-subhead">Extra Large</span>-->
-    <!--</md-card-title-text>-->
-    <!--</md-card-title>-->
-    <!--<md-card-content layout="row" layout-align="space-between">-->
-    <!--<div class="md-media-xl card-media"></div>-->
-    <!--<md-card-actions layout="row" layout-align="end center">-->
-    <!--<md-button class="md-icon-button" aria-label="Favorite">-->
-    <!--<md-icon md-svg-icon="assets/icons/ic_camera_enhance_black_48px.svg"></md-icon>-->
-    <!--</md-button>-->
-    <!--</md-card-actions>-->
-    <!--</md-card-content>-->
-    <!--</md-card>-->
-
-    <!--<div layout="column">-->
-    <!--<md-card layout="column" layout-align="center center">-->
-    <!--&lt;!&ndash; Snapshot button &ndash;&gt;-->
-    <!--<md-card-actions layout="row" layout-align="end center">-->
-    <!--<md-button class="md-icon-button" aria-label="Favorite">-->
-    <!--<md-icon md-svg-icon="assets/icons/ic_camera_enhance_black_48px.svg"></md-icon>-->
-    <!--</md-button>-->
-    <!--</md-card-actions>-->
-    <!--&lt;!&ndash; Mobile View &ndash;&gt;-->
-    <!--<img hide-gt-xs ng-src="{{mjpegStreamURL}}" fallback-src="{{'assets/icons/ic_videocam_off_48px.svg'}}" class="md-card-image" alt="Video-Stream">-->
-    <!--&lt;!&ndash; Mobile Landscape View &ndash;&gt;-->
-    <!--<img hide-xs hide-gt-md ng-src="{{mjpegStreamURL}}" fallback-src="{{'assets/icons/ic_videocam_off_48px.svg'}}" style="width: calc(100% / 3.5)" class="md-card-image" alt="Video-Stream">-->
-    <!--&lt;!&ndash; Desktop View &ndash;&gt;-->
-    <!--<img hide-xs hide-md hide-sm ng-src="{{mjpegStreamURL}}" fallback-src="{{'assets/icons/ic_videocam_off_48px.svg'}}" style="width: calc(100% / 2)" class="md-card-image" alt="Video-Stream">-->
-    <!--</md-card>-->
-    <!--</div>-->
+    <div layout="column" class="relative" layout-fill role="main">
+        <img ng-show="isSnapshotFetched" ng-src="{{snapshotURL}}" alt="Snapshot">
+        <!--<img ng-src="{{snapshotURL}}" alt="Snapshot">-->
+    </div>
 
 </div>

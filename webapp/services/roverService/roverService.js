@@ -80,8 +80,12 @@ angular.module("myApp.roverService",['ngWebSocket'])
   });
 
   ws.onMessage(function(message) {
-    console.log('new Msg:' + message.data);
     var msgData = JSON.parse(message.data);
+    if(msgData.method && msgData.method === "incomingSnapshot") {
+        console.log('new Msg: Image received');
+    } else {
+        console.log('new Msg:' + message.data);
+    }
 
     if(msgData.method){
       handleMethodCall(msgData);
@@ -108,6 +112,7 @@ angular.module("myApp.roverService",['ngWebSocket'])
         break;
       case 'incomingSnapshot':
         incomingSnapshot(request.params);
+        break;
       default:
         console.log('error on handleMethodCall: call function '+request.method+' is not allowed.');
     }

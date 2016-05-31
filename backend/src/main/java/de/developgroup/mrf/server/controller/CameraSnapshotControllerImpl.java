@@ -16,31 +16,27 @@ public class CameraSnapshotControllerImpl extends AbstractCameraSnapshotControll
 
     private static Logger LOGGER = LoggerFactory.getLogger(CameraSnapshotControllerImpl.class);
 
-    private ClientManager clientManager;
-    private String cameraHost;
-    private int cameraPort;
+    private final ClientManager clientManager;
 
     @Inject
-    public CameraSnapshotControllerImpl() throws IOException {};
-
-    @Override
-    public void initialize(ClientManager clientManager) throws IOException {
+    public CameraSnapshotControllerImpl(ClientManager clientManager) throws IOException {
         this.clientManager = clientManager;
-        this.cameraHost = "localhost";
-        this.cameraPort = 9000;
-        LOGGER.debug("Completed setting up CameraSnapshotController");
-    }
+    };
 
     @Override
     public void getCameraSnapshot(int clientId) throws IOException {
-        URL url = new URL("http", cameraHost, cameraPort, "/stream/snapshot.jpeg");
-        BufferedImage bufferedImage = ImageIO.read(url);
-        String base64ImgString = getBase64EncodedStringFromImage(bufferedImage);
-        sendImageResponseToClient(clientId, base64ImgString);
+        synchronized (this) {
+            URL url = new URL("http", "localhost", 9000, "/stream/snapshot.jpeg");
+            LOGGER.debug("URL:" + url.toString());
+            BufferedImage bufferedImage = ImageIO.read(url);
+            String base64ImgString = getBase64EncodedStringFromImage(bufferedImage);
+            sendImageResponseToClient(clientId, base64ImgString);
+        }
     }
 
     @Override
     public void sendImageResponseToClient(int clientId, String response) throws IOException {
+        LOGGER.info("Sending image response to client {}", clientId);
         clientManager.sendSnapshotResponseToClient(clientId, response);
     }
 
