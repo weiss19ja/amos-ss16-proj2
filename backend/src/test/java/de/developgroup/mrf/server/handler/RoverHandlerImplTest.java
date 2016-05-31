@@ -4,6 +4,7 @@ import com.pi4j.io.gpio.GpioController;
 import de.developgroup.mrf.rover.collision.CollisionController;
 import de.developgroup.mrf.rover.collision.CollisionControllerMock;
 import de.developgroup.mrf.rover.gpio.GpioControllerMock;
+import de.developgroup.mrf.server.controller.CameraSnapshotController;
 import de.developgroup.mrf.server.controller.DriveController;
 import de.developgroup.mrf.server.controller.DriveControllerMock;
 import de.developgroup.mrf.server.controller.HeadController;
@@ -27,7 +28,8 @@ public class RoverHandlerImplTest {
                 mock(CollisionController.class),
                 mock(GpioController.class),
                 mock(DriveController.class),
-                mock(HeadController.class)
+                mock(HeadController.class),
+                mock(CameraSnapshotController.class)
         );
     }
 

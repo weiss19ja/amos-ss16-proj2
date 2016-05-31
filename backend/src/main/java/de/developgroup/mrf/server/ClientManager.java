@@ -105,4 +105,18 @@ public class ClientManager {
         return notification;
     }
 
+    /**
+     * Send a Base64 encoded image String to the client with specific id
+     * @param clientId Receiver of the image string
+     * @param response Base64 encoded image string
+     * @throws IOException
+     */
+    public void sendSnapshotResponseToClient(int clientId, String response) throws IOException {
+        List<Object> params = new ArrayList<>();
+        params.add(response);
+        JsonRpc2Request notification = new JsonRpc2Request("getCameraSnapshot",params);
+        Session session = sessions.get(clientId);
+        session.getRemote().sendString(notification.toString());
+    }
+
 }

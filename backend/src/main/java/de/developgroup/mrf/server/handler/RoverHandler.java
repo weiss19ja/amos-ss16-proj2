@@ -84,6 +84,13 @@ public interface RoverHandler extends Observer {
 	void turnHeadRight(int angle) throws IOException;
 
 	/**
+	 * Request a snapshot from the camera
+	 * @param clientId
+	 * @throws IOException
+     */
+	void getCameraSnapshot(int clientId) throws IOException;
+
+	/**
 	 * Reset the head to neutral position.
 	 * @throws IOException
 	 */

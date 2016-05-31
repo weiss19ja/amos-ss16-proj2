@@ -36,12 +36,15 @@ public class NonServletModule extends AbstractModule {
 			bind(DriveController.class).to(DriveControllerMock.class);
 			bind(HeadController.class).to(HeadControllerMock.class);
 			bind(GpioController.class).toProvider(GpioControllerMockProvider.class);
+//			bind(CameraSnapshotController.class).to(CameraSnapshotControllerMock.class);
+            bind(CameraSnapshotController.class).to(CameraSnapshotControllerImpl.class);
 		} else {
 			// use actual classes with hardware control
 			bind(CollisionController.class).to(CollisionControllerImpl.class);
 			bind(DriveController.class).to(DriveControllerImpl.class);
             bind(HeadController.class).to(HeadControllerImpl.class);
 			bind(GpioController.class).toProvider(GpioControllerProvider.class);
+            bind(CameraSnapshotController.class).to(CameraSnapshotControllerImpl.class);
 		}
 
 		requestStaticInjection(RoverSocket.class);

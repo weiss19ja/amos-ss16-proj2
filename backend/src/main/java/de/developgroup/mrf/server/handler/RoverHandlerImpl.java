@@ -8,6 +8,7 @@ import com.pi4j.io.i2c.I2CBus;
 import de.developgroup.mrf.rover.collision.CollisionController;
 import de.developgroup.mrf.rover.motor.MotorController;
 import de.developgroup.mrf.server.ClientManager;
+import de.developgroup.mrf.server.controller.CameraSnapshotController;
 import de.developgroup.mrf.server.controller.DriveController;
 import de.developgroup.mrf.server.rpc.JsonRpc2Request;
 import org.cfg4j.provider.ConfigurationProvider;
@@ -36,15 +37,20 @@ public class RoverHandlerImpl implements RoverHandler {
 
 	final HeadController headController;
 
+	final CameraSnapshotController cameraSnapshotController;
+
 	@Inject
 	public RoverHandlerImpl(CollisionController collisionController,
 							GpioController gpio,
-							DriveController driveController, HeadController headController) {
+							DriveController driveController,
+							HeadController headController,
+							CameraSnapshotController cameraSnapshotController) {
 		LOGGER.info("RoverHandlerImpl startup");
 		this.collisionController = collisionController;
 		this.gpio = gpio;
 		this.driveController = driveController;
 		this.headController = headController;
+		this.cameraSnapshotController = cameraSnapshotController;
 	}
 
 	public String handlePing(int sqn) {
@@ -149,5 +155,11 @@ public class RoverHandlerImpl implements RoverHandler {
 	public void resetHeadPosition() throws IOException {
 		LOGGER.debug("Reset head position");
 		headController.resetHeadPosition();
+	}
+
+	@Override
+	public void getCameraSnapshot(int clientId) throws IOException {
+		LOGGER.debug("Get snapshot from camera");
+		cameraSnapshotController.getCameraSnapshot(clientId);
 	}
 }
