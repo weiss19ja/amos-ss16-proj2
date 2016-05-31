@@ -137,7 +137,12 @@ public class RoverSocket extends JsonRpc2Socket {
 		developerSettingsHandler.setKillswitchEnabled(killswitchEnabled);
 	}
 
+	// TODO: Delete if not needed
 	public Boolean getKillswitchState(){
 		return developerSettingsHandler.isKillswitchEnabled();
+	}
+
+	public void sendKillswitchState(){
+		developerSettingsHandler.informClients();
 	}
 }

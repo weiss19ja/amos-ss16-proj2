@@ -266,7 +266,7 @@ angular.module("myApp.roverService",['ngWebSocket'])
          * check whether developer blocked user interaction with rover
          */
         getKillswitchState: function() {
-            send("getKillswitchState", []);
+            send("sendKillswitchState", []);
         }
       };
 });

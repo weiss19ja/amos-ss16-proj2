@@ -19,15 +19,15 @@ public class DeveloperSettingsHandler {
 
     private ClientManager clientManager;
 
-    @Inject
-    public static RoverHandler roverHandler;
+    private RoverHandler roverHandler;
 
 
     @Inject
     public DeveloperSettingsHandler(
-                               ClientManager clientManager) {
+                               ClientManager clientManager, RoverHandler roverHandler) {
         LOGGER.debug("Creating new instance of DeveloperSettingsHandler");
         this.clientManager = clientManager;
+        this.roverHandler = roverHandler;
     }
 
     /**
@@ -48,7 +48,6 @@ public class DeveloperSettingsHandler {
      * @return killswitchState
      */
     public boolean isKillswitchEnabled() {
-        LOGGER.debug("Got to DeveloperSettings getKillswitchState");
         return killswitchEnabled;
     }
 
@@ -58,7 +57,7 @@ public class DeveloperSettingsHandler {
      * @param newState if true, actions get blocked, if false, clients can steer the rover
      */
     public void setKillswitchEnabled(Boolean newState) throws IOException {
-        LOGGER.debug("Blocked state is: " + newState);
+        LOGGER.debug("Killswitch state is: " + newState);
         if (newState) {
             roverHandler.stop();
             killswitchEnabled = true;
