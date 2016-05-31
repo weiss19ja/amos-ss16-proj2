@@ -140,7 +140,7 @@ describe ('sidebar navigation', function() {
 
 
   it('should have seven entries', function() {
-    expect (sidebarItems.count()).toBe(7);
+    expect (sidebarItems.count()).toBe(8);
   });
 
 
