@@ -20,17 +20,17 @@ angular.module('myApp', [
   'myApp.dpad',
   'myApp.parkingSensors'
 ])
-  .config(function ($mdThemingProvider) {
-    $mdThemingProvider.theme('default')
-      .primaryPalette('blue', {
-        'default': '800',
-        'hue-1': '200',
-        'hue-2': '600',
-        'hue-3': '800'
-      })
-      .accentPalette('green', {'default': '500'})
-      .warnPalette('red');
-  })
+    .config(function ($mdThemingProvider) {
+      $mdThemingProvider.theme('default')
+          .primaryPalette('cyan',{
+            'default': '800',
+            'hue-1': '400',
+            'hue-2': '700',
+            'hue-3': '800'
+          })
+          .accentPalette('blue-grey',{'default': '500'})
+          .warnPalette('red', {'default': '800'});
+    })
   .config(['$routeProvider', function ($routeProvider) {
     $routeProvider.when('/main', {
       templateUrl: 'main/main.html',
