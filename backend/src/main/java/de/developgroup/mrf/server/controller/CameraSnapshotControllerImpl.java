@@ -3,6 +3,7 @@ package de.developgroup.mrf.server.controller;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import de.developgroup.mrf.server.ClientManager;
+import de.developgroup.mrf.server.rpc.JsonRpc2Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,6 +11,8 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 @Singleton
 public class CameraSnapshotControllerImpl extends AbstractCameraSnapshotController implements CameraSnapshotController {
@@ -37,7 +40,10 @@ public class CameraSnapshotControllerImpl extends AbstractCameraSnapshotControll
     @Override
     public void sendImageResponseToClient(int clientId, String response) throws IOException {
         LOGGER.info("Sending image response to client {}", clientId);
-        clientManager.sendSnapshotResponseToClient(clientId, response);
+        List<Object> params = new ArrayList<>();
+        params.add(response);
+        JsonRpc2Request notification = new JsonRpc2Request("incomingSnapshot",params);
+        clientManager.notifyClientById(clientId, notification);
     }
 
 }
