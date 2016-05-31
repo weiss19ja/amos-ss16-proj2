@@ -2,10 +2,8 @@
 
 angular.module('myApp.developer', [])
     .controller('DeveloperCtrl', ['$scope', 'roverService', function($scope, roverService) {
-        $scope.killswitchText = 'allowed';
-        $scope.killswitch = {
-            isEnabled : roverService.killswitchState
-        };
+
+        $scope.killswitch = roverService.killswitch;
         roverService.getKillswitchState();
 
         $scope.setBlocked = function(roverService, cbState) {
@@ -13,14 +11,21 @@ angular.module('myApp.developer', [])
             roverService.setKillswitch(cbState);
         }
 
-        $scope.onChange = function(cbState) {
-            console.debug("Killswitch button changed to:" +cbState);
-            if(cbState == true){
+
+        // change text if switch changes
+        $scope.$watch(function($scope) { return $scope.killswitch.enabled },
+            function() {
+            if($scope.killswitch.enabled){
                 $scope.killswitchText = 'blocked';
             }
             else{
-                $scope.killswitchText = 'allowed';
+                $scope.killswitchText = 'allowed'
             }
+        });
+
+        // inform server about change made by the user
+        $scope.onChange = function(cbState) {
+            console.debug("Killswitch button changed to:" +cbState);
             roverService.setKillswitch(cbState);
         };
 

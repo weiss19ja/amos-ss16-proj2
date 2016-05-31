@@ -19,7 +19,9 @@ angular.module("myApp.roverService",['ngWebSocket'])
   var lastSendMsg;
   var lastErrorResponse;
   var clientId;
-  var killswitchEnabled = false;
+  var killswitch = {
+      enabled: false
+  };
   var collisionDetection = {
     frontLeft: false,
     frontRight : false,
@@ -147,7 +149,7 @@ angular.module("myApp.roverService",['ngWebSocket'])
   }
 
   function updateKillswitchEnabled(state){
-      killswitchEnabled = state;
+      killswitch.enabled = state;
       console.log("Updating Killswitch state received from server to: "+state);
   }
 
@@ -187,7 +189,7 @@ angular.module("myApp.roverService",['ngWebSocket'])
         },
         responses: responses,
         notifications: notifications,
-        killswitchState: killswitchEnabled,
+      killswitch: killswitch,
         collisions: collisionDetection,
         errors: errorResponses,
         getLastErrorResponse:function () {
