@@ -111,12 +111,12 @@ public class ClientManager {
      * @param response Base64 encoded image string
      * @throws IOException
      */
-    public void sendSnapshotResponseToClient(int clientId, String response) throws IOException {
+    public void sendSnapshotResponseToClient(int clientId, String response){
         List<Object> params = new ArrayList<>();
         params.add(response);
         JsonRpc2Request notification = new JsonRpc2Request("incomingSnapshot",params);
-        Session session = sessions.get(clientId);
-        session.getRemote().sendString(notification.toString());
+
+        doSendNotificationToClient(clientId,notification);
     }
 
 }

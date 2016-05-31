@@ -25,7 +25,6 @@ angular.module("myApp.roverService",['ngWebSocket'])
     backLeft :false,
     backRight: false
   };
-  var image;
   var snapshotCallback;
 
   /**

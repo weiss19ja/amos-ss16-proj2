@@ -1,23 +1,32 @@
 'use strict';
 
-angular.module('myApp.roverObserve', [])
-.controller('RoverObserveCtrl', ['roverService', '$scope', '$location', function(roverService, $scope, $location) {
+angular.module('myApp.roverObserve', ['ngMaterial'])
+.controller('RoverObserveCtrl', ['roverService', '$scope', '$location', '$mdDialog', '$mdMedia', function(roverService, $scope, $location, $mdDialog, $mdMedia) {
     $scope.mjpegStreamURL = 'http://' + $location.host() + ':9000/stream/video.mjpeg';
-    //$scope.mjpegStreamURL = 'http://192.168.188.38:9000/stream/video.mjpeg';
 
     $scope.snapshotEnabled = true;
-    $scope.isSnapshotFetched = false;
-    $scope.snapshotUrl;
 
     $scope.snapshotClicked = function(clickEvent) {
         roverService.getCameraSnapshot(function (imageData) {
-            $scope.$apply(function () {
-                $scope.snapshotURL = imageData[0];
-                $scope.isSnapshotFetched = true;
+
+            $mdDialog.show({
+                controller: SnapshotDialogController,
+                templateUrl: 'roverObserve/snapshotDialog.html',
+                parent: angular.element(document.body),
+                targetEvent: clickEvent,
+                clickOutsideToClose: true,
+                locals: {
+                    imageUrl: imageData[0]
+                }
             });
-            // var image = new Image();
-            // image.src = imageData;
-            // document.body.appendChild(image);
+
         });
     };
+
+    function SnapshotDialogController($scope, $mdDialog, imageUrl) {
+        $scope.imageUrl = imageUrl;
+        $scope.cancel = function() {
+            $mdDialog.cancel();
+        }
+    }
 }]);
