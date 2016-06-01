@@ -10,6 +10,11 @@ import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * Client Manager handles sessions for connected clients.
+ * If a clients connects via websocket he will be listed
+ * here and gets an ID.
+ */
 @Singleton
 public class ClientManager {
     private static final Logger LOGGER = LoggerFactory.getLogger(ClientManager.class);
@@ -18,6 +23,14 @@ public class ClientManager {
     private static final Map<Integer, Session > sessions = Collections.synchronizedMap( new HashMap<Integer, Session>() );
     private AtomicInteger lastClientId = new AtomicInteger(5000);
 
+    /**
+     * Add a client to the list of connected clients.
+     * Each client gets an ID, which the client manger
+     * communicate to the client via JSON-RPC notification.
+     * This ID can be used for further communication if necessary.
+     *
+     * @param  session Session from Jetty.
+     */
     public void addClient(final Session session){
         int clientId = generateClientId();
         sessions.put(clientId, session );
@@ -26,6 +39,11 @@ public class ClientManager {
         notifyAllClients(msg);
     }
 
+    /**
+     * Remove closed sessions from listed sessions.
+     * If any client disconnects from the websocket
+     * he will be removed from the list of connected clients.
+     */
     public void removeClosedSessions(){
         Iterator<Session> iter = sessions.values().iterator();
         while (iter.hasNext()) {
@@ -37,20 +55,40 @@ public class ClientManager {
         }
     }
 
+    /**
+     * Get the amount of connected clients.
+     *
+     * @return number of connected clients.
+     */
     public int getConnectedClientsCount(){
         return sessions.size();
     }
 
+    /**
+     * Check if any client is connected to the server.
+     *
+     * @return true if no client is connected.
+     */
     public boolean isNoClientConnected(){
         return sessions.isEmpty();
     }
 
+    /**
+     * Check if a specific client is connected to the server.
+     *
+     * @param  clientId ID of the client given by the client manager.
+     */
     public boolean isClientConnected(int clientId){
         Session session = sessions.get(clientId);
         boolean isClientConnected = session != null;
         return isClientConnected;
     }
 
+    /**
+     * Notify all connected clients with a custom notification.
+     *
+     * @param  notification JSON-RPC 2.0 Notification object.
+     */
     public void notifyAllClients(JsonRpc2Request notification){
         for( Map.Entry<Integer,Session> entry : sessions.entrySet()){
             int clientId = entry.getKey();
@@ -58,16 +96,39 @@ public class ClientManager {
         }
     }
 
+    /**
+     * Notify all connected clients with a general text notification.
+     * A general text notification is a JSON-RPC 2.0 Notification where
+     * the destination method is {@value #TEXT_NOTIFICATION_METHOD}
+     * and the message string is the parameter.
+     *
+     * @param  message message text.
+     */
     public void notifyAllClients(String message){
         JsonRpc2Request notification = generateNotificationFromText(message);
 
         notifyAllClients(notification);
     }
 
+    /**
+     * Notify a specific connected client with a custom notification.
+     *
+     * @param  clientId ID of the client given by the client manager.
+     * @param  notification JSON-RPC 2.0 Notification object.
+     */
     public void notifyClientById(int clientId, JsonRpc2Request notification){
         doSendNotificationToClient(clientId,notification);
     }
 
+    /**
+     * Notify a specific clients with a general text notification.
+     * A general text notification is a JSON-RPC 2.0 Notification where
+     * the destination method is {@value #TEXT_NOTIFICATION_METHOD}
+     * and the message string is the parameter.
+     *
+     * @param  clientId ID of the client given by the client manager.
+     * @param  message message text.
+     */
     public void notifyClientById(int clientId, String message){
         JsonRpc2Request notification = generateNotificationFromText(message);
         doSendNotificationToClient(clientId,notification);
