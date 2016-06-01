@@ -36,8 +36,9 @@ public class ClientManagerTest {
 
     @Before
     public void setUp() throws Exception {
-        injector = Guice.createInjector();
-        clientManager = injector.getInstance(ClientManager.class);
+        //injector = Guice.createInjector();
+        //clientManager = injector.getInstance(ClientManager.class);
+        clientManager = new ClientManager();
 
         // mocking session
         session= mock(Session.class);
@@ -81,7 +82,34 @@ public class ClientManagerTest {
     }
 
     @Test
-    public void testNotifyClientById(){
+    public void testNotifyClientByIdText() throws IOException {
+        clientManager.addClient(session);
+        // send id to client
+        verify(remoteEndpoint,atLeastOnce()).sendString(sendFirstClientMsg);
+        // notification that a new client has connected to the server
+        verify(remoteEndpoint,atLeastOnce()).sendString(anyString());
+
+        clientManager.notifyClientById(5000,"Test Another Notification");
+        String notificationMsg = "{\"method\":\"incomingNotification\",\"params\":[\"Test Another Notification\"],\"jsonrpc\":\"2.0\"}";
+        verify(remoteEndpoint).sendString(notificationMsg);
+
+    }
+
+    @Test
+    public void testNotifyClientById() throws IOException {
+        clientManager.addClient(session);
+        // send id to client
+        verify(remoteEndpoint,atLeastOnce()).sendString(sendFirstClientMsg);
+        // notification that a new client has connected to the server
+        verify(remoteEndpoint,atLeastOnce()).sendString(anyString());
+
+        List<Object> params = new ArrayList<>();
+        params.add("testParam");
+        JsonRpc2Request notification = new JsonRpc2Request("Notification 123",params);
+        clientManager.notifyClientById(5000,notification);
+
+        String notificationMsg = "{\"method\":\"Notification 123\",\"params\":[\"testParam\"],\"jsonrpc\":\"2.0\"}";
+        verify(remoteEndpoint,atLeastOnce()).sendString(notificationMsg);
 
     }
 
@@ -96,15 +124,16 @@ public class ClientManagerTest {
     }
 
     @Test
-    @Ignore
     public void testNotifyAllClients() throws IOException {
         clientManager.addClient(session);
         clientManager.addClient(session);
 
-        JsonRpc2Request notification = new JsonRpc2Request("methodXY");
+        List<Object> params = new ArrayList<>();
+        params.add("testParam");
+        JsonRpc2Request notification = new JsonRpc2Request("Notification 456",params);
 
         clientManager.notifyAllClients(notification);
-        String notificationMsg = "{\"method\":\"methodXY\",\"params\":[\"Test Notification\"],\"jsonrpc\":\"2.0\"}";
+        String notificationMsg = "{\"method\":\"Notification 456\",\"params\":[\"testParam\"],\"jsonrpc\":\"2.0\"}";
         verify(remoteEndpoint,times(2)).sendString(notificationMsg);
     }
 
