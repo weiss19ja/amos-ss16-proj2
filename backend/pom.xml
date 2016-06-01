@@ -97,7 +97,6 @@
                   <directory>src/main/resources</directory>
                   <includes>
                   	<include>rover.properties</include>
-                  	<include>openstream.sh</include>
                   </includes>
                   <filtering>true</filtering>
                 </resource>

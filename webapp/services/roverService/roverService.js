@@ -28,6 +28,7 @@ angular.module("myApp.roverService",['ngWebSocket'])
     backLeft :false,
     backRight: false
   };
+  var snapshotCallback;
 
   /**
    * Get URL for websocket connection depending on used protocol (http or https)
@@ -81,8 +82,12 @@ angular.module("myApp.roverService",['ngWebSocket'])
   });
 
   ws.onMessage(function(message) {
-    console.log('new Msg:' + message.data);
     var msgData = JSON.parse(message.data);
+    if(msgData.method && msgData.method === "incomingSnapshot") {
+        console.log('new Msg: Image received');
+    } else {
+        console.log('new Msg:' + message.data);
+    }
 
     if(msgData.method){
       handleMethodCall(msgData);
@@ -109,6 +114,9 @@ angular.module("myApp.roverService",['ngWebSocket'])
         break;
       case 'updateCollisionInformation':
         updateCollisionInformation(request.params);
+        break;
+      case 'incomingSnapshot':
+        incomingSnapshot(request.params);
         break;
       default:
         console.log('error on handleMethodCall: call function '+request.method+' is not allowed.');
@@ -163,6 +171,13 @@ angular.module("myApp.roverService",['ngWebSocket'])
       collisionDetection.frontRight = !!collisionState.frontRight;
       collisionDetection.backLeft = !!collisionState.backLeft;
       collisionDetection.backRight = !!collisionState.backRight;
+  }
+
+  /**
+   * Receive image data and invoke callback function
+   */
+   function incomingSnapshot(imageData) {
+      snapshotCallback(imageData);
   }
 
   return {
@@ -269,6 +284,13 @@ angular.module("myApp.roverService",['ngWebSocket'])
          */
         getKillswitchState: function() {
             send("sendKillswitchState", []);
+        },
+        /**
+         * Request for a snapshot
+         */
+        getCameraSnapshot: function(callback) {
+            snapshotCallback = callback;
+            send("getCameraSnapshot", [clientId]);
         }
-      };
+  };
 });
