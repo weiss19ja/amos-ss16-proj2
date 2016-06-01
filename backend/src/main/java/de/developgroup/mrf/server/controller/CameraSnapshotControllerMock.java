@@ -23,16 +23,16 @@ public class CameraSnapshotControllerMock extends AbstractCameraSnapshotControll
     @Inject
     public CameraSnapshotControllerMock(ClientManager clientManager) throws IOException {
         this.clientManager = clientManager;
-    };
+    }
 
     @Override
     public void getCameraSnapshot(int clientId) throws IOException {
-
+	//TODO: CameraSnapshotControllerMock getCameraSnapshot implementation
     }
 
     @Override
     public void sendImageResponseToClient(int clientId, String response) throws IOException {
-
+	//TODO: CameraSnapshotControllerMock sendImageResponseToClient implementation
     }
 
 }
