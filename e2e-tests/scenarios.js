@@ -98,7 +98,7 @@ describe ('developer view', function() {
 
   it('should display the developer view headline', function() {
     // there are two h2 headers in ng-scope --> the second one is the settings view text
-    expect(element(by.css('.ng-scope')).all(by.tagName('h2')).get(1).getText()).toBe('Developer options');
+    expect(element(by.css('.ng-scope')).all(by.tagName('h2')).get(1).getText()).toBe('Developer Options');
   });
 
   it('should display the killswitch with default text "allowed"', function() {
@@ -158,7 +158,7 @@ describe ('sidebar navigation', function() {
   it('should be redirect to drive page when driver is clicked', function() {
     expect (sidebarItems.get(1).getText()).toBe('Driver');
     sidebarItems.get(1).click();
-    browser.refresh(); 
+    browser.refresh();
     expect(browser.getLocationAbsUrl()).toMatch("/drive");
   });
 

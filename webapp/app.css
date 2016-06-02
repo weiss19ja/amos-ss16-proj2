@@ -28,3 +28,15 @@
   content: "";
   padding: 0;
 }
+
+md-toast.md-success-toast-theme div.md-toast-content{
+  background-color: #64DD17 !important;
+}
+
+md-toast.md-alert-toast-theme div.md-toast-content{
+  background-color: #FFC107 !important;
+}
+
+md-toast.md-error-toast-theme div.md-toast-content{
+  background-color: #FF5722 !important;
+}
