@@ -153,16 +153,30 @@ describe('myApp.roverService service', function() {
 
   });
 
-  describe('myApp.roverService single driver tests', function() {
+  xdescribe('myApp.roverService single driver tests', function() {
 
-    it('should send enterDriverMode json-rpc', function () {
+    it('should do something', function () {
+      roverService.sendPing();
+      $websocketBackend.expectSend({data: JSON.stringify({jsonrpc: "2.0",method: "setClientId", params: [1234]})});
+      roverService.sendPing();
+      //roverService.enterDriverMode();
+      var clientId = roverService.getClientId();
+      expect(clientId).toBe(1234);
+      $websocketBackend.expectSend({data: JSON.stringify({result: true})});
+      roverService.enterDriverMode();
+    });
+
+    xit('should send enterDriverMode json-rpc', function () {
+      $websocketBackend.expectSend({data: JSON.stringify({jsonrpc: "2.0",method: "setClientId", params: [1234]})});
+      roverService.sendPing();
+      //clientId = roverService.getClientId();
       roverService.enterDriverMode();
       expect(roverService.responses.length).toBe(1);
       var msg = roverService.getLastSendMsg();
       expect(msg).toBe('{"jsonrpc":"2.0","method":"enterDriverMode","params":[],"id":1}');
     });
 
-    it('should send exitDriverMode json-rpc', function () {
+    xit('should send exitDriverMode json-rpc', function () {
       roverService.exitDriverMode();
       expect(roverService.responses.length).toBe(1);
       var msg = roverService.getLastSendMsg();
