@@ -3,6 +3,7 @@ package de.developgroup.mrf.server.socket;
 import java.io.IOException;
 
 import de.developgroup.mrf.server.handler.DeveloperSettingsHandler;
+import de.developgroup.mrf.server.rpc.JsonRpc2Request;
 import org.eclipse.jetty.websocket.api.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -152,5 +153,11 @@ public class RoverSocket extends JsonRpc2Socket {
 
 	public void sendKillswitchState(){
 		developerSettingsHandler.informClients();
+	}
+
+	public void distributeAlertNotification(String alertMsg){
+		JsonRpc2Request notification = new JsonRpc2Request("showAlertNotification",clientManager.paramAsPramList(alertMsg));
+
+		clientManager.notifyAllClients(notification);
 	}
 }
