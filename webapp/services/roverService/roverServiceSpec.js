@@ -41,6 +41,12 @@ describe('myApp.roverService service', function() {
     expect(clientId).toBe(1234);
   });
 
+  it('should send alert notification to all clients',function () {
+    roverService.sendAlertNotification("test alert");
+    var msg = roverService.getLastSendMsg();
+    expect(msg).toBe('{"jsonrpc":"2.0","method":"distributeAlertNotification","params":["test alert"],"id":1}');
+  });
+
   it('should handle responses',function () {
     roverService.sendPing();
     expect(roverService.responses.length).toBe(1);
