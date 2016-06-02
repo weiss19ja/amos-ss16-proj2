@@ -144,4 +144,22 @@ describe('myApp.roverService service', function() {
 
   });
 
+  describe('myApp.roverService single driver tests', function() {
+
+    it('should send enterDriverMode json-rpc', function () {
+      roverService.enterDriverMode();
+      expect(roverService.responses.length).toBe(1);
+      var msg = roverService.getLastSendMsg();
+      expect(msg).toBe('{"jsonrpc":"2.0","method":"enterDriverMode","params":[],"id":1}');
+    });
+
+    it('should send exitDriverMode json-rpc', function () {
+      roverService.exitDriverMode();
+      expect(roverService.responses.length).toBe(1);
+      var msg = roverService.getLastSendMsg();
+      expect(msg).toBe('{"jsonrpc":"2.0","method":"exitDriverMode","params":[],"id":1}');
+    });
+
+  });
+
 });
