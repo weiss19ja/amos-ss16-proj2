@@ -1,13 +1,23 @@
 <div>
-    <h4 class="header">Kollisionen</h4>
-    <svg viewBox="0 0 100 100" width="100px" height="100px">
-        <path class="collision-fl" ng-show="collisions.frontLeft" d="M 5 30 C 5 30, 5 5, 30 5" stroke="red" stroke-width="4" stroke-linecap="round" fill="transparent"></path>
-        <path class="collision-fr" ng-show="collisions.frontRight" d="M 70 5 C 70 5, 95 5, 95 30" stroke="red" stroke-width="4" stroke-linecap="round" fill="transparent"></path>
-        <path class="collision-bl" ng-show="collisions.backLeft" d="M 5 70 C 5 70, 5 95, 30 95" stroke="red" stroke-width="4" stroke-linecap="round" fill="transparent"></path>
-        <path class="collision-br" ng-show="collisions.backRight" d="M 95 70 C 95 70, 95 95, 70 95" stroke="red" stroke-width="4" stroke-linecap="round" fill="transparent"></path>
-        <rect x="25" y="20" width="10" height="60" class="tracks"></rect>
-        <rect x="65" y="20" width="10" height="60" class="tracks"></rect>
-        <rect x="35" y="30" height="40" width="30" class="rover-body"></rect>
-        <rect x="45" y="25" height="15" width="10" class="rover-camera"></rect>
-    </svg>
+    <md-card>
+        <md-card-title>
+            <span class="md-headline">Kollisionen</span>
+        </md-card-title>
+        <md-card-content>
+            <div align="center" layout-align="center">
+                <svg viewBox="0 0 100 100" width="100px" height="100px">
+                    <path class="collision-fl" ng-show="collisions.frontLeft" d="M 5 30 C 5 30, 5 5, 30 5" stroke="red" stroke-width="4" stroke-linecap="round" fill="transparent"></path>
+                    <path class="collision-fr" ng-show="collisions.frontRight" d="M 70 5 C 70 5, 95 5, 95 30" stroke="red" stroke-width="4" stroke-linecap="round" fill="transparent"></path>
+                    <path class="collision-bl" ng-show="collisions.backLeft" d="M 5 70 C 5 70, 5 95, 30 95" stroke="red" stroke-width="4" stroke-linecap="round" fill="transparent"></path>
+                    <path class="collision-br" ng-show="collisions.backRight" d="M 95 70 C 95 70, 95 95, 70 95" stroke="red" stroke-width="4" stroke-linecap="round" fill="transparent"></path>
+                    <rect x="25" y="20" width="10" height="60" class="tracks"></rect>
+                    <rect x="65" y="20" width="10" height="60" class="tracks"></rect>
+                    <rect x="35" y="30" height="40" width="30" class="rover-body"></rect>
+                    <rect x="45" y="25" height="15" width="10" class="rover-camera"></rect>
+                </svg>
+            </div>
+        </md-card-content>
+        <md-card-actions>
+        </md-card-actions>
+    </md-card>
 </div>
