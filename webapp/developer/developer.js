@@ -6,6 +6,8 @@ angular.module('myApp.developer', [])
         $scope.killswitch = roverService.killswitch;
         roverService.getKillswitchState();
 
+        $scope.alertMsgToSend = "";
+
         $scope.setBlocked = function(roverService, cbState) {
             console.log("setBlocked");
             roverService.setKillswitch(cbState);
@@ -28,5 +30,12 @@ angular.module('myApp.developer', [])
             console.debug("Killswitch button changed to:" +cbState);
             roverService.setKillswitch(cbState);
         };
+
+      $scope.sendAlertMsg = function () {
+        if($scope.alertMsgToSend != ""){
+          console.log("Send alert notification with text: "+$scope.alertMsgToSend);
+          $scope.alertMsgToSend = "";
+        }
+      }
 
     }]);
