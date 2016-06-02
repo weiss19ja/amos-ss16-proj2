@@ -15,7 +15,7 @@ public class SingleDriverHandlerImpl implements SingleDriverHandler {
 			.getLogger(SingleDriverHandlerImpl.class);
 
 	@Inject
-	private static ClientManager clientManager;
+	private ClientManager clientManager;
 	private int currentDriverId = 0;
 
 	public SingleDriverHandlerImpl() {
@@ -24,9 +24,8 @@ public class SingleDriverHandlerImpl implements SingleDriverHandler {
 
 	@Override
 	public void acquireDriver(int clientId) {
-		// TODO Auto-generated method stub
 		this.currentDriverId = clientId;
-
+		LOGGER.info("user " + clientId + " try to acqurie driver mode");
 		sendClientNotification();
 
 	}

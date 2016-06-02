@@ -19,6 +19,10 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
     var lastSendMsg;
     var lastErrorResponse;
     var clientId;
+    var roverState = {
+      isDriverAvailable: true,
+      isKillswitchEnabled: false
+    }
     var killswitch = {
       enabled: false
     };
@@ -120,6 +124,10 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
           break;
         case 'showAlertNotification':
           showAlertNotification(request.params[0]);
+          break;
+        case 'updateRoverState':
+          updateRoverState(request.params[0]);
+          break;
         default:
           console.log('error on handleMethodCall: call function ' + request.method + ' is not allowed.');
       }
@@ -176,6 +184,28 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
       collisionDetection.frontRight = !!collisionState.frontRight;
       collisionDetection.backLeft = !!collisionState.backLeft;
       collisionDetection.backRight = !!collisionState.backRight;
+    }
+
+    /**
+     * Update rover state
+     *    -> isDriverMode available
+     *    -> isKillswitch enabled
+     */
+    function updateRoverState(receivedRoverState) {
+      if (receivedRoverState.currentDriverId) {
+        if (receivedRoverState.currentDriverId === clientId || receivedRoverState.currentDriverId === 0) {
+          roverState.isDriverAvailable = true;
+        }
+        else {
+          roverState.isDriverAvailable = false;
+        }
+      }
+
+      if (receivedRoverState.isKillswitchEnabled) {
+        roverState.isKillswitchEnabled = receivedRoverState.isKillswitchEnabled;
+      }
+
+      console.log(roverState);
     }
 
     /**
