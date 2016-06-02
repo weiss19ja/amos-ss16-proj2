@@ -45,14 +45,6 @@ public class RoverSocket extends JsonRpc2Socket {
 		super.onWebSocketClose(statusCode, reason);
 		clientManager.removeClosedSessions();
 		singleDriverHandler.verifyDriverAvailability();
-
-		// if (clientManager.isNoClientConnected()) {
-		// try {
-		// roverHandler.stop();
-		// } catch (IOException e) {
-		// LOGGER.info("stop movement error detected ", e);
-		// }
-		// }
 	}
 
 	public String ping(Number sqn) {

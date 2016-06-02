@@ -1,5 +1,7 @@
 package de.developgroup.mrf.server.handler;
 
+import java.io.IOException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,7 +18,9 @@ public class SingleDriverHandlerImpl implements SingleDriverHandler {
 
 	@Inject
 	private ClientManager clientManager;
-	private int currentDriverId = 0;
+	@Inject
+	RoverHandler roverHandler;
+	private int currentDriverId = -1;
 
 	public SingleDriverHandlerImpl() {
 
@@ -24,27 +28,41 @@ public class SingleDriverHandlerImpl implements SingleDriverHandler {
 
 	@Override
 	public void acquireDriver(int clientId) {
-		this.currentDriverId = clientId;
-		LOGGER.info("user " + clientId + " try to acqurie driver mode");
+		if (currentDriverId == -1) {
+			this.currentDriverId = clientId;
+			LOGGER.info("user " + clientId + " try to acqurie driver mode");
+		} else {
+			LOGGER.info("driver mode already taken by user " + currentDriverId);
+		}
 		sendClientNotification();
-
 	}
 
 	@Override
 	public void releaseDriver(int clientId) {
-		// TODO Auto-generated method stub
-		this.currentDriverId = 0;
-		// Stop?
-		sendClientNotification();
+
+		if (clientId == currentDriverId) {
+			doReleaseDriver();
+		} else {
+			LOGGER.info("release driver mode denied for user " + clientId);
+		}
 
 	}
 
 	@Override
 	public void verifyDriverAvailability() {
-		// TODO Auto-generated method stub
+		if (!clientManager.isClientConnected(currentDriverId)) {
+			doReleaseDriver();
+		}
+	}
 
-		// falls nicht --> stop
-
+	private void doReleaseDriver() {
+		this.currentDriverId = -1;
+		try {
+			roverHandler.stop();
+		} catch (IOException e) {
+			LOGGER.info("stop movement error detected ", e);
+		}
+		sendClientNotification();
 	}
 
 	private void sendClientNotification() {

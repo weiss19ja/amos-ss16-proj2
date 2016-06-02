@@ -193,18 +193,19 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
      */
     function updateRoverState(receivedRoverState) {
       if (receivedRoverState.currentDriverId) {
-        if (receivedRoverState.currentDriverId === clientId || receivedRoverState.currentDriverId === 0) {
+        if (receivedRoverState.currentDriverId == clientId || receivedRoverState.currentDriverId == -1) {
           roverState.isDriverAvailable = true;
+          console.log('driver is available');
         }
         else {
           roverState.isDriverAvailable = false;
+          console.log('driver not available');
         }
       }
 
       if (receivedRoverState.isKillswitchEnabled) {
         roverState.isKillswitchEnabled = receivedRoverState.isKillswitchEnabled;
       }
-
       console.log(roverState);
     }
 
@@ -240,6 +241,7 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
       responses: responses,
       notifications: notifications,
       killswitch: killswitch,
+      roverState: roverState,
       collisions: collisionDetection,
       errors: errorResponses,
       getLastErrorResponse: function () {
