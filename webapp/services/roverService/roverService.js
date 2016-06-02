@@ -118,6 +118,8 @@ angular.module("myApp.roverService",['ngWebSocket','ngMaterial'])
       case 'incomingSnapshot':
         incomingSnapshot(request.params);
         break;
+      case 'showAlertNotification':
+        showAlertNotification(request.params[0]);
       default:
         console.log('error on handleMethodCall: call function '+request.method+' is not allowed.');
     }
@@ -152,8 +154,11 @@ angular.module("myApp.roverService",['ngWebSocket','ngMaterial'])
   function incomingNotification(msg){
     notifications.push(msg);
     console.log("new notification: "+msg);
-    $mdToast.show($mdToast.simple().textContent(msg).position('top right'));
+    $mdToast.show($mdToast.simple().textContent(msg).position('top right').hideDelay(4000));
+  }
 
+  function showAlertNotification(msg) {
+    $mdToast.show($mdToast.simple().textContent(msg).position('top right').theme('alert-toast').hideDelay(4000));
   }
 
   function updateKillswitchEnabled(state){
@@ -204,7 +209,7 @@ angular.module("myApp.roverService",['ngWebSocket','ngMaterial'])
         },
         responses: responses,
         notifications: notifications,
-      killswitch: killswitch,
+        killswitch: killswitch,
         collisions: collisionDetection,
         errors: errorResponses,
         getLastErrorResponse:function () {
@@ -291,6 +296,13 @@ angular.module("myApp.roverService",['ngWebSocket','ngMaterial'])
         getCameraSnapshot: function(callback) {
             snapshotCallback = callback;
             send("getCameraSnapshot", [clientId]);
+        },
+        /**
+        * Send a alert notification to backend which will
+        * it distribute to all users
+        */
+        sendAlertNotification: function (alertMsg) {
+            send("distributeAlertNotification",[alertMsg]);
         }
   };
 });

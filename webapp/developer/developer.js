@@ -11,7 +11,7 @@ angular.module('myApp.developer', [])
         $scope.setBlocked = function(roverService, cbState) {
             console.log("setBlocked");
             roverService.setKillswitch(cbState);
-        }
+        };
 
 
         // change text if switch changes
@@ -33,9 +33,9 @@ angular.module('myApp.developer', [])
 
       $scope.sendAlertMsg = function () {
         if($scope.alertMsgToSend != ""){
-          console.log("Send alert notification with text: "+$scope.alertMsgToSend);
+          roverService.sendAlertNotification($scope.alertMsgToSend);
           $scope.alertMsgToSend = "";
         }
-      }
+      };
 
     }]);
