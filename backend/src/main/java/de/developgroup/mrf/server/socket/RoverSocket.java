@@ -2,8 +2,6 @@ package de.developgroup.mrf.server.socket;
 
 import java.io.IOException;
 
-import de.developgroup.mrf.server.handler.DeveloperSettingsHandler;
-import de.developgroup.mrf.server.rpc.JsonRpc2Request;
 import org.eclipse.jetty.websocket.api.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +9,10 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 
 import de.developgroup.mrf.server.ClientManager;
+import de.developgroup.mrf.server.handler.DeveloperSettingsHandler;
 import de.developgroup.mrf.server.handler.RoverHandler;
+import de.developgroup.mrf.server.handler.SingleDriverHandler;
+import de.developgroup.mrf.server.rpc.JsonRpc2Request;
 import de.developgroup.mrf.server.rpc.JsonRpc2Socket;
 
 public class RoverSocket extends JsonRpc2Socket {
@@ -23,6 +24,9 @@ public class RoverSocket extends JsonRpc2Socket {
 
 	@Inject
 	public static DeveloperSettingsHandler developerSettingsHandler;
+
+	@Inject
+	private static SingleDriverHandler singleDriverHandler;
 
 	@Inject
 	private static ClientManager clientManager;
@@ -40,13 +44,15 @@ public class RoverSocket extends JsonRpc2Socket {
 	public void onWebSocketClose(int statusCode, String reason) {
 		super.onWebSocketClose(statusCode, reason);
 		clientManager.removeClosedSessions();
-		if (clientManager.isNoClientConnected()) {
-			try {
-				roverHandler.stop();
-			} catch (IOException e) {
-				LOGGER.info("stop movement error detected ", e);
-			}
-		}
+		singleDriverHandler.verifyDriverAvailability();
+
+		// if (clientManager.isNoClientConnected()) {
+		// try {
+		// roverHandler.stop();
+		// } catch (IOException e) {
+		// LOGGER.info("stop movement error detected ", e);
+		// }
+		// }
 	}
 
 	public String ping(Number sqn) {
@@ -55,7 +61,7 @@ public class RoverSocket extends JsonRpc2Socket {
 	}
 
 	public void driveForward(Number desiredSpeed) throws IOException {
-		if(developerSettingsHandler.checkKillswitchEnabled()){
+		if (developerSettingsHandler.checkKillswitchEnabled()) {
 			return;
 		}
 		LOGGER.trace("driveForeward({})", desiredSpeed);
@@ -63,7 +69,7 @@ public class RoverSocket extends JsonRpc2Socket {
 	}
 
 	public void driveBackward(Number desiredSpeed) throws IOException {
-		if(developerSettingsHandler.checkKillswitchEnabled()){
+		if (developerSettingsHandler.checkKillswitchEnabled()) {
 			return;
 		}
 		LOGGER.trace("driveBackward({})", desiredSpeed);
@@ -71,7 +77,7 @@ public class RoverSocket extends JsonRpc2Socket {
 	}
 
 	public void stop() throws IOException {
-		if(developerSettingsHandler.checkKillswitchEnabled()){
+		if (developerSettingsHandler.checkKillswitchEnabled()) {
 			return;
 		}
 		LOGGER.trace("stop()");
@@ -79,7 +85,7 @@ public class RoverSocket extends JsonRpc2Socket {
 	}
 
 	public void turnLeft(Number turnRate) throws IOException {
-		if(developerSettingsHandler.checkKillswitchEnabled()){
+		if (developerSettingsHandler.checkKillswitchEnabled()) {
 			return;
 		}
 		LOGGER.trace("turnLeft({})", turnRate);
@@ -87,7 +93,7 @@ public class RoverSocket extends JsonRpc2Socket {
 	}
 
 	public void turnRight(Number turnRate) throws IOException {
-		if(developerSettingsHandler.checkKillswitchEnabled()){
+		if (developerSettingsHandler.checkKillswitchEnabled()) {
 			return;
 		}
 		LOGGER.trace("turnRight({})", turnRate);
@@ -95,7 +101,7 @@ public class RoverSocket extends JsonRpc2Socket {
 	}
 
 	public void turnHeadUp(Number angle) throws IOException {
-		if(developerSettingsHandler.checkKillswitchEnabled()){
+		if (developerSettingsHandler.checkKillswitchEnabled()) {
 			return;
 		}
 		LOGGER.trace("turnHeadUp({})", angle);
@@ -103,7 +109,7 @@ public class RoverSocket extends JsonRpc2Socket {
 	}
 
 	public void turnHeadDown(Number angle) throws IOException {
-		if(developerSettingsHandler.checkKillswitchEnabled()){
+		if (developerSettingsHandler.checkKillswitchEnabled()) {
 			return;
 		}
 		LOGGER.trace("turnHeadDown({})", angle);
@@ -111,7 +117,7 @@ public class RoverSocket extends JsonRpc2Socket {
 	}
 
 	public void turnHeadLeft(Number angle) throws IOException {
-		if(developerSettingsHandler.checkKillswitchEnabled()){
+		if (developerSettingsHandler.checkKillswitchEnabled()) {
 			return;
 		}
 		LOGGER.trace("turnHeadLeft({})", angle);
@@ -119,7 +125,7 @@ public class RoverSocket extends JsonRpc2Socket {
 	}
 
 	public void turnHeadRight(Number angle) throws IOException {
-		if(developerSettingsHandler.checkKillswitchEnabled()){
+		if (developerSettingsHandler.checkKillswitchEnabled()) {
 			return;
 		}
 		LOGGER.trace("turnHeadRight({})", angle);
@@ -141,23 +147,33 @@ public class RoverSocket extends JsonRpc2Socket {
 	public void getCameraSnapshot(Number clientId) throws IOException {
 		if (developerSettingsHandler.checkKillswitchEnabled()) {
 			return;
- 		}
+		}
 		LOGGER.trace("getCameraSnapshot()");
-        	roverHandler.getCameraSnapshot(clientId.intValue());
-    	}
+		roverHandler.getCameraSnapshot(clientId.intValue());
+	}
 
 	// TODO: Delete if not needed
-	public Boolean getKillswitchState(){
+	public Boolean getKillswitchState() {
 		return developerSettingsHandler.isKillswitchEnabled();
 	}
 
-	public void sendKillswitchState(){
+	public void sendKillswitchState() {
 		developerSettingsHandler.informClients();
 	}
 
-	public void distributeAlertNotification(String alertMsg){
-		JsonRpc2Request notification = new JsonRpc2Request("showAlertNotification",clientManager.paramAsPramList(alertMsg));
+	public void distributeAlertNotification(String alertMsg) {
+		JsonRpc2Request notification = new JsonRpc2Request(
+				"showAlertNotification", alertMsg);
 
 		clientManager.notifyAllClients(notification);
 	}
+
+	public void enterDriverMode(Number clientId) {
+		singleDriverHandler.acquireDriver(clientId.intValue());
+	}
+
+	public void exitDriverMode(Number clientId) {
+		singleDriverHandler.releaseDriver(clientId.intValue());
+	}
+
 }
