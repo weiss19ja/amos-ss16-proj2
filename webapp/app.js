@@ -30,6 +30,10 @@ angular.module('myApp', [
       })
       .accentPalette('green', {'default': '500'})
       .warnPalette('red');
+    
+    $mdThemingProvider.theme("success-toast");
+    $mdThemingProvider.theme("alert-toast");
+    $mdThemingProvider.theme("error-toast");
   })
   .config(['$routeProvider', function ($routeProvider) {
     $routeProvider.when('/main', {

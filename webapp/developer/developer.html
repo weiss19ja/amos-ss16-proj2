@@ -1,7 +1,40 @@
-<h2> Developer options </h2>
+<div>
+        <div layout="row" layout-align="center">
+                <h1 class="md-title">Developer Options</h1>
+        </div>
 
-<section ng-controller="DeveloperCtrl">
-        <md-switch ng-model="killswitch.enabled" aria-label="Killswitch" ng-change="onChange(killswitch.enabled)" class="md-warn">
-                User interaction with rover: {{ killswitchText }}
-        </md-switch>
-</section>
+        <md-card>
+                <md-toolbar class="md-toolbar-tools md-hue-2">
+                        Kill Switch
+                </md-toolbar>
+                <md-content layout-padding>
+                <md-switch ng-model="killswitch.enabled" aria-label="Killswitch" ng-change="onChange(killswitch.enabled)" class="md-warn">
+                        User interaction with rover: {{ killswitchText }}
+                </md-switch>
+                </md-content>
+        </md-card>
+
+        <md-card>
+                <md-toolbar class="md-toolbar-tools md-hue-2">
+                       Send Alerts to Users
+                </md-toolbar>
+                <md-card-title>
+                        <md-card-title-text>
+                                Send a alert notification that all connected users will see.
+                        </md-card-title-text>
+                </md-card-title>
+                <md-content  layout-align="space-between" layout-padding>
+                        <md-input-container class="md-block" flex-gt-sm>
+                                <label>Alert Message</label>
+                                <input ng-model="alertMsgToSend">
+                        </md-input-container>
+
+                        <md-card-actions layout="row" layout-align="end center">
+                                <md-button class="md-raised md-accent" flex="nogrow" ng-click="sendAlertMsg()">Send</md-button>
+                        </md-card-actions>
+                </md-content>
+
+        </md-card>
+
+
+</div>

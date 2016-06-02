@@ -6,15 +6,18 @@ describe('myApp.roverService service', function() {
   var $websocket;
   var $websocketBackend;
   var $location;
+  var $mdToast;
 
   beforeEach(module('myApp.roverService'));
-  beforeEach(angular.mock.module('ngWebSocket', 'ngWebSocketMock'));
 
-  beforeEach(inject(function (_roverService_,_$websocket_,_$websocketBackend_,_$location_) {
+  beforeEach(angular.mock.module('ngWebSocket', 'ngWebSocketMock','ngMaterial'));
+
+  beforeEach(inject(function (_roverService_,_$websocket_,_$websocketBackend_,_$location_,_$mdToast_) {
     roverService = _roverService_;
     $websocket = _$websocket_;
     $websocketBackend = _$websocketBackend_;
     $location = _$location_;
+    $mdToast = _$mdToast_;
 
     $websocketBackend.mock();
     $websocketBackend.expectConnect('ws://' + $location.host() + ':' + $location.port() + '/rover');
@@ -36,6 +39,12 @@ describe('myApp.roverService service', function() {
     roverService.sendPing();
     var clientId = roverService.getClientId();
     expect(clientId).toBe(1234);
+  });
+
+  it('should send alert notification to all clients',function () {
+    roverService.sendAlertNotification("test alert");
+    var msg = roverService.getLastSendMsg();
+    expect(msg).toBe('{"jsonrpc":"2.0","method":"distributeAlertNotification","params":["test alert"],"id":1}');
   });
 
   it('should handle responses',function () {
