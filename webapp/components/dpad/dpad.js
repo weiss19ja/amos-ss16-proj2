@@ -17,6 +17,7 @@ angular.module('myApp.dpad', [])
         $scope.hideCameraButton = true;
 
         var modeDriver = {
+            buttonText: "Stop",
             up:function () {
                 roverService.driveForward();
             },
@@ -38,6 +39,7 @@ angular.module('myApp.dpad', [])
         };
 
         var modeCamera = {
+            buttonText: "Zentrieren",
             up:function () {
                 roverService.cameraMoveUp();
             },
@@ -70,6 +72,8 @@ angular.module('myApp.dpad', [])
                 modeSelected = modeCamera;
             }
         };
+
+        $scope.buttonText = modeSelected.buttonText;
 
         $scope.up = function() {
             console.debug("up");
