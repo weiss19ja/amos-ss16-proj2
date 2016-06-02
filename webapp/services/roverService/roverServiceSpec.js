@@ -6,15 +6,18 @@ describe('myApp.roverService service', function() {
   var $websocket;
   var $websocketBackend;
   var $location;
+  var $mdToast;
 
   beforeEach(module('myApp.roverService'));
-  beforeEach(angular.mock.module('ngWebSocket', 'ngWebSocketMock'));
 
-  beforeEach(inject(function (_roverService_,_$websocket_,_$websocketBackend_,_$location_) {
+  beforeEach(angular.mock.module('ngWebSocket', 'ngWebSocketMock','ngMaterial'));
+
+  beforeEach(inject(function (_roverService_,_$websocket_,_$websocketBackend_,_$location_,_$mdToast_) {
     roverService = _roverService_;
     $websocket = _$websocket_;
     $websocketBackend = _$websocketBackend_;
     $location = _$location_;
+    $mdToast = _$mdToast_;
 
     $websocketBackend.mock();
     $websocketBackend.expectConnect('ws://' + $location.host() + ':' + $location.port() + '/rover');
