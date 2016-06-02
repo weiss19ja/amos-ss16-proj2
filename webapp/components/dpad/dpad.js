@@ -11,13 +11,26 @@
 angular.module('myApp.dpad', [])
 
     .controller('DPadController', ['$scope', 'roverService','$attrs', function($scope, roverService, $attrs) {
-        
-        $scope.hideStopButton = false;
-
-        $scope.hideCameraButton = true;
-
+        /**
+         * Contains the header text for the card layout, specifying the function of this control.
+         * @type {string}
+         */
+        $scope.headerText = "";
+        /**
+         * Contains the name of the action the bottom right button of this card should perform.
+         * @type {string}
+         */
         $scope.buttonText = "";
+        /**
+         * Currently set mapping for the buttons of the control.
+         * @type {Object}
+         */
+        var modeSelected = modeDriver;
 
+        /**
+         * Contains function mapping for driver mode.
+         * @type {object}
+         */
         var modeDriver = {
             up:function () {
                 roverService.driveForward();
@@ -31,14 +44,15 @@ angular.module('myApp.dpad', [])
             right:function () {
                 roverService.turnRight();
             },
-            stop:function () {
+            buttonClick: function() {
                 roverService.stop();
-            },
-            resetCameraPosition: function() {
-
             }
         };
 
+        /**
+         * Contains function mapping for camera control mode.
+         * @type {object}
+         */
         var modeCamera = {
             up:function () {
                 roverService.cameraMoveUp();
@@ -52,31 +66,25 @@ angular.module('myApp.dpad', [])
             right:function () {
                 roverService.cameraMoveRight();
             },
-            stop:function () {
-                
-            },
-            resetCameraPosition: function() {
+            buttonClick: function() {
                 roverService.cameraResetPosition();
-
             }
         };
 
-        var modeSelected = modeDriver;
 
         this.$onInit = function() {
             
             // switch to camera mode
             if($attrs.mode == 'camera'){
-                $scope.hideStopButton = true;
-                $scope.hideCameraButton = false;
+                $scope.headerText = "Kamera";
                 $scope.buttonText = "Zentrieren";
                 modeSelected = modeCamera;
             } else {
+                $scope.headerText = "Steuerung";
                 $scope.buttonText = "Stop";
+                modeSelected = modeDriver;
             }
         };
-
-        $scope.buttonText = modeSelected.buttonText;
 
         $scope.up = function() {
             console.debug("up");

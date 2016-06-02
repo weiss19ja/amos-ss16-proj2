@@ -2,7 +2,7 @@
     <md-card>
         <md-card-title>
             <md-card-title-text>
-                <span class="md-headline">Fahren</span>
+                <span class="md-headline">{{ headerText }}</span>
             </md-card-title-text>
         </md-card-title>
         <md-card-content>
@@ -19,10 +19,7 @@
         </md-card-content>
 
         <md-card-actions layout="row" layout-align="end center">
-                <md-button ng-click="resetCameraPosition()" ng-hide="hideCameraButton">
-                    {{ buttonText }}
-                </md-button>
-                <md-button ng-click="stop()" ng-hide="hideStopButton">
+                <md-button ng-click="buttonClick()" ng-hide="hideStopButton">
                     {{ buttonText }}
                 </md-button>
         </md-card-actions>
