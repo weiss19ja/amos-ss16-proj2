@@ -54,11 +54,11 @@ describe ('Drive view', function() {
   });
 
   it('should display the drive dpad', function() {
-    expect(element(by.cssContainingText('.layout-column', 'Drive')).isDisplayed()).toBe(true);
+    expect(element(by.cssContainingText('.layout-column', 'Steuerung')).isDisplayed()).toBe(true);
   });
 
   it('should display the camera dpad', function() {
-    expect(element(by.cssContainingText('.layout-column', 'Camera')).isDisplayed()).toBe(true);
+    expect(element(by.cssContainingText('.layout-column', 'Kamera')).isDisplayed()).toBe(true);
   });
 
 });
