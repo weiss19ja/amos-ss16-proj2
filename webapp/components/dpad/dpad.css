@@ -18,13 +18,10 @@ dpad {
     background-size: 100%;
 }
 
-.dpad-button:focus {
-    outline-width: 0; /* fix "ghost border" on click */
-}
-
+.dpad-button:focus,
 .dpad-button:hover {
+    outline-width: 0; /* fix "ghost border" on click */
     cursor: pointer;
-    color: deepskyblue;
 }
 
 .dpad-button:active {
