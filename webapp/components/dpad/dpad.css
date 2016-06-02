@@ -10,6 +10,12 @@ dpad {
     margin: 0 2em 0 2em;
 }
 
+@media(max-width: 960px) {
+    .dpad-button-container {
+        margin: 0 1em 0 1em;
+    }
+}
+
 .stop-button, .camera-reset-button {
     position: absolute;
     right: 0em;
