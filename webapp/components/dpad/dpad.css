@@ -4,9 +4,10 @@ dpad {
 }
 
 .dpad-button-container {
-    width: 9em;
+    width: 7em;
     height: 7em;
     position: relative;
+    margin: 0 2em 0 2em;
 }
 
 .stop-button, .camera-reset-button {
@@ -52,6 +53,6 @@ dpad {
 
 .dpad-button-container .right {
     top: 2em;
-    right: 2em;
+    right: 0em;
     transform: rotate(180deg);
 }
