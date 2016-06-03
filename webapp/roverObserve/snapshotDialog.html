@@ -1,0 +1,18 @@
+<md-dialog aria-label="Snapshot" ng-cloak>
+    <form>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Snapshot</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="assets/icons/ic_close_black_48px.svg" aria-label="Schließen"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <img style="margin: auto; max-width: 100%;" alt="SnapShot" ng-src="{{imageUrl}}">
+            </div>
+        </md-dialog-content>
+    </form>
+</md-dialog>
