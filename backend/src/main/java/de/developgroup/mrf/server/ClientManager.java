@@ -166,4 +166,10 @@ public class ClientManager {
         return notification;
     }
 
+    public static List<Object> paramAsPramList(Object param){
+        List<Object> params = new ArrayList<>();
+        params.add(param);
+        return params;
+    }
+
 }

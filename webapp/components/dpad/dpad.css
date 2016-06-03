@@ -1,7 +1,19 @@
 dpad {
-    width: 9em;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.dpad-button-container {
+    width: 7em;
     height: 7em;
     position: relative;
+    margin: 0 2em 0 2em;
+}
+
+@media(max-width: 960px) {
+    .dpad-button-container {
+        margin: 0 1em 0 1em;
+    }
 }
 
 .stop-button, .camera-reset-button {
@@ -18,39 +30,35 @@ dpad {
     background-size: 100%;
 }
 
-.dpad-button:focus {
-    outline-width: 0; /* fix "ghost border" on click */
-}
-
+.dpad-button:focus,
 .dpad-button:hover {
+    outline-width: 0; /* fix "ghost border" on click */
     cursor: pointer;
-    color: deepskyblue;
 }
 
 .dpad-button:active {
     color: red;
 }
 
-
-.up {
+.dpad-button-container .up {
     left: 2em;
     top: 0;
     transform: rotate(90deg);
 }
 
-.down {
+.dpad-button-container .down {
     left: 2em;
     bottom: 0;
     transform: rotate(270deg);
 }
 
-.left {
+.dpad-button-container .left {
     top: 2em;
     left: 0;
 }
 
-.right {
+.dpad-button-container .right {
     top: 2em;
-    right: 2em;
+    right: 0em;
     transform: rotate(180deg);
 }

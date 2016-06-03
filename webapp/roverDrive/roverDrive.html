@@ -9,9 +9,8 @@
   </md-card>
 </div>
 
-<div layout="row" layout-align="center center">
+<div layout="row" flex>
   <div layout="column" layout-align="center center">
-    Drive
     <dpad></dpad>
   </div>
   <span flex></span>
@@ -21,21 +20,16 @@
     <div>
       <parking-sensors></parking-sensors>
     </div>
-    <div>
-      <md-button class="md-raised md-warn" ng-click="stop()">Stop</md-button>
-    </div>
   </div>
 
   <span flex></span>
   <div layout="column" layout-align="center center">
-      Camera
       <dpad mode="camera"></dpad>
   </div>
 </div>
 
 <!-- Mobile View -->
 <div layout="row" layout-align="center center" hide-gt-xs>
-  <md-button class="md-raised md-warn" ng-click="stop()"> Stop</md-button>
   <div>
     <parking-sensors></parking-sensors>
   </div>

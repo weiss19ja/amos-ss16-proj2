@@ -1,6 +1,10 @@
 'use strict';
 module.exports = function(config){
-  config.set({
+    config.set({
+    preprocessors: {
+      'webapp/**/*.html': 'ng-html2js',
+      'webapp/**/*.svg': 'ng-html2js'
+    },
 
     basePath : './',
 
@@ -10,6 +14,14 @@ module.exports = function(config){
       'webapp/bower_components/angular-mocks/angular-mocks.js',
       'webapp/bower_components/angular-websocket/dist/angular-websocket.js',
       'webapp/bower_components/angular-websocket/dist/angular-websocket-mock.js',
+      'webapp/bower_components/angular-animate/angular-animate.min.js',
+      'webapp/bower_components/angular-aria/angular-aria.min.js',
+      'webapp/bower_components/angular-material/angular-material.js',
+      'webapp/bower_components/angular-material/angular-material-mocks.js',
+      'webapp/bower_components/angular-img-fallback/angular.dcb-img-fallback.js',
+      'webapp/bower_components/angular-css/angular-css.js',
+      'webapp/**/*.html',
+      'webapp/components/dpad/dpad.js',
       'webapp/components/**/*.js',
       'webapp/developer/**/*.js',
       'webapp/main/**/*.js',
@@ -19,6 +31,10 @@ module.exports = function(config){
       'webapp/settings/**/*.js',
       'webapp/services/**/*.js'
     ],
+    ngHtml2JsPreprocessor: {
+      stripPrefix: 'webapp/',
+      moduleName: 'templates'
+    },
 
     autoWatch : true,
 
@@ -31,7 +47,8 @@ module.exports = function(config){
             'karma-firefox-launcher',
             'karma-jasmine',
             'karma-junit-reporter',
-            'karma-spec-reporter'
+            'karma-spec-reporter',
+            'karma-ng-html2js-preprocessor'
             ],
 
 	reporters: ['spec'],
