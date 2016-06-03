@@ -76,11 +76,11 @@ angular.module('myApp.dpad', [])
             
             // switch to camera mode
             if($attrs.mode == 'camera'){
-                $scope.headerText = "Kamera";
-                $scope.buttonText = "Zentrieren";
+                $scope.headerText = "Camera";
+                $scope.buttonText = "Center";
                 modeSelected = modeCamera;
             } else {
-                $scope.headerText = "Steuerung";
+                $scope.headerText = "Driving";
                 $scope.buttonText = "Stop";
                 modeSelected = modeDriver;
             }

@@ -27,7 +27,7 @@ describe('myApp.dpad module', function() {
 
             $rootScope.$digest();
 
-            expect(element.html()).toContain("Steuerung");
+            expect(element.html()).toContain("Driving");
         }));
         it('contains a button', inject(function() {
             var element = $compile('<dpad></dpad>')($rootScope);

@@ -3,6 +3,7 @@
 angular.module('myApp.parkingSensors', [])
     .controller('ParkingSensorsController', ['$scope', 'roverService', '$attrs', function($scope, roverService, $attrs) {
         $scope.collisions = roverService.collisions;
+        $scope.headerText = "Collisions";
     }])
     .component('parkingSensors', {
         restrict: 'EA',
