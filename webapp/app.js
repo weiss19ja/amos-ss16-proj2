@@ -22,13 +22,13 @@ angular.module('myApp', [
 ])
     .config(function ($mdThemingProvider) {
       $mdThemingProvider.theme('default')
-          .primaryPalette('cyan',{
-            'default': '700',
+          .primaryPalette('grey',{
+            'default': '400',
             'hue-1': '400',
             'hue-2': '700',
             'hue-3': '800'
           })
-          .accentPalette('grey',{'default': '400'})
+          .accentPalette('cyan',{'default': '700'})
           .warnPalette('indigo', {'default': '900'});
     })
   .config(['$routeProvider', function ($routeProvider) {
