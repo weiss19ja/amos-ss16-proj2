@@ -55,6 +55,13 @@ public class SingleDriverHandlerImpl implements SingleDriverHandler {
 		}
 	}
 
+	/**
+	 * Helper Method releases Driver and sends notification about driver mode
+	 * availability to all clients. currentDriverId = -1 signals that no client
+	 * is current driver.
+	 * 
+	 * @return void
+	 */
 	private void doReleaseDriver() {
 		this.currentDriverId = -1;
 		try {
