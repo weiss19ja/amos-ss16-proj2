@@ -153,35 +153,42 @@ describe('myApp.roverService service', function() {
 
   });
 
-  xdescribe('myApp.roverService single driver tests', function() {
+  describe('myApp.roverService single driver tests', function() {
 
-    it('should do something', function () {
-      roverService.sendPing();
+    it('should send enterDriverMode json-rpc', function () {
+
+      // need sendPing methods to set the clientId correctly
+      roverService.sendPing();    // id:1
       $websocketBackend.expectSend({data: JSON.stringify({jsonrpc: "2.0",method: "setClientId", params: [1234]})});
-      roverService.sendPing();
-      //roverService.enterDriverMode();
-      var clientId = roverService.getClientId();
-      expect(clientId).toBe(1234);
+      roverService.sendPing();    // id: 2
       $websocketBackend.expectSend({data: JSON.stringify({result: true})});
-      roverService.enterDriverMode();
+      roverService.enterDriverMode(); //id: 3
+
+      var msg = roverService.getLastSendMsg();
+      expect(msg).toBe('{"jsonrpc":"2.0","method":"enterDriverMode","params":[1234],"id":3}');
+
+      // handled two responses in sendPing(), setClientId is method call from backend (so no response)
+      expect(roverService.responses.length).toBe(2);
     });
 
-    xit('should send enterDriverMode json-rpc', function () {
+
+    it('should send exitDriverMode json-rpc', function () {
+
+      // need sendPing methods to set the clientId correctly
+      roverService.sendPing();    // id:1
       $websocketBackend.expectSend({data: JSON.stringify({jsonrpc: "2.0",method: "setClientId", params: [1234]})});
-      roverService.sendPing();
-      //clientId = roverService.getClientId();
-      roverService.enterDriverMode();
-      expect(roverService.responses.length).toBe(1);
+      roverService.sendPing();    // id: 2
+      $websocketBackend.expectSend({data: JSON.stringify({result: true})});
+      roverService.exitDriverMode(); //id: 3
+
       var msg = roverService.getLastSendMsg();
-      expect(msg).toBe('{"jsonrpc":"2.0","method":"enterDriverMode","params":[],"id":1}');
+      expect(msg).toBe('{"jsonrpc":"2.0","method":"exitDriverMode","params":[1234],"id":3}');
+
+      // handled two responses in sendPing(), setClientId is method call from backend (so no response)
+      expect(roverService.responses.length).toBe(2);
     });
 
-    xit('should send exitDriverMode json-rpc', function () {
-      roverService.exitDriverMode();
-      expect(roverService.responses.length).toBe(1);
-      var msg = roverService.getLastSendMsg();
-      expect(msg).toBe('{"jsonrpc":"2.0","method":"exitDriverMode","params":[],"id":1}');
-    });
+    // test method call from frontend ---> driverChange and so on.
 
   });
 
