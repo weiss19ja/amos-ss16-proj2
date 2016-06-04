@@ -184,12 +184,52 @@ describe('myApp.roverService service', function() {
       var msg = roverService.getLastSendMsg();
       expect(msg).toBe('{"jsonrpc":"2.0","method":"exitDriverMode","params":[1234],"id":3}');
 
-      // handled two responses in sendPing(), setClientId is method call from backend (so no response)
+      // handled two responses in object {resule:true}, setClientId is method call from backend (so no response)
       expect(roverService.responses.length).toBe(2);
     });
 
-    // test method call from frontend ---> driverChange and so on.
 
+
+    it('should set correct initial rover state ', function () {
+      expect(roverService.roverState.isDriverAvailable).toBe(true);
+      expect(roverService.roverState.isKillswitchEnabled).toBe(false);
+    });
+
+    it('should set driver available if driver is my id', function () {
+      // need sendPing methods to set the clientId correctly
+      roverService.sendPing();    // id:1
+      $websocketBackend.expectSend({data: JSON.stringify({jsonrpc: "2.0",method: "setClientId", params: [1234]})});
+      roverService.sendPing();    // id: 2
+      expect(roverService.responses.length).toBe(1);
+      expect(roverService.getClientId()).toBe(1234);
+      $websocketBackend.expectSend({data: JSON.stringify({jsonrpc: "2.0", method:"updateRoverState",params:[{"currentDriverId":1234}]})});
+      roverService.sendPing();    // id: 3
+      expect(roverService.roverState.isDriverAvailable).toBe(true);
+    });
+
+    it('should set driver available if there is no driver', function () {
+      // need sendPing methods to set the clientId correctly
+      roverService.sendPing();    // id:1
+      $websocketBackend.expectSend({data: JSON.stringify({jsonrpc: "2.0",method: "setClientId", params: [1234]})});
+      roverService.sendPing();    // id: 2
+      expect(roverService.responses.length).toBe(1);
+      expect(roverService.getClientId()).toBe(1234);
+      $websocketBackend.expectSend({data: JSON.stringify({jsonrpc: "2.0", method:"updateRoverState",params:[{"currentDriverId":-1}]})});
+      roverService.sendPing();    // id: 3
+      expect(roverService.roverState.isDriverAvailable).toBe(true);
+    });
+
+    it('should set driver NOT available if there is another driver', function () {
+      // need sendPing methods to set the clientId correctly
+      roverService.sendPing();    // id:1
+      $websocketBackend.expectSend({data: JSON.stringify({jsonrpc: "2.0",method: "setClientId", params: [1234]})});
+      roverService.sendPing();    // id: 2
+      expect(roverService.responses.length).toBe(1);
+      expect(roverService.getClientId()).toBe(1234);
+      $websocketBackend.expectSend({data: JSON.stringify({jsonrpc: "2.0", method:"updateRoverState",params:[{"currentDriverId":5001}]})});
+      roverService.sendPing();    // id: 3
+      expect(roverService.roverState.isDriverAvailable).toBe(false);
+    });
   });
 
 });
