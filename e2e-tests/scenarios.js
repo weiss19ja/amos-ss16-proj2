@@ -123,6 +123,9 @@ describe ('developer view', function() {
   it('should show a notification to all clients when killswitch is triggered', function() {
     var input = element(by.model('killswitch.enabled'));
     var notification = element(by.css('md-toast'));
+    browser.wait(function(){
+      return browser.isElementPresent(notification);
+    });
     input.click();
     expect(notification.getText()).toBe('All interactions with the rover are blocked');
     input.click();
