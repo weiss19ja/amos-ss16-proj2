@@ -1,30 +1,28 @@
 package de.developgroup.mrf.server.handler;
 
+import java.io.IOException;
+import java.util.Observable;
+
+import org.cfg4j.provider.ConfigurationProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
-import com.pi4j.io.i2c.I2CBus;
+
 import de.developgroup.mrf.rover.collision.CollisionController;
-import de.developgroup.mrf.rover.motor.MotorController;
 import de.developgroup.mrf.server.ClientManager;
 import de.developgroup.mrf.server.controller.CameraSnapshotController;
 import de.developgroup.mrf.server.controller.DriveController;
-import de.developgroup.mrf.server.rpc.JsonRpc2Request;
-import org.cfg4j.provider.ConfigurationProvider;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import de.developgroup.mrf.server.controller.HeadController;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Observable;
 
 @Singleton
 public class RoverHandlerImpl implements RoverHandler {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(RoverHandlerImpl.class);
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(RoverHandlerImpl.class);
 
 	@Inject
 	private static ClientManager clientManager;
@@ -41,10 +39,9 @@ public class RoverHandlerImpl implements RoverHandler {
 
 	@Inject
 	public RoverHandlerImpl(CollisionController collisionController,
-							GpioController gpio,
-							DriveController driveController,
-							HeadController headController,
-							CameraSnapshotController cameraSnapshotController) {
+			GpioController gpio, DriveController driveController,
+			HeadController headController,
+			CameraSnapshotController cameraSnapshotController) {
 		LOGGER.info("RoverHandlerImpl startup");
 		this.collisionController = collisionController;
 		this.gpio = gpio;
@@ -65,7 +62,7 @@ public class RoverHandlerImpl implements RoverHandler {
 					+ " Collision detected");
 			try {
 				stop();
-			} catch(IOException io) {
+			} catch (IOException io) {
 				LOGGER.error("Cannot stop rover on collision event. Goodbye.");
 			}
 		} else {
@@ -128,25 +125,25 @@ public class RoverHandlerImpl implements RoverHandler {
 	}
 
 	@Override
-	public void turnHeadUp(int angle) throws IOException{
+	public void turnHeadUp(int angle) throws IOException {
 		LOGGER.debug("Turn head up by " + angle + " degree");
 		headController.turnHeadUp(angle);
 	}
 
 	@Override
-	public void turnHeadDown(int angle)throws IOException {
+	public void turnHeadDown(int angle) throws IOException {
 		LOGGER.debug("Turn head down by " + angle + " degree");
 		headController.turnHeadDown(angle);
 	}
 
 	@Override
-	public void turnHeadLeft(int angle) throws IOException{
+	public void turnHeadLeft(int angle) throws IOException {
 		LOGGER.debug("Turn head left by " + angle + " degree");
 		headController.turnHeadLeft(angle);
 	}
 
 	@Override
-	public void turnHeadRight(int angle) throws IOException{
+	public void turnHeadRight(int angle) throws IOException {
 		LOGGER.debug("Turn head right by " + angle + " degree");
 		headController.turnHeadRight(angle);
 	}
