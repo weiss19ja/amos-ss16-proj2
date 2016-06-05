@@ -18,7 +18,7 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
     var cameraMoveStep = 20;
     var lastSendMsg;
     var lastErrorResponse;
-    var clientId;
+    var clientId = 0;
     var roverState = {
       isDriverAvailable: true,
       isKillswitchEnabled: false
@@ -33,6 +33,7 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
       backRight: false
     };
     var snapshotCallback;
+
 
     /**
      * Get URL for websocket connection depending on used protocol (http or https)
@@ -192,12 +193,32 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
      *    -> isKillswitch enabled
      */
     function updateRoverState(receivedRoverState) {
+
+      /**
+       *    currentDriverId: when currentDriverId is my clientId, Im the driver
+       *                     when currentDriverId is -1 nobody is driver at the moment
+       *                     when currentDriverId is differnet to mine, driver mode is unavailable to me
+       */
       if (receivedRoverState.currentDriverId) {
-        if (receivedRoverState.currentDriverId == clientId || receivedRoverState.currentDriverId == -1) {
+
+        // im the driver
+        if (receivedRoverState.currentDriverId == clientId) {
           roverState.isDriverAvailable = true;
           console.log('driver is available');
         }
-        else {
+        // nobody is driver, when im already on driver page i must reaquire the driver mode
+        if (receivedRoverState.currentDriverId == -1) {
+          if ($location.path() == '/drive') {
+            roverState.isDriverAvailable = false;
+            send("enterDriverMode", [clientId]);
+          } else {
+            roverState.isDriverAvailable = true;
+            console.log('driver available');
+          }
+        }
+
+        // somebody else is driver at the moment
+        if (receivedRoverState.currentDriverId != clientId && receivedRoverState.currentDriverId != -1) {
           roverState.isDriverAvailable = false;
           console.log('driver not available');
         }
@@ -338,9 +359,38 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
       },
       /**
        * Enter driver mode --> there can only be one driver at time
+       * needs the clientId to register driver, uses a promise object to wait for the clientId being set by the backend
        */
       enterDriverMode: function () {
-        send("enterDriverMode", [clientId]);
+
+        //TODO: MFischer should driver mode be available when promise is rejected?
+
+        var clientIdPromise = new Promise(function (resolve, reject) {
+
+          // wait max 5 second for clientID
+          var maxTimeout = setTimeout(function () {
+            reject(clientId);
+          }, 1000);
+
+          // check clientId cyclic every 100 ms
+          var checkClientIdInterval = setInterval(checkClientId, 100);
+
+          function checkClientId() {
+            if (clientId != 0) {
+              clearInterval(checkClientIdInterval);
+              clearTimeout(maxTimeout);
+              resolve(clientId);
+            }
+          };
+        });
+
+        clientIdPromise.then(function (fulfilledClientId) {
+          send("enterDriverMode", [fulfilledClientId]);
+          console.log('enterDriverMode promise fulfilled: ' + fulfilledClientId);
+        }, function (rejectedClientId) {
+          console.log('enterDriverMode promise rejected ' + rejectedClientId);
+        });
+
       },
 
       /**
@@ -350,4 +400,5 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
         send("exitDriverMode", [clientId]);
       }
     };
-  });
+  })
+;
