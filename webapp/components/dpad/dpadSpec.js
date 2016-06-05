@@ -1,16 +1,18 @@
 'use strict';
 
 describe('myApp.dpad module', function() {
-    var $compile, $rootScope;
+    var $compile, $rootScope, $controller;
 
     beforeEach(angular.mock.module('templates'));
     beforeEach(angular.mock.module('myApp.roverService'));
     beforeEach(module('myApp.dpad'));
 
 
-    beforeEach(inject(function(_$compile_, _$rootScope_, $httpBackend) {
+    beforeEach(inject(function(_$compile_, _$rootScope_, $httpBackend, _$controller_) {
         $compile = _$compile_;
         $rootScope = _$rootScope_;
+
+        $controller = _$controller_;
 
         $httpBackend.whenGET('assets/icons/ic_label_48px.svg').respond('');
     }));
@@ -58,6 +60,7 @@ describe('myApp.dpad module', function() {
             expect(element.find('button').text()).toContain("Stop");
         }));
 
+
     });
 
     describe('dpad directive as camera controller', function() {
@@ -78,4 +81,30 @@ describe('myApp.dpad module', function() {
             expect(element.find('button').text()).toContain("Center");
         }));
     });
+
+    describe('dpad component controller ', function() {
+        var element, component, scope;
+        /**
+         * General setup
+         */
+        beforeEach(inject(function() {
+            element = $compile('<dpad></dpad>');
+            scope = $rootScope.$new();
+            component = $controller('DPadController', {
+                $scope: scope,
+                $attrs: {},
+                roverService: {}
+            });
+
+        }));
+
+        it('exposes a set of methods according to its buttons', function() {
+            expect(scope.stop).toBeDefined();
+            expect(scope.resetCameraPosition).toBeDefined();
+            expect(scope.up).toBeDefined();
+            expect(scope.down).toBeDefined();
+            expect(scope.left).toBeDefined();
+            expect(scope.right).toBeDefined();
+        });
+    })
 });
