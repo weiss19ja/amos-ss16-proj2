@@ -58,6 +58,13 @@ public class DeveloperSettingsHandler {
      */
     public void setKillswitchEnabled(Boolean newState) throws IOException {
         LOGGER.debug("Killswitch state is: " + newState);
+
+        // determine whether client needs to get message
+        // should always be the case but just to be safe
+        boolean notifyClients = false;
+        if(killswitchEnabled != newState.booleanValue()){
+            notifyClients = true;
+        }
         if (newState) {
             roverHandler.stop();
             killswitchEnabled = true;
@@ -65,10 +72,13 @@ public class DeveloperSettingsHandler {
         else{
             killswitchEnabled = false;
         }
-        informClients();
+        notifyClientsAboutButtonState();
+        if(notifyClients){
+            notifyClientsAboutBlockingState();
+        }
     }
 
-    public void informClients() {
+    public void notifyClientsAboutButtonState() {
 
         // create JSON RPC object
         ArrayList<Object> params = new ArrayList<>();
@@ -78,6 +88,21 @@ public class DeveloperSettingsHandler {
 
         LOGGER.debug("informing clients about Killswitch-State: "+ killswitchEnabled);
         clientManager.notifyAllClients(jsonRpc2Request);
+    }
+
+    /**
+     * Sends a message to all clients so they know the developer just
+     * changed the killswitch state
+     */
+    private void notifyClientsAboutBlockingState(){
+        String message;
+        if (killswitchEnabled){
+            message = "All interactions with the rover are blocked";
+        }
+        else{
+            message = "Interactions with the rover are enabled now";
+        }
+        clientManager.notifyAllClients(message);
     }
 
 }

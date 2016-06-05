@@ -150,7 +150,7 @@ public class RoverSocket extends JsonRpc2Socket {
 	}
 
 	public void sendKillswitchState() {
-		developerSettingsHandler.informClients();
+		developerSettingsHandler.notifyClientsAboutButtonState();
 	}
 
 	public void distributeAlertNotification(String alertMsg) {
