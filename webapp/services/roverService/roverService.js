@@ -334,8 +334,8 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
       /**
        * block or unblock the rover movements (depends on variable isBlocked)
        */
-      setKillswitch: function (killswitchEnabled) {
-        send("setKillswitch", [killswitchEnabled]);
+      setKillswitch: function (killswitchEnabled, notificationMessage) {
+        send("setKillswitch", [killswitchEnabled, notificationMessage]);
       },
       /**
        * check whether developer blocked user interaction with rover

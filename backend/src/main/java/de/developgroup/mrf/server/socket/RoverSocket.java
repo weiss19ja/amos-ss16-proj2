@@ -132,8 +132,8 @@ public class RoverSocket extends JsonRpc2Socket {
 		roverHandler.resetHeadPosition();
 	}
 
-	public void setKillswitch(Boolean killswitchEnabled) throws IOException {
-		developerSettingsHandler.setKillswitchEnabled(killswitchEnabled);
+	public void setKillswitch(Boolean killswitchEnabled, String notificationMessage) throws IOException {
+		developerSettingsHandler.setKillswitchEnabled(killswitchEnabled, notificationMessage);
 	}
 
 	public void getCameraSnapshot(Number clientId) throws IOException {
