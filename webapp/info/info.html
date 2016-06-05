@@ -1,6 +1,17 @@
-<h2> About Mobile Robot Framework </h2>
+<div layout="row" layout-align="center">
+  <h2 class="md-title">About Mobile Robot Framework</h2>
+</div>
 
-<p>
-  Showing of 'interpolate' filter:
-  {{ 'Current version is v%VERSION%.' | interpolate }}
-</p>
+<md-card ng-hide="hideDownload">
+  <md-toolbar class="md-toolbar-tools md-hue-2">
+    Downloads
+  </md-toolbar>
+  <md-card-title>
+    <md-card-title-text>
+      Download the latest release version of the Mobile Robot Framework and additional files.
+    </md-card-title-text>
+  </md-card-title>
+  <md-content  layout-align="space-between" layout-padding>
+    <md-button ng-href="downloads/backend-1.0-SNAPSHOT-jar-with-dependencies.jar" target="_blank">MobileRobotFramework</md-button>
+  </md-content>
+</md-card>
