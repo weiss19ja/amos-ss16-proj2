@@ -37,7 +37,9 @@ public class RoverSocket extends JsonRpc2Socket {
 	@Override
 	public void onWebSocketConnect(final Session sess) {
 		super.onWebSocketConnect(sess);
-		clientManager.addClient(sess);
+		int newClientId = clientManager.addClient(sess);
+		// if killswitch is enabled, notify the newly connected user
+		developerSettingsHandler.notifyIfBlocked(newClientId, "Interactions with the rover are blocked at the moment");
 	}
 
 	@Override

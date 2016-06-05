@@ -95,12 +95,29 @@ public class DeveloperSettingsHandler {
     /**
      * Sends a message to all clients so they know the developer just
      * changed the killswitch state
+     * @param message message text
      */
     private void notifyClientsAboutBlockingState(String message){
         JsonRpc2Request notification = new JsonRpc2Request(
                 "showAlertNotification", message);
 
         clientManager.notifyAllClients(notification);
+    }
+
+    /**
+     * Sends a message to one specific client so he knows the killswitch is active and he can't interact with the rover
+     * The method should be called if a new client connects to the server
+     * @param clientId the client who should receive the message
+     * @param message message text
+     */
+    public void notifyIfBlocked(int clientId, String message){
+        if(!killswitchEnabled){
+            return;
+        }
+        JsonRpc2Request notification = new JsonRpc2Request(
+                "showAlertNotification", message);
+
+        clientManager.notifyClientById(clientId, notification);
     }
 
 }
