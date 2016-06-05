@@ -1,6 +1,6 @@
 'use strict';
 
-describe('myApp.roverService service', function() {
+describe('myApp.roverService service', function () {
 
   var roverService;
   var $websocket;
@@ -10,9 +10,9 @@ describe('myApp.roverService service', function() {
 
   beforeEach(module('myApp.roverService'));
 
-  beforeEach(angular.mock.module('ngWebSocket', 'ngWebSocketMock','ngMaterial'));
+  beforeEach(angular.mock.module('ngWebSocket', 'ngWebSocketMock', 'ngMaterial'));
 
-  beforeEach(inject(function (_roverService_,_$websocket_,_$websocketBackend_,_$location_,_$mdToast_) {
+  beforeEach(inject(function (_roverService_, _$websocket_, _$websocketBackend_, _$location_, _$mdToast_) {
     roverService = _roverService_;
     $websocket = _$websocket_;
     $websocketBackend = _$websocketBackend_;
@@ -25,39 +25,45 @@ describe('myApp.roverService service', function() {
 
   }));
 
-  it('should responses be empty at begin',function () {
+  it('should responses be empty at begin', function () {
     expect(roverService.responses.length).toBe(0);
   });
 
-  it('should notifications be empty at begin',function () {
+  it('should notifications be empty at begin', function () {
     expect(roverService.notifications.length).toBe(0);
   });
 
-  it('should set client id',function () {
+  it('should set client id', function () {
     roverService.sendPing();
-    $websocketBackend.expectSend({data: JSON.stringify({jsonrpc: "2.0",method: "setClientId", params: [1234]})});
+    $websocketBackend.expectSend({data: JSON.stringify({jsonrpc: "2.0", method: "setClientId", params: [1234]})});
     roverService.sendPing();
     var clientId = roverService.getClientId();
     expect(clientId).toBe(1234);
   });
 
-  it('should send alert notification to all clients',function () {
+  it('should send alert notification to all clients', function () {
     roverService.sendAlertNotification("test alert");
     var msg = roverService.getLastSendMsg();
     expect(msg).toBe('{"jsonrpc":"2.0","method":"distributeAlertNotification","params":["test alert"],"id":1}');
   });
 
-  it('should handle responses',function () {
+  it('should handle responses', function () {
     roverService.sendPing();
     expect(roverService.responses.length).toBe(1);
   });
 
-  it('should handle errors',function () {
+  it('should handle errors', function () {
     var errorCode = -3260;
     var errorMessage = "Invalid Request";
 
     roverService.sendPing();
-    $websocketBackend.expectSend({data: JSON.stringify({jsonrpc: "2.0",error: {code:errorCode,message:errorMessage}, id:1000})});
+    $websocketBackend.expectSend({
+      data: JSON.stringify({
+        jsonrpc: "2.0",
+        error: {code: errorCode, message: errorMessage},
+        id: 1000
+      })
+    });
     roverService.sendPing();
     expect(roverService.errors.length).toBe(1);
     var errorResponse = roverService.getLastErrorResponse();
@@ -66,7 +72,7 @@ describe('myApp.roverService service', function() {
 
   });
 
-  describe('myApp.roverService camera head tests', function() {
+  describe('myApp.roverService camera head tests', function () {
 
     var cameraMoveStep = 20;
 
@@ -74,32 +80,33 @@ describe('myApp.roverService service', function() {
       roverService.cameraMoveUp();
       expect(roverService.responses.length).toBe(1);
       var msg = roverService.getLastSendMsg();
-      expect(msg).toBe('{"jsonrpc":"2.0","method":"turnHeadUp","params":['+cameraMoveStep+'],"id":1}');
+      expect(msg).toBe('{"jsonrpc":"2.0","method":"turnHeadUp","params":[' + cameraMoveStep + '],"id":1}');
     });
 
     it('should send camera move down json-rpc', function () {
       roverService.cameraMoveDown();
       expect(roverService.responses.length).toBe(1);
       var msg = roverService.getLastSendMsg();
-      expect(msg).toBe('{"jsonrpc":"2.0","method":"turnHeadDown","params":['+cameraMoveStep+'],"id":1}');;
+      expect(msg).toBe('{"jsonrpc":"2.0","method":"turnHeadDown","params":[' + cameraMoveStep + '],"id":1}');
+      ;
     });
 
     it('should send camera move left json-rpc', function () {
       roverService.cameraMoveLeft();
       expect(roverService.responses.length).toBe(1);
       var msg = roverService.getLastSendMsg();
-      expect(msg).toBe('{"jsonrpc":"2.0","method":"turnHeadLeft","params":['+cameraMoveStep+'],"id":1}');
+      expect(msg).toBe('{"jsonrpc":"2.0","method":"turnHeadLeft","params":[' + cameraMoveStep + '],"id":1}');
     });
 
     it('should send camera move right json-rpc', function () {
       roverService.cameraMoveRight();
       expect(roverService.responses.length).toBe(1);
       var msg = roverService.getLastSendMsg();
-      expect(msg).toBe('{"jsonrpc":"2.0","method":"turnHeadRight","params":['+cameraMoveStep+'],"id":1}');
+      expect(msg).toBe('{"jsonrpc":"2.0","method":"turnHeadRight","params":[' + cameraMoveStep + '],"id":1}');
     });
   });
 
-  describe('myApp.roverService drive tests', function() {
+  describe('myApp.roverService drive tests', function () {
     var desiredSpeed = 500;
     var turnRate = 300;
 
@@ -107,28 +114,28 @@ describe('myApp.roverService service', function() {
       roverService.driveForward();
       expect(roverService.responses.length).toBe(1);
       var msg = roverService.getLastSendMsg();
-      expect(msg).toBe('{"jsonrpc":"2.0","method":"driveForward","params":['+desiredSpeed+'],"id":1}');
+      expect(msg).toBe('{"jsonrpc":"2.0","method":"driveForward","params":[' + desiredSpeed + '],"id":1}');
     });
 
     it('should send drive backward json-rpc', function () {
       roverService.driveBackward();
       expect(roverService.responses.length).toBe(1);
       var msg = roverService.getLastSendMsg();
-      expect(msg).toBe('{"jsonrpc":"2.0","method":"driveBackward","params":['+desiredSpeed+'],"id":1}');
+      expect(msg).toBe('{"jsonrpc":"2.0","method":"driveBackward","params":[' + desiredSpeed + '],"id":1}');
     });
 
     it('should send turn left json-rpc', function () {
       roverService.turnLeft();
       expect(roverService.responses.length).toBe(1);
       var msg = roverService.getLastSendMsg();
-      expect(msg).toBe('{"jsonrpc":"2.0","method":"turnLeft","params":['+turnRate+'],"id":1}');
+      expect(msg).toBe('{"jsonrpc":"2.0","method":"turnLeft","params":[' + turnRate + '],"id":1}');
     });
 
     it('should send turn right json-rpc', function () {
       roverService.turnRight();
       expect(roverService.responses.length).toBe(1);
       var msg = roverService.getLastSendMsg();
-      expect(msg).toBe('{"jsonrpc":"2.0","method":"turnRight","params":['+turnRate+'],"id":1}');
+      expect(msg).toBe('{"jsonrpc":"2.0","method":"turnRight","params":[' + turnRate + '],"id":1}');
     });
 
     it('should send stop json-rpc', function () {
@@ -140,7 +147,7 @@ describe('myApp.roverService service', function() {
 
   });
 
-  describe('myApp.roverService killswitch tests', function() {
+  describe('myApp.roverService killswitch tests', function () {
 
     var killswitchEnabled = true;
 
@@ -153,22 +160,22 @@ describe('myApp.roverService service', function() {
 
   });
 
-  describe('myApp.roverService single driver tests', function() {
+  describe('myApp.roverService single driver tests', function () {
 
-   xit('should send enterDriverMode json-rpc', function () {
-
+    it('should send enterDriverMode json-rpc', function () {
       // need sendPing methods to set the clientId correctly
       roverService.sendPing();    // id:1
-      $websocketBackend.expectSend({data: JSON.stringify({jsonrpc: "2.0",method: "setClientId", params: [1234]})});
+      $websocketBackend.expectSend({data: JSON.stringify({jsonrpc: "2.0", method: "setClientId", params: [1234]})});
       roverService.sendPing();    // id: 2
       $websocketBackend.expectSend({data: JSON.stringify({result: true})});
       roverService.enterDriverMode(); //id: 3
 
-      var msg = roverService.getLastSendMsg();
-      expect(msg).toBe('{"jsonrpc":"2.0","method":"enterDriverMode","params":[1234],"id":3}');
-
-      // handled two responses in {result:true}, setClientId is method call from backend (so no response)
-      expect(roverService.responses.length).toBe(2);
+      setTimeout(function () {
+        var msg = roverService.getLastSendMsg();
+        expect(msg).toBe('{"jsonrpc":"2.0","method":"enterDriverMode","params":[1234],"id":3}');
+        // handled two responses in object {result:true}, setClientId is method call from backend (so no response)
+        expect(roverService.responses.length).toBe(2);
+      }, 100);
     });
 
 
@@ -176,7 +183,7 @@ describe('myApp.roverService service', function() {
 
       // need sendPing methods to set the clientId correctly
       roverService.sendPing();    // id:1
-      $websocketBackend.expectSend({data: JSON.stringify({jsonrpc: "2.0",method: "setClientId", params: [1234]})});
+      $websocketBackend.expectSend({data: JSON.stringify({jsonrpc: "2.0", method: "setClientId", params: [1234]})});
       roverService.sendPing();    // id: 2
       $websocketBackend.expectSend({data: JSON.stringify({result: true})});
       roverService.exitDriverMode(); //id: 3
@@ -189,7 +196,6 @@ describe('myApp.roverService service', function() {
     });
 
 
-
     it('should set correct initial rover state ', function () {
       expect(roverService.roverState.isDriverAvailable).toBe(true);
       expect(roverService.roverState.isKillswitchEnabled).toBe(false);
@@ -198,11 +204,17 @@ describe('myApp.roverService service', function() {
     it('should set driver available if driver is my id', function () {
       // need sendPing methods to set the clientId correctly
       roverService.sendPing();    // id:1
-      $websocketBackend.expectSend({data: JSON.stringify({jsonrpc: "2.0",method: "setClientId", params: [1234]})});
+      $websocketBackend.expectSend({data: JSON.stringify({jsonrpc: "2.0", method: "setClientId", params: [1234]})});
       roverService.sendPing();    // id: 2
       expect(roverService.responses.length).toBe(1);
       expect(roverService.getClientId()).toBe(1234);
-      $websocketBackend.expectSend({data: JSON.stringify({jsonrpc: "2.0", method:"updateRoverState",params:[{"currentDriverId":1234}]})});
+      $websocketBackend.expectSend({
+        data: JSON.stringify({
+          jsonrpc: "2.0",
+          method: "updateRoverState",
+          params: [{"currentDriverId": 1234}]
+        })
+      });
       roverService.sendPing();    // id: 3
       expect(roverService.roverState.isDriverAvailable).toBe(true);
     });
@@ -210,23 +222,56 @@ describe('myApp.roverService service', function() {
     it('should set driver available if there is no driver', function () {
       // need sendPing methods to set the clientId correctly
       roverService.sendPing();    // id:1
-      $websocketBackend.expectSend({data: JSON.stringify({jsonrpc: "2.0",method: "setClientId", params: [1234]})});
+      $websocketBackend.expectSend({data: JSON.stringify({jsonrpc: "2.0", method: "setClientId", params: [1234]})});
       roverService.sendPing();    // id: 2
       expect(roverService.responses.length).toBe(1);
       expect(roverService.getClientId()).toBe(1234);
-      $websocketBackend.expectSend({data: JSON.stringify({jsonrpc: "2.0", method:"updateRoverState",params:[{"currentDriverId":-1}]})});
+      $websocketBackend.expectSend({
+        data: JSON.stringify({
+          jsonrpc: "2.0",
+          method: "updateRoverState",
+          params: [{"currentDriverId": -1}]
+        })
+      });
       roverService.sendPing();    // id: 3
       expect(roverService.roverState.isDriverAvailable).toBe(true);
+    });
+
+    it('should set driver not available if there is no driver but Im still on drive page', function () {
+      // simulate the drive page
+      $location.path('/drive');
+      // need sendPing methods to set the clientId correctly
+      roverService.sendPing();    // id:1
+      $websocketBackend.expectSend({data: JSON.stringify({jsonrpc: "2.0", method: "setClientId", params: [1234]})});
+      roverService.sendPing();    // id: 2
+      expect(roverService.responses.length).toBe(1);
+      expect(roverService.getClientId()).toBe(1234);
+      $websocketBackend.expectSend({
+        data: JSON.stringify({
+          jsonrpc: "2.0",
+          method: "updateRoverState",
+          params: [{"currentDriverId": -1}]
+        })
+      });
+      $websocketBackend.expectSend({data: JSON.stringify({result: true})});
+      roverService.sendPing();    // id: 3
+      expect(roverService.roverState.isDriverAvailable).toBe(false);
     });
 
     it('should set driver NOT available if there is another driver', function () {
       // need sendPing methods to set the clientId correctly
       roverService.sendPing();    // id:1
-      $websocketBackend.expectSend({data: JSON.stringify({jsonrpc: "2.0",method: "setClientId", params: [1234]})});
+      $websocketBackend.expectSend({data: JSON.stringify({jsonrpc: "2.0", method: "setClientId", params: [1234]})});
       roverService.sendPing();    // id: 2
       expect(roverService.responses.length).toBe(1);
       expect(roverService.getClientId()).toBe(1234);
-      $websocketBackend.expectSend({data: JSON.stringify({jsonrpc: "2.0", method:"updateRoverState",params:[{"currentDriverId":5001}]})});
+      $websocketBackend.expectSend({
+        data: JSON.stringify({
+          jsonrpc: "2.0",
+          method: "updateRoverState",
+          params: [{"currentDriverId": 5001}]
+        })
+      });
       roverService.sendPing();    // id: 3
       expect(roverService.roverState.isDriverAvailable).toBe(false);
     });
