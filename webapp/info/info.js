@@ -1,8 +1,16 @@
 'use strict';
 
-angular.module('myApp.info', ['ngRoute'])
+angular.module('myApp.info', [])
+.controller('InfoCtrl', ['$scope','$location',function($scope,$location) {
 
+  $scope.hideDownload = true;
 
-.controller('InfoCtrl', [function() {
+  var setDownloadVisibility = function () {
+    if($location.host().indexOf('osr-amos.cs.fau.de') > -1){
+      $scope.hideDownload = false;
+    }
+  };
+
+  setDownloadVisibility();
 
 }]);

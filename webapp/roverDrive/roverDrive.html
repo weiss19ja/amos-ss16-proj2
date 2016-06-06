@@ -1,42 +1,58 @@
-<div layout="column">
-  <md-card layout="column" layout-align="center center">
+<div ng-show="roverState.isDriverAvailable">
+    <div layout="column">
+        <md-card layout="column" layout-align="center center">
+            <!-- Mobile View -->
+            <img hide-gt-xs ng-src="{{mjpegStreamURL}}" fallback-src="{{'assets/icons/ic_videocam_off_48px.svg'}}"
+                 class="md-card-image" alt="Video-Stream">
+            <!-- Mobile Landscape View -->
+            <img hide-xs hide-gt-md ng-src="{{mjpegStreamURL}}"
+                 fallback-src="{{'assets/icons/ic_videocam_off_48px.svg'}}" style="width: calc(100% / 3.5)"
+                 class="md-card-image" alt="Video-Stream">
+            <!-- Desktop View -->
+            <img hide-xs hide-md hide-sm ng-src="{{mjpegStreamURL}}"
+                 fallback-src="{{'assets/icons/ic_videocam_off_48px.svg'}}" style="width: calc(100% / 2)"
+                 class="md-card-image" alt="Video-Stream">
+        </md-card>
+    </div>
+
+    <div layout="row" layout-align="center center">
+        <div layout="column" layout-align="center center">
+            Drive
+            <dpad></dpad>
+        </div>
+        <span flex></span>
+
+        <!-- Desktop View -->
+        <div hide-xs layout="column" layout-align="center center">
+            <div>
+                <parking-sensors></parking-sensors>
+            </div>
+            <div>
+                <md-button class="md-raised md-warn" ng-click="stop()">Stop</md-button>
+            </div>
+        </div>
+
+        <span flex></span>
+        <div layout="column" layout-align="center center">
+            Camera
+            <dpad mode="camera"></dpad>
+        </div>
+    </div>
+
     <!-- Mobile View -->
-    <img hide-gt-xs ng-src="{{mjpegStreamURL}}" fallback-src="{{'assets/icons/ic_videocam_off_48px.svg'}}" class="md-card-image" alt="Video-Stream">
-    <!-- Mobile Landscape View -->
-    <img hide-xs hide-gt-md ng-src="{{mjpegStreamURL}}" fallback-src="{{'assets/icons/ic_videocam_off_48px.svg'}}" style="width: calc(100% / 3.5)" class="md-card-image" alt="Video-Stream">
-    <!-- Desktop View -->
-    <img hide-xs hide-md hide-sm ng-src="{{mjpegStreamURL}}" fallback-src="{{'assets/icons/ic_videocam_off_48px.svg'}}" style="width: calc(100% / 2)" class="md-card-image" alt="Video-Stream">
-  </md-card>
-</div>
-
-<div layout="row" layout-align="center center">
-  <div layout="column" layout-align="center center">
-    Drive
-    <dpad></dpad>
-  </div>
-  <span flex></span>
-
-  <!-- Desktop View -->
-  <div hide-xs layout="column" layout-align="center center">
-    <div>
-      <parking-sensors></parking-sensors>
+    <div layout="row" layout-align="center center" hide-gt-xs>
+        <md-button class="md-raised md-warn" ng-click="stop()"> Stop</md-button>
+        <div>
+            <parking-sensors></parking-sensors>
+        </div>
     </div>
-    <div>
-      <md-button class="md-raised md-warn" ng-click="stop()">Stop</md-button>
-    </div>
-  </div>
-
-  <span flex></span>
-  <div layout="column" layout-align="center center">
-      Camera
-      <dpad mode="camera"></dpad>
-  </div>
 </div>
 
-<!-- Mobile View -->
-<div layout="row" layout-align="center center" hide-gt-xs>
-  <md-button class="md-raised md-warn" ng-click="stop()"> Stop</md-button>
-  <div>
-    <parking-sensors></parking-sensors>
-  </div>
-</div>
+<md-card ng-hide="roverState.isDriverAvailable">
+    <md-toolbar class="md-toolbar-tools md-warn md-hue-2">
+        Driver Mode Unavailable
+    </md-toolbar>
+    <md-content layout-padding>
+        <h3>Driver mode is not available at the moment! You can go to observer mode if you want.</h3>
+    </md-content>
+</md-card>

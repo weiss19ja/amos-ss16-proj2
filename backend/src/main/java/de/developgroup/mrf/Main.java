@@ -11,8 +11,6 @@ import java.util.concurrent.TimeUnit;
 
 import javax.servlet.DispatcherType;
 
-import de.developgroup.mrf.server.handler.CollisionDispatcher;
-import de.developgroup.mrf.server.handler.DeveloperSettingsHandler;
 import org.cfg4j.provider.ConfigurationProvider;
 import org.cfg4j.provider.ConfigurationProviderBuilder;
 import org.cfg4j.source.ConfigurationSource;
@@ -33,6 +31,8 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceFilter;
 
+import de.developgroup.mrf.server.handler.CollisionDispatcher;
+import de.developgroup.mrf.server.handler.DeveloperSettingsHandler;
 import de.developgroup.mrf.server.handler.RoverHandler;
 
 public class Main {
@@ -141,14 +141,14 @@ public class Main {
 
 		exist = new File("./rover.properties").exists();
 		if (exist) {
-			roverPropertiesPath = Paths.get("./rover.properties");
+			roverPropertiesPath = Paths.get("rover.properties");
 		} else {
 			String workingDir = System.getProperty("user.dir");
 			roverPropertiesPath = Paths.get(workingDir
 					+ "/src/main/resources/rover.properties");
 		}
 		LOGGER.info(roverPropertiesPath.toAbsolutePath().toString());
-		return roverPropertiesPath;
+		return roverPropertiesPath.toAbsolutePath();
 	}
 
 	private static boolean parseArgs(String[] args) {
