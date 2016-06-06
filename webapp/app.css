@@ -7,6 +7,10 @@
   padding: 0 0 0.5em;
 }
 
+.submenu {
+  padding-left: 30px;
+}
+
 .menu:before {
   content: "[";
 }
