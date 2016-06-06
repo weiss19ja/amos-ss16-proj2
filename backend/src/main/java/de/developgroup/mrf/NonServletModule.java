@@ -16,10 +16,7 @@ import de.developgroup.mrf.server.controller.DriveControllerMock;
 import de.developgroup.mrf.server.controller.HeadController;
 import de.developgroup.mrf.server.controller.HeadControllerImpl;
 import de.developgroup.mrf.server.controller.HeadControllerMock;
-import de.developgroup.mrf.server.handler.RoverHandler;
-import de.developgroup.mrf.server.handler.RoverHandlerImpl;
-import de.developgroup.mrf.server.handler.SingleDriverHandler;
-import de.developgroup.mrf.server.handler.SingleDriverHandlerImpl;
+import de.developgroup.mrf.server.handler.*;
 import de.developgroup.mrf.server.socket.RoverSocket;
 
 public class NonServletModule extends AbstractModule {
@@ -60,6 +57,7 @@ public class NonServletModule extends AbstractModule {
 					CameraSnapshotControllerImpl.class);
 		}
 
+		bind(NotificationHandler.class).to(NotificationHandlerImpl.class);
 		bind(SingleDriverHandler.class).to(SingleDriverHandlerImpl.class);
 		requestStaticInjection(RoverSocket.class);
 		requestStaticInjection(Main.class);
