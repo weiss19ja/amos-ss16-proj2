@@ -42,6 +42,12 @@ angular.module('myApp', [
     }).when('/drive', {
       templateUrl: 'roverDrive/roverDrive.html',
       controller: 'RoverDriveCtrl'
+    }).when('/drive/movementandcollsion', {
+      templateUrl: 'roverDrive/roverDriveMoveCollision.html',
+      controller: 'RoverDriveCtrl'
+    }).when('/drive/stop', {
+      templateUrl: 'roverDrive/roverDriveStop.html',
+      controller: 'RoverDriveCtrl'
     }).when('/observe', {
       templateUrl: 'roverObserve/roverObserve.html',
       controller: 'RoverObserveCtrl'
