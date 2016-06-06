@@ -33,4 +33,11 @@ public interface SingleDriverHandler {
 	 */
 	public void verifyDriverAvailability();
 
+	/**
+	 * Get client id of the current driver
+	 * 
+	 * @return current driver clientId
+	 */
+	public int getCurrentDriverId();
+
 }

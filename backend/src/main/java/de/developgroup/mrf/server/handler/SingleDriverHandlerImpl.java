@@ -16,14 +16,15 @@ public class SingleDriverHandlerImpl implements SingleDriverHandler {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(SingleDriverHandlerImpl.class);
 
-	@Inject
 	private ClientManager clientManager;
-	@Inject
-	RoverHandler roverHandler;
+	private RoverHandler roverHandler;
 	private int currentDriverId = -1;
 
-	public SingleDriverHandlerImpl() {
-
+	@Inject
+	public SingleDriverHandlerImpl(ClientManager clientManager,
+			RoverHandler roverHandler) {
+		this.clientManager = clientManager;
+		this.roverHandler = roverHandler;
 	}
 
 	@Override
@@ -53,6 +54,11 @@ public class SingleDriverHandlerImpl implements SingleDriverHandler {
 		if (!clientManager.isClientConnected(currentDriverId)) {
 			doReleaseDriver();
 		}
+	}
+
+	@Override
+	public int getCurrentDriverId() {
+		return currentDriverId;
 	}
 
 	/**
