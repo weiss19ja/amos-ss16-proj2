@@ -66,6 +66,11 @@ or as a single run
 $ npm run test-single-run
 ```
 
+Run end to end tests (Application must be running before starting tests)
+```
+$ npm run protractor
+```
+
 Execute maven package build  
 ```
 $ npm run backend:build

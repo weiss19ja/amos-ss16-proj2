@@ -77,6 +77,22 @@ public class JsonRpc2ResponseError extends AbstractJsonRpc2 {
         return isVersionValid && isErrorValid;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof JsonRpc2ResponseError)) return false;
+
+        JsonRpc2ResponseError that = (JsonRpc2ResponseError) o;
+
+        return error != null ? error.equals(that.error) : that.error == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return error != null ? error.hashCode() : 0;
+    }
+
     private class JsonRpc2ErrorObject{
         private int code;
         private String message;

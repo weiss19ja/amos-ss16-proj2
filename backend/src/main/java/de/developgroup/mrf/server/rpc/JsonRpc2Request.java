@@ -149,4 +149,22 @@ public class JsonRpc2Request extends AbstractJsonRpc2 {
 		this.method = method;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		JsonRpc2Request request = (JsonRpc2Request) o;
+
+		if (method != null ? !method.equals(request.method) : request.method != null) return false;
+		return params != null ? params.equals(request.params) : request.params == null;
+
+	}
+
+	@Override
+	public int hashCode() {
+		int result = method != null ? method.hashCode() : 0;
+		result = 31 * result + (params != null ? params.hashCode() : 0);
+		return result;
+	}
 }

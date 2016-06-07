@@ -66,4 +66,20 @@ public class JsonRpc2ResponseResult extends AbstractJsonRpc2{
         boolean isResultValid = result != null;
         return isVersionValid && isResultValid;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof JsonRpc2ResponseResult)) return false;
+
+        JsonRpc2ResponseResult that = (JsonRpc2ResponseResult) o;
+
+        return result != null ? result.equals(that.result) : that.result == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return result != null ? result.hashCode() : 0;
+    }
 }

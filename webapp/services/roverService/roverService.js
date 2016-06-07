@@ -126,6 +126,9 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
         case 'showAlertNotification':
           showAlertNotification(request.params[0]);
           break;
+        case 'showErrorNotification':
+          showErrorNotification(request.params[0]);
+          break;
         case 'updateRoverState':
           updateRoverState(request.params[0]);
           break;
@@ -166,8 +169,20 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
       $mdToast.show($mdToast.simple().textContent(msg).position('top right').hideDelay(4000));
     }
 
+    /**
+     * Show a error notification as toast
+     * @param msg text message
+     */
     function showAlertNotification(msg) {
       $mdToast.show($mdToast.simple().textContent(msg).position('top right').theme('alert-toast').hideDelay(4000));
+    }
+
+    /**
+     * Show error notification as toast
+     * @param msg text message
+     */
+    function showErrorNotification(msg) {
+      $mdToast.show($mdToast.simple().textContent(msg).position('top right').theme('error-toast').hideDelay(4000));
     }
 
     function updateKillswitchEnabled(state) {
@@ -334,8 +349,8 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
       /**
        * block or unblock the rover movements (depends on variable isBlocked)
        */
-      setKillswitch: function (killswitchEnabled) {
-        send("setKillswitch", [killswitchEnabled]);
+      setKillswitch: function (killswitchEnabled, notificationMessage) {
+        send("setKillswitch", [killswitchEnabled, notificationMessage]);
       },
       /**
        * check whether developer blocked user interaction with rover

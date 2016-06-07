@@ -54,7 +54,7 @@ describe ('Drive view', function() {
   });
 
   it('should display the drive dpad', function() {
-    expect(element(by.cssContainingText('.layout-column', 'Drive')).isDisplayed()).toBe(true);
+    expect(element(by.cssContainingText('.layout-column', 'Driving')).isDisplayed()).toBe(true);
   });
 
   it('should display the camera dpad', function() {
@@ -109,6 +109,8 @@ describe ('developer view', function() {
     var input = element(by.model('killswitch.enabled'));
     input.click();
     expect(element(by.binding('killswitchText')).getText()).toBe('User interaction with rover: blocked');
+    input.click();
+    expect(element(by.binding('killswitchText')).getText()).toBe('User interaction with rover: allowed');
   });
 
   it('should have the same text after page reload', function(){
@@ -116,6 +118,18 @@ describe ('developer view', function() {
     var textBefore = element(by.binding('killswitchText')).getText();
     browser.refresh();
     expect(element(by.binding('killswitchText')).getText()).toBe(textBefore);
+  });
+
+  xit('should show a notification to all clients when killswitch is triggered', function() {
+    var input = element(by.model('killswitch.enabled'));
+    var notification = element(by.css('md-toast'));
+    browser.wait(function(){
+      return browser.isElementPresent(notification);
+    });
+    input.click();
+    expect(notification.getText()).toBe('All interactions with the rover are blocked');
+    input.click();
+    expect(notification.getText()).toBe('Interactions with the rover are allowed');
   });
 
 
