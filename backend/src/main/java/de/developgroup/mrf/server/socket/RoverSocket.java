@@ -2,6 +2,7 @@ package de.developgroup.mrf.server.socket;
 
 import java.io.IOException;
 
+import de.developgroup.mrf.server.handler.NotificationHandler;
 import org.eclipse.jetty.websocket.api.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +28,9 @@ public class RoverSocket extends JsonRpc2Socket {
 
 	@Inject
 	private static SingleDriverHandler singleDriverHandler;
+
+	@Inject
+	private static NotificationHandler notificationHandler;
 
 	@Inject
 	private static ClientManager clientManager;
@@ -156,10 +160,7 @@ public class RoverSocket extends JsonRpc2Socket {
 	}
 
 	public void distributeAlertNotification(String alertMsg) {
-		JsonRpc2Request notification = new JsonRpc2Request(
-				"showAlertNotification", alertMsg);
-
-		clientManager.notifyAllClients(notification);
+		notificationHandler.distributeAlertNotification(alertMsg);
 	}
 
 	public void enterDriverMode(Number clientId) {
