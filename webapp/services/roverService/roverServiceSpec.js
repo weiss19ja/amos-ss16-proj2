@@ -150,12 +150,13 @@ describe('myApp.roverService service', function () {
   describe('myApp.roverService killswitch tests', function () {
 
     var killswitchEnabled = true;
+    var message = "Important notification";
 
     it('should send setKillswitch json-rpc', function () {
-      roverService.setKillswitch(killswitchEnabled);
+      roverService.setKillswitch(killswitchEnabled, message);
       expect(roverService.responses.length).toBe(1);
       var msg = roverService.getLastSendMsg();
-      expect(msg).toBe('{"jsonrpc":"2.0","method":"setKillswitch","params":[' + killswitchEnabled + '],"id":1}');
+      expect(msg).toBe('{"jsonrpc":"2.0","method":"setKillswitch","params":[' + killswitchEnabled +',"'+message+ '"],"id":1}');
     });
 
   });

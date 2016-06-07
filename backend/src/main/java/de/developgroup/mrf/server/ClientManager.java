@@ -38,13 +38,15 @@ public class ClientManager {
 	 *
 	 * @param session
 	 *            Session from Jetty.
+	 * @return the newly created client's id
 	 */
-	public void addClient(final Session session) {
+	public int addClient(final Session session) {
 		int clientId = generateClientId();
 		sessions.put(clientId, session);
 		sendClientId(session, clientId);
 		String msg = "new client has connected to server, id: " + clientId;
 		notifyAllClients(msg);
+		return clientId;
 	}
 
 	/**

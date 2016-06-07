@@ -17,9 +17,9 @@ public class DeveloperSettingsHandler {
             .getLogger(DeveloperSettingsHandler.class);
     protected boolean killswitchEnabled = false;
 
-    private ClientManager clientManager;
+    protected ClientManager clientManager;
 
-    private RoverHandler roverHandler;
+    protected RoverHandler roverHandler;
 
 
     @Inject
@@ -55,9 +55,18 @@ public class DeveloperSettingsHandler {
      * Blocks or unblocks rover-actions
      *
      * @param newState if true, actions get blocked, if false, clients can steer the rover
+     * @param notificationMessage message that should be broadcasted to the clients so they know
+     *                            the killswitch was pressed
      */
-    public void setKillswitchEnabled(Boolean newState) throws IOException {
+    public void setKillswitchEnabled(Boolean newState, String notificationMessage) throws IOException {
         LOGGER.debug("Killswitch state is: " + newState);
+
+        // determine whether client needs to get message
+        // should always be the case but just to be safe
+        boolean notifyClients = false;
+        if(killswitchEnabled != newState.booleanValue()){
+            notifyClients = true;
+        }
         if (newState) {
             roverHandler.stop();
             killswitchEnabled = true;
@@ -65,10 +74,16 @@ public class DeveloperSettingsHandler {
         else{
             killswitchEnabled = false;
         }
-        informClients();
+        notifyClientsAboutButtonState();
+        if(notifyClients){
+            notifyClientsAboutBlockingState(notificationMessage);
+        }
     }
 
-    public void informClients() {
+    /**
+     * Changes the Switch in the client's developer view according the killswitch State
+     */
+    public void notifyClientsAboutButtonState() {
 
         // create JSON RPC object
         ArrayList<Object> params = new ArrayList<>();
@@ -78,6 +93,34 @@ public class DeveloperSettingsHandler {
 
         LOGGER.debug("informing clients about Killswitch-State: "+ killswitchEnabled);
         clientManager.notifyAllClients(jsonRpc2Request);
+    }
+
+    /**
+     * Sends a message to all clients so they know the developer just
+     * changed the killswitch state
+     * @param message message text
+     */
+    protected void notifyClientsAboutBlockingState(String message){
+        JsonRpc2Request notification = new JsonRpc2Request(
+                "showAlertNotification", message);
+
+        clientManager.notifyAllClients(notification);
+    }
+
+    /**
+     * Sends a message to one specific client so he knows the killswitch is active and he can't interact with the rover
+     * The method should be called if a new client connects to the server
+     * @param clientId the client who should receive the message
+     * @param message message text
+     */
+    public void notifyIfBlocked(int clientId, String message){
+        if(!killswitchEnabled){
+            return;
+        }
+        JsonRpc2Request notification = new JsonRpc2Request(
+                "showAlertNotification", message);
+
+        clientManager.notifyClientById(clientId, notification);
     }
 
 }

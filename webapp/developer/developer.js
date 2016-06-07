@@ -28,7 +28,14 @@ angular.module('myApp.developer', [])
         // inform server about change made by the user
         $scope.onChange = function(cbState) {
             console.debug("Killswitch button changed to:" +cbState);
-            roverService.setKillswitch(cbState);
+            var notificationMessage;
+            if(cbState == true){
+                notificationMessage = "All interactions with the rover are blocked";
+            }
+            else{
+                notificationMessage = "Interactions with the rover are allowed";
+            }
+            roverService.setKillswitch(cbState, notificationMessage);
         };
 
       $scope.sendAlertMsg = function () {
