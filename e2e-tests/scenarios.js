@@ -54,7 +54,7 @@ describe ('Drive view', function() {
   });
 
   it('should display the drive dpad', function() {
-    expect(element(by.cssContainingText('.layout-column', 'Drive')).isDisplayed()).toBe(true);
+    expect(element(by.cssContainingText('.layout-column', 'Driving')).isDisplayed()).toBe(true);
   });
 
   it('should display the camera dpad', function() {
