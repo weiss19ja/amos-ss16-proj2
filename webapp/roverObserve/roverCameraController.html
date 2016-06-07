@@ -1,0 +1,45 @@
+<div>
+    <md-toolbar class="md-toolbar-tools md-hue-2">
+        <h3>
+            <span>Camera Controller Mode</span>
+        </h3>
+        <span flex></span>
+        <md-button class="md-fab md-mini" aria-label="Snapshot" ng-click="snapshotClicked($event)"
+                   ng-show="snapshotEnabled">
+            <md-icon md-svg-icon="assets/icons/ic_camera_enhance_black_48px.svg"></md-icon>
+        </md-button>
+    </md-toolbar>
+    <div>
+
+        <div layout="column">
+            <md-card layout="row" layout-align="center center">
+                <div flex="75" layout="column" layout-align="center center">
+                <!-- Mobile View -->
+                <img hide-gt-xs ng-src="{{mjpegStreamURL}}" fallback-src="{{'assets/icons/ic_videocam_off_48px.svg'}}"
+                     class="md-card-image" alt="Video-Stream">
+                <!-- Mobile Landscape View -->
+                <img hide-xs hide-gt-md ng-src="{{mjpegStreamURL}}"
+                     fallback-src="{{'assets/icons/ic_videocam_off_48px.svg'}}" style="width: calc(100% / 3.5)"
+                     class="md-card-image" alt="Video-Stream">
+                <!-- Desktop View -->
+                <img hide-xs hide-md hide-sm ng-src="{{mjpegStreamURL}}"
+                     fallback-src="{{'assets/icons/ic_videocam_off_48px.svg'}}" style="width: calc(100% / 2)"
+                     class="md-card-image" alt="Video-Stream">
+                </div>
+                <div hide-xs hide-gt-md layout="column" layout-align="center center">
+                    Camera
+                    <dpad mode="camera"></dpad>
+                </div>
+            </md-card>
+        </div>
+
+        <div hide-gt-xs layout="row" layout-align="center center">
+            <div layout="column" layout-align="center center">
+                Camera
+                <dpad mode="camera"></dpad>
+            </div>
+        </div>
+
+    </div>
+
+</div>

@@ -3,8 +3,8 @@
 angular.module('myApp.roverObserve', ['ngMaterial'])
 .controller('RoverObserveCtrl', ['roverService', '$scope', '$location', '$mdDialog', '$mdMedia', function(roverService, $scope, $location, $mdDialog, $mdMedia) {
     $scope.mjpegStreamURL = 'http://' + $location.host() + ':9000/stream/video.mjpeg';
-
     $scope.snapshotEnabled = true;
+    checkRedirect();
 
     $scope.snapshotClicked = function(clickEvent) {
         roverService.getCameraSnapshot(function (imageData) {
@@ -27,6 +27,14 @@ angular.module('myApp.roverObserve', ['ngMaterial'])
         $scope.imageUrl = imageUrl;
         $scope.cancel = function() {
             $mdDialog.cancel();
+        }
+    }
+
+    function checkRedirect() {
+        if($location.path().indexOf('cameraController') > -1) {
+            if($mdMedia('gt-md')) {
+                $location.path('/main');
+            }
         }
     }
 }]);
