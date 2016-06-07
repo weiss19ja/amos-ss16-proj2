@@ -7,11 +7,10 @@ describe('myApp.dpad module', function() {
     beforeEach(angular.mock.module('myApp.roverService'));
     beforeEach(module('myApp.dpad'));
 
-
     beforeEach(inject(function(_$compile_, _$rootScope_, $httpBackend, _$controller_) {
+        // parameters with _$..._ get injected
         $compile = _$compile_;
         $rootScope = _$rootScope_;
-
         $controller = _$controller_;
 
         $httpBackend.whenGET('assets/icons/ic_label_48px.svg').respond('');
@@ -26,6 +25,7 @@ describe('myApp.dpad module', function() {
             element = $compile('<dpad></dpad>')($rootScope);
             $rootScope.$digest();
         }));
+
         it('contains four dpad buttons with correct graphics', inject(function() {
             var element = $compile('<dpad></dpad>')($rootScope);
 
@@ -59,8 +59,6 @@ describe('myApp.dpad module', function() {
             expect(element.find('button').length).toBe(1);
             expect(element.find('button').text()).toContain("Stop");
         }));
-
-
     });
 
     describe('dpad directive as camera controller', function() {
@@ -83,7 +81,7 @@ describe('myApp.dpad module', function() {
     });
 
     describe('dpad component controller ', function() {
-        var element, component, scope;
+        var element, component, scope, roverService;
         /**
          * General setup
          */
@@ -93,12 +91,13 @@ describe('myApp.dpad module', function() {
             component = $controller('DPadController', {
                 $scope: scope,
                 $attrs: {},
-                roverService: {}
+                roverService: roverService
             });
 
         }));
 
         it('exposes a set of methods according to its buttons', function() {
+            expect(scope).toBeDefined();
             expect(scope.stop).toBeDefined();
             expect(scope.resetCameraPosition).toBeDefined();
             expect(scope.up).toBeDefined();
@@ -106,5 +105,5 @@ describe('myApp.dpad module', function() {
             expect(scope.left).toBeDefined();
             expect(scope.right).toBeDefined();
         });
-    })
+    });
 });
