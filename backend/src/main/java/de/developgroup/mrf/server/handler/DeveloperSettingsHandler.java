@@ -17,9 +17,9 @@ public class DeveloperSettingsHandler {
             .getLogger(DeveloperSettingsHandler.class);
     protected boolean killswitchEnabled = false;
 
-    private ClientManager clientManager;
+    protected ClientManager clientManager;
 
-    private RoverHandler roverHandler;
+    protected RoverHandler roverHandler;
 
 
     @Inject
@@ -80,6 +80,9 @@ public class DeveloperSettingsHandler {
         }
     }
 
+    /**
+     * Changes the Switch in the client's developer view according the killswitch State
+     */
     public void notifyClientsAboutButtonState() {
 
         // create JSON RPC object
@@ -97,7 +100,7 @@ public class DeveloperSettingsHandler {
      * changed the killswitch state
      * @param message message text
      */
-    private void notifyClientsAboutBlockingState(String message){
+    protected void notifyClientsAboutBlockingState(String message){
         JsonRpc2Request notification = new JsonRpc2Request(
                 "showAlertNotification", message);
 
