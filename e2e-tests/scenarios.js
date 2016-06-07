@@ -76,6 +76,18 @@ describe ('Observe view', function() {
 
 });
 
+describe ('Camera Controller view', function() {
+
+  beforeEach(function() {
+    browser.get('#/observe/cameraController');
+  });
+
+  it('should display the camera controller view headline', function() {
+    expect(element(by.tagName('h3')).getText()).toBe('Camera Controller Mode');
+  });
+
+});
+
 describe ('settings view', function() {
 
   beforeEach(function() {
@@ -86,7 +98,6 @@ describe ('settings view', function() {
     // there are two h2 headers in ng-scope --> the second one is the settings view text
     expect(element(by.css('.ng-scope')).all(by.tagName('h2')).get(1).getText()).toBe('Settings View');
   });
-
 
 });
 
@@ -153,8 +164,8 @@ describe ('sidebar navigation', function() {
   });
 
 
-  it('should have seven entries', function() {
-    expect (sidebarItems.count()).toBe(8);
+  it('should have nine entries', function() {
+    expect (sidebarItems.count()).toBe(9);
   });
 
 
@@ -183,9 +194,16 @@ describe ('sidebar navigation', function() {
     expect(browser.getLocationAbsUrl()).toMatch("/observe");
   });
 
-  it('should be redirect to settings page when Settings is clicked', function() {
-    expect (sidebarItems.get(3).getText()).toBe('Settings');
+  it('should be redirect to camera controller page when Camera Controller is clicked', function() {
+    expect (sidebarItems.get(3).getText()).toBe('Camera Controller');
     sidebarItems.get(3).click();
+    browser.refresh();
+    expect(browser.getLocationAbsUrl()).toMatch("/observe/cameraController");
+  });
+
+  it('should be redirect to settings page when Settings is clicked', function() {
+    expect (sidebarItems.get(4).getText()).toBe('Settings');
+    sidebarItems.get(4).click();
     browser.refresh();
     expect(browser.getLocationAbsUrl()).toMatch("/settings");
   });
