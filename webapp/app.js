@@ -63,9 +63,6 @@ angular.module('myApp', [
     }).when('/info', {
       templateUrl: 'info/info.html',
       controller: 'InfoCtrl'
-    }).when('/example', {
-      templateUrl: 'example/example.html',
-      controller: 'ExampleCtrl'
     }).when('/developer', {
       templateUrl: 'developer/developer.html',
       controller: 'DeveloperCtrl'

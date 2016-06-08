@@ -47,21 +47,59 @@ describe ('Main view', function() {
 
 });
 
-describe ('Drive view', function() {
+describe ('Camera and Drive view', function() {
 
   beforeEach(function() {
     browser.get('#/drive');
   });
 
   it('should display the drive dpad', function() {
-    expect(element(by.cssContainingText('.layout-column', 'Driving')).isDisplayed()).toBe(true);
+    expect(element(by.tagName('dpad')).getText()).toBeDefined();
   });
-
-  it('should display the camera dpad', function() {
-    expect(element(by.cssContainingText('.layout-column', 'Camera')).isDisplayed()).toBe(true);
+  
+  it('should display the parking sensors', function() {
+    expect(element(by.tagName('parking-sensors')).getText()).toBeDefined();
+  });
+  
+  it('should display the camera stream', function() {
+    expect(browser.findElement(by.className('md-card-image')).getText()).toBeDefined;
   });
 
 });
+
+
+describe ('Driving only view', function() {
+
+  beforeEach(function() {
+    browser.manage().window().setSize(773, 435);
+    browser.get('#/drive/driveonly');
+  });
+
+  it('should display the drive dpad', function() {
+    expect(element(by.tagName('dpad')).getText()).toBeDefined();
+  });
+
+  it('should display the parking sensors', function() {
+    expect(element(by.tagName('parking-sensors')).getText()).toBeDefined();
+  });
+
+});
+
+describe ('Emergency stop view', function() {
+
+  beforeEach(function() {
+    browser.manage().window().setSize(773, 435);
+    browser.get('#/drive/stop');
+  });
+
+  it('should display the stop button', function() {
+    expect(browser.findElement(by.id('stopView')).getText()).toBeDefined();
+  });
+
+});
+
+//TODO: MFischer Views should not be available in fullscreen
+
 
 describe ('Observe view', function() {
 
@@ -146,7 +184,7 @@ describe ('developer view', function() {
 
 });
 
-describe ('sidebar navigation', function() {
+xdescribe ('sidebar navigation', function() {
 
   var sidebarItems;
   var sideBarToggleButton;
