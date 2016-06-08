@@ -1,26 +1,17 @@
-
-    <md-card ng-show="roverState.isDriverAvailable">
-        <md-toolbar class="md-toolbar-tools md-hue-2">
-            <span hide-xs>Drive Rover</span>
-            <span hide-gt-xs>Video Stream</span>
-        </md-toolbar>
-        <md-content layout="row" layout-align="center center" layout-padding>
-            <parking-sensors hide-xs></parking-sensors>
-            <div layout="column" layout-align="center center" style="margin-left: 10px; margin-right: 10px">
-                <img ng-src="{{mjpegStreamURL}}" fallback-src="{{'assets/images/videocam_off_800x600.png'}}"
-                     class="md-card-image" alt="Video-Stream" style="width: 90%">
-            </div>
-            <dpad hide-xs></dpad>
-        </md-content>
-    </md-card>
-    <div hide-gt-xs ng-include="'components/driverCard/driverCard.html'"></div>
-
-
-<md-card ng-hide="roverState.isDriverAvailable">
-    <md-toolbar class="md-toolbar-tools md-warn md-hue-2">
-        Driver Mode Unavailable
+<md-card ng-show="roverState.isDriverAvailable">
+    <md-toolbar class="md-toolbar-tools md-hue-2">
+        <span hide-xs>Drive Rover</span>
+        <span hide-gt-xs>Video Stream</span>
     </md-toolbar>
-    <md-content layout-padding>
-        <h3>Driver mode is not available at the moment! You can go to observer mode if you want.</h3>
+    <md-content layout="row" layout-align="center center" layout-padding>
+        <parking-sensors hide-xs></parking-sensors>
+        <div layout="column" layout-align="center center" style="margin-left: 10px; margin-right: 10px">
+            <img ng-src="{{mjpegStreamURL}}" fallback-src="{{'assets/images/videocam_off_800x600.png'}}"
+                 class="md-card-image" alt="Video-Stream" style="width: 90%">
+        </div>
+        <dpad hide-xs></dpad>
     </md-content>
 </md-card>
+<div hide-gt-xs ng-include="'components/driverCard/driverCard.html'"></div>
+
+<div ng-include="'components/driverModeUnavailableCard/driverModeUnavailableCard.html'"></div>
