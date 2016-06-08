@@ -1,5 +1,14 @@
-<div layout="column" >
+<div ng-show="roverState.isDriverAvailable" layout="column" >
     <md-button style="height: 250px" class="md-raised md-warn" ng-click="stop()">
         <h1>Stop</h1>
     </md-button>
 </div>
+
+<md-card ng-hide="roverState.isDriverAvailable">
+    <md-toolbar class="md-toolbar-tools md-warn md-hue-2">
+        Driver Mode Unavailable
+    </md-toolbar>
+    <md-content layout-padding>
+        <h3>Driver mode is not available at the moment! You can go to observer mode if you want.</h3>
+    </md-content>
+</md-card>

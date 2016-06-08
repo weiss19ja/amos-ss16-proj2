@@ -1,46 +1,15 @@
 <div ng-show="roverState.isDriverAvailable">
-    <div layout="column">
-        <md-card layout="column" layout-align="center center">
-            <!-- Mobile View -->
-            <img hide-gt-xs ng-src="{{mjpegStreamURL}}" fallback-src="{{'assets/images/videocam_off_800x600.png'}}"
+        <div layout-gt-xs="row" layout-xs="column">
+            <parking-sensors hide-xs></parking-sensors>
+            <md-card layout="column" layout-align="center center">
+                <img ng-src="{{mjpegStreamURL}}" fallback-src="{{'assets/images/videocam_off_800x600.png'}}"
                  class="md-card-image" alt="Video-Stream">
-            <!-- Mobile Landscape View -->
-            <img hide-xs hide-gt-md ng-src="{{mjpegStreamURL}}"
-                 fallback-src="{{'assets/images/videocam_off_800x600.png'}}" style="width: calc(100% / 3.5)"
-                 class="md-card-image" alt="Video-Stream">
-            <!-- Desktop View -->
-            <img hide-xs hide-md hide-sm ng-src="{{mjpegStreamURL}}"
-                 fallback-src="{{'assets/images/videocam_off_800x600.png'}}" style="width: calc(100% / 2)"
-                 class="md-card-image" alt="Video-Stream">
-        </md-card>
-    </div>
-
-    <div layout="row" layout-align="center center">
-        <div layout="column" layout-align="center center">
-            <dpad></dpad>
-        </div>
-        <span flex></span>
-
-        <!-- Desktop View -->
-        <div hide-xs layout="column" layout-align="center center">
-            <div>
-                <parking-sensors></parking-sensors>
+            </md-card>
+            <div layout="row">
+                <parking-sensors hide-gt-xs></parking-sensors>
+                <dpad></dpad>
             </div>
         </div>
-
-        <span flex></span>
-        <div layout="column" layout-align="center center">
-            <dpad mode="camera"></dpad>
-        </div>
-
-
-        <!-- Mobile View -->
-        <div layout="row" layout-align="center center" hide-gt-xs>
-            <div>
-                <parking-sensors></parking-sensors>
-            </div>
-        </div>
-    </div>
 </div>
 <md-card ng-hide="roverState.isDriverAvailable">
     <md-toolbar class="md-toolbar-tools md-warn md-hue-2">
