@@ -7,6 +7,15 @@
   padding: 0 0 0.5em;
 }
 
+.menueLabelIcon {
+  color: rgba(0,0,0,0.54)!important;
+}
+
+.menueLabelText{
+  color: rgba(0,0,0,0.87);
+}
+
+
 .submenu {
   padding-left: 30px;
 }
