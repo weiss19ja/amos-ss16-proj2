@@ -13,7 +13,6 @@ angular.module('myApp', [
   'myApp.roverService',
   'myApp.logs',
   'myApp.settings',
-  'myApp.example',
   'myApp.info',
   'myApp.developer',
   'myApp.version',
