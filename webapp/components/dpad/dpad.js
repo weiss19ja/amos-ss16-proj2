@@ -96,11 +96,6 @@ angular.module('myApp.dpad', [])
             modeSelected.right();
         };
 
-        $scope.stop = function() {
-            console.debug("stop");
-            modeSelected.stop();
-        };
-
         $scope.buttonClick = function() {
             console.debug("dpad extra button clicked");
             modeSelected.buttonClick();

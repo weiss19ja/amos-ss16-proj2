@@ -1,16 +1,27 @@
 'use strict';
 
-describe('myApp.roverDrive module', function() {
+describe('myApp.roverDrive module', function () {
 
   beforeEach(module('myApp.roverDrive'));
+  beforeEach(module('myApp.roverService'));
 
-  describe('roverDrive controller', function(){
+  describe('should define roverDriveController', function () {
+    var scope, roverDriveCtrl;
 
-    it('should ....', inject(function($controller) {
-      //spec body
-      var roverDriveCtrl = $controller('RoverDriveCtrl');
-      expect(roverDriveCtrl).toBeDefined();
+    beforeEach(inject(function(_$httpBackend_, $rootScope, $controller) {
+      scope = $rootScope.$new();
+      roverDriveCtrl = $controller('RoverDriveCtrl', {$scope: scope});
+
     }));
+
+    it('should define the Developer Controller', function () {
+      expect(roverDriveCtrl).toBeDefined();
+    });
+
+    // test routeView on Desktop devices
+    // call of enter and exit driver mode
+
+
 
   });
 });
