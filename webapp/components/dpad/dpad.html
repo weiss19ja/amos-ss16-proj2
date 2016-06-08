@@ -1,27 +1,18 @@
-<div id="dpad" layout="column" >
-    <md-card>
-        <md-card-title>
-            <md-card-title-text>
-                <span class="md-headline">{{ headerText }}</span>
-            </md-card-title-text>
-        </md-card-title>
-        <md-card-content>
-            <div layout-align="center" class="dpad-button-container">
-                <md-icon md-svg-icon="assets/icons/ic_label_48px.svg" ng-click="up()" class="md-primary up dpad-button" aria-label="up">
-                </md-icon>
-                <md-icon md-svg-icon="assets/icons/ic_label_48px.svg" ng-click="left()" class="md-primary left dpad-button" aria-label="left">
-                </md-icon>
-                <md-icon md-svg-icon="assets/icons/ic_label_48px.svg" ng-click="right()" class="md-primary right dpad-button" aria-label="right">
-                </md-icon>
-                <md-icon md-svg-icon="assets/icons/ic_label_48px.svg" ng-click="down()" class="md-primary down dpad-button" aria-label="down">
-                </md-icon>
-            </div>
-        </md-card-content>
-
-        <md-card-actions layout="row" layout-align="end center">
-                <md-button ng-click="buttonClick()" ng-hide="hideStopButton">
-                    {{ buttonText }}
-                </md-button>
-        </md-card-actions>
-    </md-card>
+<div layout="column" layout-align="center ">
+    <div layout-align="center" class="dpad-button-container">
+        <md-icon md-svg-icon="assets/icons/ic_label_48px.svg" ng-click="up()" class="md-primary up dpad-button"
+                 aria-label="up">
+        </md-icon>
+        <md-icon md-svg-icon="assets/icons/ic_label_48px.svg" ng-click="left()" class="md-primary left dpad-button"
+                 aria-label="left">
+        </md-icon>
+        <md-icon md-svg-icon="assets/icons/ic_label_48px.svg" ng-click="right()" class="md-primary right dpad-button"
+                 aria-label="right">
+        </md-icon>
+        <md-icon md-svg-icon="assets/icons/ic_label_48px.svg" ng-click="down()" class="md-primary down dpad-button"
+                 aria-label="down">
+        </md-icon>
+    </div>
+    <md-button class="md-raised md-warn" ng-click="buttonClick()" ng-hide="hideStopButton">Stop</md-button>
+    <md-button class="md-raised md-accent" ng-click="buttonClick()" ng-hide="hideCenterButton">Center</md-button>
 </div>
