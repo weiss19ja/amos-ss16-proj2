@@ -21,12 +21,11 @@ module.exports = function(config){
       'webapp/bower_components/angular-img-fallback/angular.dcb-img-fallback.js',
       'webapp/bower_components/angular-css/angular-css.js',
       'webapp/**/*.html',
-      'webapp/components/dpad/dpad.js',
       'webapp/components/**/*.js',
       'webapp/developer/**/*.js',
       'webapp/main/**/*.js',
+      'webapp/roverDrive/**/*.js',
       'webapp/info/**/*.js',
-      'webapp/example/**/*.js',
       'webapp/logs/**/*.js',
       'webapp/settings/**/*.js',
       'webapp/services/**/*.js'

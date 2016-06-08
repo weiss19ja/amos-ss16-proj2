@@ -9,18 +9,8 @@
  * For communication with the rover 'roverService' is used. 
  */
 angular.module('myApp.dpad', [])
-
     .controller('DPadController', ['$scope', 'roverService','$attrs', function($scope, roverService, $attrs) {
-        /**
-         * Contains the header text for the card layout, specifying the function of this control.
-         * @type {string}
-         */
-        $scope.headerText = "";
-        /**
-         * Contains the name of the action the bottom right button of this card should perform.
-         * @type {string}
-         */
-        $scope.buttonText = "";
+
         /**
          * Currently set mapping for the buttons of the control.
          * @type {Object}
@@ -76,12 +66,12 @@ angular.module('myApp.dpad', [])
             
             // switch to camera mode
             if($attrs.mode == 'camera'){
-                $scope.headerText = "Camera";
-                $scope.buttonText = "Center";
+                $scope.hideStopButton = true;
+                $scope.hideCenterButton = false;
                 modeSelected = modeCamera;
             } else {
-                $scope.headerText = "Driving";
-                $scope.buttonText = "Stop";
+                $scope.hideStopButton = false;
+                $scope.hideCenterButton = true;
                 modeSelected = modeDriver;
             }
         };
@@ -106,14 +96,9 @@ angular.module('myApp.dpad', [])
             modeSelected.right();
         };
 
-        $scope.stop = function() {
-            console.debug("stop");
-            modeSelected.stop();
-        };
-
-        $scope.resetCameraPosition = function() {
-            console.debug("reset camera position");
-            modeSelected.resetCameraPosition();
+        $scope.buttonClick = function() {
+            console.debug("dpad extra button clicked");
+            modeSelected.buttonClick();
         };
     }])
     .component('dpad', {

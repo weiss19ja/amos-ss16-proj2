@@ -1,0 +1,12 @@
+<md-card ng-show="roverState.isDriverAvailable">
+    <md-toolbar class="md-toolbar-tools md-hue-2">
+        Emergency Stop
+    </md-toolbar>
+    <div id="stopView"  layout="column" >
+        <md-button style="height: 250px" class="md-raised md-warn" ng-click="stop()">
+            <h1>Stop</h1>
+        </md-button>
+    </div>
+</md-card>
+
+<div ng-include="'components/driverModeUnavailableCard/driverModeUnavailableCard.html'"></div>

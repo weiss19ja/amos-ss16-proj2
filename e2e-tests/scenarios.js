@@ -47,18 +47,71 @@ describe ('Main view', function() {
 
 });
 
-describe ('Drive view', function() {
+describe ('Camera and Drive view', function() {
 
   beforeEach(function() {
     browser.get('#/drive');
   });
 
   it('should display the drive dpad', function() {
-    expect(element(by.cssContainingText('.layout-column', 'Driving')).isDisplayed()).toBe(true);
+    expect(element(by.tagName('dpad')).getText()).toBeDefined();
+  });
+  
+  it('should display the parking sensors', function() {
+    expect(element(by.tagName('parking-sensors')).getText()).toBeDefined();
+  });
+  
+  it('should display the camera stream', function() {
+    expect(browser.findElement(by.className('md-card-image')).getText()).toBeDefined;
   });
 
-  it('should display the camera dpad', function() {
-    expect(element(by.cssContainingText('.layout-column', 'Camera')).isDisplayed()).toBe(true);
+});
+
+
+describe ('Driving only view', function() {
+
+  beforeEach(function() {
+    browser.manage().window().setSize(773, 435);
+    browser.get('#/drive/driveonly');
+  });
+
+  it('should display the drive dpad', function() {
+    expect(element(by.tagName('dpad')).getText()).toBeDefined();
+  });
+
+  it('should display the parking sensors', function() {
+    expect(element(by.tagName('parking-sensors')).getText()).toBeDefined();
+  });
+
+});
+
+describe ('Emergency stop view', function() {
+
+  beforeEach(function() {
+    browser.manage().window().setSize(773, 435);
+    browser.get('#/drive/stop');
+  });
+
+  it('should display the stop button', function() {
+    expect(browser.findElement(by.id('stopView')).getText()).toBeDefined();
+  });
+
+});
+
+describe ('Hide views for desktop devices', function() {
+
+  beforeEach(function() {
+    browser.manage().window().setSize(1400, 1024);
+  });
+
+  it('should hide the "Driving Only" view and redirect to /main', function() {
+    browser.get('#/drive/driveonly');
+    expect(browser.getLocationAbsUrl()).toMatch("/main");
+  });
+
+  it('should hide the "Emergency Stop" view and redirect to /main', function() {
+    browser.get('#/drive/stop')
+    expect(browser.getLocationAbsUrl()).toMatch("/main");
   });
 
 });
@@ -79,6 +132,7 @@ describe ('Observe view', function() {
 describe ('Camera Controller view', function() {
 
   beforeEach(function() {
+    browser.manage().window().setSize(773, 435);
     browser.get('#/observe/cameraController');
   });
 
@@ -146,12 +200,13 @@ describe ('developer view', function() {
 
 });
 
-describe ('sidebar navigation', function() {
+describe ('sidebar navigation for smartphones', function() {
 
   var sidebarItems;
   var sideBarToggleButton;
 
   beforeEach(function() {
+    browser.manage().window().setSize(773, 435);
     browser.get('#/main');
     sidebarItems = element(by.css('.md-sidenav-left')).all(by.tagName('md-menu-item'));
     sidebarItems.get(1).isDisplayed().then(function(visible) {
@@ -164,49 +219,123 @@ describe ('sidebar navigation', function() {
   });
 
 
-  it('should have nine entries', function() {
-    expect (sidebarItems.count()).toBe(9);
-  });
-
-
   it('should be displayed', function() {
     expect (sidebarItems.get(1).isDisplayed()).toBe(true);
   });
 
-  it('should be redirect to main page when driver is Main', function() {
+  it('should have twelve entries', function() {
+    // 12 entries with hidden developer view
+    expect (sidebarItems.count()).toBe(12);
+  });
+
+  it('should redirect to main page when main is clicked', function() {
     expect (sidebarItems.get(0).getText()).toBe('Main');
     sidebarItems.get(0).click();
     browser.refresh();
     expect(browser.getLocationAbsUrl()).toMatch("/main");
   });
 
-  it('should be redirect to drive page when driver is clicked', function() {
-    expect (sidebarItems.get(1).getText()).toBe('Driver');
-    sidebarItems.get(1).click();
+  it('should be display "Drive Control" in sidebar', function() {
+    expect (sidebarItems.get(1).getText()).toBe('Drive Control');
+  });
+
+  it('should redirect to /drive when "Camera & Driving" is clicked', function() {
+    expect (sidebarItems.get(2).getText()).toBe('Camera & Driving');
+    sidebarItems.get(2).click();
     browser.refresh();
     expect(browser.getLocationAbsUrl()).toMatch("/drive");
   });
 
-  it('should be redirect to observe page when Observer is clicked', function() {
-    expect (sidebarItems.get(2).getText()).toBe('Observer');
-    sidebarItems.get(2).click();
+  it('should redirect to /drive/driveonly when "Driving only" is clicked', function() {
+    expect (sidebarItems.get(3).getText()).toBe('Driving only');
+    sidebarItems.get(3).click();
     browser.refresh();
-    expect(browser.getLocationAbsUrl()).toMatch("/observe");
+    expect(browser.getLocationAbsUrl()).toMatch("/drive/driveonly");
   });
 
-  it('should be redirect to camera controller page when Camera Controller is clicked', function() {
-    expect (sidebarItems.get(3).getText()).toBe('Camera Controller');
-    sidebarItems.get(3).click();
+  it('should redirect to /drive/stop when "Emergency Stop" is clicked', function() {
+    expect (sidebarItems.get(4).getText()).toBe('Emergency Stop');
+    sidebarItems.get(4).click();
+    browser.refresh();
+    expect(browser.getLocationAbsUrl()).toMatch("/drive/stop");
+  });
+
+  it('should display "Camera Control" in sidebar', function() {
+    expect (sidebarItems.get(5).getText()).toBe('Camera Control');
+  });
+
+  it('should redirect to /observe/cameracontroller page when "Camera Movement" is clicked', function() {
+    expect (sidebarItems.get(6).getText()).toBe('Camera Movement');
+    sidebarItems.get(6).click();
     browser.refresh();
     expect(browser.getLocationAbsUrl()).toMatch("/observe/cameraController");
   });
 
-  it('should be redirect to settings page when Settings is clicked', function() {
-    expect (sidebarItems.get(4).getText()).toBe('Settings');
-    sidebarItems.get(4).click();
+  it('should redirect to /observe page when "Camera View" is clicked', function() {
+    expect (sidebarItems.get(7).getText()).toBe('Camera View');
+    sidebarItems.get(7).click();
+    browser.refresh();
+    expect(browser.getLocationAbsUrl()).toMatch("/observe");
+  });
+
+
+  it('should redirect to /settings page when "Settings" is clicked', function() {
+    expect (sidebarItems.get(8).getText()).toBe('Settings');
+    sidebarItems.get(8).click();
     browser.refresh();
     expect(browser.getLocationAbsUrl()).toMatch("/settings");
   });
+
+  it('should be redirect to /info when "About" is clicked', function() {
+    expect (sidebarItems.get(10).getText()).toBe('About');
+    sidebarItems.get(10).click();
+    browser.refresh();
+    expect(browser.getLocationAbsUrl()).toMatch("/info");
+  });
+
+
+});
+
+describe ('sidebar navigation for smartphones', function() {
+
+  var sidebarItems;
+  var sideBarToggleButton;
+
+  beforeEach(function() {
+    browser.manage().window().setSize(1400, 1024);
+    browser.get('#/main');
+    sidebarItems = element(by.css('.md-sidenav-left')).all(by.tagName('md-menu-item'));
+    sidebarItems.get(1).isDisplayed().then(function(visible) {
+      if (! visible)
+      {
+        sideBarToggleButton = element(by.css('.hide-gt-md'));
+        sideBarToggleButton.click();
+      }
+    });
+  });
+
+
+  it('should be displayed', function() {
+    expect (sidebarItems.get(0).isDisplayed()).toBe(true);
+  });
+
+  it('should have also twelve entries', function() {
+    // 12 entries with hidden developer view
+    expect (sidebarItems.count()).toBe(12);
+  });
+
+  it('should not view "Camera & Driving"', function() {
+    expect(sidebarItems.get(2).isDisplayed()).toBe(false);
+  });
+
+  it('should not view "Driving only"', function() {
+    expect(sidebarItems.get(3).isDisplayed()).toBe(false);
+  });
+
+  it('should not view "Emergency Stop"', function() {
+    expect(sidebarItems.get(4).isDisplayed()).toBe(false);
+  });
+
 
 
 });

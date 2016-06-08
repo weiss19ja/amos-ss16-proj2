@@ -13,7 +13,6 @@ angular.module('myApp', [
   'myApp.roverService',
   'myApp.logs',
   'myApp.settings',
-  'myApp.example',
   'myApp.info',
   'myApp.developer',
   'myApp.version',
@@ -42,6 +41,12 @@ angular.module('myApp', [
     }).when('/drive', {
       templateUrl: 'roverDrive/roverDrive.html',
       controller: 'RoverDriveCtrl'
+    }).when('/drive/driveonly', {
+      templateUrl: 'roverDrive/roverDriveOnly.html',
+      controller: 'RoverDriveCtrl'
+    }).when('/drive/stop', {
+      templateUrl: 'roverDrive/roverDriveStop.html',
+      controller: 'RoverDriveCtrl'
     }).when('/observe', {
       templateUrl: 'roverObserve/roverObserve.html',
       controller: 'RoverObserveCtrl'
@@ -57,9 +62,6 @@ angular.module('myApp', [
     }).when('/info', {
       templateUrl: 'info/info.html',
       controller: 'InfoCtrl'
-    }).when('/example', {
-      templateUrl: 'example/example.html',
-      controller: 'ExampleCtrl'
     }).when('/developer', {
       templateUrl: 'developer/developer.html',
       controller: 'DeveloperCtrl'
