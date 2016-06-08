@@ -98,8 +98,23 @@ describe ('Emergency stop view', function() {
 
 });
 
-//TODO: MFischer Views should not be available in fullscreen
+describe ('Hide views for desktop devices', function() {
 
+  beforeEach(function() {
+    browser.manage().window().setSize(1400, 1024);
+  });
+
+  it('should hide the "Driving Only" view and redirect to /main', function() {
+    browser.get('#/drive/driveonly');
+    expect(browser.getLocationAbsUrl()).toMatch("/main");
+  });
+
+  it('should hide the "Emergency Stop" view and redirect to /main', function() {
+    browser.get('#/drive/stop')
+    expect(browser.getLocationAbsUrl()).toMatch("/main");
+  });
+
+});
 
 describe ('Observe view', function() {
 
@@ -117,6 +132,7 @@ describe ('Observe view', function() {
 describe ('Camera Controller view', function() {
 
   beforeEach(function() {
+    browser.manage().window().setSize(773, 435);
     browser.get('#/observe/cameraController');
   });
 
@@ -203,14 +219,13 @@ describe ('sidebar navigation for smartphones', function() {
   });
 
 
-  it('should have nine entries', function() {
-    // 12 entries with hidden developer view
-    expect (sidebarItems.count()).toBe(12);
-  });
-
-
   it('should be displayed', function() {
     expect (sidebarItems.get(1).isDisplayed()).toBe(true);
+  });
+
+  it('should have twelve entries', function() {
+    // 12 entries with hidden developer view
+    expect (sidebarItems.count()).toBe(12);
   });
 
   it('should redirect to main page when main is clicked', function() {
@@ -277,6 +292,50 @@ describe ('sidebar navigation for smartphones', function() {
     browser.refresh();
     expect(browser.getLocationAbsUrl()).toMatch("/info");
   });
+
+
+});
+
+describe ('sidebar navigation for smartphones', function() {
+
+  var sidebarItems;
+  var sideBarToggleButton;
+
+  beforeEach(function() {
+    browser.manage().window().setSize(1400, 1024);
+    browser.get('#/main');
+    sidebarItems = element(by.css('.md-sidenav-left')).all(by.tagName('md-menu-item'));
+    sidebarItems.get(1).isDisplayed().then(function(visible) {
+      if (! visible)
+      {
+        sideBarToggleButton = element(by.css('.hide-gt-md'));
+        sideBarToggleButton.click();
+      }
+    });
+  });
+
+
+  it('should be displayed', function() {
+    expect (sidebarItems.get(0).isDisplayed()).toBe(true);
+  });
+
+  it('should have also twelve entries', function() {
+    // 12 entries with hidden developer view
+    expect (sidebarItems.count()).toBe(12);
+  });
+
+  it('should not view "Camera & Driving"', function() {
+    expect(sidebarItems.get(2).isDisplayed()).toBe(false);
+  });
+
+  it('should not view "Driving only"', function() {
+    expect(sidebarItems.get(3).isDisplayed()).toBe(false);
+  });
+
+  it('should not view "Emergency Stop"', function() {
+    expect(sidebarItems.get(4).isDisplayed()).toBe(false);
+  });
+
 
 
 });
