@@ -1,0 +1,25 @@
+<div layout-gt-xs="row" layout-xs="column" layout-align="center center">
+    <md-card layout="column">
+        <md-toolbar class="md-toolbar-tools md-hue-2">
+            <h3>
+                <span>Camera Controller Mode</span>
+            </h3>
+            <span flex></span>
+            <md-button class="md-fab md-mini" aria-label="Snapshot" ng-click="snapshotClicked($event)"
+                       ng-show="snapshotEnabled">
+                <md-icon md-svg-icon="assets/icons/ic_camera_enhance_black_48px.svg"></md-icon>
+            </md-button>
+        </md-toolbar>
+
+        <md-card-content flex layout="row" layout-align="center center">
+            <!-- Mobile View -->
+            <img hide-gt-xs ng-src="{{mjpegStreamURL}}" fallback-src="{{'assets/images/videocam_off_800x600.png'}}"
+                 class="md-card-image" alt="Video-Stream" align="middle">
+            <!-- Mobile Landscape View -->
+            <img hide-xs hide-gt-md ng-src="{{mjpegStreamURL}}"
+                 fallback-src="{{'assets/images/videocam_off_800x600.png'}}" style="width: calc(100% / 1.5)"
+                 class="md-card-image" alt="Video-Stream">
+        </md-card-content>
+    </md-card>
+    <dpad mode="camera"></dpad>
+</div>

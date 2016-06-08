@@ -51,6 +51,9 @@ angular.module('myApp', [
     }).when('/observe', {
       templateUrl: 'roverObserve/roverObserve.html',
       controller: 'RoverObserveCtrl'
+    }).when('/observe/cameraController', {
+      templateUrl: 'roverObserve/roverCameraController.html',
+      controller: 'RoverObserveCtrl'
     }).when('/settings', {
       templateUrl: 'settings/settings.html',
       controller: 'SettingsCtrl'

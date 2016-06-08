@@ -41,7 +41,9 @@ public class RoverSocket extends JsonRpc2Socket {
 	@Override
 	public void onWebSocketConnect(final Session sess) {
 		super.onWebSocketConnect(sess);
-		clientManager.addClient(sess);
+		int newClientId = clientManager.addClient(sess);
+		// if killswitch is enabled, notify the newly connected user
+		developerSettingsHandler.notifyIfBlocked(newClientId, "Interactions with the rover are blocked at the moment");
 	}
 
 	@Override
@@ -136,8 +138,8 @@ public class RoverSocket extends JsonRpc2Socket {
 		roverHandler.resetHeadPosition();
 	}
 
-	public void setKillswitch(Boolean killswitchEnabled) throws IOException {
-		developerSettingsHandler.setKillswitchEnabled(killswitchEnabled);
+	public void setKillswitch(Boolean killswitchEnabled, String notificationMessage) throws IOException {
+		developerSettingsHandler.setKillswitchEnabled(killswitchEnabled, notificationMessage);
 	}
 
 	public void getCameraSnapshot(Number clientId) throws IOException {
@@ -154,7 +156,7 @@ public class RoverSocket extends JsonRpc2Socket {
 	}
 
 	public void sendKillswitchState() {
-		developerSettingsHandler.informClients();
+		developerSettingsHandler.notifyClientsAboutButtonState();
 	}
 
 	public void distributeAlertNotification(String alertMsg) {
