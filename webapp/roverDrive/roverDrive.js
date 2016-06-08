@@ -18,7 +18,7 @@ angular.module('myApp.roverDrive', [])
     });
 
     function routeView() {
-      if(urlContainsStr('movementandcollsion') || urlContainsStr('stop')){
+      if(urlContainsStr('driveonly') || urlContainsStr('stop')){
         if($mdMedia('gt-md')){
           $location.path('/main');
         }
