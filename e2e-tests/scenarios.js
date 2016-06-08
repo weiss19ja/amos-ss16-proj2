@@ -184,12 +184,13 @@ describe ('developer view', function() {
 
 });
 
-xdescribe ('sidebar navigation', function() {
+describe ('sidebar navigation for smartphones', function() {
 
   var sidebarItems;
   var sideBarToggleButton;
 
   beforeEach(function() {
+    browser.manage().window().setSize(773, 435);
     browser.get('#/main');
     sidebarItems = element(by.css('.md-sidenav-left')).all(by.tagName('md-menu-item'));
     sidebarItems.get(1).isDisplayed().then(function(visible) {
@@ -203,7 +204,8 @@ xdescribe ('sidebar navigation', function() {
 
 
   it('should have nine entries', function() {
-    expect (sidebarItems.count()).toBe(9);
+    // 12 entries with hidden developer view
+    expect (sidebarItems.count()).toBe(12);
   });
 
 
@@ -211,39 +213,69 @@ xdescribe ('sidebar navigation', function() {
     expect (sidebarItems.get(1).isDisplayed()).toBe(true);
   });
 
-  it('should be redirect to main page when driver is Main', function() {
+  it('should redirect to main page when main is clicked', function() {
     expect (sidebarItems.get(0).getText()).toBe('Main');
     sidebarItems.get(0).click();
     browser.refresh();
     expect(browser.getLocationAbsUrl()).toMatch("/main");
   });
 
-  it('should be redirect to drive page when driver is clicked', function() {
-    expect (sidebarItems.get(1).getText()).toBe('Driver');
-    sidebarItems.get(1).click();
+  it('should be display "Drive Control" in sidebar', function() {
+    expect (sidebarItems.get(1).getText()).toBe('Drive Control');
+  });
+
+  it('should redirect to /drive when "Camera & Driving" is clicked', function() {
+    expect (sidebarItems.get(2).getText()).toBe('Camera & Driving');
+    sidebarItems.get(2).click();
     browser.refresh();
     expect(browser.getLocationAbsUrl()).toMatch("/drive");
   });
 
-  it('should be redirect to observe page when Observer is clicked', function() {
-    expect (sidebarItems.get(2).getText()).toBe('Observer');
-    sidebarItems.get(2).click();
+  it('should redirect to /drive/driveonly when "Driving only" is clicked', function() {
+    expect (sidebarItems.get(3).getText()).toBe('Driving only');
+    sidebarItems.get(3).click();
     browser.refresh();
-    expect(browser.getLocationAbsUrl()).toMatch("/observe");
+    expect(browser.getLocationAbsUrl()).toMatch("/drive/driveonly");
   });
 
-  it('should be redirect to camera controller page when Camera Controller is clicked', function() {
-    expect (sidebarItems.get(3).getText()).toBe('Camera Controller');
-    sidebarItems.get(3).click();
+  it('should redirect to /drive/stop when "Emergency Stop" is clicked', function() {
+    expect (sidebarItems.get(4).getText()).toBe('Emergency Stop');
+    sidebarItems.get(4).click();
+    browser.refresh();
+    expect(browser.getLocationAbsUrl()).toMatch("/drive/stop");
+  });
+
+  it('should display "Camera Control" in sidebar', function() {
+    expect (sidebarItems.get(5).getText()).toBe('Camera Control');
+  });
+
+  it('should redirect to /observe/cameracontroller page when "Camera Movement" is clicked', function() {
+    expect (sidebarItems.get(6).getText()).toBe('Camera Movement');
+    sidebarItems.get(6).click();
     browser.refresh();
     expect(browser.getLocationAbsUrl()).toMatch("/observe/cameraController");
   });
 
-  it('should be redirect to settings page when Settings is clicked', function() {
-    expect (sidebarItems.get(4).getText()).toBe('Settings');
-    sidebarItems.get(4).click();
+  it('should redirect to /observe page when "Camera View" is clicked', function() {
+    expect (sidebarItems.get(7).getText()).toBe('Camera View');
+    sidebarItems.get(7).click();
+    browser.refresh();
+    expect(browser.getLocationAbsUrl()).toMatch("/observe");
+  });
+
+
+  it('should redirect to /settings page when "Settings" is clicked', function() {
+    expect (sidebarItems.get(8).getText()).toBe('Settings');
+    sidebarItems.get(8).click();
     browser.refresh();
     expect(browser.getLocationAbsUrl()).toMatch("/settings");
+  });
+
+  it('should be redirect to /info when "About" is clicked', function() {
+    expect (sidebarItems.get(10).getText()).toBe('About');
+    sidebarItems.get(10).click();
+    browser.refresh();
+    expect(browser.getLocationAbsUrl()).toMatch("/info");
   });
 
 
