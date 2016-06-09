@@ -157,6 +157,7 @@ public class RoverSocket extends JsonRpc2Socket {
 		return developerSettingsHandler.isKillswitchEnabled();
 	}
 
+	// TODO: Clarify: unused in frontend --> method gets never called?
 	public void sendKillswitchState() {
 		developerSettingsHandler.notifyClientsAboutButtonState();
 	}

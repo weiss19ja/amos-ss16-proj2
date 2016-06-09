@@ -14,6 +14,7 @@ import org.junit.Test;
 
 import de.developgroup.mrf.server.ClientManager;
 import de.developgroup.mrf.server.handler.DeveloperSettingsHandler;
+import de.developgroup.mrf.server.handler.NotificationHandler;
 import de.developgroup.mrf.server.handler.RoverHandler;
 import de.developgroup.mrf.server.handler.SingleDriverHandler;
 
@@ -24,6 +25,7 @@ public class RoverSocketTest {
 	DeveloperSettingsHandler developerSettingsHandler = mock(DeveloperSettingsHandler.class);
 	SingleDriverHandler singleDriverHandler = mock(SingleDriverHandler.class);
 	RoverHandler roverHandler = mock(RoverHandler.class);
+	NotificationHandler notificationHandler = mock(NotificationHandler.class);
 
 	@Before
 	public void setUp() {
@@ -31,6 +33,7 @@ public class RoverSocketTest {
 		RoverSocket.developerSettingsHandler = developerSettingsHandler;
 		RoverSocket.singleDriverHandler = singleDriverHandler;
 		RoverSocket.roverHandler = roverHandler;
+		RoverSocket.notificationHandler = notificationHandler;
 	}
 
 	@After
@@ -129,9 +132,117 @@ public class RoverSocketTest {
 		verify(RoverSocket.roverHandler, never()).turnRight(100);
 	}
 
-	// turnHeadUp
-	// turnHeadDown
-	// turnHeadLeft
-	// turnHeadRight
-	// resetHeadPosition
+	@Test
+	public void testTurnHeadUp() throws IOException {
+		roverSocket.turnHeadUp(30);
+		verify(RoverSocket.roverHandler).turnHeadUp(30);
+
+	}
+
+	@Test
+	public void testTurnHeadUpKillswitchEnabled() throws IOException {
+		when(developerSettingsHandler.checkKillswitchEnabled())
+				.thenReturn(true);
+		roverSocket.turnHeadUp(30);
+		verify(RoverSocket.roverHandler, never()).turnHeadUp(30);
+	}
+
+	@Test
+	public void testTurnHeadDown() throws IOException {
+		roverSocket.turnHeadDown(30);
+		verify(RoverSocket.roverHandler).turnHeadDown(30);
+
+	}
+
+	@Test
+	public void testTurnHeadDownKillswitchEnabled() throws IOException {
+		when(developerSettingsHandler.checkKillswitchEnabled())
+				.thenReturn(true);
+		roverSocket.turnHeadDown(30);
+		verify(RoverSocket.roverHandler, never()).turnHeadDown(30);
+	}
+
+	@Test
+	public void testTurnHeadLeft() throws IOException {
+		roverSocket.turnHeadLeft(30);
+		verify(RoverSocket.roverHandler).turnHeadLeft(30);
+
+	}
+
+	@Test
+	public void testTurnHeadLeftKillswitchEnabled() throws IOException {
+		when(developerSettingsHandler.checkKillswitchEnabled())
+				.thenReturn(true);
+		roverSocket.turnHeadLeft(30);
+		verify(RoverSocket.roverHandler, never()).turnHeadLeft(30);
+	}
+
+	@Test
+	public void testTurnHeadRight() throws IOException {
+		roverSocket.turnHeadRight(30);
+		verify(RoverSocket.roverHandler).turnHeadRight(30);
+
+	}
+
+	@Test
+	public void testTurnHeadRightKillswitchEnabled() throws IOException {
+		when(developerSettingsHandler.checkKillswitchEnabled())
+				.thenReturn(true);
+		roverSocket.turnHeadRight(30);
+		verify(RoverSocket.roverHandler, never()).turnHeadRight(30);
+	}
+
+	@Test
+	public void testResetHeadPosition() throws IOException {
+		roverSocket.resetHeadPosition();
+		verify(RoverSocket.roverHandler).resetHeadPosition();
+	}
+
+	@Test
+	public void testResetHeadPositionKillswitchEnabled() throws IOException {
+		when(developerSettingsHandler.checkKillswitchEnabled())
+				.thenReturn(true);
+		roverSocket.resetHeadPosition();
+		verify(RoverSocket.roverHandler, never()).resetHeadPosition();
+	}
+
+	@Test
+	public void testSetKillswitch() throws IOException {
+		roverSocket.setKillswitch(true, "enabled killswitch for test");
+		verify(RoverSocket.developerSettingsHandler).setKillswitchEnabled(true,
+				"enabled killswitch for test");
+	}
+
+	@Test
+	public void testGetCameraSnapshot() throws IOException {
+		roverSocket.getCameraSnapshot(5002);
+		verify(RoverSocket.roverHandler).getCameraSnapshot(5002);
+	}
+
+	@Test
+	public void testGetCameraSnapshotKillswitchEnabled() throws IOException {
+		when(developerSettingsHandler.checkKillswitchEnabled())
+				.thenReturn(true);
+		roverSocket.getCameraSnapshot(5003);
+		verify(RoverSocket.roverHandler, never()).getCameraSnapshot(5003);
+	}
+
+	@Test
+	public void testDistributeAlertNotification() {
+		roverSocket.distributeAlertNotification("Test alert message");
+		verify(RoverSocket.notificationHandler).distributeAlertNotification(
+				"Test alert message");
+	}
+
+	@Test
+	public void testEnterDriverMode() {
+		roverSocket.enterDriverMode(5001);
+		verify(RoverSocket.singleDriverHandler).acquireDriver(5001);
+	}
+
+	@Test
+	public void testExitDriverMode() {
+		roverSocket.exitDriverMode(5002);
+		verify(RoverSocket.singleDriverHandler).releaseDriver(5002);
+	}
 }
