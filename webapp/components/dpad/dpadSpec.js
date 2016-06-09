@@ -1,26 +1,32 @@
 'use strict';
 
 describe('myApp.dpad module', function() {
-    var $compile, $rootScope, $controller;
+    var $compile, $rootScope, scope, $controller, element, dpadCtrl, roverService;
 
     beforeEach(angular.mock.module('templates'));
     beforeEach(angular.mock.module('myApp.roverService'));
     beforeEach(module('myApp.dpad'));
 
-    beforeEach(inject(function(_$compile_, _$rootScope_, $httpBackend, _$controller_) {
-        // parameters with _$..._ get injected
+    /**
+     * General setup
+     */
+    beforeEach(inject(function(_$compile_, _$rootScope_, $httpBackend, _$controller_, _roverService_) {
         $compile = _$compile_;
         $rootScope = _$rootScope_;
+        roverService = _roverService_;
         $controller = _$controller_;
+        scope = $rootScope.$new();
+        dpadCtrl = $controller('DPadController', {
+            $scope: scope,
+            $attrs: {},
+            roverService: roverService
+        });
 
         $httpBackend.whenGET('assets/icons/ic_label_48px.svg').respond('');
     }));
 
     describe('dpad directive general layout', function() {
-        var element;
-        /**
-         * General setup
-         */
+
         beforeEach(inject(function() {
             element = $compile('<dpad></dpad>')($rootScope);
             $rootScope.$digest();
@@ -42,10 +48,7 @@ describe('myApp.dpad module', function() {
     });
 
     describe('dpad directive as movement controller', function() {
-        var element;
-        /**
-         * General setup
-         */
+
         beforeEach(inject(function() {
             element = $compile('<dpad></dpad>')($rootScope);
             $rootScope.$digest();
@@ -62,10 +65,7 @@ describe('myApp.dpad module', function() {
     });
 
     describe('dpad directive as camera controller', function() {
-         var element;
-        /**
-         * General setup
-         */
+
         beforeEach(inject(function() {
             element = $compile('<dpad mode="camera"></dpad>')($rootScope);
             $rootScope.$digest();
@@ -81,19 +81,9 @@ describe('myApp.dpad module', function() {
     });
 
     describe('dpad component controller ', function() {
-        var element, component, scope, roverService;
-        /**
-         * General setup
-         */
+
         beforeEach(inject(function() {
             element = $compile('<dpad></dpad>');
-            scope = $rootScope.$new();
-            component = $controller('DPadController', {
-                $scope: scope,
-                $attrs: {},
-                roverService: roverService
-            });
-
         }));
 
         it('exposes a set of methods according to its buttons', function() {
@@ -105,4 +95,5 @@ describe('myApp.dpad module', function() {
             expect(scope.right).toBeDefined();
         });
     });
+
 });
