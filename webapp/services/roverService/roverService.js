@@ -112,7 +112,7 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
           setClientId(request.params[0]);
           break;
         case 'incomingNotification':
-          incomingNotification(request.params[0]);
+          showNormalNotification(request.params[0]);
           break;
         case 'updateKillswitchEnabled':
           updateKillswitchEnabled(request.params[0]);
@@ -163,9 +163,9 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
     /**
      * Add new notification to notifications list pushed by the server.
      */
-    function incomingNotification(msg) {
+    function showNormalNotification(msg) {
       notifications.push(msg);
-      console.log("new notification: " + msg);
+      console.log("show normal notification: " + msg);
       $mdToast.show($mdToast.simple().textContent(msg).position('top right').hideDelay(4000));
     }
 
@@ -174,6 +174,8 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
      * @param msg text message
      */
     function showAlertNotification(msg) {
+      notifications.push(msg);
+      console.log("show error notification: " + msg);
       $mdToast.show($mdToast.simple().textContent(msg).position('top right').theme('alert-toast').hideDelay(4000));
     }
 
@@ -182,6 +184,8 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
      * @param msg text message
      */
     function showErrorNotification(msg) {
+      notifications.push(msg);
+      console.log("show error notification: " + msg);
       $mdToast.show($mdToast.simple().textContent(msg).position('top right').theme('error-toast').hideDelay(4000));
     }
 
@@ -280,6 +284,9 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
       roverState: roverState,
       collisions: collisionDetection,
       errors: errorResponses,
+      showNormalNotification: showNormalNotification,
+      showAlertNotification : showAlertNotification,
+      showErrorNotification: showErrorNotification,
       getLastErrorResponse: function () {
         return lastErrorResponse;
       },

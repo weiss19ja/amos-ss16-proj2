@@ -88,7 +88,6 @@ describe('myApp.roverService service', function () {
       expect(roverService.responses.length).toBe(1);
       var msg = roverService.getLastSendMsg();
       expect(msg).toBe('{"jsonrpc":"2.0","method":"turnHeadDown","params":[' + cameraMoveStep + '],"id":1}');
-      ;
     });
 
     it('should send camera move left json-rpc', function () {
@@ -276,6 +275,31 @@ describe('myApp.roverService service', function () {
       roverService.sendPing();    // id: 3
       expect(roverService.roverState.isDriverAvailable).toBe(false);
     });
+  });
+
+  describe('myApp.roverService notification tests',function () {
+
+    it('should toast a normal notification',function () {
+      roverService.sendPing();
+      $websocketBackend.expectSend({data: JSON.stringify({jsonrpc: "2.0", method: "incomingNotification", params: ["Normal Notification"]})});
+      roverService.sendPing();
+      expect(roverService.notifications.pop()).toBe('Normal Notification');
+    });
+
+    it('should toast a alert notification',function () {
+      roverService.sendPing();
+      $websocketBackend.expectSend({data: JSON.stringify({jsonrpc: "2.0", method: "showAlertNotification", params: ["Alert Notification"]})});
+      roverService.sendPing();
+      expect(roverService.notifications.pop()).toBe('Alert Notification');
+    });
+
+    it('should toast a error notification',function () {
+      roverService.sendPing();
+      $websocketBackend.expectSend({data: JSON.stringify({jsonrpc: "2.0", method: "showErrorNotification", params: ["Error Notification"]})});
+      roverService.sendPing();
+      expect(roverService.notifications.pop()).toBe('Error Notification');
+    });
+
   });
 
 });
