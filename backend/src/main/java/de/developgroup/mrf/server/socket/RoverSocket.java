@@ -2,7 +2,6 @@ package de.developgroup.mrf.server.socket;
 
 import java.io.IOException;
 
-import de.developgroup.mrf.server.handler.NotificationHandler;
 import org.eclipse.jetty.websocket.api.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,9 +10,9 @@ import com.google.inject.Inject;
 
 import de.developgroup.mrf.server.ClientManager;
 import de.developgroup.mrf.server.handler.DeveloperSettingsHandler;
+import de.developgroup.mrf.server.handler.NotificationHandler;
 import de.developgroup.mrf.server.handler.RoverHandler;
 import de.developgroup.mrf.server.handler.SingleDriverHandler;
-import de.developgroup.mrf.server.rpc.JsonRpc2Request;
 import de.developgroup.mrf.server.rpc.JsonRpc2Socket;
 
 public class RoverSocket extends JsonRpc2Socket {
@@ -21,19 +20,19 @@ public class RoverSocket extends JsonRpc2Socket {
 			.getLogger(RoverSocket.class);
 
 	@Inject
-	public static RoverHandler roverHandler;
+	static RoverHandler roverHandler;
 
 	@Inject
-	public static DeveloperSettingsHandler developerSettingsHandler;
+	static DeveloperSettingsHandler developerSettingsHandler;
 
 	@Inject
-	private static SingleDriverHandler singleDriverHandler;
+	static SingleDriverHandler singleDriverHandler;
 
 	@Inject
-	private static NotificationHandler notificationHandler;
+	static NotificationHandler notificationHandler;
 
 	@Inject
-	private static ClientManager clientManager;
+	static ClientManager clientManager;
 
 	public RoverSocket() {
 	}
@@ -43,7 +42,8 @@ public class RoverSocket extends JsonRpc2Socket {
 		super.onWebSocketConnect(sess);
 		int newClientId = clientManager.addClient(sess);
 		// if killswitch is enabled, notify the newly connected user
-		developerSettingsHandler.notifyIfBlocked(newClientId, "Interactions with the rover are blocked at the moment");
+		developerSettingsHandler.notifyIfBlocked(newClientId,
+				"Interactions with the rover are blocked at the moment");
 	}
 
 	@Override
@@ -138,8 +138,10 @@ public class RoverSocket extends JsonRpc2Socket {
 		roverHandler.resetHeadPosition();
 	}
 
-	public void setKillswitch(Boolean killswitchEnabled, String notificationMessage) throws IOException {
-		developerSettingsHandler.setKillswitchEnabled(killswitchEnabled, notificationMessage);
+	public void setKillswitch(Boolean killswitchEnabled,
+			String notificationMessage) throws IOException {
+		developerSettingsHandler.setKillswitchEnabled(killswitchEnabled,
+				notificationMessage);
 	}
 
 	public void getCameraSnapshot(Number clientId) throws IOException {
