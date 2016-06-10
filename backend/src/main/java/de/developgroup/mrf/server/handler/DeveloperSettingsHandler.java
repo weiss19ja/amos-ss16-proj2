@@ -80,8 +80,6 @@ public class DeveloperSettingsHandler implements Observer{
             killswitchEnabled = false;
         }
         notifyClientsAboutButtonState();
-        // TODO: Only for testing purposes
-        notifyClientsAboutConnectedUsers();
         if(notifyClients){
             notifyClientsAboutBlockingState(notificationMessage);
         }
@@ -105,11 +103,7 @@ public class DeveloperSettingsHandler implements Observer{
     /**
      * Changes the List in the client's developer view according the connectedUsersList
      */
-    public void notifyClientsAboutConnectedUsers() {
-
-        String[] connectedUsers = new String[2];
-        connectedUsers[0] = "User 1";
-        connectedUsers[1] = "User 2";
+    public void notifyClientsAboutConnectedUsers(String[] connectedUsers) {
 
         // create JSON RPC object
         ArrayList<Object> params = new ArrayList<>();
@@ -156,5 +150,15 @@ public class DeveloperSettingsHandler implements Observer{
      */
     @Override
     public void update(Observable o, Object arg) {
+        Map<Integer, Session> sessions = clientManager.getSessions();
+        int numberOfConnectedClients = sessions.size();
+        String[] connectedUsers = new String[numberOfConnectedClients];
+        int count = 0;
+
+        for (Map.Entry<Integer, Session> entry : sessions.entrySet()) {
+            int clientId = entry.getKey();
+            connectedUsers[count++] = clientId+ "";
+        }
+        notifyClientsAboutConnectedUsers(connectedUsers);
     }
 }
