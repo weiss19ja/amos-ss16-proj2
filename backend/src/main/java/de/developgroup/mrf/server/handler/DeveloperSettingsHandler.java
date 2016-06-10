@@ -75,6 +75,8 @@ public class DeveloperSettingsHandler {
             killswitchEnabled = false;
         }
         notifyClientsAboutButtonState();
+        // TODO: Only for testing purposes
+        notifyClientsAboutConnectedUsers();
         if(notifyClients){
             notifyClientsAboutBlockingState(notificationMessage);
         }
@@ -92,6 +94,25 @@ public class DeveloperSettingsHandler {
         JsonRpc2Request jsonRpc2Request = new JsonRpc2Request("updateKillswitchEnabled", params);
 
         LOGGER.debug("informing clients about Killswitch-State: "+ killswitchEnabled);
+        clientManager.notifyAllClients(jsonRpc2Request);
+    }
+
+    /**
+     * Changes the List in the client's developer view according the connectedUsersList
+     */
+    public void notifyClientsAboutConnectedUsers() {
+
+        String[] connectedUsers = new String[2];
+        connectedUsers[0] = "User 1";
+        connectedUsers[1] = "User 2";
+
+        // create JSON RPC object
+        ArrayList<Object> params = new ArrayList<>();
+        params.add(connectedUsers);
+
+        JsonRpc2Request jsonRpc2Request = new JsonRpc2Request("updateConnectedUsers", params);
+
+        LOGGER.debug("informing clients about connected users: "+ connectedUsers);
         clientManager.notifyAllClients(jsonRpc2Request);
     }
 

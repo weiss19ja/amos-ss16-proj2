@@ -33,7 +33,9 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
       backRight: false
     };
     var snapshotCallback;
-    var connectedUsers = ['userEins', 'userZwei', 'userDrei'];
+    var connectedUsers = {
+        list: ['userEins', 'userZwei', 'userDrei']
+    }
     var blockedUsers = ['evilAttacker'];
 
 
@@ -121,6 +123,9 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
           break;
         case 'updateCollisionInformation':
           updateCollisionInformation(request.params);
+          break;
+        case 'updateConnectedUsers':
+          updateConnectedUsers(request.params[0]);
           break;
         case 'incomingSnapshot':
           incomingSnapshot(request.params);
@@ -249,6 +254,12 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
         roverState.isKillswitchEnabled = receivedRoverState.isKillswitchEnabled;
       }
       console.log(roverState);
+    }
+    /**
+       * Update connected users
+       */
+    function updateConnectedUsers(userList) {
+        connectedUsers.list = userList;
     }
 
     /**

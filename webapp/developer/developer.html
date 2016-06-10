@@ -20,7 +20,8 @@
                 </md-toolbar>
                 <md-content layout-padding>
                         <md-list>
-                                <md-list-item class="secondary-button-padding" ng-repeat="user in connectedUsers">
+                                <!-- For further ideas on lists, visit: https://material.angularjs.org/latest/demo/list -->
+                                <md-list-item class="secondary-button-padding" ng-repeat="user in connectedUsers.list">
                                         <p>{{user}}</p>
                                         <md-button class="md-secondary" ng-click="blockUser($event)">Block</md-button>
                                 </md-list-item>
