@@ -34,6 +34,7 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
     };
     var snapshotCallback;
     var connectedUsers = ['userEins', 'userZwei', 'userDrei'];
+    var blockedUsers = ['evilAttacker'];
 
 
     /**
@@ -285,6 +286,7 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
       roverState: roverState,
       collisions: collisionDetection,
       connectedUsers: connectedUsers,
+      blockedUsers: blockedUsers,
       errors: errorResponses,
       showNormalNotification: showNormalNotification,
       showAlertNotification : showAlertNotification,

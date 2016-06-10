@@ -16,6 +16,7 @@ angular.module('myApp.developer', [])
 
         // Connected Users
         $scope.connectedUsers = roverService.connectedUsers;
+        $scope.blockedUsers = roverService.blockedUsers;
 
 
         // change text if switch changes

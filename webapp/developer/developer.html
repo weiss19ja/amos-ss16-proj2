@@ -20,7 +20,6 @@
                 </md-toolbar>
                 <md-content layout-padding>
                         <md-list>
-                                https://material.angularjs.org/latest/demo/list
                                 <md-list-item class="secondary-button-padding" ng-repeat="user in connectedUsers">
                                         <p>{{user}}</p>
                                         <md-button class="md-secondary" ng-click="blockUser($event)">Block</md-button>
@@ -28,8 +27,8 @@
 
                                 <md-divider></md-divider>
                                 <md-subheader class="md-no-sticky">Blocked users</md-subheader>
-                                <md-list-item class="secondary-button-padding">
-                                        <p>Nobody is blocked</p>
+                                <md-list-item class="secondary-button-padding" ng-repeat="user in blockedUsers">
+                                        <p>{{user}}</p>
                                         <md-button class="md-secondary" ng-click="unblockUser($event)">Unblock</md-button>
                                 </md-list-item>
 
