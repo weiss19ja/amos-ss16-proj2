@@ -20,10 +20,20 @@
                 </md-toolbar>
                 <md-content layout-padding>
                         <md-list>
-                                <md-list-item ng-repeat="user in connectedUsers | filter:searchText">
-                                        <md-checkbox class="md-primary" ng-click="toggleChecked(user)"></md-checkbox>{{user}}</md-list-item>
+                                https://material.angularjs.org/latest/demo/list
+                                <md-list-item class="secondary-button-padding" ng-repeat="user in connectedUsers">
+                                        <p>{{user}}</p>
+                                        <md-button class="md-secondary" ng-click="blockUser($event)">Block</md-button>
+                                </md-list-item>
+
+                                <md-divider></md-divider>
+                                <md-subheader class="md-no-sticky">Blocked users</md-subheader>
+                                <md-list-item class="secondary-button-padding">
+                                        <p>Nobody is blocked</p>
+                                        <md-button class="md-secondary" ng-click="unblockUser($event)">Unblock</md-button>
+                                </md-list-item>
+
                         </md-list>
-                        
                 </md-content>
         </md-card>
 
