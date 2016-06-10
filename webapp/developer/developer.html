@@ -16,6 +16,19 @@
 
         <md-card>
                 <md-toolbar class="md-toolbar-tools md-hue-2">
+                        Connected users
+                </md-toolbar>
+                <md-content layout-padding>
+                        <md-list>
+                                <md-list-item ng-repeat="user in connectedUsers | filter:searchText">
+                                        <md-checkbox class="md-primary" ng-click="toggleChecked(user)"></md-checkbox>{{user}}</md-list-item>
+                        </md-list>
+                        
+                </md-content>
+        </md-card>
+
+        <md-card>
+                <md-toolbar class="md-toolbar-tools md-hue-2">
                        Send Alerts to Users
                 </md-toolbar>
                 <md-card-title>

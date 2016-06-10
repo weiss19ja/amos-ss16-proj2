@@ -2,6 +2,7 @@
 
 angular.module('myApp.developer', [])
     .controller('DeveloperCtrl', ['$scope', 'roverService', function($scope, roverService) {
+        // Killswitch
         $scope.killswitchText = 'allowed';
         $scope.killswitch = roverService.killswitch;
         roverService.getKillswitchState();
@@ -12,6 +13,9 @@ angular.module('myApp.developer', [])
             console.log("setBlocked");
             roverService.setKillswitch(cbState);
         };
+
+        // Connected Users
+        $scope.connectedUsers = roverService.connectedUsers;
 
 
         // change text if switch changes
