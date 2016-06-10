@@ -1,12 +1,7 @@
 package de.developgroup.mrf.server;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.jetty.websocket.api.Session;
@@ -22,7 +17,7 @@ import de.developgroup.mrf.server.rpc.JsonRpc2Request;
  * via websocket he will be listed here and gets an ID.
  */
 @Singleton
-public class ClientManager {
+public class ClientManager extends Observable {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(ClientManager.class);
 	private static final String TEXT_NOTIFICATION_METHOD = "incomingNotification";
@@ -46,6 +41,9 @@ public class ClientManager {
 		sendClientId(session, clientId);
 		String msg = "new client has connected to server, id: " + clientId;
 		notifyAllClients(msg);
+		// Notify Observers, e.g. Developer Settings Handler so that the connected users list can be updated
+		setChanged();
+		notifyObservers();
 		return clientId;
 	}
 
@@ -61,8 +59,19 @@ public class ClientManager {
 				LOGGER.info("Remove session: "
 						+ session.getRemoteAddress().toString());
 				iter.remove();
+				// Notify Observers, e.g. Developer Settings Handler so that the connected users list can be updated
+				setChanged();
+				notifyObservers();
 			}
 		}
+	}
+
+	/**
+	 * Getter for sessions
+	 * @return Map that contains all active sessions and ids
+     */
+	public static Map<Integer, Session> getSessions() {
+		return sessions;
 	}
 
 	/**

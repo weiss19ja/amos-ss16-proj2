@@ -4,14 +4,17 @@ import com.google.inject.Inject;
 import de.developgroup.mrf.rover.collision.CollisionController;
 import de.developgroup.mrf.server.ClientManager;
 import de.developgroup.mrf.server.rpc.JsonRpc2Request;
+import org.eclipse.jetty.websocket.api.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Observable;
+import java.util.Observer;
 
-public class DeveloperSettingsHandler {
+public class DeveloperSettingsHandler implements Observer{
 
     private static final Logger LOGGER = LoggerFactory
             .getLogger(DeveloperSettingsHandler.class);
@@ -28,6 +31,8 @@ public class DeveloperSettingsHandler {
         LOGGER.debug("Creating new instance of DeveloperSettingsHandler");
         this.clientManager = clientManager;
         this.roverHandler = roverHandler;
+        // Ovserve clientManger about connected user changes
+        clientManager.addObserver(this);
     }
 
     /**
@@ -144,4 +149,12 @@ public class DeveloperSettingsHandler {
         clientManager.notifyClientById(clientId, notification);
     }
 
+    /**
+     * Update connectedUsers list if clientManager notifys about changed connected users list
+     * @param o Observable, in this Case the clientManager
+     * @param arg not used
+     */
+    @Override
+    public void update(Observable o, Object arg) {
+    }
 }
