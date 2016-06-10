@@ -77,6 +77,16 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
       ws.send(msg);
       lastSendMsg = msg;
     }
+    /**
+     * Send information about the client to the backend
+     * so that developer has information about the users
+     */
+    function sendClientInformation(){
+        var client = new ClientJS();
+        var fingerprint = client.getFingerprint();
+        var userAgent = client.getUserAgent();
+        send("setClientInformation", [clientId, fingerprint.toString(), userAgent.toString()]);
+    }
 
     ws.onError(function (event) {
       console.log('connection Error', event);
@@ -165,6 +175,7 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
     function setClientId(id) {
       clientId = id;
       console.log("ID of this client is now " + id);
+        sendClientInformation();
     }
 
     /**

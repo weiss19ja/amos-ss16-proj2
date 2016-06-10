@@ -197,4 +197,8 @@ public class ClientManager extends Observable {
 		return notification;
 	}
 
+	// TODO: Store information
+	public void setClientInformation(int clientId, String fingerprint, String userAgent) {
+		notifyAllClients("ClientID: "+clientId + " FP:"+ fingerprint + " UA: "+ userAgent);
+	}
 }
