@@ -1,6 +1,7 @@
 package de.developgroup.mrf.server;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -24,6 +25,10 @@ public class ClientManager extends Observable {
 
 	private static final Map<Integer, Session> sessions = Collections
 			.synchronizedMap(new HashMap<Integer, Session>());
+	// Contains Client's IP and additional information
+	private static final Map<String, String> clientInformation = Collections
+			.synchronizedMap(new HashMap<String, String>());
+
 	private AtomicInteger lastClientId = new AtomicInteger(5000);
 
 	/**
@@ -72,6 +77,14 @@ public class ClientManager extends Observable {
      */
 	public static Map<Integer, Session> getSessions() {
 		return sessions;
+	}
+
+	/**
+	 * Getter for clientInformation
+	 * @return Map that contains Ip Addresses and additional information
+     */
+	public static Map<String, String> getClientInformation() {
+		return clientInformation;
 	}
 
 	/**
@@ -199,6 +212,14 @@ public class ClientManager extends Observable {
 
 	// TODO: Store information
 	public void setClientInformation(int clientId, String fingerprint, String userAgent) {
-		notifyAllClients("ClientID: "+clientId + " FP:"+ fingerprint + " UA: "+ userAgent);
+		Session session = sessions.get(clientId);
+		InetSocketAddress remoteAddr = session.getRemoteAddress();
+//		LOGGER.debug("Remote Address: "+remoteAddr.getAddress());
+//		LOGGER.debug("Remote Hostname: "+remoteAddr.getHostName());
+//		LOGGER.debug("Remote HostString: "+remoteAddr.getHostString());
+//		LOGGER.debug("Remote Port: "+remoteAddr.getPort());
+//		notifyAllClients("ClientID: "+clientId + " FP:"+ fingerprint + " UA: "+ userAgent);
+		// set IP Adress and additional information
+		clientInformation.put(session.getRemoteAddress().getHostString(), userAgent);
 	}
 }

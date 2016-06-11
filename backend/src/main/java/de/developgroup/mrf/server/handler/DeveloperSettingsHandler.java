@@ -151,13 +151,18 @@ public class DeveloperSettingsHandler implements Observer{
     @Override
     public void update(Observable o, Object arg) {
         Map<Integer, Session> sessions = clientManager.getSessions();
+        Map<String, String> clientInfo = clientManager.getClientInformation();
         int numberOfConnectedClients = sessions.size();
         String[] connectedUsers = new String[numberOfConnectedClients];
         int count = 0;
 
         for (Map.Entry<Integer, Session> entry : sessions.entrySet()) {
+            // TODO: Nach Ip ordnen
             int clientId = entry.getKey();
-            connectedUsers[count++] = clientId+ "";
+            String ipAddress = entry.getValue().getRemoteAddress().getHostString();
+            String additionalInformation = clientInfo.get(ipAddress);
+            connectedUsers[count++] = "IP Address: "+ ipAddress + " ClientID: "+clientId+
+                    " Additonal information: " + additionalInformation;
         }
         notifyClientsAboutConnectedUsers(connectedUsers);
     }
