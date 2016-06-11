@@ -151,7 +151,7 @@ public class DeveloperSettingsHandler implements Observer{
     @Override
     public void update(Observable o, Object arg) {
         Map<Integer, Session> sessions = clientManager.getSessions();
-        Map<String, String> clientInfo = clientManager.getClientInformation();
+        Map<Integer, String> clientInfo = clientManager.getClientInformation();
         int numberOfConnectedClients = sessions.size();
         String[] connectedUsers = new String[numberOfConnectedClients];
         int count = 0;
@@ -160,7 +160,7 @@ public class DeveloperSettingsHandler implements Observer{
             // TODO: Nach Ip ordnen
             int clientId = entry.getKey();
             String ipAddress = entry.getValue().getRemoteAddress().getHostString();
-            String additionalInformation = clientInfo.get(ipAddress);
+            String additionalInformation = clientInfo.get(clientId);
             connectedUsers[count++] = "IP Address: "+ ipAddress + " ClientID: "+clientId+
                     " Additonal information: " + additionalInformation;
         }

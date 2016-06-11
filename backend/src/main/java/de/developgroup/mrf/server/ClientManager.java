@@ -26,8 +26,8 @@ public class ClientManager extends Observable {
 	private static final Map<Integer, Session> sessions = Collections
 			.synchronizedMap(new HashMap<Integer, Session>());
 	// Contains Client's IP and additional information
-	private static final Map<String, String> clientInformation = Collections
-			.synchronizedMap(new HashMap<String, String>());
+	private static final Map<Integer, String> clientInformation = Collections
+			.synchronizedMap(new HashMap<Integer, String>());
 
 	private AtomicInteger lastClientId = new AtomicInteger(5000);
 
@@ -81,9 +81,9 @@ public class ClientManager extends Observable {
 
 	/**
 	 * Getter for clientInformation
-	 * @return Map that contains Ip Addresses and additional information
+	 * @return Map that contains ClientId and additional information
      */
-	public static Map<String, String> getClientInformation() {
+	public static Map<Integer, String> getClientInformation() {
 		return clientInformation;
 	}
 
@@ -214,12 +214,10 @@ public class ClientManager extends Observable {
 	public void setClientInformation(int clientId, String fingerprint, String userAgent) {
 		Session session = sessions.get(clientId);
 		InetSocketAddress remoteAddr = session.getRemoteAddress();
-//		LOGGER.debug("Remote Address: "+remoteAddr.getAddress());
-//		LOGGER.debug("Remote Hostname: "+remoteAddr.getHostName());
-//		LOGGER.debug("Remote HostString: "+remoteAddr.getHostString());
-//		LOGGER.debug("Remote Port: "+remoteAddr.getPort());
 //		notifyAllClients("ClientID: "+clientId + " FP:"+ fingerprint + " UA: "+ userAgent);
-		// set IP Adress and additional information
-		clientInformation.put(session.getRemoteAddress().getHostString(), userAgent);
+		// store additional information
+		clientInformation.put(clientId, userAgent);
+		setChanged();
+		notifyObservers();
 	}
 }
