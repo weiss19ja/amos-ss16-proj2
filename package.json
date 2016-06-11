@@ -36,6 +36,7 @@
     "update-webdriver": "webdriver-manager update",
     "preprotractor": "npm run update-webdriver",
     "protractor": "protractor e2e-tests/protractor.conf.js",
+    "protractor-dev": "npm run update-webdriver && (npm start > /dev/null & protractor e2e-tests/protractor.conf.js) && trap 'exit' INT TERM && trap 'kill 0' EXIT",
     "lint": "jshint *.js **/*.js",
     "build": "npm install && npm run backend:clean && npm run backend:copy-webapp && npm run backend:build",
     "build:win": "npm install && npm run backend:clean && npm run backend:copy-webapp-win && npm run backend:build",
