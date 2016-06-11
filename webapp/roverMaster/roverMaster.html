@@ -1,5 +1,37 @@
-<h1>RoverMaster View Skeleton</h1>
-<md-card ng-show="roverState.isDriverAvailable">
+<div>
+    <md-card>
+        <md-card-title>
+            <md-card-title-text>
+                <span class="md-headline">Camera View</span>
+            </md-card-title-text>
+        </md-card-title>
+        <md-card-content layout-align="center center">
+            <img ng-src="{{ mjpegStreamURL }}" fallback-src="{{ 'assets/images/videocam_off_800x600.png' }}"
+                 class="md-card-image" style="width: calc(100%/2)" class="md-card-image" alt="video stream">
+        </md-card-content>
+    </md-card>
 
-</md-card>
+    <md-card>
+        <md-card-title>
+            <md-card-title-text>
+                <span class="md-headline">Controls</span>
+            </md-card-title-text>
+        </md-card-title>
+        <md-content layout="row" layout-align="center center" layout-padding>
+            <div layout="column" layout-align="center center">
+                <dpad></dpad>
+            </div>
+            <span flex></span>
+
+            <div layout="column" layout-align="center center">
+                <parking-sensors></parking-sensors>
+            </div>
+            <span flex></span>
+
+            <div layout="column" layout-align="center cneter">
+                <dpad mode="camera"></dpad>
+            </div>
+        </md-content>
+        <md-card>
+</div>
 <div ng-include="'components/driverModeUnavailableCard/driverModeUnavailableCard.html'"></div>
