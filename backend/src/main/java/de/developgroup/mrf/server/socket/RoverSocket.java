@@ -174,8 +174,8 @@ public class RoverSocket extends JsonRpc2Socket {
 		singleDriverHandler.releaseDriver(clientId.intValue());
 	}
 
-	public void setClientInformation(Number client, String fingerprint, String userAgent){
-		clientManager.setClientInformation(client.intValue(), fingerprint, userAgent);
+	public void setClientInformation(Number client, String fingerprint, String browser, String operatingSystem){
+		clientManager.setClientInformation(client.intValue(), fingerprint, browser, operatingSystem);
 	}
 
 }

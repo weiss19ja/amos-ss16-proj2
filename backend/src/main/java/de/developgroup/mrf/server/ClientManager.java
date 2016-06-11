@@ -211,12 +211,12 @@ public class ClientManager extends Observable {
 	}
 
 	// TODO: Store information
-	public void setClientInformation(int clientId, String fingerprint, String userAgent) {
+	public void setClientInformation(int clientId, String fingerprint, String browser, String operatingSystem) {
 		Session session = sessions.get(clientId);
 		InetSocketAddress remoteAddr = session.getRemoteAddress();
 //		notifyAllClients("ClientID: "+clientId + " FP:"+ fingerprint + " UA: "+ userAgent);
 		// store additional information
-		clientInformation.put(clientId, userAgent);
+		clientInformation.put(clientId, "Browser: " +browser + " Operating system: "+ operatingSystem);
 		setChanged();
 		notifyObservers();
 	}

@@ -22,7 +22,9 @@
                         <md-list>
                                 <!-- For further ideas on lists, visit: https://material.angularjs.org/latest/demo/list -->
                                 <md-list-item class="secondary-button-padding" ng-repeat="user in connectedUsers.list">
-                                        <p>{{user}}</p>
+                                        <div class="md-list-item-text" layout="column">
+                                                <p>{{user}}</p>
+                                        </div>
                                         <md-button class="md-secondary" ng-click="blockUser($event)">Block</md-button>
                                 </md-list-item>
 
@@ -32,7 +34,6 @@
                                         <p>{{user}}</p>
                                         <md-button class="md-secondary" ng-click="unblockUser($event)">Unblock</md-button>
                                 </md-list-item>
-
                         </md-list>
                 </md-content>
         </md-card>

@@ -9,10 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 
 public class DeveloperSettingsHandler implements Observer{
 
@@ -161,8 +158,8 @@ public class DeveloperSettingsHandler implements Observer{
             int clientId = entry.getKey();
             String ipAddress = entry.getValue().getRemoteAddress().getHostString();
             String additionalInformation = clientInfo.get(clientId);
-            connectedUsers[count++] = "IP Address: "+ ipAddress + " ClientID: "+clientId+
-                    " Additonal information: " + additionalInformation;
+            connectedUsers[count++] = "IP Address: "+ ipAddress + "   ClientID: "+clientId+
+                    "  " + additionalInformation;
         }
         notifyClientsAboutConnectedUsers(connectedUsers);
     }

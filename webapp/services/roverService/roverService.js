@@ -34,7 +34,7 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
     };
     var snapshotCallback;
     var connectedUsers = {
-        list: ['userEins', 'userZwei', 'userDrei']
+        list: ['no connected user']
     }
     var blockedUsers = ['evilAttacker'];
 
@@ -84,8 +84,9 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
     function sendClientInformation(){
         var client = new ClientJS();
         var fingerprint = client.getFingerprint();
-        var userAgent = client.getUserAgent();
-        send("setClientInformation", [clientId, fingerprint.toString(), userAgent.toString()]);
+        var userBrowser = client.getBrowser();
+        var operatingSystem = client.getOS();
+        send("setClientInformation", [clientId, fingerprint.toString(), userBrowser.toString(), operatingSystem.toString()]);
     }
 
     ws.onError(function (event) {
@@ -175,7 +176,7 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
     function setClientId(id) {
       clientId = id;
       console.log("ID of this client is now " + id);
-        sendClientInformation();
+      sendClientInformation();
     }
 
     /**
