@@ -7,6 +7,8 @@ angular.module('myApp.developer', [])
         roverService.getKillswitchState();
 
         $scope.alertMsgToSend = "";
+      
+        $scope.entries = [];
 
         $scope.setBlocked = function(roverService, cbState) {
             console.log("setBlocked");

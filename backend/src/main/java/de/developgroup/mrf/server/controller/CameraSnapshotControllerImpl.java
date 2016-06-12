@@ -24,7 +24,7 @@ public class CameraSnapshotControllerImpl extends AbstractCameraSnapshotControll
     @Inject
     public CameraSnapshotControllerImpl(ClientManager clientManager) throws IOException {
         this.clientManager = clientManager;
-    };
+    }
 
     @Override
     public void getCameraSnapshot(int clientId) throws IOException {

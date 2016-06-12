@@ -1,8 +1,10 @@
 package de.developgroup.mrf.server.handler;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.Observable;
 
+import de.developgroup.mrf.server.controller.LoggingCommunicationController;
 import org.cfg4j.provider.ConfigurationProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,17 +39,21 @@ public class RoverHandlerImpl implements RoverHandler {
 
 	final CameraSnapshotController cameraSnapshotController;
 
+	final LoggingCommunicationController loggingCommunicationController;
+
 	@Inject
 	public RoverHandlerImpl(CollisionController collisionController,
 			GpioController gpio, DriveController driveController,
 			HeadController headController,
-			CameraSnapshotController cameraSnapshotController) {
+			CameraSnapshotController cameraSnapshotController,
+			LoggingCommunicationController loggingCommunicationController) {
 		LOGGER.info("RoverHandlerImpl startup");
 		this.collisionController = collisionController;
 		this.gpio = gpio;
 		this.driveController = driveController;
 		this.headController = headController;
 		this.cameraSnapshotController = cameraSnapshotController;
+		this.loggingCommunicationController = loggingCommunicationController;
 	}
 
 	public String handlePing(int sqn) {
@@ -158,5 +164,11 @@ public class RoverHandlerImpl implements RoverHandler {
 	public void getCameraSnapshot(int clientId) throws IOException {
 		LOGGER.debug("Get snapshot from camera");
 		cameraSnapshotController.getCameraSnapshot(clientId);
+	}
+
+	@Override
+	public void getLoggingEntries(int clientId, String lastLogEntry) throws IOException {
+		LOGGER.debug("Get logging entries");
+		loggingCommunicationController.getLoggingEntries(clientId, lastLogEntry);
 	}
 }

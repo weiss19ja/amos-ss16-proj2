@@ -1,6 +1,6 @@
 <div>
         <div layout="row" layout-align="center">
-                <h2 class="md-title">Developer Options</h2>
+                <h1 class="md-title">Developer Options</h1>
         </div>
 
         <md-card>
@@ -32,6 +32,31 @@
                         <md-card-actions layout="row" layout-align="end center">
                                 <md-button class="md-raised md-accent" flex="nogrow" ng-click="sendAlertMsg()">Send</md-button>
                         </md-card-actions>
+                </md-content>
+
+        </md-card>
+
+        <md-card>
+                <md-toolbar>
+                        <div class="md-toolbar-tools">
+                                <h3>Log Entries</h3>
+                                <span flex></span>
+                                <md-button class="md-fab md-mini">
+                                        <md-icon md-svg-icon="assets/icons/ic_camera_enhance_black_48px.svg"></md-icon>
+                                </md-button>
+                        </div>
+                </md-toolbar>
+                <md-content layout="column">
+                        <md-list>
+                                <md-item ng-repeat="entry in entries">
+                                        <md-item-content>
+                                                <div class="md-tile-content">
+                                                        {{entry}}
+                                                </div>
+                                        </md-item-content>
+                                        <md-divider></md-divider>
+                                </md-item>
+                        </md-list>
                 </md-content>
 
         </md-card>
