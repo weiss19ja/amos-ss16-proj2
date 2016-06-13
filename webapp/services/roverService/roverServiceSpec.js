@@ -33,6 +33,7 @@ describe('myApp.roverService service', function () {
     spyOn(roverService.clientJs, 'getOS').and.returnValue('Windows');
 
     $websocketBackend.expectSend({data: JSON.stringify({jsonrpc: "2.0", method: "setClientId", params: [1234]})});
+    defaultWSResponse();
     roverService.sendPing();
     var clientId = roverService.getClientId();
     expect(clientId).toBe(1234);
@@ -164,6 +165,7 @@ describe('myApp.roverService service', function () {
 
     beforeEach(function () {
       $websocketBackend.expectSend({data: JSON.stringify({jsonrpc: "2.0", method: "setClientId", params: [1234]})});
+      defaultWSResponse();
       roverService.sendPing(); // to trigger the setclientId response
       //defaultWSResponse();
     });
@@ -189,10 +191,10 @@ describe('myApp.roverService service', function () {
       roverService.exitDriverMode();
 
       var msg = roverService.getLastSendMsg();
-      expect(msg).toBe('{"jsonrpc":"2.0","method":"exitDriverMode","params":[1234],"id":2}');
+      expect(msg).toBe('{"jsonrpc":"2.0","method":"exitDriverMode","params":[1234],"id":3}');
 
       // handled two responses in object {result:true}, setClientId is method call from backend (so no response)
-      expect(roverService.responses.length).toBe(1);
+      expect(roverService.responses.length).toBe(2);
     });
 
 
