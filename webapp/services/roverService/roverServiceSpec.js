@@ -28,6 +28,10 @@ describe('myApp.roverService service', function () {
   });
 
   it('should set client id', function () {
+    spyOn(roverService.clientJs, 'getFingerprint').and.returnValue(1234);
+    spyOn(roverService.clientJs, 'getBrowser').and.returnValue('Firefox');
+    spyOn(roverService.clientJs, 'getOS').and.returnValue('Windows');
+
     $websocketBackend.expectSend({data: JSON.stringify({jsonrpc: "2.0", method: "setClientId", params: [1234]})});
     roverService.sendPing();
     var clientId = roverService.getClientId();

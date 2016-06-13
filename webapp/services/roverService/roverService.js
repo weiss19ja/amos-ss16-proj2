@@ -37,6 +37,7 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
         list: ['no connected user']
     }
     var blockedUsers = ['evilAttacker'];
+    var clientJs = new ClientJS();
 
 
     /**
@@ -82,10 +83,9 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
      * so that developer has information about the users
      */
     function sendClientInformation(){
-        var client = new ClientJS();
-        var fingerprint = client.getFingerprint();
-        var userBrowser = client.getBrowser();
-        var operatingSystem = client.getOS();
+        var fingerprint = clientJs.getFingerprint();
+        var userBrowser = clientJs.getBrowser();
+        var operatingSystem = clientJs.getOS();
         send("setClientInformation", [clientId, fingerprint.toString(), userBrowser.toString(), operatingSystem.toString()]);
     }
 
@@ -311,9 +311,11 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
       connectedUsers: connectedUsers,
       blockedUsers: blockedUsers,
       errors: errorResponses,
+      clientJs: clientJs,
       showNormalNotification: showNormalNotification,
       showAlertNotification : showAlertNotification,
       showErrorNotification: showErrorNotification,
+      sendClientInformation: sendClientInformation,
       getLastErrorResponse: function () {
         return lastErrorResponse;
       },
