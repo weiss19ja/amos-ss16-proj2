@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import static org.mockito.Mockito.*;
@@ -141,6 +142,33 @@ public class ClientManagerTest {
     public void testIsClientConnected(){
         clientManager.addClient(session);
         assertTrue(clientManager.isClientConnected(5000));
-
     }
+
+    @Test
+    public void testSetClientInformation() {
+        clientManager.addClient(session);
+
+        clientManager.setClientInformation(5000, "1234", "Firefox", "Windows");
+
+        Map<Integer, String> clientInfo = clientManager.getClientInformation();
+        assertTrue("clientInfo should cointain exactly one element after inserting one", clientInfo.size() == 1);
+
+        String additionalInformation = clientInfo.get(5000);
+        assertNotNull("clientInfo should contain addedClient ",additionalInformation);
+    }
+
+    @Test
+    public void testSetClientInformationContent() {
+        clientManager.addClient(session);
+
+        clientManager.setClientInformation(5000, "1234", "Firefox", "Windows");
+
+        Map<Integer, String> clientInfo = clientManager.getClientInformation();
+
+        String additionalInformation = clientInfo.get(5000);
+
+        assertTrue("additional information should contain browser",additionalInformation.contains("Firefox"));
+        assertTrue("additional information should contain operating system",additionalInformation.contains("Windows"));
+    }
+
 }
