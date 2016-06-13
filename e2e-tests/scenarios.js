@@ -220,12 +220,12 @@ describe ('sidebar navigation for smartphones', function() {
 
 
   it('should be displayed', function() {
-    expect (sidebarItems.get(1).isDisplayed()).toBe(true);
+    expect (sidebarItems.get(2).isDisplayed()).toBe(true);
   });
 
-  it('should have twelve entries', function() {
-    // 12 entries with hidden developer view
-    expect (sidebarItems.count()).toBe(12);
+  it('should have thirteen entries', function() {
+    // 13 entries with hidden developer view + desktop view
+    expect (sidebarItems.count()).toBe(13);
   });
 
   it('should redirect to main page when main is clicked', function() {
@@ -236,59 +236,59 @@ describe ('sidebar navigation for smartphones', function() {
   });
 
   it('should be display "Drive Control" in sidebar', function() {
-    expect (sidebarItems.get(1).getText()).toBe('Drive Control');
+    expect (sidebarItems.get(2).getText()).toBe('Drive Control');
   });
 
   it('should redirect to /drive when "Camera & Driving" is clicked', function() {
-    expect (sidebarItems.get(2).getText()).toBe('Camera & Driving');
-    sidebarItems.get(2).click();
+    expect (sidebarItems.get(3).getText()).toBe('Camera & Driving');
+    sidebarItems.get(3).click();
     browser.refresh();
     expect(browser.getLocationAbsUrl()).toMatch("/drive");
   });
 
   it('should redirect to /drive/driveonly when "Driving only" is clicked', function() {
-    expect (sidebarItems.get(3).getText()).toBe('Driving only');
-    sidebarItems.get(3).click();
+    expect (sidebarItems.get(4).getText()).toBe('Driving only');
+    sidebarItems.get(4).click();
     browser.refresh();
     expect(browser.getLocationAbsUrl()).toMatch("/drive/driveonly");
   });
 
   it('should redirect to /drive/stop when "Emergency Stop" is clicked', function() {
-    expect (sidebarItems.get(4).getText()).toBe('Emergency Stop');
-    sidebarItems.get(4).click();
+    expect (sidebarItems.get(5).getText()).toBe('Emergency Stop');
+    sidebarItems.get(5).click();
     browser.refresh();
     expect(browser.getLocationAbsUrl()).toMatch("/drive/stop");
   });
 
   it('should display "Camera Control" in sidebar', function() {
-    expect (sidebarItems.get(5).getText()).toBe('Camera Control');
+    expect (sidebarItems.get(6).getText()).toBe('Camera Control');
   });
 
   it('should redirect to /observe/cameracontroller page when "Camera Movement" is clicked', function() {
-    expect (sidebarItems.get(6).getText()).toBe('Camera Movement');
-    sidebarItems.get(6).click();
+    expect (sidebarItems.get(7).getText()).toBe('Camera Movement');
+    sidebarItems.get(7).click();
     browser.refresh();
     expect(browser.getLocationAbsUrl()).toMatch("/observe/cameraController");
   });
 
   it('should redirect to /observe page when "Camera View" is clicked', function() {
-    expect (sidebarItems.get(7).getText()).toBe('Camera View');
-    sidebarItems.get(7).click();
+    expect (sidebarItems.get(8).getText()).toBe('Camera View');
+    sidebarItems.get(8).click();
     browser.refresh();
     expect(browser.getLocationAbsUrl()).toMatch("/observe");
   });
 
 
   it('should redirect to /settings page when "Settings" is clicked', function() {
-    expect (sidebarItems.get(8).getText()).toBe('Settings');
-    sidebarItems.get(8).click();
+    expect (sidebarItems.get(9).getText()).toBe('Settings');
+    sidebarItems.get(9).click();
     browser.refresh();
     expect(browser.getLocationAbsUrl()).toMatch("/settings");
   });
 
   it('should be redirect to /info when "About" is clicked', function() {
-    expect (sidebarItems.get(10).getText()).toBe('About');
-    sidebarItems.get(10).click();
+    expect (sidebarItems.get(11).getText()).toBe('About');
+    sidebarItems.get(11).click();
     browser.refresh();
     expect(browser.getLocationAbsUrl()).toMatch("/info");
   });
@@ -319,13 +319,13 @@ describe ('sidebar navigation for smartphones', function() {
     expect (sidebarItems.get(0).isDisplayed()).toBe(true);
   });
 
-  it('should have also twelve entries', function() {
-    // 12 entries with hidden developer view
-    expect (sidebarItems.count()).toBe(12);
+  it('should have also thirteen entries', function() {
+    // 13 entries with hidden developer view + desktop rover master view
+    expect (sidebarItems.count()).toBe(13);
   });
 
   it('should not view "Camera & Driving"', function() {
-    expect(sidebarItems.get(2).isDisplayed()).toBe(false);
+    expect(sidebarItems.get(3).isDisplayed()).toBe(false);
   });
 
   it('should not view "Driving only"', function() {

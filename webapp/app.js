@@ -8,6 +8,7 @@ angular.module('myApp', [
   'angularCSS',
   'dcbImgFallback',
   'myApp.main',
+  'myApp.roverMaster',
   'myApp.roverDrive',
   'myApp.roverObserve',
   'myApp.roverService',
@@ -47,6 +48,9 @@ angular.module('myApp', [
     }).when('/drive/stop', {
       templateUrl: 'roverDrive/roverDriveStop.html',
       controller: 'RoverDriveCtrl'
+    }).when('/roverMaster', {
+      templateUrl: 'roverMaster/roverMaster.html',
+      controller: 'RoverMasterCtrl'
     }).when('/observe', {
       templateUrl: 'roverObserve/roverObserve.html',
       controller: 'RoverObserveCtrl'
