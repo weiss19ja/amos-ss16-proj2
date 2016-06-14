@@ -5,9 +5,9 @@ describe('myApp.logs module', function() {
 
   beforeEach(module('myApp.logs'));
   beforeEach(module('myApp.roverService'));
-  beforeEach(inject(function($controller, $rootScope, RoverService) {
+  beforeEach(inject(function($controller, $rootScope, roverService) {
     scope = $rootScope.$new();
-    service = RoverService;
+    service = roverService;
     logsCtrl = $controller('LogsCtrl', {$scope: scope, RoverService: service});
   }));
 
