@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('myApp.developer', [])
-    .controller('DeveloperCtrl', ['$scope', 'roverService', function($scope, roverService) {
+    .controller('DeveloperCtrl', ['$scope', '$location', 'roverService', function($scope, $location, roverService) {
         $scope.killswitchText = 'allowed';
         $scope.killswitch = roverService.killswitch;
         roverService.getKillswitchState();
@@ -45,6 +45,10 @@ angular.module('myApp.developer', [])
           roverService.sendAlertNotification($scope.alertMsgToSend);
           $scope.alertMsgToSend = "";
         }
+      };
+
+      $scope.goToLogEntries = function () {
+        $location.path('/logs')
       };
 
     }]);

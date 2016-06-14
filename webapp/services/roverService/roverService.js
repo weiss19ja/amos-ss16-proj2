@@ -22,7 +22,7 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
       var roverState = {
         isDriverAvailable: true,
         isKillswitchEnabled: false
-      }
+      };
       var killswitch = {
         enabled: false
       };
@@ -91,8 +91,10 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
         var msgData = JSON.parse(message.data);
         if (msgData.method && msgData.method === "incomingSnapshot") {
           console.log('new Msg: Image received');
+        } else if (msgData.method && msgData.method === "incomingSnapshot") {
+          console.log('new Msg: Log entries received');
         } else {
-          console.log('new Msg:' + message.data);
+            console.log('new Msg:' + message.data);
         }
 
         if (msgData.method) {
@@ -178,6 +180,8 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
        * @param msg text message
        */
       function showAlertNotification(msg) {
+        notifications.push(msg);
+        console.log("show error notification: " + msg);
         $mdToast.show($mdToast.simple().textContent(msg).position('top right').theme('alert-toast').hideDelay(4000));
       }
 
@@ -186,6 +190,8 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
        * @param msg text message
        */
       function showErrorNotification(msg) {
+        notifications.push(msg);
+        console.log("show error notification: " + msg);
         $mdToast.show($mdToast.simple().textContent(msg).position('top right').theme('error-toast').hideDelay(4000));
       }
 
@@ -380,8 +386,9 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
          * Request log file entries which are newer than the lastLogEntry parameter.
          * If lastLogEntry is null or empty the backend will send all log file entries.
          */
-        getLoggingEntries: function (callback, lastLogEntry) {
+        getLoggingEntries: function (lastLogEntry, callback) {
           logEntriesCallback = callback;
+          console.log(lastLogEntry);
           send("getLoggingEntries", [clientId, lastLogEntry]);
         },
         /**

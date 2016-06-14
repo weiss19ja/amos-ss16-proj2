@@ -1,6 +1,6 @@
 <div>
         <div layout="row" layout-align="center">
-                <h1 class="md-title">Developer Options</h1>
+                <h2 class="md-title">Developer Options</h2>
         </div>
 
         <md-card>
@@ -40,23 +40,15 @@
                 <md-toolbar>
                         <div class="md-toolbar-tools">
                                 <h3>Log Entries</h3>
-                                <span flex></span>
-                                <md-button class="md-fab md-mini">
-                                        <md-icon md-svg-icon="assets/icons/ic_camera_enhance_black_48px.svg"></md-icon>
-                                </md-button>
                         </div>
                 </md-toolbar>
-                <md-content layout="column">
-                        <md-list>
-                                <md-item ng-repeat="entry in entries">
-                                        <md-item-content>
-                                                <div class="md-tile-content">
-                                                        {{entry}}
-                                                </div>
-                                        </md-item-content>
-                                        <md-divider></md-divider>
-                                </md-item>
-                        </md-list>
+                <!-- Mobile View -->
+                <md-content layout-padding layout="row" layout-align="center center" hide-gt-md>
+                        <md-button class="md-raised md-accent" flex="nogrow" ng-click="goToLogEntries()">Get log entries</md-button>
+                </md-content>
+                <!-- Desktop View -->
+                <md-content layout-padding layout="row" hide-xs hide-md hide-sm>
+                        <md-button class="md-raised md-accent" flex="nogrow" ng-click="goToLogEntries()">Get log entries</md-button>
                 </md-content>
 
         </md-card>
