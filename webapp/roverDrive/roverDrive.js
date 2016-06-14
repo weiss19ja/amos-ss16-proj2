@@ -4,10 +4,14 @@ angular.module('myApp.roverDrive', [])
   .controller('RoverDriveCtrl', ['roverService', '$scope', '$location','$mdMedia', function (roverService, $scope, $location,$mdMedia) {
     $scope.mjpegStreamURL = 'http://' + $location.host() + ':9000/stream/video.mjpeg';
     $scope.roverState = roverService.roverState;
-    routeView();
-    console.log('Enter Driver Mode');
-    roverService.enterDriverMode();
 
+    routeView();
+
+    if(!urlContainsStr($location.path(), 'stop')){
+      console.log('Enter Driver Mode');
+      roverService.enterDriverMode();
+    }
+    
     /*
      * The stop function to stop the rover movement
      * UI element is only visible for driver
@@ -33,7 +37,7 @@ angular.module('myApp.roverDrive', [])
      * route to /main when view should only be visible to smartphone (not greater than md)
      */
     function routeView() {
-      if(urlContainsStr($location.path(), 'driveonly') || urlContainsStr($location.path(), 'stop')){
+      if(urlContainsStr($location.path(), 'driveonly')){
         if($mdMedia('gt-md')){
           $location.path('/main');
         }
