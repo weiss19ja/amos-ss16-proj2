@@ -34,6 +34,11 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
       };
       var snapshotCallback;
       var logEntriesCallback;
+        var connectedUsers = {
+            list: ['no connected user']
+        }
+        var blockedUsers = ['evilAttacker'];
+        var clientJs = new ClientJS();
 
 
       /**
@@ -73,6 +78,16 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
         console.log(msg);
         ws.send(msg);
         lastSendMsg = msg;
+      }
+      /**
+       * Send information about the client to the backend
+       * so that developer has information about the users
+       */
+      function sendClientInformation(){
+          var fingerprint = clientJs.getFingerprint();
+          var userBrowser = clientJs.getBrowser();
+          var operatingSystem = clientJs.getOS();
+          send("setClientInformation", [clientId, fingerprint.toString(), userBrowser.toString(), operatingSystem.toString()]);
       }
 
       ws.onError(function (event) {
@@ -123,6 +138,9 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
           case 'updateCollisionInformation':
             updateCollisionInformation(request.params);
             break;
+          case 'updateConnectedUsers':
+              updateConnectedUsers(request.params[0]);
+              break;
           case 'incomingSnapshot':
             incomingSnapshot(request.params);
             break;
@@ -158,13 +176,14 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
         errorResponses.push(error);
       }
 
-      /**
-       * Set id of client given by the server.
-       */
-      function setClientId(id) {
-        clientId = id;
-        console.log("ID of this client is now " + id);
-      }
+    /**
+     * Set id of client given by the server.
+     */
+    function setClientId(id) {
+      clientId = id;
+      console.log("ID of this client is now " + id);
+      sendClientInformation();
+    }
 
       /**
        * Add new notification to notifications list pushed by the server.
@@ -249,11 +268,17 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
           }
         }
 
-        if (receivedRoverState.isKillswitchEnabled) {
-          roverState.isKillswitchEnabled = receivedRoverState.isKillswitchEnabled;
-        }
-        console.log(roverState);
+      if (receivedRoverState.isKillswitchEnabled) {
+        roverState.isKillswitchEnabled = receivedRoverState.isKillswitchEnabled;
       }
+      console.log(roverState);
+    }
+    /**
+       * Update connected users
+       */
+    function updateConnectedUsers(userList) {
+        connectedUsers.list = userList;
+    }
 
       /**
        * Receive image data and invoke callback function
@@ -296,6 +321,9 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
         killswitch: killswitch,
         roverState: roverState,
         collisions: collisionDetection,
+        connectedUsers: connectedUsers,
+        blockedUsers: blockedUsers,
+        clientJs: clientJs,
         errors: errorResponses,
         getLastErrorResponse: function () {
           return lastErrorResponse;
