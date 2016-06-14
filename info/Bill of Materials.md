@@ -103,6 +103,11 @@ License: Artistic License 2.0
 Name: Bower 
 Version: 1.7.9
 License: MIT License
+```
+```
+Name: ClientJS 
+Version: 0.1.11
+License: Apache License - v 2.0
 ``` 
 
 ### Images and Icons

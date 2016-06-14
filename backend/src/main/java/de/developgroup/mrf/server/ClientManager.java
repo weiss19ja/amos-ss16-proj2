@@ -1,12 +1,8 @@
 package de.developgroup.mrf.server;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.net.InetSocketAddress;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.jetty.websocket.api.Session;
@@ -22,13 +18,17 @@ import de.developgroup.mrf.server.rpc.JsonRpc2Request;
  * via websocket he will be listed here and gets an ID.
  */
 @Singleton
-public class ClientManager {
+public class ClientManager extends Observable {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(ClientManager.class);
 	private static final String TEXT_NOTIFICATION_METHOD = "incomingNotification";
 
 	private static final Map<Integer, Session> sessions = Collections
 			.synchronizedMap(new HashMap<Integer, Session>());
+	// Contains Client's IP and additional information
+	private static final Map<Integer, String> clientInformation = Collections
+			.synchronizedMap(new HashMap<Integer, String>());
+
 	private AtomicInteger lastClientId = new AtomicInteger(5000);
 
 	/**
@@ -46,6 +46,9 @@ public class ClientManager {
 		sendClientId(session, clientId);
 		String msg = "new client has connected to server, id: " + clientId;
 		notifyAllClients(msg);
+		// Notify Observers, e.g. Developer Settings Handler so that the connected users list can be updated
+		setChanged();
+		notifyObservers();
 		return clientId;
 	}
 
@@ -61,8 +64,27 @@ public class ClientManager {
 				LOGGER.info("Remove session: "
 						+ session.getRemoteAddress().toString());
 				iter.remove();
+				// Notify Observers, e.g. Developer Settings Handler so that the connected users list can be updated
+				setChanged();
+				notifyObservers();
 			}
 		}
+	}
+
+	/**
+	 * Getter for sessions
+	 * @return Map that contains all active sessions and ids
+     */
+	public static Map<Integer, Session> getSessions() {
+		return sessions;
+	}
+
+	/**
+	 * Getter for clientInformation
+	 * @return Map that contains ClientId and additional information
+     */
+	public static Map<Integer, String> getClientInformation() {
+		return clientInformation;
 	}
 
 	/**
@@ -188,4 +210,20 @@ public class ClientManager {
 		return notification;
 	}
 
+	/**
+	 * This function stores information about the clients so they can lateron be used to provide the
+	 * developer with further information.
+	 * @param clientId 	The client's id
+	 * @param fingerprint 	A unique fingerprint generated out of the user's browser data
+	 * @param browser	String containing user's browser
+	 * @param operatingSystem	String containiing user's operatingSystem
+     */
+	public void setClientInformation(int clientId, String fingerprint, String browser, String operatingSystem) {
+		Session session = sessions.get(clientId);
+		InetSocketAddress remoteAddr = session.getRemoteAddress();
+		// store additional information
+		clientInformation.put(clientId, "Browser: " +browser + " Operating system: "+ operatingSystem);
+		setChanged();
+		notifyObservers();
+	}
 }

@@ -53,14 +53,4 @@ public class DeveloperSettingsHandlerTest {
         handler.setKillswitchEnabled(false,"message");
         assertEquals("checkKillswitchEnabled and isKillswitchEnabled should always give the same result",handler.checkKillswitchEnabled(), handler.isKillswitchEnabled());
     }
-
-    // if KillswitchState is false, the client shouldn't get a message
-    @Test
-    public void testNotifyIfBlockedNoInteraction() throws IOException {
-        handler.killswitchEnabled = false;
-        int clientId = 1337;
-        String message = "message";
-        handler.notifyIfBlocked(clientId, message);
-        verifyZeroInteractions(handler.clientManager);
-    }
 }
