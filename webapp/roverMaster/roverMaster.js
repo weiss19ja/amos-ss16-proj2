@@ -34,8 +34,13 @@ angular.module('myApp.roverMaster', [])
      * Exit the driver mode as soon as a user navigates to another page.
      */
     $scope.$on('$routeChangeStart', function(event, next, current) {
-      console.log('Exit Driver Mode, changing to URL' + next.$$route.originalPath);
-      roverService.exitDriverMode();
+      var nextRoutePath = next.$$route.originalPath;
+
+      // drive and roverMaster target pages are valid for drive mode - do not log out user here
+      if(!(urlContainsStr(nextRoutePath, 'drive') || urlContainsStr(nextRoutePath, 'roverMaster'))) {
+        console.log('Exit Driver Mode, changing to URL: ' + next.$$route.originalPath);
+        roverService.exitDriverMode();
+      }
     });
 
     /**
@@ -46,4 +51,11 @@ angular.module('myApp.roverMaster', [])
         $location.path('/main');
       }
     }
-  }]);
+
+    /*
+     * helper function to find string in URL
+     */
+    function urlContainsStr(route, text) {
+      return route.indexOf(text) > -1;
+    }
+}]);
