@@ -254,7 +254,7 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
           }
           // nobody is driver, when im already on driver page i must reaquire the driver mode
           if (receivedRoverState.currentDriverId == -1) {
-            if ($location.path() == '/drive') {
+            if ($location.path() == '/drive' || $location.path() == '/roverMaster') {
               roverState.isDriverAvailable = false;
               send("enterDriverMode", [clientId]);
             } else {
