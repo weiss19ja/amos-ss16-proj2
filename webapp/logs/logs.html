@@ -1,8 +1,11 @@
 <md-card>
-    <md-toolbar>
+    <md-toolbar id="top">
         <div class="md-toolbar-tools">
             <h3>Log Entries</h3>
             <span flex></span>
+            <md-button class="md-fab md-mini" ng-click="scrollToTag('bottom')" ng-show="entries.length > 25">
+                <md-icon md-svg-icon="assets/icons/ic_arrow_downward_black_48px.svg"></md-icon>
+            </md-button>
             <md-button class="md-fab md-mini" ng-click="refreshLogEntries($event)">
                 <md-icon md-svg-icon="assets/icons/ic_refresh_black_48px.svg"></md-icon>
             </md-button>
@@ -20,5 +23,19 @@
             </md-item>
         </md-list>
     </md-content>
-
+    <md-card-footer id="bottom" ng-show="entries.length > 25">
+        <div layout="row">
+            <div layout="column" layout-align="center">
+                <md-button class="md-fab md-mini" ng-click="scrollToTag('top')">
+                    <md-icon md-svg-icon="assets/icons/ic_arrow_upward_black_48px.svg"></md-icon>
+                </md-button>
+            </div>
+            <span flex></span>
+            <div layout="column" layout-align="end center">
+                <md-button class="md-fab md-mini" ng-click="refreshLogEntries($event)">
+                    <md-icon md-svg-icon="assets/icons/ic_refresh_black_48px.svg"></md-icon>
+                </md-button>
+            </div>
+        </div>
+    </md-card-footer>
 </md-card>

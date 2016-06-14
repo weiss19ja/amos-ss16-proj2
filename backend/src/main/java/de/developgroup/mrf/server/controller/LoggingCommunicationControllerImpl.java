@@ -41,8 +41,10 @@ public class LoggingCommunicationControllerImpl extends AbstractLoggingCommunica
 		}
 		List<Object> params = new ArrayList<>();
 		params.add(hasNewEntries);
-		for (String entry: logEntries) {
-			params.add(entry);
+		if(hasNewEntries) {
+			for (String entry : logEntries) {
+				params.add(entry);
+			}
 		}
 		JsonRpc2Request notification = new JsonRpc2Request("incomingLogEntries",params);
 		clientManager.notifyClientById(clientId, notification);

@@ -106,7 +106,7 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
         var msgData = JSON.parse(message.data);
         if (msgData.method && msgData.method === "incomingSnapshot") {
           console.log('new Msg: Image received');
-        } else if (msgData.method && msgData.method === "incomingSnapshot") {
+        } else if (msgData.method && msgData.method === "incomingLogEntries") {
           console.log('new Msg: Log entries received');
         } else {
             console.log('new Msg:' + message.data);

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('myApp.developer', [])
-    .controller('DeveloperCtrl', ['$scope', 'roverService', function($scope, roverService) {
+    .controller('DeveloperCtrl', ['$scope', '$location', 'roverService', function($scope, $location, roverService) {
         // Killswitch
         $scope.killswitchText = 'allowed';
         $scope.killswitch = roverService.killswitch;

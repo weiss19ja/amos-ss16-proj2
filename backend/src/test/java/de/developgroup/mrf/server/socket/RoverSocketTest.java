@@ -245,4 +245,16 @@ public class RoverSocketTest {
 		roverSocket.exitDriverMode(5002);
 		verify(RoverSocket.singleDriverHandler).releaseDriver(5002);
 	}
+
+	@Test
+	public void testGetAllLogEntries() throws IOException {
+		roverSocket.getLoggingEntries(5002, "");
+		verify(RoverSocket.roverHandler).getLoggingEntries(5002, "");
+	}
+
+	@Test
+	public void testGetSpecificLogEntries() throws IOException {
+		roverSocket.getLoggingEntries(5002, "Test");
+		verify(RoverSocket.roverHandler).getLoggingEntries(5002, "Test");
+	}
 }

@@ -128,9 +128,15 @@ public class RoverHandlerImplTest {
 	}
 
 	@Test
-	public void testGetLoggingEntries() throws IOException {
+	public void testGetAllLogEntries() throws IOException {
 		handler.getLoggingEntries(5001, "");
 		verify(handler.loggingCommunicationController).getLoggingEntries(5001, "");
+	}
+
+	@Test
+	public void testGetSpecificLogEntries() throws IOException {
+		handler.getLoggingEntries(5001, "Test");
+		verify(handler.loggingCommunicationController).getLoggingEntries(5001, "Test");
 	}
 
 	@Test
