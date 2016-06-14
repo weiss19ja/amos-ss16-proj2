@@ -1,4 +1,4 @@
-<div>
+<div ng-show="roverState.isDriverAvailable">
     <!-- top card for camera stream view -->
     <md-card>
         <md-card-title>
@@ -39,5 +39,5 @@
         </md-content>
         <md-card>
         <!-- if the drive mode is not available, this component shows an apologizing message -->
-        <div ng-include="'components/driverModeUnavailableCard/driverModeUnavailableCard.html'"></div>
 </div>
+<div ng-include="'components/driverModeUnavailableCard/driverModeUnavailableCard.html'"></div>
