@@ -32,7 +32,7 @@ public class SingleDriverHandlerImpl implements SingleDriverHandler {
 		if (currentDriverId == -1) {
 			this.currentDriverId = clientId;
 			LOGGER.info("user " + clientId + " try to acqurie driver mode");
-		} else {
+		} else if (currentDriverId != clientId) {
 			LOGGER.info("driver mode already taken by user " + currentDriverId);
 		}
 		sendClientNotification();

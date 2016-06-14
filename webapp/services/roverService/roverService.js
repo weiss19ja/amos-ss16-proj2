@@ -462,6 +462,8 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
             console.log('enterDriverMode promise rejected ' + rejectedClientId);
           });
 
+          return clientIdPromise;
+
         },
 
         /**
