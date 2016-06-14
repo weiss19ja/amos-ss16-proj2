@@ -18,8 +18,11 @@ angular.module('myApp.roverMaster', [])
     $scope.roverState = roverService.roverState;
 
     /**
-     * As soon as the view is opened, we try to register this user as a driver.
+     * Initialization:
+     * As soon as the view is opened, redirect the user iff he is on a mobile device - this view is not for them!
+     * If the user is allowed, we try to register them as a driver.
      */
+    redirectWrongDeviceSize();
     console.log('Enter Driver Mode (from roverMaster)');
     roverService.enterDriverMode();
 
@@ -34,4 +37,13 @@ angular.module('myApp.roverMaster', [])
       console.log('Exit Driver Mode, changing to URL' + next.$$route.originalPath);
       roverService.exitDriverMode();
     });
+
+    /**
+     * If the device is larger than medium, redirect the user to the main page.
+     */
+    function redirectWrongDeviceSize() {
+      if(!$mdMedia('gt-md')) {
+        $location.path('/main');
+      }
+    }
   }]);
