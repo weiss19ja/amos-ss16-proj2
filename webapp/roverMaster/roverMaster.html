@@ -1,4 +1,5 @@
 <div>
+    <!-- top card for camera stream view -->
     <md-card>
         <md-card-title>
             <md-card-title-text>
@@ -11,6 +12,7 @@
         </md-card-content>
     </md-card>
 
+    <!-- bottom card for controls -->
     <md-card>
         <md-card-title>
             <md-card-title-text>
@@ -18,20 +20,24 @@
             </md-card-title-text>
         </md-card-title>
         <md-content layout="row" layout-align="center center" layout-padding>
+            <!-- column driving dpad -->
             <div layout="column" layout-align="center center">
                 <dpad></dpad>
             </div>
             <span flex></span>
 
+            <!-- column parking sensors -->
             <div layout="column" layout-align="center center">
                 <parking-sensors></parking-sensors>
             </div>
             <span flex></span>
 
+            <!-- column camera dpad -->
             <div layout="column" layout-align="center cneter">
                 <dpad mode="camera"></dpad>
             </div>
         </md-content>
         <md-card>
+        <!-- if the drive mode is not available, this component shows an apologizing message -->
+        <div ng-include="'components/driverModeUnavailableCard/driverModeUnavailableCard.html'"></div>
 </div>
-<div ng-include="'components/driverModeUnavailableCard/driverModeUnavailableCard.html'"></div>
