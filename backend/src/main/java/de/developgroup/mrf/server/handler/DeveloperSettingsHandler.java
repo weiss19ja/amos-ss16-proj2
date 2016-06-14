@@ -141,7 +141,9 @@ public class DeveloperSettingsHandler implements Observer{
     }
 
     /**
-     * Update connectedUsers list if clientManager notifys about changed connected users list
+     * This method gets called if information in the Client Manager change.
+     * A list of connected users containing additional information is generated and send out to the clients
+     * to be displayed in the developer view
      * @param o Observable, in this Case the clientManager
      * @param arg not used
      */
@@ -154,7 +156,6 @@ public class DeveloperSettingsHandler implements Observer{
         int count = 0;
 
         for (Map.Entry<Integer, Session> entry : sessions.entrySet()) {
-            // TODO: Nach Ip ordnen
             int clientId = entry.getKey();
             String ipAddress = entry.getValue().getRemoteAddress().getHostString();
             String additionalInformation = clientInfo.get(clientId);

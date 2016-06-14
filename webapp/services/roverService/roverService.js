@@ -178,6 +178,8 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
 
     /**
      * Set id of client given by the server.
+     * Also triggers sendClientInformation to provide information
+     * about this client to the server
      */
     function setClientId(id) {
       clientId = id;
