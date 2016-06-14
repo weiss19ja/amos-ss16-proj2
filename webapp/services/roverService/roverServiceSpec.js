@@ -175,14 +175,12 @@ describe('myApp.roverService service', function () {
     });
 
     it('should send enterDriverMode json-rpc', function () {
-      roverService.enterDriverMode();
-
-      setTimeout(function () {
+      roverService.enterDriverMode().then(function () {
         var msg = roverService.getLastSendMsg();
         expect(msg).toBe('{"jsonrpc":"2.0","method":"enterDriverMode","params":[1234],"id":3}');
         // handled two responses in object {result:true}, setClientId is method call from backend (so no response)
         expect(roverService.responses.length).toBe(2);
-      }, 100);
+      });
     });
 
 

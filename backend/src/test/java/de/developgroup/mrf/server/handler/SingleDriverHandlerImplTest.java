@@ -39,6 +39,9 @@ public class SingleDriverHandlerImplTest {
 
 		singleDriverHandler.acquireDriver(secondClientId);
 		assertEquals(clientId, singleDriverHandler.getCurrentDriverId());
+
+		singleDriverHandler.acquireDriver(clientId);
+		assertEquals(clientId, singleDriverHandler.getCurrentDriverId());
 	}
 
 	@Test
