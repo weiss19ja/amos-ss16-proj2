@@ -45,7 +45,7 @@ angular.module('myApp', [
     }).when('/drive/driveonly', {
       templateUrl: 'roverDrive/roverDriveOnly.html',
       controller: 'RoverDriveCtrl'
-    }).when('/drive/stop', {
+    }).when('/stop', {
       templateUrl: 'roverDrive/roverDriveStop.html',
       controller: 'RoverDriveCtrl'
     }).when('/roverMaster', {

@@ -89,7 +89,7 @@ describe ('Emergency stop view', function() {
 
   beforeEach(function() {
     browser.manage().window().setSize(773, 435);
-    browser.get('#/drive/stop');
+    browser.get('#/stop');
   });
 
   it('should display the stop button', function() {
@@ -110,7 +110,7 @@ describe ('Hide views for desktop devices', function() {
   });
 
   it('should hide the "Emergency Stop" view and redirect to /main', function() {
-    browser.get('#/drive/stop')
+    browser.get('#/stop')
     expect(browser.getLocationAbsUrl()).toMatch("/main");
   });
 
@@ -253,11 +253,11 @@ describe ('sidebar navigation for smartphones', function() {
     expect(browser.getLocationAbsUrl()).toMatch("/drive/driveonly");
   });
 
-  it('should redirect to /drive/stop when "Emergency Stop" is clicked', function() {
+  it('should redirect to /stop when "Emergency Stop" is clicked', function() {
     expect (sidebarItems.get(5).getText()).toBe('Emergency Stop');
     sidebarItems.get(5).click();
     browser.refresh();
-    expect(browser.getLocationAbsUrl()).toMatch("/drive/stop");
+    expect(browser.getLocationAbsUrl()).toMatch("/stop");
   });
 
   it('should display "Camera Control" in sidebar', function() {
