@@ -29,12 +29,13 @@ public class SingleDriverHandlerImpl implements SingleDriverHandler {
 
 	@Override
 	public synchronized void acquireDriver(int clientId) {
+		LOGGER.info("user " + clientId + " try to acqurie driver mode");
 		if (currentDriverId == -1) {
 			this.currentDriverId = clientId;
-			LOGGER.info("user " + clientId + " try to acqurie driver mode");
 		} else if (currentDriverId != clientId) {
 			LOGGER.info("driver mode already taken by user " + currentDriverId);
 		}
+		LOGGER.info("current driver is "+ this.currentDriverId);
 		sendClientNotification();
 	}
 

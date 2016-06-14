@@ -239,48 +239,48 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
        *    -> isKillswitch enabled
        */
       function updateRoverState(receivedRoverState) {
-
-        /**
-         *    currentDriverId: when currentDriverId is my clientId, Im the driver
-         *                     when currentDriverId is -1 nobody is driver at the moment
-         *                     when currentDriverId is differnet to mine, driver mode is unavailable to me
-         */
         if (receivedRoverState.currentDriverId) {
-
-          // im the driver
-          if (receivedRoverState.currentDriverId == clientId) {
-            roverState.isDriverAvailable = true;
-            console.log('driver is available');
-          }
-          // nobody is driver, when im already on driver page i must reaquire the driver mode
-          if (receivedRoverState.currentDriverId == -1) {
-            if ($location.path() == '/drive' || $location.path() == '/roverMaster') {
-              roverState.isDriverAvailable = false;
-              send("enterDriverMode", [clientId]);
-            } else {
-              roverState.isDriverAvailable = true;
-              console.log('driver available');
-            }
-          }
-
-          // somebody else is driver at the moment
-          if (receivedRoverState.currentDriverId != clientId && receivedRoverState.currentDriverId != -1) {
-            roverState.isDriverAvailable = false;
-            console.log('driver not available');
-          }
+          setDriverAvailable(receivedRoverState.currentDriverId);
         }
 
-      if (receivedRoverState.isKillswitchEnabled) {
-        roverState.isKillswitchEnabled = receivedRoverState.isKillswitchEnabled;
+        if (receivedRoverState.isKillswitchEnabled) {
+          roverState.isKillswitchEnabled = receivedRoverState.isKillswitchEnabled;
+        }
       }
-      console.log(roverState);
-    }
-    /**
+
+      /**
+      * Set availability of driver mode.
+      * when currentDriverId is my clientId, Im the driver
+      * when currentDriverId is -1 nobody is driver at the moment
+      * when currentDriverId is differnet to mine, driver mode is unavailable to me
+      */
+      function setDriverAvailable(currentDriverId) {
+       if (currentDriverId == clientId) {
+         // im the driver
+         roverState.isDriverAvailable = true;
+         console.log('driver mode is available');
+       } else if (currentDriverId == -1) {
+         // nobody is driver, when im already on driver page i must reaquire the driver mode
+         if ($location.path() == '/drive' || $location.path() == '/roverMaster') {
+           roverState.isDriverAvailable = false;
+           send('enterDriverMode', [clientId]);
+         } else {
+           roverState.isDriverAvailable = true;
+           console.log('driver mode is available');
+         }
+       } else {
+         // somebody else is driver at the moment
+         roverState.isDriverAvailable = false;
+         console.log('driver mode not available, because client with id ' +currentDriverId+ ' is in driver mode.');
+       }
+      }
+
+      /**
        * Update connected users
        */
-    function updateConnectedUsers(userList) {
-        connectedUsers.list = userList;
-    }
+      function updateConnectedUsers(userList) {
+          connectedUsers.list = userList;
+      }
 
       /**
        * Receive image data and invoke callback function
