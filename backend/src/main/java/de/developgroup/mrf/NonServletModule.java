@@ -8,14 +8,7 @@ import de.developgroup.mrf.rover.collision.CollisionControllerImpl;
 import de.developgroup.mrf.rover.collision.CollisionControllerMock;
 import de.developgroup.mrf.rover.gpio.GpioControllerMockProvider;
 import de.developgroup.mrf.rover.gpio.GpioControllerProvider;
-import de.developgroup.mrf.server.controller.CameraSnapshotController;
-import de.developgroup.mrf.server.controller.CameraSnapshotControllerImpl;
-import de.developgroup.mrf.server.controller.DriveController;
-import de.developgroup.mrf.server.controller.DriveControllerImpl;
-import de.developgroup.mrf.server.controller.DriveControllerMock;
-import de.developgroup.mrf.server.controller.HeadController;
-import de.developgroup.mrf.server.controller.HeadControllerImpl;
-import de.developgroup.mrf.server.controller.HeadControllerMock;
+import de.developgroup.mrf.server.controller.*;
 import de.developgroup.mrf.server.handler.*;
 import de.developgroup.mrf.server.socket.RoverSocket;
 
@@ -44,7 +37,8 @@ public class NonServletModule extends AbstractModule {
 			bind(HeadController.class).to(HeadControllerMock.class);
 			bind(GpioController.class).toProvider(
 					GpioControllerMockProvider.class);
-			// bind(CameraSnapshotController.class).to(CameraSnapshotControllerMock.class);
+//			 bind(CameraSnapshotController.class).to(
+//					 CameraSnapshotControllerMock.class);
 			bind(CameraSnapshotController.class).to(
 					CameraSnapshotControllerImpl.class);
 		} else {
@@ -57,6 +51,8 @@ public class NonServletModule extends AbstractModule {
 					CameraSnapshotControllerImpl.class);
 		}
 
+		bind(LoggingCommunicationController.class).to(
+				LoggingCommunicationControllerImpl.class);
 		bind(NotificationHandler.class).to(NotificationHandlerImpl.class);
 		bind(SingleDriverHandler.class).to(SingleDriverHandlerImpl.class);
 		requestStaticInjection(RoverSocket.class);

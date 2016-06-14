@@ -6,6 +6,7 @@ import static org.mockito.Mockito.verify;
 
 import java.io.IOException;
 
+import de.developgroup.mrf.server.controller.LoggingCommunicationController;
 import org.cfg4j.provider.ConfigurationProvider;
 import org.junit.After;
 import org.junit.Before;
@@ -28,7 +29,8 @@ public class RoverHandlerImplTest {
 		handler = new RoverHandlerImpl(new CollisionControllerMock(),
 				mock(GpioController.class), mock(DriveController.class),
 				mock(HeadController.class),
-				mock(CameraSnapshotController.class));
+				mock(CameraSnapshotController.class),
+				mock(LoggingCommunicationController.class));
 	}
 
 	@After
@@ -123,6 +125,12 @@ public class RoverHandlerImplTest {
 	public void testGetCameraSnapshot() throws IOException {
 		handler.getCameraSnapshot(5001);
 		verify(handler.cameraSnapshotController).getCameraSnapshot(5001);
+	}
+
+	@Test
+	public void testGetLoggingEntries() throws IOException {
+		handler.getLoggingEntries(5001, "");
+		verify(handler.loggingCommunicationController).getLoggingEntries(5001, "");
 	}
 
 	@Test

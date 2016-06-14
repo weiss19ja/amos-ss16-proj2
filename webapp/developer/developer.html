@@ -60,5 +60,22 @@
 
         </md-card>
 
+        <md-card>
+                <md-toolbar>
+                        <div class="md-toolbar-tools">
+                                <h3>Log Entries</h3>
+                        </div>
+                </md-toolbar>
+                <!-- Mobile View -->
+                <md-content layout-padding layout="row" layout-align="center center" hide-gt-md>
+                        <md-button class="md-raised md-accent" flex="nogrow" ng-click="goToLogEntries()">Get log entries</md-button>
+                </md-content>
+                <!-- Desktop View -->
+                <md-content layout-padding layout="row" hide-xs hide-md hide-sm>
+                        <md-button class="md-raised md-accent" flex="nogrow" ng-click="goToLogEntries()">Get log entries</md-button>
+                </md-content>
+
+        </md-card>
+
 
 </div>

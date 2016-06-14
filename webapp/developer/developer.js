@@ -8,6 +8,8 @@ angular.module('myApp.developer', [])
         roverService.getKillswitchState();
 
         $scope.alertMsgToSend = "";
+      
+        $scope.entries = [];
 
         $scope.setBlocked = function(roverService, cbState) {
             console.log("setBlocked");
@@ -48,6 +50,10 @@ angular.module('myApp.developer', [])
           roverService.sendAlertNotification($scope.alertMsgToSend);
           $scope.alertMsgToSend = "";
         }
+      };
+
+      $scope.goToLogEntries = function () {
+        $location.path('/logs')
       };
 
     }]);

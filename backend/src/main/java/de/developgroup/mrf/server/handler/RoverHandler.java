@@ -1,6 +1,7 @@
 package de.developgroup.mrf.server.handler;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.Observer;
 
 import org.cfg4j.provider.ConfigurationProvider;
@@ -89,6 +90,14 @@ public interface RoverHandler extends Observer {
 	 * @throws IOException
      */
 	void getCameraSnapshot(int clientId) throws IOException;
+
+	/**
+	 * Request for the log file entries which are newer than the lastLogEntry value. If the lastLogEntry equals null or is empty it will send all log file entries to the client.
+	 * @param clientId
+	 * @param lastLogEntry
+	 * @throws IOException
+	 */
+	void getLoggingEntries(int clientId, String lastLogEntry) throws IOException;
 
 	/**
 	 * Reset the head to neutral position.
