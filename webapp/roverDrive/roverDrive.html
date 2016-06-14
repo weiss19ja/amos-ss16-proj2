@@ -3,9 +3,9 @@
         <span hide-xs>Drive Rover</span>
         <span hide-gt-xs>Video Stream</span>
     </md-toolbar>
-    <md-content layout="row" layout-align="center center" layout-padding>
+    <md-content layout="row" layout-align="center center" style="padding-left: 10px; padding-right: 10px" >
         <parking-sensors hide-xs></parking-sensors>
-        <div layout="column" layout-align="center center" style="margin-left: 10px; margin-right: 10px">
+        <div layout="column" layout-align="center center" style="padding: 0px; margin-left: 10px; margin-right: 10px">
             <img ng-src="{{mjpegStreamURL}}" fallback-src="{{'assets/images/videocam_off_800x600.png'}}"
                  class="md-card-image" alt="Video-Stream" style="width: 90%">
         </div>
