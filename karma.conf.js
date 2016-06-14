@@ -20,6 +20,7 @@ module.exports = function(config){
       'webapp/bower_components/angular-material/angular-material-mocks.js',
       'webapp/bower_components/angular-img-fallback/angular.dcb-img-fallback.js',
       'webapp/bower_components/angular-css/angular-css.js',
+      'webapp/bower_components/clientjs/dist/client.min.js',
       'webapp/components/**/*.html',
       'webapp/components/**/*.js',
       'webapp/developer/**/*.js',

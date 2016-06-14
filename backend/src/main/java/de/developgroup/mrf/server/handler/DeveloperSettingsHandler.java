@@ -4,14 +4,14 @@ import com.google.inject.Inject;
 import de.developgroup.mrf.rover.collision.CollisionController;
 import de.developgroup.mrf.server.ClientManager;
 import de.developgroup.mrf.server.rpc.JsonRpc2Request;
+import org.eclipse.jetty.websocket.api.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Observable;
+import java.util.*;
 
-public class DeveloperSettingsHandler {
+public class DeveloperSettingsHandler implements Observer{
 
     private static final Logger LOGGER = LoggerFactory
             .getLogger(DeveloperSettingsHandler.class);
@@ -28,6 +28,8 @@ public class DeveloperSettingsHandler {
         LOGGER.debug("Creating new instance of DeveloperSettingsHandler");
         this.clientManager = clientManager;
         this.roverHandler = roverHandler;
+        // Ovserve clientManger about connected user changes
+        clientManager.addObserver(this);
     }
 
     /**
@@ -96,6 +98,21 @@ public class DeveloperSettingsHandler {
     }
 
     /**
+     * Changes the List in the client's developer view according the connectedUsersList
+     */
+    public void notifyClientsAboutConnectedUsers(String[] connectedUsers) {
+
+        // create JSON RPC object
+        ArrayList<Object> params = new ArrayList<>();
+        params.add(connectedUsers);
+
+        JsonRpc2Request jsonRpc2Request = new JsonRpc2Request("updateConnectedUsers", params);
+
+        LOGGER.debug("informing clients about connected users: "+ connectedUsers);
+        clientManager.notifyAllClients(jsonRpc2Request);
+    }
+
+    /**
      * Sends a message to all clients so they know the developer just
      * changed the killswitch state
      * @param message message text
@@ -123,4 +140,28 @@ public class DeveloperSettingsHandler {
         clientManager.notifyClientById(clientId, notification);
     }
 
+    /**
+     * This method gets called if information in the Client Manager change.
+     * A list of connected users containing additional information is generated and send out to the clients
+     * to be displayed in the developer view
+     * @param o Observable, in this Case the clientManager
+     * @param arg not used
+     */
+    @Override
+    public void update(Observable o, Object arg) {
+        Map<Integer, Session> sessions = clientManager.getSessions();
+        Map<Integer, String> clientInfo = clientManager.getClientInformation();
+        int numberOfConnectedClients = sessions.size();
+        String[] connectedUsers = new String[numberOfConnectedClients];
+        int count = 0;
+
+        for (Map.Entry<Integer, Session> entry : sessions.entrySet()) {
+            int clientId = entry.getKey();
+            String ipAddress = entry.getValue().getRemoteAddress().getHostString();
+            String additionalInformation = clientInfo.get(clientId);
+            connectedUsers[count++] = "IP Address: "+ ipAddress + "   ClientID: "+clientId+
+                    "  " + additionalInformation;
+        }
+        notifyClientsAboutConnectedUsers(connectedUsers);
+    }
 }
