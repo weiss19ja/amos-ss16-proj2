@@ -9,7 +9,14 @@ import java.util.ArrayList;
 public abstract class AbstractLoggingCommunicationController {
 
 	private final String LOGFILENAME = "all.log";
+	private final int MAXLOGENTRIES = 50;
 
+	/**
+	 * Reads maximal 50 log entries and returns them in an ArrayList
+	 * @param lastLogEntry Last log entry which was already fetched. If the parameter is null it will return the first 50 entries.
+	 * @return A list of max 50 log entries which are newer than the lastLogEntry
+	 * @throws IOException
+	 */
 	protected ArrayList<String> getNewLogEntries(String lastLogEntry) throws IOException {
 		boolean isLastLogEntry = lastLogEntry.isEmpty() || lastLogEntry == null;
 		ArrayList<String> resultLogEntries = new ArrayList<>();
@@ -24,6 +31,9 @@ public abstract class AbstractLoggingCommunicationController {
 				continue;
 			}
 			resultLogEntries.add(logEntry);
+			if(resultLogEntries.size() >= MAXLOGENTRIES) {
+				break;
+			}
 		}
 		fileInputStream.close();
 		return resultLogEntries.size() > 0 ? resultLogEntries : null;

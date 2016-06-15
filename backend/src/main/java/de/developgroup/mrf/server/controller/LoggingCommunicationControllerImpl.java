@@ -24,17 +24,26 @@ public class LoggingCommunicationControllerImpl extends AbstractLoggingCommunica
 	@Override
 	public void getLoggingEntries(int clientId, String lastEntry) throws IOException {
 		LOGGER.info("Get log entries from client with id: {} and last entry: {}", clientId, lastEntry);
-		ArrayList<String> result = getNewLogEntries(lastEntry);
-		if(result != null) {
-			sendLogEntriesToClient(clientId, result);
-		} else {
-			handleNoEntryFound(clientId, lastEntry);
-		}
+		boolean isFirstIteration = true;
+		ArrayList<String> result = null;
+		String newLastEntry = lastEntry;
+		do {
+			result = getNewLogEntries(newLastEntry);
+			if(result != null) {
+				newLastEntry = result.get(result.size()-1);
+				sendLogEntriesToClient(clientId, result);
+				isFirstIteration = false;
+			} else {
+				if(isFirstIteration) {
+					handleNoEntryFound(clientId, lastEntry);
+				}
+			}
+
+		} while(result != null);
 	}
 
 	@Override
 	public void sendLogEntriesToClient(int clientId, List<String> logEntries) throws IOException {
-		LOGGER.info("Sending log entries response to client {}", clientId);
 		Boolean hasNewEntries = false;
 		if(logEntries != null) {
 			hasNewEntries = true;
