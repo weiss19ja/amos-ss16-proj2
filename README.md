@@ -1,5 +1,10 @@
 <img src="https://travis-ci.org/weiss19ja/amos-ss16-proj2.svg?branch=master">
-# Mobile Robot Framework
+# The Mobile Robot Framework Project 
+<img src="http://gdriv.es/morf">
+
+The Mobile Robot Framework Project is conducted by students as a project work at the Friedrich-Alexander University Erlangen-Nürnberg.   
+The Goal of this project is to develop a framework for a Raspberry Pi powered robot. The framework should serve the purpose of being a demonstrable and convincing proof of the possibilities of platform-independent mobile apps. It enables a broad variety of devices to interact physically and virtually with their surrounding environment through the robot. 
+
 
 ### Requirements
 
