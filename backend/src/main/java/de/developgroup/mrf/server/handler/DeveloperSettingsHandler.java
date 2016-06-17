@@ -100,11 +100,12 @@ public class DeveloperSettingsHandler implements Observer{
     /**
      * Changes the List in the client's developer view according the connectedUsersList
      */
-    public void notifyClientsAboutConnectedUsers(String[] connectedUsers) {
+    public void notifyClientsAboutConnectedUsers(String[] connectedUsers, String[] blockedUsers) {
 
         // create JSON RPC object
         ArrayList<Object> params = new ArrayList<>();
         params.add(connectedUsers);
+        params.add(blockedUsers);
 
         JsonRpc2Request jsonRpc2Request = new JsonRpc2Request("updateConnectedUsers", params);
 
@@ -150,6 +151,7 @@ public class DeveloperSettingsHandler implements Observer{
     @Override
     public void update(Observable o, Object arg) {
         Map<Integer, Session> sessions = clientManager.getSessions();
+//        Map<Integer, String> clientInfo = clientManager.getClientInformation();
 
         int count = 0;
         Map<String,Integer> connectionsPerIp = getNumberOfConnectionsPerIp(sessions);
@@ -165,7 +167,9 @@ public class DeveloperSettingsHandler implements Observer{
                 connectedIps[count++] = "IP address " + clientIp + " holds " + numberOfConnections + " connections";
             }
         }
-        notifyClientsAboutConnectedUsers(connectedIps);
+        // TODO: Remove, only for testing purposes
+        String[] blockedUsers = {};
+        notifyClientsAboutConnectedUsers(connectedIps, blockedUsers);
     }
 
     /**
@@ -191,6 +195,8 @@ public class DeveloperSettingsHandler implements Observer{
             int connectionsForThisIp = connectionsPerIp.get(clientIp) +1;
             connectionsPerIp.put(clientIp,connectionsForThisIp);
         }
+        LOGGER.debug("Size of ip Map is: "+connectionsPerIp.size());
+
         return connectionsPerIp;
     }
 }

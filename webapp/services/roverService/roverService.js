@@ -37,7 +37,9 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
         var connectedUsers = {
             list: ['no connected user']
         }
-        var blockedUsers = ['evilAttacker'];
+      var blockedUsers = {
+        list: ['no user blocked']
+      }
         var clientJs = new ClientJS();
 
 
@@ -139,7 +141,7 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
             updateCollisionInformation(request.params);
             break;
           case 'updateConnectedUsers':
-              updateConnectedUsers(request.params[0]);
+              updateConnectedUsers(request.params[0],request.params[1]);
               break;
           case 'incomingSnapshot':
             incomingSnapshot(request.params);
@@ -278,8 +280,9 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
       /**
        * Update connected users
        */
-      function updateConnectedUsers(userList) {
-          connectedUsers.list = userList;
+      function updateConnectedUsers(connectedList,blockedList) {
+        connectedUsers.list = connectedList;
+        blockedUsers.list = blockedList;
       }
 
       /**

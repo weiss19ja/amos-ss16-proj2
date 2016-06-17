@@ -30,7 +30,7 @@
 
                                 <md-divider></md-divider>
                                 <md-subheader class="md-no-sticky">Blocked users</md-subheader>
-                                <md-list-item class="secondary-button-padding" ng-repeat="user in blockedUsers">
+                                <md-list-item class="secondary-button-padding" ng-repeat="user in blockedUsers.list">
                                         <p>{{user}}</p>
                                         <md-button class="md-secondary" ng-click="unblockUser($event)">Unblock</md-button>
                                 </md-list-item>
