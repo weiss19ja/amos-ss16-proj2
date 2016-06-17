@@ -150,43 +150,45 @@ public class DeveloperSettingsHandler implements Observer{
     @Override
     public void update(Observable o, Object arg) {
         Map<Integer, Session> sessions = clientManager.getSessions();
-        Map<Integer, String> clientInfo = clientManager.getClientInformation();
-        int numberOfConnectedClients = sessions.size();
-        String[] connectedUsers = new String[numberOfConnectedClients];
-        int count = 0;
 
-        for (Map.Entry<Integer, Session> entry : sessions.entrySet()) {
-            int clientId = entry.getKey();
-            String ipAddress = entry.getValue().getRemoteAddress().getHostString();
-            String additionalInformation = clientInfo.get(clientId);
-            connectedUsers[count++] = "IP Address: "+ ipAddress + "   ClientID: "+clientId+
-                    "  " + additionalInformation;
+        int count = 0;
+        Map<String,Integer> connectionsPerIp = getNumberOfConnectionsPerIp(sessions);
+        String[] connectedIps = new String[connectionsPerIp.size()];
+
+        for(Map.Entry<String,Integer> ipEntry: connectionsPerIp.entrySet()){
+            String clientIp = ipEntry.getKey();
+            int numberOfConnections = connectionsPerIp.get(clientIp);
+            if(numberOfConnections == 1){
+                connectedIps[count++] = "IP address " + clientIp + " holds " + numberOfConnections + " connection";
+            }
+            else {
+                connectedIps[count++] = "IP address " + clientIp + " holds " + numberOfConnections + " connections";
+            }
         }
-        notifyClientsAboutConnectedUsers(connectedUsers);
+        notifyClientsAboutConnectedUsers(connectedIps);
     }
 
     /**
      *
-     * @param clientInfo
      * @param sessions
      * @return
      */
-    private Map<String,Integer> getNumberOfConnectionsPerIp(Map<Integer, String> clientInfo,Map<Integer, Session> sessions){
-        LinkedList<String> clientInformationByIp = new LinkedList<String>();
+    private Map<String,Integer> getNumberOfConnectionsPerIp(Map<Integer, Session> sessions){
 
         // Map containing ip and corresponding number of connecitons
         Map<String,Integer> connectionsPerIp = new HashMap<String,Integer>();
 
         // initiate the list with 0 connections per ip
-        for(String ip : clientInfo.values()){
-            connectionsPerIp.put(ip,0);
+        for(Session session : sessions.values()){
+            String clientIp = session.getRemoteAddress().getHostString();
+            connectionsPerIp.put(clientIp,0);
         }
 
         // compute the real number of connections per ip
         for(Map.Entry<Integer, Session> entry : sessions.entrySet()){
             String clientIp = entry.getValue().getRemoteAddress().getHostString();
             // compute new number of connections
-            int connectionsForThisIp = connectionsPerIp.get(clientIp) + 1;
+            int connectionsForThisIp = connectionsPerIp.get(clientIp) +1;
             connectionsPerIp.put(clientIp,connectionsForThisIp);
         }
         return connectionsPerIp;
