@@ -25,7 +25,7 @@
                                         <div class="md-list-item-text" layout="column">
                                                 <h4>IP address: {{user.ipAddress}}</h4>
                                                 <p>Operating system: {{user.operatingSystem}} Browsers: {{user.browsers.join(", ")}} </p>
-                                                <p>Number of connections: {{user.numberOfConnections}}</p>
+                                                <p>Connections from this IP: {{user.numberOfConnections}}</p>
                                         </div>
                                         <md-button class="md-secondary" ng-click="blockUser($event)">Block</md-button>
                                 </md-list-item>
@@ -36,7 +36,7 @@
                                         <div class="md-list-item-text" layout="column">
                                                 <h4>IP address: {{user.ipAddress}}</h4>
                                                 <p>Operating system: {{user.operatingSystem}}  Browser: {{user.browsers.join(", ")}} </p>
-                                                <p>Number of connections: {{user.numberOfConnections}}</p>
+                                                <p>Connections from this IP: {{user.numberOfConnections}}</p>
                                         </div>
                                         <md-button class="md-secondary" ng-click="unblockUser($event)">Unblock</md-button>
                                 </md-list-item>
