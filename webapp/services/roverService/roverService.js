@@ -35,10 +35,10 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
       var snapshotCallback;
       var logEntriesCallback;
         var connectedUsers = {
-            list: ['no connected user']
+            list: []
         }
       var blockedUsers = {
-        list: ['no user blocked']
+        list: []
       }
         var clientJs = new ClientJS();
 

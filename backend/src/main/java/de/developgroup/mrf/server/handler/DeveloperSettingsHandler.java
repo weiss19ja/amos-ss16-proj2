@@ -100,7 +100,7 @@ public class DeveloperSettingsHandler implements Observer{
     /**
      * Changes the List in the client's developer view according the connectedUsersList
      */
-    public void notifyClientsAboutConnectedUsers(String[] connectedUsers, String[] blockedUsers) {
+    public void notifyClientsAboutConnectedUsers(ClientInformation[] connectedUsers, ClientInformation[] blockedUsers) {
 
         // create JSON RPC object
         ArrayList<Object> params = new ArrayList<>();
@@ -168,8 +168,11 @@ public class DeveloperSettingsHandler implements Observer{
             }
         }
         // TODO: Remove, only for testing purposes
-        String[] blockedUsers = {};
-        notifyClientsAboutConnectedUsers(connectedIps, blockedUsers);
+        ClientInformation[] blockedUsers = new ClientInformation[1];
+        String[] browsers = {"Firefox", "Opera"};
+        blockedUsers[0] = new ClientInformation("123.456.789",1,"Windows",browsers);
+        notifyClientsAboutConnectedUsers(blockedUsers,blockedUsers);
+//        notifyClientsAboutConnectedUsers(connectedIps, blockedUsers);
     }
 
     /**
@@ -198,5 +201,58 @@ public class DeveloperSettingsHandler implements Observer{
         LOGGER.debug("Size of ip Map is: "+connectionsPerIp.size());
 
         return connectionsPerIp;
+    }
+
+    private class ClientInformation{
+        private String ipAddress;
+        private int numberOfConnections;
+        private String operatingSystem;
+        private String[] browsers;
+
+        public ClientInformation(){
+            ipAddress = "";
+            numberOfConnections = 0;
+            operatingSystem = "";
+            browsers = new String[0];
+        }
+
+        public ClientInformation(String ipAddress, int numberOfConnections, String operatingSystem, String[] browsers){
+            this.ipAddress = ipAddress;
+            this.numberOfConnections = numberOfConnections;
+            this.operatingSystem = operatingSystem;
+            this.browsers = browsers;
+        }
+
+        public String getIpAddress() {
+            return ipAddress;
+        }
+
+        public void setIpAddress(String ipAddress) {
+            this.ipAddress = ipAddress;
+        }
+
+        public int getNumberOfConnections() {
+            return numberOfConnections;
+        }
+
+        public void setNumberOfConnections(int numberOfConnections) {
+            this.numberOfConnections = numberOfConnections;
+        }
+
+        public String getOperatingSystem() {
+            return operatingSystem;
+        }
+
+        public void setOperatingSystem(String operatingSystem) {
+            this.operatingSystem = operatingSystem;
+        }
+
+        public String[] getBrowsers() {
+            return browsers;
+        }
+
+        public void setBrowsers(String[] browsers) {
+            this.browsers = browsers;
+        }
     }
 }
