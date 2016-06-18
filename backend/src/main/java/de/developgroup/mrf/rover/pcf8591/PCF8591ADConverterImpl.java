@@ -2,14 +2,10 @@ package de.developgroup.mrf.rover.pcf8591;
 
 import com.google.inject.Inject;
 import com.pi4j.io.i2c.I2CDevice;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
 public class PCF8591ADConverterImpl implements PCF8591ADConverter {
-
-    private static Logger LOGGER = LoggerFactory.getLogger(PCF8591ADConverterImpl.class);
 
     /**
      * The i2CDevice that represents this A/D converter.
