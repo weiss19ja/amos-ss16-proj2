@@ -67,7 +67,7 @@ public class LoggingCommunicationControllerImplTest {
         logCtrl.sendUpTimeToClient(5002, upTimeString);
         List<Object> params = new ArrayList<>();
         params.add(upTimeString);
-        JsonRpc2Request request = new JsonRpc2Request("incomingUpTime", params);
+        JsonRpc2Request request = new JsonRpc2Request("incomingSystemUpTime", params);
         verify(clientManager).notifyClientById(5002, request);
     }
 
@@ -92,7 +92,7 @@ public class LoggingCommunicationControllerImplTest {
     private JsonRpc2Request getUpTimeErrorRequest() {
         List<Object> params = new ArrayList<>();
         params.add("ERROR");
-        return new JsonRpc2Request("incomingUpTime", params);
+        return new JsonRpc2Request("incomingSystemUpTime", params);
     }
 
 }

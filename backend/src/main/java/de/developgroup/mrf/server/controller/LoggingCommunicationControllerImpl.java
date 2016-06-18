@@ -106,7 +106,7 @@ public class LoggingCommunicationControllerImpl extends AbstractLoggingCommunica
     public void sendUpTimeToClient(int clientId, String response) {
         List<Object> params = new ArrayList<>();
         params.add(response);
-        sendResponseToClient(clientId, "incomingUpTime", params);
+        sendResponseToClient(clientId, "incomingSystemUpTime", params);
     }
 
     private void sendResponseToClient(int clientId, String method, List<Object> params) {

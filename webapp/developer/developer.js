@@ -8,8 +8,11 @@ angular.module('myApp.developer', [])
         roverService.getKillswitchState();
 
         $scope.alertMsgToSend = "";
-      
+
         $scope.entries = [];
+
+        $scope.systemUpTimeString = "Please refresh to get the rovers uptime.";
+        getSystemUpTime();
 
         $scope.setBlocked = function(roverService, cbState) {
             console.log("setBlocked");
@@ -52,8 +55,18 @@ angular.module('myApp.developer', [])
         }
       };
 
+      $scope.refreshSystemUpTime = function (event) {
+        getSystemUpTime();
+      };
+
       $scope.goToLogEntries = function () {
         $location.path('/logs')
       };
+
+      function getSystemUpTime() {
+        roverService.getSystemUpTime(function (upTimeString) {
+          $scope.systemUpTimeString = "Rover uptime: " + upTimeString;
+        });
+      }
 
     }]);
