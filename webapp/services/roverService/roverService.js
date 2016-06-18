@@ -34,6 +34,7 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
       };
       var snapshotCallback;
       var logEntriesCallback;
+      var systemUpTimeCallback;
         var connectedUsers = {
             list: ['no connected user']
         }
@@ -156,6 +157,8 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
           case 'incomingLogEntries':
             incomingLogEntries(request.params);
             break;
+          case 'incomingSystemUpTime':
+            incomingSystemUpTime(request.params[0]);
           default:
             console.log('error on handleMethodCall: call function ' + request.method + ' is not allowed.');
         }
@@ -296,6 +299,10 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
         logEntriesCallback(params);
       }
 
+      function incomingSystemUpTime(param) {
+        systemUpTimeCallback(param);
+      }
+
       return {
         /**
          * Get the state of the websocket connection.
@@ -420,6 +427,17 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
           logEntriesCallback = callback;
           console.log(lastLogEntry);
           send("getLoggingEntries", [clientId, lastLogEntry]);
+        },
+        /**
+         * Requests the rovers system uptime
+         */
+        getSystemUpTime: function (callback) {
+          if(clientId) {
+            systemUpTimeCallback = callback;
+            send("getSystemUpTime", [clientId]);
+          } else {
+            showErrorNotification("Could not fetch systems uptime because connecting to the rover is still in progress.")
+          }
         },
         /**
          * Send a alert notification to backend which will
