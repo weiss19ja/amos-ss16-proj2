@@ -20,7 +20,7 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
       var lastErrorResponse;
       var clientId = 0;
       var roverState = {
-        isDriverAvailable: true,
+        isDriverAvailable: false,
         isKillswitchEnabled: false
       };
       var killswitch = {
@@ -253,7 +253,7 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
       * when currentDriverId is my clientId, Im the driver
       * when currentDriverId is -1 nobody is driver at the moment
       * when currentDriverId is differnet to mine, driver mode is unavailable to me
-      */
+
       function setDriverAvailable(currentDriverId) {
        if (currentDriverId == clientId) {
          // im the driver
@@ -273,6 +273,31 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
          roverState.isDriverAvailable = false;
          console.log('driver mode not available, because client with id ' +currentDriverId+ ' is in driver mode.');
        }
+      }
+       */
+
+      /**
+       * Set availability of driver mode.
+       * when currentDriverId is my clientId, Im the driver
+       * when currentDriverId is -1 nobody is driver at the moment
+       * when currentDriverId is differnet to mine, driver mode is unavailable to me
+       */
+      function setDriverAvailable(currentDriverId) {
+        if (currentDriverId == clientId) {
+          // im the driver
+          roverState.isDriverAvailable = true;
+          console.log('driver mode is available');
+        } else if (currentDriverId == -1) {
+          // nobody is driver, when im already on driver page i must reaquire the driver mode
+          if ($location.path() == '/drive' || $location.path() == '/roverMaster') {
+            roverState.isDriverAvailable = false;
+            send('enterDriverMode', [clientId]);
+          }
+        } else {
+          // somebody else is driver at the moment
+          roverState.isDriverAvailable = false;
+          console.log('driver mode not available, because client with id ' +currentDriverId+ ' is in driver mode.');
+        }
       }
 
       /**
@@ -438,10 +463,10 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
 
           var clientIdPromise = new Promise(function (resolve, reject) {
 
-            // wait max 5 second for clientID
+            // wait max 3 second for clientID
             var maxTimeout = setTimeout(function () {
               reject(clientId);
-            }, 1000);
+            }, 3000);
 
             // check clientId cyclic every 100 ms
             var checkClientIdInterval = setInterval(checkClientId, 100);

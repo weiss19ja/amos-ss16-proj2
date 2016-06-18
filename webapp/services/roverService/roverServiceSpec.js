@@ -197,7 +197,7 @@ describe('myApp.roverService service', function () {
 
 
     it('should set correct initial rover state ', function () {
-      expect(roverService.roverState.isDriverAvailable).toBe(true);
+      expect(roverService.roverState.isDriverAvailable).toBe(false);
       expect(roverService.roverState.isKillswitchEnabled).toBe(false);
     });
 
@@ -209,20 +209,10 @@ describe('myApp.roverService service', function () {
           params: [{"currentDriverId": 1234}]
         })
       });
-      roverService.enterDriverMode();
-      expect(roverService.roverState.isDriverAvailable).toBe(true);
-    });
-
-    it('should set driver available if there is no driver', function () {
-      $websocketBackend.expectSend({
-        data: JSON.stringify({
-          jsonrpc: "2.0",
-          method: "updateRoverState",
-          params: [{"currentDriverId": -1}]
-        })
+      roverService.enterDriverMode().then(function() {
+        expect(roverService.roverState.isDriverAvailable).toBe(true);
       });
-      roverService.enterDriverMode();
-      expect(roverService.roverState.isDriverAvailable).toBe(true);
+
     });
 
     it('should set driver not available if there is no driver but Im still on drive page', function () {
