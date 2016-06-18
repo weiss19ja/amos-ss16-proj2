@@ -1,5 +1,6 @@
 package de.developgroup.mrf.server.handler;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class ClientInformation {
@@ -7,7 +8,7 @@ public class ClientInformation {
     private int numberOfConnections = 0;
     private LinkedList<Integer> clientIds = new LinkedList<>();
     private String operatingSystem = "";
-    private String[] browsers = new String[0];
+    private LinkedList<String> browsers = new LinkedList<>();
 
     public ClientInformation() {
     }
@@ -37,12 +38,15 @@ public class ClientInformation {
         this.operatingSystem = operatingSystem;
     }
 
-    public String[] getBrowsers() {
+    public LinkedList<String> getBrowsers() {
         return browsers;
     }
 
-    public void setBrowsers(String[] browsers) {
-        this.browsers = browsers;
+
+    public void addBrowser(String browser) {
+        if(!browsers.contains(browser)) {
+            browsers.add(browser);
+        }
     }
 
     public void addClientId(int clientId) {
@@ -51,7 +55,8 @@ public class ClientInformation {
     }
 
     public void removeClientId(int clientId) {
-        clientIds.remove(clientId);
+        int indexToRemove = clientIds.indexOf(clientId);
+        clientIds.remove(indexToRemove);
         numberOfConnections = clientIds.size();
     }
 

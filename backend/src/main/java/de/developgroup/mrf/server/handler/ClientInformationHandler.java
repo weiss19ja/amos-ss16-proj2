@@ -11,10 +11,12 @@ public class ClientInformationHandler {
     private static final List<ClientInformation> clientInformationList = Collections
             .synchronizedList(new ArrayList<ClientInformation>());
 
+    private static final List<String> blockedIpsList = Collections
+            .synchronizedList(new ArrayList<String>());
+
     public List<ClientInformation> getClientInformationList() {
         return clientInformationList;
     }
-
 
     public void addConnection(String ipAddress, int clientId) {
         boolean foundExistingObject = false;
@@ -35,13 +37,13 @@ public class ClientInformationHandler {
         }
     }
 
-    public void removeConnection(int clientId){
+    public void removeConnection(int clientId) {
         for (ClientInformation item : clientInformationList) {
             if (item.containsClientId(clientId)) {
                 // Found the right client object
                 item.removeClientId(clientId);
                 // Remove if no more connections to this ip exist
-                if(item.hasNoClientId()){
+                if (item.hasNoClientId()) {
                     clientInformationList.remove(item);
                 }
                 break;
@@ -49,4 +51,12 @@ public class ClientInformationHandler {
         }
     }
 
+    public void addClientInformation(int clientId, String browser, String operatingSystem) {
+        for (ClientInformation item : clientInformationList) {
+            if (item.containsClientId(clientId)) {
+                item.addBrowser(browser);
+                item.setOperatingSystem(operatingSystem);
+            }
+        }
+    }
 }

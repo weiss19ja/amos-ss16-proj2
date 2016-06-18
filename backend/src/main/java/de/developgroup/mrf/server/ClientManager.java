@@ -5,6 +5,8 @@ import java.net.InetSocketAddress;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import de.developgroup.mrf.server.handler.ClientInformation;
+import de.developgroup.mrf.server.handler.ClientInformationHandler;
 import org.eclipse.jetty.websocket.api.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,10 +27,9 @@ public class ClientManager extends Observable {
 
 	private static final Map<Integer, Session> sessions = Collections
 			.synchronizedMap(new HashMap<Integer, Session>());
-	// Contains Client's IP and additional information
-	private static final Map<Integer, String> clientInformation = Collections
-			.synchronizedMap(new HashMap<Integer, String>());
 
+	// TODO: Inject
+	private static final ClientInformationHandler clientInformationHandler = new ClientInformationHandler();
 	private AtomicInteger lastClientId = new AtomicInteger(5000);
 
 	/**
@@ -46,6 +47,8 @@ public class ClientManager extends Observable {
 		sendClientId(session, clientId);
 		String msg = "new client has connected to server, id: " + clientId;
 		notifyAllClients(msg);
+
+		clientInformationHandler.addConnection(session.getRemoteAddress().getHostString(),clientId);
 		// Notify Observers, e.g. Developer Settings Handler so that the connected users list can be updated
 		setChanged();
 		notifyObservers();
@@ -57,17 +60,33 @@ public class ClientManager extends Observable {
 	 * from the websocket he will be removed from the list of connected clients.
 	 */
 	public void removeClosedSessions() {
+		// New set because otherwise data wouldn't be copied
+		Set<Integer> clientIdsBefore = new HashSet<Integer>();
+		clientIdsBefore.addAll(sessions.keySet());
+
+		boolean removedSomething = false;
 		Iterator<Session> iter = sessions.values().iterator();
 		while (iter.hasNext()) {
 			Session session = iter.next();
 			if (!session.isOpen()) {
+				String ipAddress = session.getRemoteAddress().toString();
 				LOGGER.info("Remove session: "
 						+ session.getRemoteAddress().toString());
 				iter.remove();
-				// Notify Observers, e.g. Developer Settings Handler so that the connected users list can be updated
-				setChanged();
-				notifyObservers();
+				removedSomething = true;
 			}
+		}
+		if(removedSomething){
+			// Remove unused clientIds from ClientInformation
+			Set<Integer> clientIdsAfterwards = sessions.keySet();
+			for(int clientId : clientIdsBefore){
+				if(! clientIdsAfterwards.contains(clientId)){
+					clientInformationHandler.removeConnection(clientId);
+				}
+			}
+			// Notify Observers, e.g. Developer Settings Handler so that the connected users list can be updated
+			setChanged();
+			notifyObservers();
 		}
 	}
 
@@ -80,11 +99,11 @@ public class ClientManager extends Observable {
 	}
 
 	/**
-	 * Getter for clientInformation
+	 * Getter for clientInformationList
 	 * @return Map that contains ClientId and additional information
      */
-	public static Map<Integer, String> getClientInformation() {
-		return clientInformation;
+	public static List<ClientInformation> getClientInformationList() {
+		return clientInformationHandler.getClientInformationList();
 	}
 
 	/**
@@ -222,7 +241,7 @@ public class ClientManager extends Observable {
 		Session session = sessions.get(clientId);
 		InetSocketAddress remoteAddr = session.getRemoteAddress();
 		// store additional information
-		clientInformation.put(clientId, "Browser: " +browser + " Operating system: "+ operatingSystem);
+		clientInformationHandler.addClientInformation(clientId, browser, operatingSystem);
 		setChanged();
 		notifyObservers();
 	}

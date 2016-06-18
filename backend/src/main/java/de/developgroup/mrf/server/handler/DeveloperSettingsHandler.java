@@ -1,7 +1,6 @@
 package de.developgroup.mrf.server.handler;
 
 import com.google.inject.Inject;
-import de.developgroup.mrf.rover.collision.CollisionController;
 import de.developgroup.mrf.server.ClientManager;
 import de.developgroup.mrf.server.rpc.JsonRpc2Request;
 import org.eclipse.jetty.websocket.api.Session;
@@ -150,29 +149,13 @@ public class DeveloperSettingsHandler implements Observer{
      */
     @Override
     public void update(Observable o, Object arg) {
+        LOGGER.debug("Updating connected users list");
+
         Map<Integer, Session> sessions = clientManager.getSessions();
-//        Map<Integer, String> clientInfo = clientManager.getClientInformation();
+        List<ClientInformation> clientInformationList = clientManager.getClientInformationList();
 
-        int count = 0;
-        Map<String,Integer> connectionsPerIp = getNumberOfConnectionsPerIp(sessions);
-        String[] connectedIps = new String[connectionsPerIp.size()];
-
-        for(Map.Entry<String,Integer> ipEntry: connectionsPerIp.entrySet()){
-            String clientIp = ipEntry.getKey();
-            int numberOfConnections = connectionsPerIp.get(clientIp);
-            if(numberOfConnections == 1){
-                connectedIps[count++] = "IP address " + clientIp + " holds " + numberOfConnections + " connection";
-            }
-            else {
-                connectedIps[count++] = "IP address " + clientIp + " holds " + numberOfConnections + " connections";
-            }
-        }
-        // TODO: Remove, only for testing purposes
-        ClientInformation[] blockedUsers = new ClientInformation[1];
-        String[] browsers = {"Firefox", "Opera"};
-        blockedUsers[0] = new ClientInformation("123.456.789",1,"Windows",browsers);
-        notifyClientsAboutConnectedUsers(blockedUsers,blockedUsers);
-//        notifyClientsAboutConnectedUsers(connectedIps, blockedUsers);
+        ClientInformation[] connectedUsers = (ClientInformation[]) clientInformationList.toArray(new ClientInformation[clientInformationList.size()]);
+        notifyClientsAboutConnectedUsers(connectedUsers,connectedUsers);
     }
 
     /**
@@ -198,8 +181,6 @@ public class DeveloperSettingsHandler implements Observer{
             int connectionsForThisIp = connectionsPerIp.get(clientIp) +1;
             connectionsPerIp.put(clientIp,connectionsForThisIp);
         }
-        LOGGER.debug("Size of ip Map is: "+connectionsPerIp.size());
-
         return connectionsPerIp;
     }
 }
