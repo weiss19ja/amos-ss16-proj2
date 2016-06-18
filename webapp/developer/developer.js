@@ -56,4 +56,14 @@ angular.module('myApp.developer', [])
         $location.path('/logs')
       };
 
+      $scope.blockIp = function(ipAddress) {
+          console.debug("Blocking ip address: "+ ipAddress);
+          roverService.blockIp(ip);
+      }
+        
+      $scope.unblockIp = function(ipAddress) {
+          console.debug("Unblocking ip address: "+ ipAddress);
+          roverService.unblockIp(ip);
+      }
+
     }]);

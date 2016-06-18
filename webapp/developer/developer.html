@@ -27,7 +27,7 @@
                                                 <p>Connections from this IP: {{user.numberOfConnections}} Connected clienIds: {{user.clientIds.join(", ")}}</p>
                                                 <p>Operating system: {{user.operatingSystem}} Browsers: {{user.browsers.join(", ")}} </p>
                                         </div>
-                                        <md-button class="md-secondary" ng-click="blockUser($event)">Block</md-button>
+                                        <md-button class="md-secondary" ng-click="blockIp(user.ipAddress)">Block</md-button>
                                 </md-list-item>
 
                                 <md-divider></md-divider>
@@ -38,7 +38,7 @@
                                                 <p>Connections from this IP: {{user.numberOfConnections}} Connected clienIds: {{user.clientIds.join(", ")}}</p>
                                                 <p>Operating system: {{user.operatingSystem}}  Browser: {{user.browsers.join(", ")}} </p>
                                         </div>
-                                        <md-button class="md-secondary" ng-click="unblockUser($event)">Unblock</md-button>
+                                        <md-button class="md-secondary" ng-click="unblockIp(user.ipAddress)">Unblock</md-button>
                                 </md-list-item>
                         </md-list>
                 </md-content>

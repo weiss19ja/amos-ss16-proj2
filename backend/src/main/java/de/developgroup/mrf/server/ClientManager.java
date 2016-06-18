@@ -5,6 +5,7 @@ import java.net.InetSocketAddress;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.google.inject.Inject;
 import de.developgroup.mrf.server.handler.ClientInformation;
 import de.developgroup.mrf.server.handler.ClientInformationHandler;
 import org.eclipse.jetty.websocket.api.Session;
@@ -28,8 +29,9 @@ public class ClientManager extends Observable {
 	private static final Map<Integer, Session> sessions = Collections
 			.synchronizedMap(new HashMap<Integer, Session>());
 
-	// TODO: Inject
-	private static final ClientInformationHandler clientInformationHandler = new ClientInformationHandler();
+	@Inject
+	static ClientInformationHandler clientInformationHandler;
+
 	private AtomicInteger lastClientId = new AtomicInteger(5000);
 
 	/**

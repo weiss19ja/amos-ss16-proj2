@@ -403,6 +403,18 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
           send("setKillswitch", [killswitchEnabled, notificationMessage]);
         },
         /**
+         * block all interactions with the rover from this ipAddress
+         */
+        blockIp: function (ipAddress) {
+          send("blockIp", [ipAddress]);
+        },
+        /**
+         * allow all interactions with the rover from this ipAddress
+         */
+        unblockIp: function (ipAddress) {
+          send("unblockIp", [ipAddress]);
+        },
+        /**
          * check whether developer blocked user interaction with rover
          */
         getKillswitchState: function () {

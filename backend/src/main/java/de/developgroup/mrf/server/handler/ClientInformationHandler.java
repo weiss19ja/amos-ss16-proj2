@@ -1,6 +1,11 @@
 package de.developgroup.mrf.server.handler;
 
 
+import com.google.inject.Inject;
+import de.developgroup.mrf.server.ClientManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -13,6 +18,15 @@ public class ClientInformationHandler {
 
     private static final List<String> blockedIpsList = Collections
             .synchronizedList(new ArrayList<String>());
+
+    private static final Logger LOGGER = LoggerFactory
+            .getLogger(ClientInformationHandler.class);
+
+
+    @Inject
+    public ClientInformationHandler() {
+        LOGGER.debug("Creating new instance of ClientInformationHandler");
+    }
 
     public List<ClientInformation> getClientInformationList() {
         return clientInformationList;

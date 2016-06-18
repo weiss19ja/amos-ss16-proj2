@@ -3,6 +3,7 @@ package de.developgroup.mrf.server.socket;
 import java.io.IOException;
 import java.util.Date;
 
+import de.developgroup.mrf.server.handler.*;
 import org.eclipse.jetty.websocket.api.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,10 +11,6 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 
 import de.developgroup.mrf.server.ClientManager;
-import de.developgroup.mrf.server.handler.DeveloperSettingsHandler;
-import de.developgroup.mrf.server.handler.NotificationHandler;
-import de.developgroup.mrf.server.handler.RoverHandler;
-import de.developgroup.mrf.server.handler.SingleDriverHandler;
 import de.developgroup.mrf.server.rpc.JsonRpc2Socket;
 
 public class RoverSocket extends JsonRpc2Socket {
@@ -34,6 +31,9 @@ public class RoverSocket extends JsonRpc2Socket {
 
 	@Inject
 	static ClientManager clientManager;
+
+	@Inject
+	static ClientInformationHandler clientInformationHandler;
 
 	public RoverSocket() {
 	}
@@ -182,6 +182,14 @@ public class RoverSocket extends JsonRpc2Socket {
 
 	public void setClientInformation(Number client, String fingerprint, String browser, String operatingSystem){
 		clientManager.setClientInformation(client.intValue(), fingerprint, browser, operatingSystem);
+	}
+
+	public void blockIp(String ipAddress){
+		clientInformationHandler.blockIp(ipAddress);
+	}
+
+	public void unblockIp(String ipAddress){
+		clientInformationHandler.unblockIp(ipAddress);
 	}
 
 }
