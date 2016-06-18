@@ -1,7 +1,6 @@
 package de.developgroup.mrf.server.socket;
 
 import java.io.IOException;
-import java.util.Date;
 
 import org.eclipse.jetty.websocket.api.Session;
 import org.slf4j.Logger;
@@ -153,7 +152,8 @@ public class RoverSocket extends JsonRpc2Socket {
 		roverHandler.getCameraSnapshot(clientId.intValue());
 	}
 
-	public void getLoggingEntries(Number clientId, String lastEntry) throws IOException {
+	public void getLoggingEntries(Number clientId, String lastEntry)
+			throws IOException {
 		LOGGER.trace("getLoggingEntries()");
 		roverHandler.getLoggingEntries(clientId.intValue(), lastEntry);
 	}
@@ -180,8 +180,10 @@ public class RoverSocket extends JsonRpc2Socket {
 		singleDriverHandler.releaseDriver(clientId.intValue());
 	}
 
-	public void setClientInformation(Number client, String fingerprint, String browser, String operatingSystem){
-		clientManager.setClientInformation(client.intValue(), fingerprint, browser, operatingSystem);
+	public void setClientInformation(Number client, String browser,
+			String operatingSystem) {
+		clientManager.setClientInformation(client.intValue(), browser,
+				operatingSystem);
 	}
 
 }
