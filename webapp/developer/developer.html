@@ -24,8 +24,8 @@
                                 <md-list-item class="md-3-line" class="secondary-button-padding" ng-repeat="user in connectedUsers.list">
                                         <div class="md-list-item-text" layout="column">
                                                 <h4>IP address: {{user.ipAddress}}</h4>
+                                                <p>Connections from this IP: {{user.numberOfConnections}} Connected clienIds: {{user.clientIds.join(", ")}}</p>
                                                 <p>Operating system: {{user.operatingSystem}} Browsers: {{user.browsers.join(", ")}} </p>
-                                                <p>Connections from this IP: {{user.numberOfConnections}}</p>
                                         </div>
                                         <md-button class="md-secondary" ng-click="blockUser($event)">Block</md-button>
                                 </md-list-item>
@@ -35,8 +35,8 @@
                                 <md-list-item class="md-3-line" class="secondary-button-padding" ng-repeat="user in blockedUsers.list">
                                         <div class="md-list-item-text" layout="column">
                                                 <h4>IP address: {{user.ipAddress}}</h4>
+                                                <p>Connections from this IP: {{user.numberOfConnections}} Connected clienIds: {{user.clientIds.join(", ")}}</p>
                                                 <p>Operating system: {{user.operatingSystem}}  Browser: {{user.browsers.join(", ")}} </p>
-                                                <p>Connections from this IP: {{user.numberOfConnections}}</p>
                                         </div>
                                         <md-button class="md-secondary" ng-click="unblockUser($event)">Unblock</md-button>
                                 </md-list-item>

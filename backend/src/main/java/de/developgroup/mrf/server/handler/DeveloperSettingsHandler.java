@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.*;
 
-public class DeveloperSettingsHandler implements Observer{
+public class DeveloperSettingsHandler implements Observer {
 
     private static final Logger LOGGER = LoggerFactory
             .getLogger(DeveloperSettingsHandler.class);
@@ -23,7 +23,7 @@ public class DeveloperSettingsHandler implements Observer{
 
     @Inject
     public DeveloperSettingsHandler(
-                               ClientManager clientManager, RoverHandler roverHandler) {
+            ClientManager clientManager, RoverHandler roverHandler) {
         LOGGER.debug("Creating new instance of DeveloperSettingsHandler");
         this.clientManager = clientManager;
         this.roverHandler = roverHandler;
@@ -38,7 +38,7 @@ public class DeveloperSettingsHandler implements Observer{
      * @return returns true if actions are blocked, false otherwise
      */
     public boolean checkKillswitchEnabled() {
-        if(killswitchEnabled) {
+        if (killswitchEnabled) {
             LOGGER.trace("Developer blocked this action");
         }
         return killswitchEnabled;
@@ -46,6 +46,7 @@ public class DeveloperSettingsHandler implements Observer{
 
     /**
      * Simple Getter for killswitchState
+     *
      * @return killswitchState
      */
     public boolean isKillswitchEnabled() {
@@ -55,7 +56,7 @@ public class DeveloperSettingsHandler implements Observer{
     /**
      * Blocks or unblocks rover-actions
      *
-     * @param newState if true, actions get blocked, if false, clients can steer the rover
+     * @param newState            if true, actions get blocked, if false, clients can steer the rover
      * @param notificationMessage message that should be broadcasted to the clients so they know
      *                            the killswitch was pressed
      */
@@ -65,18 +66,17 @@ public class DeveloperSettingsHandler implements Observer{
         // determine whether client needs to get message
         // should always be the case but just to be safe
         boolean notifyClients = false;
-        if(killswitchEnabled != newState.booleanValue()){
+        if (killswitchEnabled != newState.booleanValue()) {
             notifyClients = true;
         }
         if (newState) {
             roverHandler.stop();
             killswitchEnabled = true;
-        }
-        else{
+        } else {
             killswitchEnabled = false;
         }
         notifyClientsAboutButtonState();
-        if(notifyClients){
+        if (notifyClients) {
             notifyClientsAboutBlockingState(notificationMessage);
         }
     }
@@ -92,7 +92,7 @@ public class DeveloperSettingsHandler implements Observer{
 
         JsonRpc2Request jsonRpc2Request = new JsonRpc2Request("updateKillswitchEnabled", params);
 
-        LOGGER.debug("informing clients about Killswitch-State: "+ killswitchEnabled);
+        LOGGER.debug("informing clients about Killswitch-State: " + killswitchEnabled);
         clientManager.notifyAllClients(jsonRpc2Request);
     }
 
@@ -108,16 +108,17 @@ public class DeveloperSettingsHandler implements Observer{
 
         JsonRpc2Request jsonRpc2Request = new JsonRpc2Request("updateConnectedUsers", params);
 
-        LOGGER.debug("informing clients about connected users: "+ connectedUsers);
+        LOGGER.debug("informing clients about connected users: " + connectedUsers);
         clientManager.notifyAllClients(jsonRpc2Request);
     }
 
     /**
      * Sends a message to all clients so they know the developer just
      * changed the killswitch state
+     *
      * @param message message text
      */
-    protected void notifyClientsAboutBlockingState(String message){
+    protected void notifyClientsAboutBlockingState(String message) {
         JsonRpc2Request notification = new JsonRpc2Request(
                 "showAlertNotification", message);
 
@@ -127,11 +128,12 @@ public class DeveloperSettingsHandler implements Observer{
     /**
      * Sends a message to one specific client so he knows the killswitch is active and he can't interact with the rover
      * The method should be called if a new client connects to the server
+     *
      * @param clientId the client who should receive the message
-     * @param message message text
+     * @param message  message text
      */
-    public void notifyIfBlocked(int clientId, String message){
-        if(!killswitchEnabled){
+    public void notifyIfBlocked(int clientId, String message) {
+        if (!killswitchEnabled) {
             return;
         }
         JsonRpc2Request notification = new JsonRpc2Request(
@@ -144,42 +146,45 @@ public class DeveloperSettingsHandler implements Observer{
      * This method gets called if information in the Client Manager change.
      * A list of connected users containing additional information is generated and send out to the clients
      * to be displayed in the developer view
-     * @param o Observable, in this Case the clientManager
+     *
+     * @param o   Observable, in this Case the clientManager
      * @param arg not used
      */
     @Override
     public void update(Observable o, Object arg) {
         LOGGER.debug("Updating connected users list");
 
-        Map<Integer, Session> sessions = clientManager.getSessions();
-        List<ClientInformation> clientInformationList = clientManager.getClientInformationList();
+        List<ClientInformation> blockedConnections = clientManager.getBlockedConnections();
+        ClientInformation[] blockedUsers = (ClientInformation[]) blockedConnections.toArray(new ClientInformation[blockedConnections.size()]);
 
-        ClientInformation[] connectedUsers = (ClientInformation[]) clientInformationList.toArray(new ClientInformation[clientInformationList.size()]);
-        notifyClientsAboutConnectedUsers(connectedUsers,connectedUsers);
+
+        List<ClientInformation> unblockedConnections = clientManager.getUnblockedConnections();
+        ClientInformation[] unblockedUsers = (ClientInformation[]) unblockedConnections.toArray(new ClientInformation[unblockedConnections.size()]);
+
+        notifyClientsAboutConnectedUsers(unblockedUsers, blockedUsers);
     }
 
     /**
-     *
      * @param sessions
      * @return
      */
-    private Map<String,Integer> getNumberOfConnectionsPerIp(Map<Integer, Session> sessions){
+    private Map<String, Integer> getNumberOfConnectionsPerIp(Map<Integer, Session> sessions) {
 
         // Map containing ip and corresponding number of connecitons
-        Map<String,Integer> connectionsPerIp = new HashMap<String,Integer>();
+        Map<String, Integer> connectionsPerIp = new HashMap<String, Integer>();
 
         // initiate the list with 0 connections per ip
-        for(Session session : sessions.values()){
+        for (Session session : sessions.values()) {
             String clientIp = session.getRemoteAddress().getHostString();
-            connectionsPerIp.put(clientIp,0);
+            connectionsPerIp.put(clientIp, 0);
         }
 
         // compute the real number of connections per ip
-        for(Map.Entry<Integer, Session> entry : sessions.entrySet()){
+        for (Map.Entry<Integer, Session> entry : sessions.entrySet()) {
             String clientIp = entry.getValue().getRemoteAddress().getHostString();
             // compute new number of connections
-            int connectionsForThisIp = connectionsPerIp.get(clientIp) +1;
-            connectionsPerIp.put(clientIp,connectionsForThisIp);
+            int connectionsForThisIp = connectionsPerIp.get(clientIp) + 1;
+            connectionsPerIp.put(clientIp, connectionsForThisIp);
         }
         return connectionsPerIp;
     }

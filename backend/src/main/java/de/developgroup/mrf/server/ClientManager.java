@@ -98,12 +98,14 @@ public class ClientManager extends Observable {
 		return sessions;
 	}
 
-	/**
-	 * Getter for clientInformationList
-	 * @return Map that contains ClientId and additional information
-     */
-	public static List<ClientInformation> getClientInformationList() {
-		return clientInformationHandler.getClientInformationList();
+	// TODO: Document usage
+	public static List<ClientInformation> getBlockedConnections(){
+		return clientInformationHandler.getBlockedConnections();
+	}
+
+	// TODO: Document usage
+	public static List<ClientInformation> getUnblockedConnections(){
+		return clientInformationHandler.getUnblockedConnections();
 	}
 
 	/**
