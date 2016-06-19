@@ -1,6 +1,9 @@
 package de.developgroup.mrf.server.controller;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public abstract class AbstractLoggingCommunicationController {
@@ -34,18 +37,6 @@ public abstract class AbstractLoggingCommunicationController {
 		}
 		fileInputStream.close();
 		return resultLogEntries.size() > 0 ? resultLogEntries : null;
-	}
-
-	protected  String getSystemUpTimeString() throws InterruptedException, IOException {
-		Process upTimeProcess = Runtime.getRuntime().exec("uptime");
-		BufferedReader reader = new BufferedReader(new InputStreamReader(upTimeProcess.getInputStream()));
-		StringBuilder builder = new StringBuilder();
-		String line;
-		while((line = reader.readLine()) != null) {
-			builder.append(line);
-		}
-		upTimeProcess.waitFor();
-        return builder.toString();
 	}
 
 }

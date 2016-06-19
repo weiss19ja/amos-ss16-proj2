@@ -7,9 +7,8 @@ describe('myApp.roverDrive module', function () {
 
   describe('should define roverDriveController', function () {
     var scope, roverDriveCtrl, $location, roverService;
-    var asyncExampleValue;
 
-    beforeEach(inject(function ($rootScope, $controller, _$location_, _roverService_) {
+    beforeEach(inject(function($rootScope, $controller, _$location_, _roverService_) {
       scope = $rootScope.$new();
       roverDriveCtrl = $controller('RoverDriveCtrl', {$scope: scope});
       $location = _$location_;
@@ -20,18 +19,18 @@ describe('myApp.roverDrive module', function () {
       expect(roverDriveCtrl).toBeDefined();
     });
 
-    beforeEach(function (done) {
-      setTimeout(function () {
-        asyncExampleValue = -5;
-        done();
-      }, 1);
+    it('should call enterDriverMode when /drive is opened', function () {
+      spyOn(roverService, 'enterDriverMode');
+      $location.path('/drive');
+      setTimeout(function () {expect(roverService.enterDriverMode).toHaveBeenCalled()}, 250);
     });
 
-    it("should support async execution of test preparation and expectations", function (done) {
-      asyncExampleValue++;
-      expect(asyncExampleValue).toBe(-4);
-      done();
+    it('should call exitDriverMode when /drive is closed', function () {
+      spyOn(roverService, 'exitDriverMode');
+      $location.path('/observe');
+      setTimeout(function () {expect(roverService.exitDriverMode).toHaveBeenCalled()}, 250);
     });
+    
 
 
   });

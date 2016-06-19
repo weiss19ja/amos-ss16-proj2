@@ -56,11 +56,11 @@ describe ('Camera and Drive view', function() {
   it('should display the drive dpad', function() {
     expect(element(by.tagName('dpad')).getText()).toBeDefined();
   });
-
+  
   it('should display the parking sensors', function() {
     expect(element(by.tagName('parking-sensors')).getText()).toBeDefined();
   });
-
+  
   it('should display the camera stream', function() {
     expect(browser.findElement(by.className('md-card-image')).getText()).toBeDefined;
   });
@@ -197,9 +197,6 @@ describe ('developer view', function() {
     expect(notification.getText()).toBe('Interactions with the rover are allowed');
   });
 
-  it('should display the systems uptime label', function () {
-    expect(element(by.binding('systemUpTimeString')).getText()).toBeDefined();
-  });
 
 });
 
