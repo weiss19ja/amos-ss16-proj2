@@ -10,6 +10,8 @@ import java.io.IOException;
 
 import static java.lang.Thread.sleep;
 
+
+
 /**
  * Representation of a thread that continously polls the IR sensors (in a defined interval) and sends the information
  * to the frontend.
@@ -37,7 +39,7 @@ public class CollisionRunnable implements Runnable {
     /**
      * Time between two successive sensor queries.
      */
-    private final int POLL_INTERVAL_MS = 50;
+    private final int POLL_INTERVAL_MS = 1000;
 
     private IRSensor sensorFrontLeft;
 
@@ -47,11 +49,14 @@ public class CollisionRunnable implements Runnable {
 
     private IRSensor sensorBackLeft;
 
+
+
     @Inject
-    public CollisionRunnable(IRSensor sensorFrontLeft,
-                             IRSensor sensorFrontRight,
-                             IRSensor sensorBackRight,
-                             IRSensor sensorBackLeft) {
+    public CollisionRunnable(@SensorBackLeft IRSensor sensorFrontLeft,
+                             @SensorFrontRight IRSensor sensorFrontRight,
+                             @SensorBackRight IRSensor sensorBackRight,
+                             @SensorBackLeft IRSensor sensorBackLeft) {
+        LOGGER.trace("creating new CollisionRunnable via injected constructor");
         this.sensorFrontLeft = sensorFrontLeft;
         this.sensorFrontRight = sensorFrontRight;
         this.sensorBackRight = sensorBackRight;
@@ -61,6 +66,7 @@ public class CollisionRunnable implements Runnable {
     public void run() {
         while(true) {
             try {
+                LOGGER.info("Executing IR sensor poll event loop");
                 RoverCollisionInformation info = readAllSensors();
                 sleep(POLL_INTERVAL_MS);
             } catch (InterruptedException e) {

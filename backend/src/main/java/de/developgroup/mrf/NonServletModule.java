@@ -1,18 +1,25 @@
 package de.developgroup.mrf;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.BindingAnnotation;
 import com.pi4j.io.gpio.GpioController;
 
-import de.developgroup.mrf.rover.collision.CollisionController;
-import de.developgroup.mrf.rover.collision.CollisionControllerImpl;
-import de.developgroup.mrf.rover.collision.CollisionControllerMock;
+import de.developgroup.mrf.rover.collision.*;
 import de.developgroup.mrf.rover.gpio.GpioControllerMockProvider;
 import de.developgroup.mrf.rover.gpio.GpioControllerProvider;
+import de.developgroup.mrf.rover.pcf8591.IRSensor;
+import de.developgroup.mrf.rover.pcf8591.IRSensorImpl;
+import de.developgroup.mrf.rover.pcf8591.IRSensorMock;
 import de.developgroup.mrf.server.controller.*;
 import de.developgroup.mrf.server.handler.*;
 import de.developgroup.mrf.server.socket.RoverSocket;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+
 public class NonServletModule extends AbstractModule {
+
 
 	private boolean useMocks = false;
 
@@ -41,6 +48,12 @@ public class NonServletModule extends AbstractModule {
 //					 CameraSnapshotControllerMock.class);
 			bind(CameraSnapshotController.class).to(
 					CameraSnapshotControllerImpl.class);
+
+			// set up the IR sensors for the respective directions
+			bind(IRSensor.class).annotatedWith(SensorFrontLeft.class).toInstance(new IRSensorMock());
+			bind(IRSensor.class).annotatedWith(SensorFrontRight.class).toInstance(new IRSensorMock());
+			bind(IRSensor.class).annotatedWith(SensorBackRight.class).toInstance(new IRSensorMock());
+			bind(IRSensor.class).annotatedWith(SensorBackLeft.class).toInstance(new IRSensorMock());
 		} else {
 			// use actual classes with hardware control
 			bind(CollisionController.class).to(CollisionControllerImpl.class);
@@ -49,12 +62,14 @@ public class NonServletModule extends AbstractModule {
 			bind(GpioController.class).toProvider(GpioControllerProvider.class);
 			bind(CameraSnapshotController.class).to(
 					CameraSnapshotControllerImpl.class);
+			bind(IRSensor.class).to(IRSensorImpl.class);
 		}
 
 		bind(LoggingCommunicationController.class).to(
 				LoggingCommunicationControllerImpl.class);
 		bind(NotificationHandler.class).to(NotificationHandlerImpl.class);
 		bind(SingleDriverHandler.class).to(SingleDriverHandlerImpl.class);
+
 		requestStaticInjection(RoverSocket.class);
 		requestStaticInjection(Main.class);
 	}
