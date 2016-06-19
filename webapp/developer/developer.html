@@ -67,6 +67,22 @@
         </md-card>
 
         <md-card>
+                <md-toolbar class="md-toolbar-tools md-hue-2">
+                    <div class="md-toolbar-tools">
+                        <h3>System uptime</h3>
+                        <span flex></span>
+                        <md-button class="md-fab md-mini" ng-click="refreshSystemUpTime($event)" aria-label="Refresh rovers uptime">
+                            <md-icon md-svg-icon="assets/icons/ic_refresh_black_48px.svg"></md-icon>
+                        </md-button>
+                    </div>
+                </md-toolbar>
+                <md-card-title>
+                        <md-card-title-text ng-bind="systemUpTimeString">
+                        </md-card-title-text>
+                </md-card-title>
+        </md-card>
+
+        <md-card>
                 <md-toolbar>
                         <div class="md-toolbar-tools">
                                 <h3>Log Entries</h3>

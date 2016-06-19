@@ -264,8 +264,14 @@ public class RoverSocketTest {
 	}
 
 	@Test
-	public void testGetSpecificLogEntries() throws IOException {
+	public void testGetSpecificLogEntries() {
 		roverSocket.getLoggingEntries(5002, "Test");
 		verify(RoverSocket.roverHandler).getLoggingEntries(5002, "Test");
+	}
+
+	@Test
+	public void testGetSystemUpTime() {
+		roverSocket.getSystemUpTime(5002);
+		verify(RoverSocket.roverHandler).getSystemUpTime(5002);
 	}
 }

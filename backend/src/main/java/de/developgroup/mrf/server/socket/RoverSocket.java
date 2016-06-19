@@ -156,9 +156,14 @@ public class RoverSocket extends JsonRpc2Socket {
 		roverHandler.getCameraSnapshot(clientId.intValue());
 	}
 
-	public void getLoggingEntries(Number clientId, String lastEntry) throws IOException {
+	public void getLoggingEntries(Number clientId, String lastEntry) {
 		LOGGER.trace("getLoggingEntries()");
 		roverHandler.getLoggingEntries(clientId.intValue(), lastEntry);
+	}
+
+	public void getSystemUpTime(Number clientId) {
+		LOGGER.trace("getSystemUpTime()");
+		roverHandler.getSystemUpTime(clientId.intValue());
 	}
 
 	// TODO: Delete if not needed
