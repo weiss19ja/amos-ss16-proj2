@@ -4,7 +4,7 @@
  * Service to communicate with the rover via websockets and JSON-RPC.
  */
 angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
-    .factory("roverService", function ($websocket, $location, $mdToast) {
+    .factory("roverService", function ($websocket, $location, $mdToast, $mdDialog) {
 
       var wsURL = 'ws://' + $location.host() + ':' + $location.port() + '/rover';
       var ws = $websocket(getWsURL());
@@ -40,6 +40,9 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
       var blockedUsers = {
         list: []
       }
+      var myIp = {
+        isBlocked: false
+      };
         var clientJs = new ClientJS();
 
 
@@ -154,6 +157,9 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
             break;
           case 'updateRoverState':
             updateRoverState(request.params[0]);
+            break;
+          case 'setMyBlockingState':
+            setMyBlockingState(request.params[0]);
             break;
           case 'incomingLogEntries':
             incomingLogEntries(request.params);
@@ -292,6 +298,28 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
         snapshotCallback(imageData);
       }
 
+        /**
+         * setBlocking State
+         * @param blockingState
+         */
+      function setMyBlockingState(blockingState){
+          if(!(blockingState == myIp.isBlocked)){
+            console.log("changed blocking state");
+            if(blockingState == true){
+              var msg = 'A developer blocked you, no further interaction with the rover possible';
+              $mdDialog.show(
+                  $mdDialog.alert()
+                      .title('Blocked')
+                      .textContent(msg));
+            }
+            else{
+              $mdDialog.hide();
+            }
+
+          }
+          myIp.isBlocked = blockingState;
+      }
+
       /**
        * Receive response for log entries request and invoke callback function
        */
@@ -330,6 +358,7 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
         blockedUsers: blockedUsers,
         clientJs: clientJs,
         errors: errorResponses,
+        myIp: myIp,
         getLastErrorResponse: function () {
           return lastErrorResponse;
         },

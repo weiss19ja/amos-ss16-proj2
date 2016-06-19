@@ -126,6 +126,45 @@ public class DeveloperSettingsHandler implements Observer {
     }
 
     /**
+     * Send a notification to the users to tell them whether their ip is blocked or not
+     * In case of blocking, the frontend can react to this
+     * frontend can also block their interactions from frontend side
+     * @param connectedUsers List of connected users
+     * @param blockedUsers List of blocked userss
+     */
+    private void notifyUsersAboutTheirBlockingState(ClientInformation[] connectedUsers, ClientInformation[] blockedUsers){
+        LOGGER.trace("Informing clients about their blocking state");
+        // normal connections
+        // create JSON RPC object
+
+        ArrayList<Object> params = new ArrayList<>();
+        params.add(false);
+        JsonRpc2Request jsonRpc2Request = new JsonRpc2Request("setMyBlockingState", params);
+        for(ClientInformation clientInfo : connectedUsers){
+            sendMessageToAllClientsOfThisIp(clientInfo, jsonRpc2Request);
+        }
+
+        // blocked connections
+        params = new ArrayList<>();
+        params.add(true);
+        jsonRpc2Request = new JsonRpc2Request("setMyBlockingState", params);
+        for(ClientInformation clientInfo : blockedUsers){
+            sendMessageToAllClientsOfThisIp(clientInfo, jsonRpc2Request);
+        }
+    }
+
+    /**
+     * Send a message to all connected clients contained in this clienInformations
+     * @param clientInfo
+     * @param request Message to send
+     */
+    private void sendMessageToAllClientsOfThisIp(ClientInformation clientInfo, JsonRpc2Request request){
+        for(int clientId: clientInfo.getClientIds()){
+            clientManager.notifyClientById(clientId,request);
+        }
+    }
+
+    /**
      * Sends a message to one specific client so he knows the killswitch is active and he can't interact with the rover
      * The method should be called if a new client connects to the server
      *
@@ -162,6 +201,7 @@ public class DeveloperSettingsHandler implements Observer {
         ClientInformation[] unblockedUsers = (ClientInformation[]) unblockedConnections.toArray(new ClientInformation[unblockedConnections.size()]);
 
         notifyClientsAboutConnectedUsers(unblockedUsers, blockedUsers);
+        notifyUsersAboutTheirBlockingState(unblockedUsers, blockedUsers);
     }
 
     /**

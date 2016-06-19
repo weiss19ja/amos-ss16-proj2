@@ -13,6 +13,9 @@ public class ClientInformation {
     public ClientInformation() {
     }
 
+    public LinkedList<Integer> getClientIds() {
+        return clientIds;
+    }
 
     public boolean containsClientId(int clientId) {
         return clientIds.contains(clientId);
