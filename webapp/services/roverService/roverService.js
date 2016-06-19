@@ -41,6 +41,7 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
         list: []
       }
       var myIp = {
+        ipAddress: "",
         isBlocked: false
       };
         var clientJs = new ClientJS();
@@ -159,7 +160,7 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
             updateRoverState(request.params[0]);
             break;
           case 'setMyBlockingState':
-            setMyBlockingState(request.params[0]);
+            setMyBlockingState(request.params[0], request.params[1]);
             break;
           case 'incomingLogEntries':
             incomingLogEntries(request.params);
@@ -302,7 +303,8 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
          * setBlocking State
          * @param blockingState
          */
-      function setMyBlockingState(blockingState){
+      function setMyBlockingState(ipAddress, blockingState){
+          myIp.ipAddress = ipAddress;
           if(!(blockingState == myIp.isBlocked)){
             console.log("changed blocking state");
             if(blockingState == true){
@@ -448,6 +450,12 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
          */
         getKillswitchState: function () {
           send("sendKillswitchState", []);
+        },
+        /**
+         * show an alert notification to the user
+         */
+        showAlertNotification: function (msg) {
+          showAlertNotification(msg);
         },
         /**
          * Request for a snapshot

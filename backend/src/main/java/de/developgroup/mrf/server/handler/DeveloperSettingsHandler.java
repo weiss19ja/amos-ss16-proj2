@@ -135,32 +135,29 @@ public class DeveloperSettingsHandler implements Observer {
     private void notifyUsersAboutTheirBlockingState(ClientInformation[] connectedUsers, ClientInformation[] blockedUsers){
         LOGGER.trace("Informing clients about their blocking state");
         // normal connections
-        // create JSON RPC object
 
-        ArrayList<Object> params = new ArrayList<>();
-        params.add(false);
-        JsonRpc2Request jsonRpc2Request = new JsonRpc2Request("setMyBlockingState", params);
         for(ClientInformation clientInfo : connectedUsers){
-            sendMessageToAllClientsOfThisIp(clientInfo, jsonRpc2Request);
+            sendBlockingStateToAllClientsOfThisIp(clientInfo);
         }
-
-        // blocked connections
-        params = new ArrayList<>();
-        params.add(true);
-        jsonRpc2Request = new JsonRpc2Request("setMyBlockingState", params);
         for(ClientInformation clientInfo : blockedUsers){
-            sendMessageToAllClientsOfThisIp(clientInfo, jsonRpc2Request);
+            sendBlockingStateToAllClientsOfThisIp(clientInfo);
         }
     }
 
     /**
-     * Send a message to all connected clients contained in this clienInformations
+     * Send a message about their blocking state to all connected clients contained in this clienInformation
+     * Message includes own ip and whether or not a developer blocked this ip
      * @param clientInfo
-     * @param request Message to send
      */
-    private void sendMessageToAllClientsOfThisIp(ClientInformation clientInfo, JsonRpc2Request request){
+    private void sendBlockingStateToAllClientsOfThisIp(ClientInformation clientInfo){
+        ArrayList<Object> params = new ArrayList<>();
+        String ipAddress = clientInfo.getIpAddress();
+        params.add(ipAddress);
+        params.add(clientManager.clientIsBlocked(ipAddress));
+        JsonRpc2Request jsonRpc2Request = new JsonRpc2Request("setMyBlockingState", params);
+
         for(int clientId: clientInfo.getClientIds()){
-            clientManager.notifyClientById(clientId,request);
+            clientManager.notifyClientById(clientId,jsonRpc2Request);
         }
     }
 

@@ -5,6 +5,7 @@ angular.module('myApp.developer', [])
         // Killswitch
         $scope.killswitchText = 'allowed';
         $scope.killswitch = roverService.killswitch;
+        $scope.myIp = roverService.myIp;
         roverService.getKillswitchState();
 
         $scope.alertMsgToSend = "";
@@ -57,6 +58,10 @@ angular.module('myApp.developer', [])
       };
 
       $scope.blockIp = function(ipAddress) {
+          if(ipAddress == $scope.myIp.ipAddress){
+              roverService.showAlertNotification('You do not want to block yourself');
+              return;
+          }
           console.debug("Blocking ip address: "+ ipAddress);
           roverService.blockIp(ipAddress);
       }
