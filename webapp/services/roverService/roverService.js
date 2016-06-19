@@ -91,10 +91,9 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
        * so that developer has information about the users
        */
       function sendClientInformation(){
-          var fingerprint = clientJs.getFingerprint();
           var userBrowser = clientJs.getBrowser();
           var operatingSystem = clientJs.getOS();
-          send("setClientInformation", [clientId, fingerprint.toString(), userBrowser.toString(), operatingSystem.toString()]);
+          send("setClientInformation", [clientId, userBrowser.toString(), operatingSystem.toString()]);
       }
 
       ws.onError(function (event) {

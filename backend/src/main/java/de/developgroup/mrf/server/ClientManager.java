@@ -228,11 +228,10 @@ public class ClientManager extends Observable {
 	 * This function stores information about the clients so they can lateron be used to provide the
 	 * developer with further information.
 	 * @param clientId 	The client's id
-	 * @param fingerprint 	A unique fingerprint generated out of the user's browser data
 	 * @param browser	String containing user's browser
 	 * @param operatingSystem	String containiing user's operatingSystem
      */
-	public void setClientInformation(int clientId, String fingerprint, String browser, String operatingSystem) {
+	public void setClientInformation(int clientId, String browser, String operatingSystem) {
 		Session session = sessions.get(clientId);
 		InetSocketAddress remoteAddr = session.getRemoteAddress();
 		// store additional information
