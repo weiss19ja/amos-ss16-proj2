@@ -29,8 +29,8 @@ public class ClientManager extends Observable {
 	private static final Map<Integer, Session> sessions = Collections
 			.synchronizedMap(new HashMap<Integer, Session>());
 
-	@Inject
-	static ClientInformationHandler clientInformationHandler;
+//	@Inject
+	static ClientInformationHandler clientInformationHandler = new ClientInformationHandler();
 
 	private AtomicInteger lastClientId = new AtomicInteger(5000);
 
@@ -50,7 +50,8 @@ public class ClientManager extends Observable {
 		String msg = "new client has connected to server, id: " + clientId;
 		notifyAllClients(msg);
 
-		clientInformationHandler.addConnection(session.getRemoteAddress().getHostString(),clientId);
+		String ipAddress = session.getRemoteAddress().getHostString();
+		clientInformationHandler.addConnection(ipAddress,clientId);
 		// Notify Observers, e.g. Developer Settings Handler so that the connected users list can be updated
 		setChanged();
 		notifyObservers();
@@ -246,6 +247,18 @@ public class ClientManager extends Observable {
 		InetSocketAddress remoteAddr = session.getRemoteAddress();
 		// store additional information
 		clientInformationHandler.addClientInformation(clientId, browser, operatingSystem);
+		setChanged();
+		notifyObservers();
+	}
+
+	public void blockIp(String ipAddress) {
+		clientInformationHandler.blockIp(ipAddress);
+		setChanged();
+		notifyObservers();
+	}
+
+	public void unblockIp(String ipAddress) {
+		clientInformationHandler.unblockIp(ipAddress);
 		setChanged();
 		notifyObservers();
 	}

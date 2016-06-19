@@ -58,12 +58,12 @@ angular.module('myApp.developer', [])
 
       $scope.blockIp = function(ipAddress) {
           console.debug("Blocking ip address: "+ ipAddress);
-          roverService.blockIp(ip);
+          roverService.blockIp(ipAddress);
       }
         
       $scope.unblockIp = function(ipAddress) {
           console.debug("Unblocking ip address: "+ ipAddress);
-          roverService.unblockIp(ip);
+          roverService.unblockIp(ipAddress);
       }
 
     }]);

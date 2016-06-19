@@ -32,8 +32,8 @@ public class RoverSocket extends JsonRpc2Socket {
 	@Inject
 	static ClientManager clientManager;
 
-	@Inject
-	static ClientInformationHandler clientInformationHandler;
+//	@Inject
+//	static ClientInformationHandler clientInformationHandler;
 
 	public RoverSocket() {
 	}
@@ -185,11 +185,11 @@ public class RoverSocket extends JsonRpc2Socket {
 	}
 
 	public void blockIp(String ipAddress){
-		clientInformationHandler.blockIp(ipAddress);
+		clientManager.blockIp(ipAddress);
 	}
 
 	public void unblockIp(String ipAddress){
-		clientInformationHandler.unblockIp(ipAddress);
+		clientManager.unblockIp(ipAddress);
 	}
 
 }

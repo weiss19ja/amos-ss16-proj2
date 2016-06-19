@@ -44,6 +44,9 @@ public class Main {
 	private static boolean useMocks = false;
 	private static boolean developerMode = false;
 
+//	@Inject
+//	public static ClientInformationHandler clientInformationHandler;
+
 	@Inject
 	public static RoverHandler roverHandler;
 
@@ -52,9 +55,6 @@ public class Main {
 
 	@Inject
 	public static DeveloperSettingsHandler developerSettingsHandler;
-
-	@Inject
-	static ClientInformationHandler clientInformationHandler;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
