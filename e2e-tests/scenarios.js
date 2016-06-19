@@ -56,11 +56,11 @@ describe ('Camera and Drive view', function() {
   it('should display the drive dpad', function() {
     expect(element(by.tagName('dpad')).getText()).toBeDefined();
   });
-  
+
   it('should display the parking sensors', function() {
     expect(element(by.tagName('parking-sensors')).getText()).toBeDefined();
   });
-  
+
   it('should display the camera stream', function() {
     expect(browser.findElement(by.className('md-card-image')).getText()).toBeDefined;
   });
@@ -171,7 +171,7 @@ describe ('developer view', function() {
   });
 
   it('should click the killswitch and text should be "blocked"', function() {
-    var input = element(by.model('killswitch.enabled'));
+    var input = element(by.model('roverState.isKillswitchEnabled'));
     input.click();
     expect(element(by.binding('killswitchText')).getText()).toBe('User interaction with rover: blocked');
     input.click();
@@ -197,6 +197,9 @@ describe ('developer view', function() {
     expect(notification.getText()).toBe('Interactions with the rover are allowed');
   });
 
+  it('should display the systems uptime label', function () {
+    expect(element(by.binding('systemUpTimeString')).getText()).toBeDefined();
+  });
 
 });
 
@@ -296,7 +299,7 @@ describe ('sidebar navigation for smartphones', function() {
 
 });
 
-describe ('sidebar navigation for smartphones', function() {
+describe ('sidebar navigation for laptops', function() {
 
   var sidebarItems;
   var sideBarToggleButton;
@@ -322,6 +325,17 @@ describe ('sidebar navigation for smartphones', function() {
   it('should have also thirteen entries', function() {
     // 13 entries with hidden developer view + desktop rover master view
     expect (sidebarItems.count()).toBe(13);
+  });
+
+  it('should be display "Rover Master" in sidebar', function() {
+    expect (sidebarItems.get(1).isDisplayed()).toBe(true);
+  });
+
+  it('should be redirect to /drive/roverMaster when "Rover Master" is clicked', function() {
+    expect (sidebarItems.get(1).getText()).toBe('Rover Master');
+    sidebarItems.get(1).click();
+    browser.refresh();
+    expect(browser.getLocationAbsUrl()).toMatch("/drive/roverMaster");
   });
 
   it('should not view "Camera & Driving"', function() {

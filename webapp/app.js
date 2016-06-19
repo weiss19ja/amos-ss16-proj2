@@ -46,12 +46,12 @@ angular.module('myApp', [
     }).when('/drive/driveonly', {
       templateUrl: 'roverDrive/roverDriveOnly.html',
       controller: 'RoverDriveCtrl'
-    }).when('/stop', {
-      templateUrl: 'roverDrive/roverDriveStop.html',
-      controller: 'RoverDriveCtrl'
-    }).when('/roverMaster', {
+    }).when('/drive/roverMaster', {
       templateUrl: 'roverMaster/roverMaster.html',
       controller: 'RoverMasterCtrl'
+    }).when('/stop', {
+      templateUrl: 'roverDrive/roverStop.html',
+      controller: 'RoverDriveCtrl'
     }).when('/observe', {
       templateUrl: 'roverObserve/roverObserve.html',
       controller: 'RoverObserveCtrl'

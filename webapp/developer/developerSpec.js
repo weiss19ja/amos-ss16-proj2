@@ -19,7 +19,7 @@ describe('myApp.developer module', function () {
     });
 
     it ('should have the matching text for killswitch state', function () {
-      if (scope.killswitch.enabled) {
+      if (scope.roverState.isKillswitchEnabled) {
         expect(scope.killswitchText).toEqual('blocked');
       }
       else {
@@ -28,7 +28,7 @@ describe('myApp.developer module', function () {
     });
 
     it('should change the killswitch text when it gets enabled'), function() {
-      scope.killswitch.enabled = true;
+      scope.roverState.isKillswitchEnabled = true;
       expect(scope.killswitchText).toEqual('blocked');
     }
 

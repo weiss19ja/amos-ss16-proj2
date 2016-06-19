@@ -37,7 +37,7 @@ angular.module('myApp.roverMaster', [])
       var nextRoutePath = next.$$route.originalPath;
 
       // drive and roverMaster target pages are valid for drive mode - do not log out user here
-      if(!(urlContainsStr(nextRoutePath, 'drive') || urlContainsStr(nextRoutePath, 'roverMaster'))) {
+      if(!urlContainsStr(nextRoutePath, 'drive')) {
         console.log('Exit Driver Mode, changing to URL: ' + next.$$route.originalPath);
         roverService.exitDriverMode();
       }
