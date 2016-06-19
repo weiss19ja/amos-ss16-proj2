@@ -9,19 +9,10 @@
  */
 angular.module('myApp.joystick', [])
   .controller('JoystickCtrl', ['$scope', 'roverService','$attrs', function($scope, roverService, $attrs) {
+    var manager = {on:function () {}};
 
-    function init() {
-      if($attrs.size){
-        $scope.joystickSize = $attrs.size;
-      } else {
-        $scope.joystickSize = 150;
-      }
-    }
-
-    init();
-
-    $scope.joystickSize;
-
+    $scope.joystickSize = 150;
+    
     $scope.up = function () {
       roverService.driveForward();
     };
@@ -42,6 +33,12 @@ angular.module('myApp.joystick', [])
       roverService.stop();
     };
 
+    this.$onInit = function() {
+      if(!$attrs.test){
+        initNippleJS();
+      }
+    };
+
 
     var options = {
       zone: document.getElementById('zone_joystick'),
@@ -51,38 +48,42 @@ angular.module('myApp.joystick', [])
       mode: 'static',
       restOpacity: 0.7
     };
-    var manager = nipplejs.create(options);
 
-    manager.on('move', function (evt, data) {
-      //console.log('radian'+data.angle.radian +'   distance: '+data.distance);
-    });
+    function initNippleJS() {
+      console.log('use nipple js');
+      manager = nipplejs.create(options);
+      manager.on('move', function (evt, data) {
+        //console.log('radian'+data.angle.radian +'   distance: '+data.distance);
+      });
 
-    manager.on('dir:up',function (evt,data) {
-      console.log('joystick:up');
-      $scope.up();
-    });
+      manager.on('dir:up',function (evt,data) {
+        console.log('joystick:up');
+        $scope.up();
+      });
 
-    manager.on('dir:down',function (evt,data) {
-      console.log('joystick:down');
-      $scope.down();
-    });
+      manager.on('dir:down',function (evt,data) {
+        console.log('joystick:down');
+        $scope.down();
+      });
 
-    manager.on('dir:left',function (evt,data) {
-      console.log('joystick:left');
-      $scope.left();
-    });
+      manager.on('dir:left',function (evt,data) {
+        console.log('joystick:left');
+        $scope.left();
+      });
 
-    manager.on('dir:right',function (evt,data) {
-      console.log('joystick:right');
-      $scope.right();
+      manager.on('dir:right',function (evt,data) {
+        console.log('joystick:right');
+        $scope.right();
 
-    });
+      });
 
-    manager.on('end',function (evt,data) {
-      console.log('joystick:stop');
-      $scope.stop();
-    });
-    
+      manager.on('end',function (evt,data) {
+        console.log('joystick:stop');
+        $scope.stop();
+      });
+    }
+
+
   }])
   .component('joystick', {
     restrict: 'EA',
@@ -90,6 +91,6 @@ angular.module('myApp.joystick', [])
     css: 'components/joystick/joystick.css',
     controller: 'JoystickCtrl',
     bindings: {
-      size: '<'
+      test: '<'
     }
   });
