@@ -92,6 +92,11 @@ Name: Angular Image Fallback
 Verion: 0.1.4
 License: MIT License
 ``` 
+``` 
+Name: nippleJS
+Verion: 0.6.3
+License: MIT License
+``` 
 
 ### Build and Package Tool
 ``` 

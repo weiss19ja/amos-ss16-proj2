@@ -3,7 +3,7 @@
  * Joystick component to control the rover movement.
  *
  * Changeable attributes are:
- * size: size of the joystick
+ * test: enable for unit tests to prevent using nippleJS
  *
  * For communication with the rover 'roverService' is used.
  */
