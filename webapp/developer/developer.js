@@ -4,7 +4,7 @@ angular.module('myApp.developer', [])
     .controller('DeveloperCtrl', ['$scope', '$location', 'roverService', function($scope, $location, roverService) {
         // Killswitch
         $scope.killswitchText = 'allowed';
-        $scope.killswitch = roverService.killswitch;
+        $scope.roverState = roverService.roverState;
         roverService.getKillswitchState();
 
         $scope.alertMsgToSend = "";
@@ -14,10 +14,13 @@ angular.module('myApp.developer', [])
         $scope.systemUpTimeString = "Please refresh to get the rovers uptime.";
         getSystemUpTime();
 
+        /**
+         * not used?
         $scope.setBlocked = function(roverService, cbState) {
             console.log("setBlocked");
             roverService.setKillswitch(cbState);
         };
+        */
 
         // Connected Users
         $scope.connectedUsers = roverService.connectedUsers;
@@ -25,9 +28,9 @@ angular.module('myApp.developer', [])
 
 
         // change text if switch changes
-        $scope.$watch(function($scope) { return $scope.killswitch.enabled },
+        $scope.$watch(function($scope) { return $scope.roverState.isKillswitchEnabled },
             function() {
-            if($scope.killswitch.enabled){
+            if($scope.roverState.isKillswitchEnabled){
                 $scope.killswitchText = 'blocked';
             }
             else{
@@ -36,16 +39,16 @@ angular.module('myApp.developer', [])
         });
 
         // inform server about change made by the user
-        $scope.onChange = function(cbState) {
-            console.debug("Killswitch button changed to:" +cbState);
+        $scope.onChange = function(isKillswitchEnabled) {
+            console.debug("Killswitch button changed to:" + isKillswitchEnabled);
             var notificationMessage;
-            if(cbState == true){
+            if(isKillswitchEnabled == true){
                 notificationMessage = "All interactions with the rover are blocked";
             }
             else{
                 notificationMessage = "Interactions with the rover are allowed";
             }
-            roverService.setKillswitch(cbState, notificationMessage);
+            roverService.setKillswitch(isKillswitchEnabled, notificationMessage);
         };
 
       $scope.sendAlertMsg = function () {
