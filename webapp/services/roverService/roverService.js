@@ -300,7 +300,7 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
       }
 
         /**
-         * setBlocking State
+         * setBlocking State and disply message to client if he got blocked
          * @param blockingState
          */
       function setMyBlockingState(ipAddress, blockingState){
@@ -309,10 +309,23 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
             console.log("changed blocking state");
             if(blockingState == true){
               var msg = 'A developer blocked you, no further interaction with the rover possible';
-              $mdDialog.show(
-                  $mdDialog.alert()
-                      .title('Blocked')
-                      .textContent(msg));
+              $mdDialog.show({
+                clickOutsideToClose: false,
+                template: '<md-dialog aria-label="Blocked"  ng-cloak>' +
+                '<md-toolbar>'+
+                  '<div class="md-toolbar-tools">'+
+                    '<h2>Blocked</h2>'+
+                    '<span flex></span>'+
+                  '</div>'+
+                '</md-toolbar>'+
+                '<md-dialog-content>' +
+                  '<div class="md-dialog-content">'+
+                    '<p>'+ msg +'<\p>'+
+                  '<\div>'+
+                '</md-dialog-content>' +
+                '</md-dialog>'
+              });
+
             }
             else{
               $mdDialog.hide();
