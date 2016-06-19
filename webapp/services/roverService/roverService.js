@@ -24,9 +24,7 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
       isDriverAvailable: false,
       isKillswitchEnabled: false
     };
-    var killswitch = {
-      enabled: false
-    };
+
     var collisionDetection = {
       frontLeft: false,
       frontRight: false,
@@ -132,9 +130,6 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
           break;
         case 'incomingNotification':
           incomingNotification(request.params[0]);
-          break;
-        case 'updateKillswitchEnabled':
-          updateKillswitchEnabled(request.params[0]);
           break;
         case 'updateCollisionInformation':
           updateCollisionInformation(request.params);
@@ -254,11 +249,6 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
       $mdToast.show($mdToast.simple().textContent(msg).position('top right').theme('error-toast').hideDelay(4000));
     }
 
-    function updateKillswitchEnabled(state) {
-      killswitch.enabled = state;
-      console.log("Updating Killswitch state received from server to: " + state);
-    }
-
     /**
      * Update collision detection information by the server.
      */
@@ -281,10 +271,9 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
         setDriverAvailable(receivedRoverState.currentDriverId);
       }
 
-      if (receivedRoverState.isKillswitchEnabled) {
+      if (typeof receivedRoverState.isKillswitchEnabled !== 'undefined')
         roverState.isKillswitchEnabled = receivedRoverState.isKillswitchEnabled;
       }
-    }
 
     /**
      * Set availability of driver mode.
@@ -355,7 +344,6 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
       },
       responses: responses,
       notifications: notifications,
-      killswitch: killswitch,
       roverState: roverState,
       collisions: collisionDetection,
       connectedUsers: connectedUsers,

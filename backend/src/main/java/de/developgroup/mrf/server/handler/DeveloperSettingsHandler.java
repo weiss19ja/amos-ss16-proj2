@@ -14,6 +14,7 @@ import com.google.inject.Inject;
 
 import de.developgroup.mrf.server.ClientManager;
 import de.developgroup.mrf.server.rpc.JsonRpc2Request;
+import de.developgroup.mrf.server.rpc.msgdata.RoverStatusVO;
 
 public class DeveloperSettingsHandler implements Observer {
 
@@ -94,17 +95,11 @@ public class DeveloperSettingsHandler implements Observer {
 	 * killswitch State
 	 */
 	public void notifyClientsAboutButtonState() {
-
-		// create JSON RPC object
-		ArrayList<Object> params = new ArrayList<>();
-		params.add(killswitchEnabled);
-
-		JsonRpc2Request jsonRpc2Request = new JsonRpc2Request(
-				"updateKillswitchEnabled", params);
-
-		LOGGER.debug("informing clients about Killswitch-State: "
-				+ killswitchEnabled);
-		clientManager.notifyAllClients(jsonRpc2Request);
+		RoverStatusVO roverState = new RoverStatusVO();
+		roverState.isKillswitchEnabled = killswitchEnabled;
+		JsonRpc2Request notification = new JsonRpc2Request("updateRoverState",
+				roverState);
+		clientManager.notifyAllClients(notification);
 	}
 
 	/**
