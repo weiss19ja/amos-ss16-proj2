@@ -101,16 +101,6 @@ public class ClientManager extends Observable {
 		return sessions;
 	}
 
-	// TODO: Document usage
-	public static List<ClientInformation> getBlockedConnections(){
-		return clientInformationHandler.getBlockedConnections();
-	}
-
-	// TODO: Document usage
-	public static List<ClientInformation> getUnblockedConnections(){
-		return clientInformationHandler.getUnblockedConnections();
-	}
-
 	/**
 	 * Get the amount of connected clients.
 	 *
@@ -251,6 +241,16 @@ public class ClientManager extends Observable {
 		notifyObservers();
 	}
 
+	// TODO: Document usage
+	public static List<ClientInformation> getBlockedConnections(){
+		return clientInformationHandler.getBlockedConnections();
+	}
+
+	// TODO: Document usage
+	public static List<ClientInformation> getUnblockedConnections(){
+		return clientInformationHandler.getUnblockedConnections();
+	}
+
 	public void blockIp(String ipAddress) {
 		clientInformationHandler.blockIp(ipAddress);
 		setChanged();
@@ -261,5 +261,9 @@ public class ClientManager extends Observable {
 		clientInformationHandler.unblockIp(ipAddress);
 		setChanged();
 		notifyObservers();
+	}
+
+	public boolean clientIsBlocked(String ipAddress){
+		return clientInformationHandler.isBlocked(ipAddress);
 	}
 }

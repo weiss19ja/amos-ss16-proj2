@@ -136,4 +136,8 @@ public class ClientInformationHandler {
             }
         }
     }
+
+    public boolean isBlocked(String ipAddress) {
+        return blockedIpsList.contains(ipAddress);
+    }
 }
