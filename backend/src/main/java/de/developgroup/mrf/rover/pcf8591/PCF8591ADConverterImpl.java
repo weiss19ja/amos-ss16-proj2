@@ -1,11 +1,14 @@
 package de.developgroup.mrf.rover.pcf8591;
 
 import com.google.inject.Inject;
+import com.pi4j.io.i2c.I2CBus;
 import com.pi4j.io.i2c.I2CDevice;
 
 import java.io.IOException;
 
 public class PCF8591ADConverterImpl implements PCF8591ADConverter {
+
+    private static int DEVICE_ADDR = 0x48;
 
     /**
      * The i2CDevice that represents this A/D converter.
@@ -13,7 +16,7 @@ public class PCF8591ADConverterImpl implements PCF8591ADConverter {
     private I2CDevice i2CDevice;
 
     @Inject
-    public PCF8591ADConverterImpl(I2CDevice i2CDevice) {
+    public PCF8591ADConverterImpl(@PCF8591Device I2CDevice i2CDevice) {
         this.i2CDevice = i2CDevice;
     }
 

@@ -115,7 +115,7 @@ public class Main {
 				servletContextHandler, new DefaultHandler() });
 		server.setHandler(handlers);
 
-		Thread collisionThread = new Thread(collisionRunnable, "collision poll");
+		Thread collisionThread = new Thread(collisionRunnable, "collision");
 		collisionThread.start();
 
 		try {

@@ -34,6 +34,7 @@ public class CollisionControllerImpl extends Observable implements
 	private GpioPinDigitalInput irReceiverBackRight;
 
 	public CollisionControllerImpl() {
+		/*
 		initSenderGPIOs();
 		initReceiverGPIOs();
 
@@ -41,6 +42,7 @@ public class CollisionControllerImpl extends Observable implements
 		irReceiverFrontLeft.addListener(new SensorListener());
 		irReceiverBackLeft.addListener(new SensorListener());
 		irReceiverBackRight.addListener(new SensorListener());
+		*/
 
 	}
 

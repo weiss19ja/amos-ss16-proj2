@@ -1,6 +1,7 @@
 package de.developgroup.mrf.rover.pcf8591;
 
 import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
 import com.pi4j.io.gpio.PinState;
 
@@ -21,8 +22,8 @@ public class IRSensorImpl implements IRSensor {
 
     @Inject
     public IRSensorImpl(PCF8591ADConverter converter,
-                        PCF8591ADConverter.InputChannel channel,
-                        GpioPinDigitalOutput irLed) {
+                        @Assisted PCF8591ADConverter.InputChannel channel,
+                        @Assisted GpioPinDigitalOutput irLed) {
         this.converter = converter;
         this.channel = channel;
         this.irLed = irLed;
