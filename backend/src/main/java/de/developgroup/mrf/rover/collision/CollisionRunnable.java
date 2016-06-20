@@ -8,6 +8,7 @@ import com.pi4j.io.gpio.RaspiPin;
 import de.developgroup.mrf.rover.pcf8591.IRSensor;
 import de.developgroup.mrf.rover.pcf8591.PCF8591ADConverter;
 import de.developgroup.mrf.server.ClientManager;
+import de.developgroup.mrf.server.handler.RoverHandler;
 import de.developgroup.mrf.server.rpc.JsonRpc2Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,12 +59,13 @@ public class CollisionRunnable implements Runnable {
 
     private ClientManager clientManager;
 
-
+    private RoverHandler roverHandler;
 
     @Inject
     public CollisionRunnable(IRSensorFactory sensorFactory,
                              GpioController gpio,
-                             ClientManager clientManager) {
+                             ClientManager clientManager,
+                             RoverHandler roverHandler) {
         LOGGER.info("creating new CollisionRunnable via injected constructor");
         this.sensorFrontRight = sensorFactory.create(PCF8591ADConverter.InputChannel.ZERO,
                 gpio.provisionDigitalOutputPin(RaspiPin.GPIO_03, PinState.LOW));
@@ -74,6 +76,7 @@ public class CollisionRunnable implements Runnable {
         this.sensorBackLeft = sensorFactory.create(PCF8591ADConverter.InputChannel.THREE,
                 gpio.provisionDigitalOutputPin(RaspiPin.GPIO_24, PinState.LOW));
         this.clientManager = clientManager;
+        this.roverHandler = roverHandler;
     }
 
     /**
@@ -84,13 +87,28 @@ public class CollisionRunnable implements Runnable {
             try {
                 LOGGER.info("Executing IR sensor poll event loop");
                 RoverCollisionInformation info = readAllSensors();
-                LOGGER.info(info.toString());
+                maybeEmergencyStop(info);
                 sendToClients(info);
                 sleep(POLL_INTERVAL_MS);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 LOGGER.error("An IO exception occured while reading the sensors: " + e);
+            }
+        }
+    }
+
+    /**
+     * Perform rover emergency stop maneuver if an obstacle is too close.
+     * @param info current rover collision information
+     */
+    public void maybeEmergencyStop(RoverCollisionInformation info) {
+        if (info.hasDangerousCollision()) {
+            try {
+                LOGGER.info("Emergency stop requested.");
+                roverHandler.stop();
+            } catch (IOException e) {
+                LOGGER.error("Emergency stop failed. Collision inbound.");
             }
         }
     }

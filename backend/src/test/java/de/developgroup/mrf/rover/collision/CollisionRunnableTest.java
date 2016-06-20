@@ -2,12 +2,15 @@ package de.developgroup.mrf.rover.collision;
 
 import com.pi4j.io.gpio.GpioController;
 import de.developgroup.mrf.server.ClientManager;
+import de.developgroup.mrf.server.handler.RoverHandler;
 import de.developgroup.mrf.server.rpc.JsonRpc2Request;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
+
+import java.io.IOException;
 
 import static org.mockito.Mockito.verify;
 
@@ -17,14 +20,26 @@ public class CollisionRunnableTest {
     IRSensorFactory irSensorFactory;
     GpioController gpio;
     ClientManager clientManager;
+    RoverHandler roverHandler;
 
     @Before
     public void setUp() {
         irSensorFactory = Mockito.mock(IRSensorFactory.class);
         gpio = Mockito.mock(GpioController.class);
         clientManager = Mockito.mock(ClientManager.class);
+        roverHandler = Mockito.mock(RoverHandler.class);
 
-        runnable = new CollisionRunnable(irSensorFactory, gpio, clientManager);
+        runnable = new CollisionRunnable(irSensorFactory, gpio, clientManager, roverHandler);
+    }
+
+    @Test
+    public void testMaybeEmergencyStop() throws IOException {
+        RoverCollisionInformation info = new RoverCollisionInformation();
+        info.collisionBackRight = CollisionState.Close;
+
+        runnable.maybeEmergencyStop(info);
+
+        verify(roverHandler).stop();
     }
 
     @Test

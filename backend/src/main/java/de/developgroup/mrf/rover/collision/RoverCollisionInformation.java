@@ -29,6 +29,18 @@ public class RoverCollisionInformation {
         collisionBackRight = CollisionState.None;
     }
 
+    /**
+     * Determine whether this instance of collision information is very close, so that e.g. driving should not be
+     * possible right now.
+     * @return true if the rover is too close to an obstacle; else false
+     */
+    public boolean hasDangerousCollision() {
+        return (collisionFrontLeft == CollisionState.Close)
+                || (collisionFrontRight == CollisionState.Close)
+                || (collisionBackLeft == CollisionState.Close)
+                || (collisionBackRight == CollisionState.Close);
+    }
+
     @Override
     public String toString() {
         return "RoverCollisionInformation{" +
