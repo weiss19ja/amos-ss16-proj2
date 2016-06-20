@@ -7,10 +7,13 @@ import com.pi4j.io.gpio.PinState;
 import com.pi4j.io.gpio.RaspiPin;
 import de.developgroup.mrf.rover.pcf8591.IRSensor;
 import de.developgroup.mrf.rover.pcf8591.PCF8591ADConverter;
+import de.developgroup.mrf.server.ClientManager;
+import de.developgroup.mrf.server.rpc.JsonRpc2Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import static java.lang.Thread.sleep;
 
@@ -53,10 +56,14 @@ public class CollisionRunnable implements Runnable {
 
     private IRSensor sensorBackLeft;
 
+    private ClientManager clientManager;
+
 
 
     @Inject
-    public CollisionRunnable(IRSensorFactory sensorFactory, GpioController gpio) {
+    public CollisionRunnable(IRSensorFactory sensorFactory,
+                             GpioController gpio,
+                             ClientManager clientManager) {
         LOGGER.info("creating new CollisionRunnable via injected constructor");
         this.sensorFrontRight = sensorFactory.create(PCF8591ADConverter.InputChannel.ZERO,
                 gpio.provisionDigitalOutputPin(RaspiPin.GPIO_03, PinState.LOW));
@@ -66,6 +73,7 @@ public class CollisionRunnable implements Runnable {
                 gpio.provisionDigitalOutputPin(RaspiPin.GPIO_29, PinState.LOW));
         this.sensorBackLeft = sensorFactory.create(PCF8591ADConverter.InputChannel.THREE,
                 gpio.provisionDigitalOutputPin(RaspiPin.GPIO_24, PinState.LOW));
+        this.clientManager = clientManager;
     }
 
     /**
@@ -77,6 +85,7 @@ public class CollisionRunnable implements Runnable {
                 LOGGER.info("Executing IR sensor poll event loop");
                 RoverCollisionInformation info = readAllSensors();
                 LOGGER.info(info.toString());
+                sendToClients(info);
                 sleep(POLL_INTERVAL_MS);
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -87,11 +96,25 @@ public class CollisionRunnable implements Runnable {
     }
 
     /**
+     * Send collision information to all connected clients.
+     * @param info the information to send to the clients.
+     */
+    public void sendToClients(RoverCollisionInformation info) {
+        // pack a collision information object
+        ArrayList<Object> params = new ArrayList<>();
+        params.add(info);
+
+        JsonRpc2Request jsonRpc2Request = new JsonRpc2Request("updateCollisionInformation", params);
+
+        clientManager.notifyAllClients(jsonRpc2Request);
+    }
+
+    /**
      * Gathers information from all sensors and creates a matching RoverCollisionInformation object.
      * @return a RoverCollisionInformation object with information from all sensors.
      * @throws IOException if the sensor fails to read a value.
      */
-    private RoverCollisionInformation readAllSensors() throws IOException {
+    public RoverCollisionInformation readAllSensors() throws IOException {
         RoverCollisionInformation info = new RoverCollisionInformation();
 
         info.taintedReadings = sensorFrontLeft.isEnvironmentTooBright()
@@ -112,7 +135,7 @@ public class CollisionRunnable implements Runnable {
      * @param sensorReading percentage of collision likeliness.
      * @return a discrete CollisionState information
      */
-    private CollisionState convertSensorReadingToCollisionState(double sensorReading) {
+    public CollisionState convertSensorReadingToCollisionState(double sensorReading) {
         CollisionState retVal = CollisionState.None;
         if (sensorReading >= THR_COLLISION_FAR) {
             retVal = CollisionState.Far;
