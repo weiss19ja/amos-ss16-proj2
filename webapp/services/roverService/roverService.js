@@ -4,7 +4,7 @@
  * Service to communicate with the rover via websockets and JSON-RPC.
  */
 angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
-  .factory("roverService", function ($websocket, $location, $mdToast) {
+  .factory("roverService", function ($websocket, $location, $mdToast, $mdDialog) {
 
     var wsURL = 'ws://' + $location.host() + ':' + $location.port() + '/rover';
     var ws = $websocket(getWsURL());
@@ -35,9 +35,15 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
     var logEntriesCallback;
     var systemUpTimeCallback;
     var connectedUsers = {
-      list: ['no connected user']
+      list: []
     }
-    var blockedUsers = ['evilAttacker'];
+      var blockedUsers = {
+          list: []
+      }
+      var myIp = {
+          ipAddress: "",
+          isBlocked: false
+      };
     var clientJs = new ClientJS();
 
 
@@ -135,9 +141,9 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
         case 'updateCollisionInformation':
           updateCollisionInformation(request.params);
           break;
-        case 'updateConnectedUsers':
-          updateConnectedUsers(request.params[0]);
-          break;
+          case 'updateConnectedUsers':
+              updateConnectedUsers(request.params[0],request.params[1]);
+              break;
         case 'incomingSnapshot':
           incomingSnapshot(request.params);
           break;
@@ -149,6 +155,9 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
           break;
         case 'updateRoverState':
           updateRoverState(request.params[0]);
+          break;
+        case 'setMyBlockingState':
+          setMyBlockingState(request.params[0], request.params[1]);
           break;
         case 'incomingLogEntries':
           incomingLogEntries(request.params);
@@ -305,17 +314,51 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
     /**
      * Update connected users
      */
-    function updateConnectedUsers(userList) {
-      connectedUsers.list = userList;
+    function updateConnectedUsers(connectedList,blockedList) {
+        connectedUsers.list = connectedList;
+        blockedUsers.list = blockedList;
     }
 
     /**
      * Receive image data and invoke callback function
      */
     function incomingSnapshot(imageData) {
-      snapshotCallback(imageData);
+        snapshotCallback(imageData);
     }
+    /**
+     * setBlocking State and display message to client if he got blocked
+     * @param blockingState
+     */
+    function setMyBlockingState(ipAddress, blockingState){
+        myIp.ipAddress = ipAddress;
+        if(!(blockingState == myIp.isBlocked)){
+            console.log("changed blocking state");
+            if(blockingState == true){
+                var msg = 'A developer blocked you, no further interaction with the rover possible';
+                $mdDialog.show({
+                    clickOutsideToClose: false,
+                    template: '<md-dialog aria-label="Blocked"  ng-cloak>' +
+                    '<md-toolbar>'+
+                    '<div class="md-toolbar-tools">'+
+                    '<h2>Blocked</h2>'+
+                    '<span flex></span>'+
+                    '</div>'+
+                    '</md-toolbar>'+
+                    '<md-dialog-content>' +
+                    '<div class="md-dialog-content">'+
+                    '<p>'+ msg +'<\p>'+
+                    '<\div>'+
+                    '</md-dialog-content>' +
+                    '</md-dialog>'
+                });
 
+            }
+            else{
+                $mdDialog.hide();
+            }
+          }
+          myIp.isBlocked = blockingState;
+      }
     /**
      * Receive response for log entries request and invoke callback function
      */
@@ -357,6 +400,7 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
       blockedUsers: blockedUsers,
       clientJs: clientJs,
       errors: errorResponses,
+      myIp: myIp,
       getLastErrorResponse: function () {
         return lastErrorResponse;
       },
@@ -434,6 +478,24 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
        */
       getKillswitchState: function () {
         send("sendKillswitchState", []);
+      },
+      /**
+       * block all interactions with the rover from this ipAddress
+       */
+      blockIp: function (ipAddress) {
+          send("blockIp", [ipAddress]);
+      },
+      /**
+       * allow all interactions with the rover from this ipAddress
+       */
+      unblockIp: function (ipAddress) {
+          send("unblockIp", [ipAddress]);
+      },
+      /**
+       * show an alert notification to the user
+       */
+      showAlertNotification: function (msg) {
+          showAlertNotification(msg);
       },
       /**
        * Request for a snapshot

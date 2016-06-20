@@ -5,6 +5,7 @@ angular.module('myApp.developer', [])
       // Killswitch
       $scope.killswitchText = 'allowed';
       $scope.roverState = roverService.roverState;
+      $scope.myIp = roverService.myIp;
       roverService.getKillswitchState();
 
       $scope.alertMsgToSend = "";
@@ -65,12 +66,13 @@ angular.module('myApp.developer', [])
       };
 
       $scope.blockIp = function(ipAddress) {
-          if(ipAddress == $scope.myIp.ipAddress){
+          if (ipAddress == $scope.myIp.ipAddress) {
               roverService.showAlertNotification('You do not want to block yourself');
               return;
           }
-          console.debug("Blocking ip address: "+ ipAddress);
+          console.debug("Blocking ip address: " + ipAddress);
           roverService.blockIp(ipAddress);
+      }
       function getSystemUpTime() {
         if ($location.host().indexOf('osr-amos.cs.fau.de') > -1) {
           $scope.systemUpTimeString = "There is no uptime preview available on the osr-amos.cs.fau server.";
