@@ -1,0 +1,53 @@
+package de.developgroup.mrf.rover.collision;
+
+import com.pi4j.io.gpio.GpioController;
+import de.developgroup.mrf.server.ClientManager;
+import de.developgroup.mrf.server.rpc.JsonRpc2Request;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mockito;
+
+import static org.mockito.Mockito.verify;
+
+public class CollisionRunnableTest {
+
+    CollisionRunnable runnable;
+    IRSensorFactory irSensorFactory;
+    GpioController gpio;
+    ClientManager clientManager;
+
+    @Before
+    public void setUp() {
+        irSensorFactory = Mockito.mock(IRSensorFactory.class);
+        gpio = Mockito.mock(GpioController.class);
+        clientManager = Mockito.mock(ClientManager.class);
+
+        runnable = new CollisionRunnable(irSensorFactory, gpio, clientManager);
+    }
+
+    @Test
+    public void testSendToClients() {
+        ArgumentCaptor<JsonRpc2Request> requestCaptor = ArgumentCaptor.forClass(JsonRpc2Request.class);
+        RoverCollisionInformation info = new RoverCollisionInformation();
+
+        runnable.sendToClients(info);
+
+        verify(clientManager).notifyAllClients(requestCaptor.capture());
+        JsonRpc2Request actualRequest = requestCaptor.getValue();
+        Assert.assertEquals(info, actualRequest.getParams().get(0));
+        Assert.assertEquals("updateCollisionInformation", actualRequest.getMethod());
+    }
+
+    @Test
+    public void testConvertSensorReadingToCollisionState() {
+        Assert.assertEquals(CollisionState.None, runnable.convertSensorReadingToCollisionState(0.2));
+        Assert.assertEquals(CollisionState.None, runnable.convertSensorReadingToCollisionState(0.34));
+        Assert.assertEquals(CollisionState.Far, runnable.convertSensorReadingToCollisionState(0.35));
+        Assert.assertEquals(CollisionState.Far, runnable.convertSensorReadingToCollisionState(0.39));
+        Assert.assertEquals(CollisionState.Medium, runnable.convertSensorReadingToCollisionState(0.4));
+        Assert.assertEquals(CollisionState.Medium, runnable.convertSensorReadingToCollisionState(0.49));
+        Assert.assertEquals(CollisionState.Close, runnable.convertSensorReadingToCollisionState(0.5));
+    }
+}
