@@ -2,15 +2,12 @@ package de.developgroup.mrf.server;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Observable;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.google.inject.Inject;
+import de.developgroup.mrf.server.handler.ClientInformation;
+import de.developgroup.mrf.server.handler.ClientInformationHandler;
 import org.eclipse.jetty.websocket.api.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,9 +28,9 @@ public class ClientManager extends Observable {
 
 	private static final Map<Integer, Session> sessions = Collections
 			.synchronizedMap(new HashMap<Integer, Session>());
-	// Contains Client's IP and additional information
-	private static final Map<Integer, String> clientInformation = Collections
-			.synchronizedMap(new HashMap<Integer, String>());
+
+//	@Inject
+	static ClientInformationHandler clientInformationHandler = new ClientInformationHandler();
 
 	private AtomicInteger lastClientId = new AtomicInteger(5000);
 
@@ -52,8 +49,10 @@ public class ClientManager extends Observable {
 		sendClientId(session, clientId);
 		String msg = "new client has connected to server, id: " + clientId;
 		notifyAllClients(msg);
-		// Notify Observers, e.g. Developer Settings Handler so that the
-		// connected users list can be updated
+
+		String ipAddress = session.getRemoteAddress().getHostString();
+		clientInformationHandler.addConnection(ipAddress,clientId);
+		// Notify Observers, e.g. Developer Settings Handler so that the connected users list can be updated
 		setChanged();
 		notifyObservers();
 		return clientId;
@@ -64,18 +63,33 @@ public class ClientManager extends Observable {
 	 * from the websocket he will be removed from the list of connected clients.
 	 */
 	public void removeClosedSessions() {
+		// New set because otherwise data wouldn't be copied
+		Set<Integer> clientIdsBefore = new HashSet<Integer>();
+		clientIdsBefore.addAll(sessions.keySet());
+
+		boolean removedSomething = false;
 		Iterator<Session> iter = sessions.values().iterator();
 		while (iter.hasNext()) {
 			Session session = iter.next();
 			if (!session.isOpen()) {
+				String ipAddress = session.getRemoteAddress().toString();
 				LOGGER.info("Remove session: "
 						+ session.getRemoteAddress().toString());
 				iter.remove();
-				// Notify Observers, e.g. Developer Settings Handler so that the
-				// connected users list can be updated
-				setChanged();
-				notifyObservers();
+				removedSomething = true;
 			}
+		}
+		if(removedSomething){
+			// Remove unused clientIds from ClientInformation
+			Set<Integer> clientIdsAfterwards = sessions.keySet();
+			for(int clientId : clientIdsBefore){
+				if(! clientIdsAfterwards.contains(clientId)){
+					clientInformationHandler.removeConnection(clientId);
+				}
+			}
+			// Notify Observers, e.g. Developer Settings Handler so that the connected users list can be updated
+			setChanged();
+			notifyObservers();
 		}
 	}
 
@@ -86,15 +100,6 @@ public class ClientManager extends Observable {
 	 */
 	public static Map<Integer, Session> getSessions() {
 		return sessions;
-	}
-
-	/**
-	 * Getter for clientInformation
-	 * 
-	 * @return Map that contains ClientId and additional information
-	 */
-	public static Map<Integer, String> getClientInformation() {
-		return clientInformation;
 	}
 
 	/**
@@ -221,24 +226,44 @@ public class ClientManager extends Observable {
 	}
 
 	/**
-	 * This function stores information about the clients so they can lateron be
-	 * used to provide the developer with further information.
-	 * 
-	 * @param clientId
-	 *            The client's id
-	 * @param browser
-	 *            String containing user's browser
-	 * @param operatingSystem
-	 *            String containiing user's operatingSystem
-	 */
-	public void setClientInformation(int clientId, String browser,
-			String operatingSystem) {
+	 * This function stores information about the clients so they can lateron be used to provide the
+	 * developer with further information.
+	 * @param clientId 	The client's id
+	 * @param browser	String containing user's browser
+	 * @param operatingSystem	String containiing user's operatingSystem
+     */
+	public void setClientInformation(int clientId, String browser, String operatingSystem) {
 		Session session = sessions.get(clientId);
 		InetSocketAddress remoteAddr = session.getRemoteAddress();
 		// store additional information
-		clientInformation.put(clientId, "Browser: " + browser
-				+ " Operating system: " + operatingSystem);
+		clientInformationHandler.addClientInformation(clientId, browser, operatingSystem);
 		setChanged();
 		notifyObservers();
+	}
+
+	// TODO: Document usage
+	public static List<ClientInformation> getBlockedConnections(){
+		return clientInformationHandler.getBlockedConnections();
+	}
+
+	// TODO: Document usage
+	public static List<ClientInformation> getUnblockedConnections(){
+		return clientInformationHandler.getUnblockedConnections();
+	}
+
+	public void blockIp(String ipAddress) {
+		clientInformationHandler.blockIp(ipAddress);
+		setChanged();
+		notifyObservers();
+	}
+
+	public void unblockIp(String ipAddress) {
+		clientInformationHandler.unblockIp(ipAddress);
+		setChanged();
+		notifyObservers();
+	}
+
+	public boolean clientIsBlocked(String ipAddress){
+		return clientInformationHandler.isBlocked(ipAddress);
 	}
 }

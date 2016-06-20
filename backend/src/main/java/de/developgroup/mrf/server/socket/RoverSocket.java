@@ -2,6 +2,7 @@ package de.developgroup.mrf.server.socket;
 
 import java.io.IOException;
 
+import de.developgroup.mrf.server.handler.*;
 import org.eclipse.jetty.websocket.api.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,10 +10,6 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 
 import de.developgroup.mrf.server.ClientManager;
-import de.developgroup.mrf.server.handler.DeveloperSettingsHandler;
-import de.developgroup.mrf.server.handler.NotificationHandler;
-import de.developgroup.mrf.server.handler.RoverHandler;
-import de.developgroup.mrf.server.handler.SingleDriverHandler;
 import de.developgroup.mrf.server.rpc.JsonRpc2Socket;
 
 public class RoverSocket extends JsonRpc2Socket {
@@ -34,6 +31,9 @@ public class RoverSocket extends JsonRpc2Socket {
 	@Inject
 	static ClientManager clientManager;
 
+//	@Inject
+//	static ClientInformationHandler clientInformationHandler;
+
 	public RoverSocket() {
 	}
 
@@ -54,12 +54,15 @@ public class RoverSocket extends JsonRpc2Socket {
 	}
 
 	public String ping(Number sqn) {
+		if(remoteIpIsBlocked()){
+			return null;
+		}
 		LOGGER.trace("ping({})", sqn);
 		return roverHandler.handlePing(sqn.intValue());
 	}
 
 	public void driveForward(Number desiredSpeed) throws IOException {
-		if (developerSettingsHandler.checkKillswitchEnabled()) {
+		if (remoteIpIsBlocked() || developerSettingsHandler.checkKillswitchEnabled()) {
 			return;
 		}
 		LOGGER.trace("driveForeward({})", desiredSpeed);
@@ -67,7 +70,7 @@ public class RoverSocket extends JsonRpc2Socket {
 	}
 
 	public void driveBackward(Number desiredSpeed) throws IOException {
-		if (developerSettingsHandler.checkKillswitchEnabled()) {
+		if (remoteIpIsBlocked() || developerSettingsHandler.checkKillswitchEnabled()) {
 			return;
 		}
 		LOGGER.trace("driveBackward({})", desiredSpeed);
@@ -75,7 +78,7 @@ public class RoverSocket extends JsonRpc2Socket {
 	}
 
 	public void stop() throws IOException {
-		if (developerSettingsHandler.checkKillswitchEnabled()) {
+		if (remoteIpIsBlocked() || developerSettingsHandler.checkKillswitchEnabled()) {
 			return;
 		}
 		LOGGER.trace("stop()");
@@ -83,7 +86,7 @@ public class RoverSocket extends JsonRpc2Socket {
 	}
 
 	public void turnLeft(Number turnRate) throws IOException {
-		if (developerSettingsHandler.checkKillswitchEnabled()) {
+		if (remoteIpIsBlocked() || developerSettingsHandler.checkKillswitchEnabled()) {
 			return;
 		}
 		LOGGER.trace("turnLeft({})", turnRate);
@@ -91,7 +94,7 @@ public class RoverSocket extends JsonRpc2Socket {
 	}
 
 	public void turnRight(Number turnRate) throws IOException {
-		if (developerSettingsHandler.checkKillswitchEnabled()) {
+		if (remoteIpIsBlocked() || developerSettingsHandler.checkKillswitchEnabled()) {
 			return;
 		}
 		LOGGER.trace("turnRight({})", turnRate);
@@ -99,7 +102,7 @@ public class RoverSocket extends JsonRpc2Socket {
 	}
 
 	public void turnHeadUp(Number angle) throws IOException {
-		if (developerSettingsHandler.checkKillswitchEnabled()) {
+		if (remoteIpIsBlocked() || developerSettingsHandler.checkKillswitchEnabled()) {
 			return;
 		}
 		LOGGER.trace("turnHeadUp({})", angle);
@@ -107,7 +110,7 @@ public class RoverSocket extends JsonRpc2Socket {
 	}
 
 	public void turnHeadDown(Number angle) throws IOException {
-		if (developerSettingsHandler.checkKillswitchEnabled()) {
+		if (remoteIpIsBlocked() || developerSettingsHandler.checkKillswitchEnabled()) {
 			return;
 		}
 		LOGGER.trace("turnHeadDown({})", angle);
@@ -115,7 +118,7 @@ public class RoverSocket extends JsonRpc2Socket {
 	}
 
 	public void turnHeadLeft(Number angle) throws IOException {
-		if (developerSettingsHandler.checkKillswitchEnabled()) {
+		if (remoteIpIsBlocked() || developerSettingsHandler.checkKillswitchEnabled()) {
 			return;
 		}
 		LOGGER.trace("turnHeadLeft({})", angle);
@@ -123,7 +126,7 @@ public class RoverSocket extends JsonRpc2Socket {
 	}
 
 	public void turnHeadRight(Number angle) throws IOException {
-		if (developerSettingsHandler.checkKillswitchEnabled()) {
+		if (remoteIpIsBlocked() || developerSettingsHandler.checkKillswitchEnabled()) {
 			return;
 		}
 		LOGGER.trace("turnHeadRight({})", angle);
@@ -131,7 +134,7 @@ public class RoverSocket extends JsonRpc2Socket {
 	}
 
 	public void resetHeadPosition() throws IOException {
-		if (developerSettingsHandler.checkKillswitchEnabled()) {
+		if (remoteIpIsBlocked() || developerSettingsHandler.checkKillswitchEnabled()) {
 			return;
 		}
 		LOGGER.trace("resetHeadPosition()");
@@ -145,22 +148,16 @@ public class RoverSocket extends JsonRpc2Socket {
 	}
 
 	public void getCameraSnapshot(Number clientId) throws IOException {
-		if (developerSettingsHandler.checkKillswitchEnabled()) {
+		if (remoteIpIsBlocked() || developerSettingsHandler.checkKillswitchEnabled()) {
 			return;
 		}
 		LOGGER.trace("getCameraSnapshot()");
 		roverHandler.getCameraSnapshot(clientId.intValue());
 	}
 
-	public void getLoggingEntries(Number clientId, String lastEntry)
-			throws IOException {
+	public void getLoggingEntries(Number clientId, String lastEntry) throws IOException {
 		LOGGER.trace("getLoggingEntries()");
 		roverHandler.getLoggingEntries(clientId.intValue(), lastEntry);
-	}
-
-	public void getSystemUpTime(Number clientId) {
-		LOGGER.trace("getSystemUpTime()");
-		roverHandler.getSystemUpTime(clientId.intValue());
 	}
 
 	// TODO: Delete if not needed
@@ -185,10 +182,24 @@ public class RoverSocket extends JsonRpc2Socket {
 		singleDriverHandler.releaseDriver(clientId.intValue());
 	}
 
-	public void setClientInformation(Number client, String browser,
-			String operatingSystem) {
-		clientManager.setClientInformation(client.intValue(), browser,
-				operatingSystem);
+	public void setClientInformation(Number client, String browser, String operatingSystem){
+		clientManager.setClientInformation(client.intValue(), browser, operatingSystem);
 	}
 
+	public void blockIp(String ipAddress){
+		clientManager.blockIp(ipAddress);
+	}
+
+	public void unblockIp(String ipAddress){
+		clientManager.unblockIp(ipAddress);
+	}
+
+	protected boolean remoteIpIsBlocked(){
+		String remoteIp = getSession().getRemoteAddress().getHostString();
+		boolean isBlocked = clientManager.clientIsBlocked(remoteIp);
+		if(isBlocked){
+			LOGGER.trace("Client with ip "+remoteIp+" is blocked, action aborted");
+		}
+		return isBlocked;
+	}
 }

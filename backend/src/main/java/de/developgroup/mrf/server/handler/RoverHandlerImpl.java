@@ -167,14 +167,8 @@ public class RoverHandlerImpl implements RoverHandler {
 	}
 
 	@Override
-	public void getLoggingEntries(int clientId, String lastLogEntry) {
+	public void getLoggingEntries(int clientId, String lastLogEntry) throws IOException {
 		LOGGER.debug("Get logging entries");
 		loggingCommunicationController.getLoggingEntries(clientId, lastLogEntry);
-	}
-
-	@Override
-	public void getSystemUpTime(int clientId) {
-		LOGGER.debug("Get the systems uptime");
-		loggingCommunicationController.getSystemUpTime(clientId);
 	}
 }
