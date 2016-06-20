@@ -28,7 +28,7 @@ public class CollisionRunnable implements Runnable {
     /**
      * collision percentage >= 0.3 -> far collision
      */
-    private final double THR_COLLISION_FAR = 0.3;
+    private final double THR_COLLISION_FAR = 0.35;
 
     /**
      * collision percentage >= 0.4 -> medium collision
@@ -58,10 +58,10 @@ public class CollisionRunnable implements Runnable {
     @Inject
     public CollisionRunnable(IRSensorFactory sensorFactory, GpioController gpio) {
         LOGGER.info("creating new CollisionRunnable via injected constructor");
-        this.sensorFrontLeft = sensorFactory.create(PCF8591ADConverter.InputChannel.ZERO,
-                gpio.provisionDigitalOutputPin(RaspiPin.GPIO_05, PinState.LOW));
-        this.sensorFrontRight = sensorFactory.create(PCF8591ADConverter.InputChannel.ONE,
+        this.sensorFrontRight = sensorFactory.create(PCF8591ADConverter.InputChannel.ZERO,
                 gpio.provisionDigitalOutputPin(RaspiPin.GPIO_03, PinState.LOW));
+        this.sensorFrontLeft = sensorFactory.create(PCF8591ADConverter.InputChannel.ONE,
+                gpio.provisionDigitalOutputPin(RaspiPin.GPIO_05, PinState.LOW));
         this.sensorBackRight = sensorFactory.create(PCF8591ADConverter.InputChannel.TWO,
                 gpio.provisionDigitalOutputPin(RaspiPin.GPIO_29, PinState.LOW));
         this.sensorBackLeft = sensorFactory.create(PCF8591ADConverter.InputChannel.THREE,
@@ -76,6 +76,7 @@ public class CollisionRunnable implements Runnable {
             try {
                 LOGGER.info("Executing IR sensor poll event loop");
                 RoverCollisionInformation info = readAllSensors();
+                LOGGER.info(info.toString());
                 sleep(POLL_INTERVAL_MS);
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -115,9 +116,11 @@ public class CollisionRunnable implements Runnable {
         CollisionState retVal = CollisionState.None;
         if (sensorReading >= THR_COLLISION_FAR) {
             retVal = CollisionState.Far;
-        } else if (sensorReading >= THR_COLLISION_MED) {
+        }
+        if (sensorReading >= THR_COLLISION_MED) {
             retVal = CollisionState.Medium;
-        } else if (sensorReading >= THR_COLLISION_CLOSE) {
+        }
+        if (sensorReading >= THR_COLLISION_CLOSE) {
             retVal = CollisionState.Close;
         }
         return retVal;

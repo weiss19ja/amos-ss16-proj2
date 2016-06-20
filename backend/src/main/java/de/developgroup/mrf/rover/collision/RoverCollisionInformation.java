@@ -30,6 +30,17 @@ public class RoverCollisionInformation {
     }
 
     @Override
+    public String toString() {
+        return "RoverCollisionInformation{" +
+                "taintedReadings=" + taintedReadings +
+                ", collisionFrontLeft=" + collisionFrontLeft +
+                ", collisionFrontRight=" + collisionFrontRight +
+                ", collisionBackRight=" + collisionBackRight +
+                ", collisionBackLeft=" + collisionBackLeft +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
