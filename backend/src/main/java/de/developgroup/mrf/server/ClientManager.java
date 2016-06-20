@@ -2,7 +2,13 @@ package de.developgroup.mrf.server;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Observable;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.google.inject.Inject;
@@ -95,8 +101,9 @@ public class ClientManager extends Observable {
 
 	/**
 	 * Getter for sessions
+	 * 
 	 * @return Map that contains all active sessions and ids
-     */
+	 */
 	public static Map<Integer, Session> getSessions() {
 		return sessions;
 	}

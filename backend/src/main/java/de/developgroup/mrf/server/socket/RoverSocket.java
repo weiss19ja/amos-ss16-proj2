@@ -1,7 +1,6 @@
 package de.developgroup.mrf.server.socket;
 
 import java.io.IOException;
-import java.util.Date;
 
 import de.developgroup.mrf.server.handler.*;
 import org.eclipse.jetty.websocket.api.Session;

@@ -39,4 +39,20 @@ public abstract class AbstractLoggingCommunicationController {
 		return resultLogEntries.size() > 0 ? resultLogEntries : null;
 	}
 
+	protected  String getSystemUpTimeString() throws InterruptedException, IOException {
+		String osName = System.getProperty("os.name");
+		if(osName.contains("Windows")) {
+			return "The uptime command is only available on unix distributions!";
+		}
+		Process upTimeProcess = Runtime.getRuntime().exec("uptime");
+		BufferedReader reader = new BufferedReader(new InputStreamReader(upTimeProcess.getInputStream()));
+		StringBuilder builder = new StringBuilder();
+		String line;
+		while((line = reader.readLine()) != null) {
+			builder.append(line);
+		}
+		upTimeProcess.waitFor();
+        return builder.toString();
+	}
+
 }
