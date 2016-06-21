@@ -8,8 +8,13 @@
  * For communication with the rover 'roverService' is used.
  */
 angular.module('myApp.joystick', [])
-  .controller('JoystickCtrl', ['$scope', 'roverService','$attrs', function($scope, roverService, $attrs) {
-    var manager = {on:function () {}};
+  .controller('JoystickCtrl', ['$scope', 'roverService','$attrs','$timeout', function($scope, roverService, $attrs,$timeout) {
+    var manager = {
+      on:function () {},
+      destroy:function () {}
+    };
+
+    var nippleJSActicated = false;
 
     $scope.joystickSize = 150;
     
@@ -33,12 +38,21 @@ angular.module('myApp.joystick', [])
       roverService.stop();
     };
 
-    this.$onInit = function() {
+    $scope.init = function() {
+      console.log("init joystick");
       if(!$attrs.test){
+
         initNippleJS();
       }
     };
 
+    $timeout(function () {
+      console.log("timout " + nippleJSActicated);
+      if(nippleJSActicated == false){
+       nippleJSActicated = true;
+       initNippleJS();
+      }
+    },1000);
 
     var options = {
       zone: document.getElementById('zone_joystick'),
@@ -51,6 +65,7 @@ angular.module('myApp.joystick', [])
 
     function initNippleJS() {
       console.log('use nipple js');
+      manager.destroy();
       manager = nipplejs.create(options);
       manager.on('move', function (evt, data) {
         //console.log('radian'+data.angle.radian +'   distance: '+data.distance);

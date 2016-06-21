@@ -3,7 +3,7 @@
 angular.module('myApp.driverCard', [])
   .controller('DriverCardCtrl', ['$scope', function($scope) {
   
-    $scope.showJoystick = false;
+    $scope.showJoystick = true;
   
   }])
 .component('drivercard', {
