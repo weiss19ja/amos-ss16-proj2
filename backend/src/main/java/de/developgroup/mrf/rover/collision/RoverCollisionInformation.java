@@ -23,6 +23,7 @@ public class RoverCollisionInformation {
     public CollisionState collisionBackLeft;
 
     public RoverCollisionInformation() {
+        taintedReadings = false;
         collisionFrontLeft = CollisionState.None;
         collisionFrontRight = CollisionState.None;
         collisionBackLeft = CollisionState.None;

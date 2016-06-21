@@ -61,6 +61,11 @@ public class CollisionRunnable implements Runnable {
 
     private RoverHandler roverHandler;
 
+    /**
+     * Used to prevent spamming the clients: only new infos are sent to the client.
+     */
+    private RoverCollisionInformation previousCollisionInformation;
+
     @Inject
     public CollisionRunnable(IRSensorFactory sensorFactory,
                              GpioController gpio,
@@ -75,6 +80,7 @@ public class CollisionRunnable implements Runnable {
                 gpio.provisionDigitalOutputPin(RaspiPin.GPIO_29, PinState.LOW));
         this.sensorBackLeft = sensorFactory.create(PCF8591ADConverter.InputChannel.THREE,
                 gpio.provisionDigitalOutputPin(RaspiPin.GPIO_24, PinState.LOW));
+
         this.clientManager = clientManager;
         this.roverHandler = roverHandler;
     }
@@ -88,7 +94,11 @@ public class CollisionRunnable implements Runnable {
                 LOGGER.info("Executing IR sensor poll event loop");
                 RoverCollisionInformation info = readAllSensors();
                 maybeEmergencyStop(info);
-                sendToClients(info);
+                if (!info.equals(previousCollisionInformation)) {
+                    // only send to client if anything new occurred
+                    sendToClients(info);
+                    previousCollisionInformation = info;
+                }
                 sleep(POLL_INTERVAL_MS);
             } catch (InterruptedException e) {
                 e.printStackTrace();
