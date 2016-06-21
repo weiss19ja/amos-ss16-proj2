@@ -26,11 +26,12 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
       var killswitch = {
         enabled: false
       };
-      var collisionDetection = {
-        frontLeft: false,
-        frontRight: false,
-        backLeft: false,
-        backRight: false
+      var collisionInformation = {
+        taintedReadings: false,
+        collisionFrontLeft: "None",
+        collisionFrontRight: "None",
+        collisionBackLeft: "None",
+        collisionBackRight: "None"
       };
       var snapshotCallback;
       var logEntriesCallback;
@@ -224,13 +225,14 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
       /**
        * Update collision detection information by the server.
        */
-      function updateCollisionInformation(collisionInfo) {
-        var collisionState = collisionInfo[0];
+      function updateCollisionInformation(param) {
+        var collisionState = param[0];
 
-        collisionDetection.frontLeft = !!collisionState.frontLeft;
-        collisionDetection.frontRight = !!collisionState.frontRight;
-        collisionDetection.backLeft = !!collisionState.backLeft;
-        collisionDetection.backRight = !!collisionState.backRight;
+        collisionInformation.taintedReadings = collisionState.taintedReadings;
+        collisionInformation.collisionFrontLeft = collisionState.collisionFrontLeft;
+        collisionInformation.collisionFrontRight = collisionState.collisionFrontRight;
+        collisionInformation.collisionBackRight = collisionState.collisionBackRight;
+        collisionInformation.collisionBackLeft = collisionState.collisionBackLeft;
       }
 
       /**
@@ -322,7 +324,7 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
         notifications: notifications,
         killswitch: killswitch,
         roverState: roverState,
-        collisions: collisionDetection,
+        collisions: collisionInformation,
         connectedUsers: connectedUsers,
         blockedUsers: blockedUsers,
         clientJs: clientJs,
