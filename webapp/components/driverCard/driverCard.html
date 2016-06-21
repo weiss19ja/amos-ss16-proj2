@@ -1,10 +1,16 @@
-<md-card ng-show="roverState.isDriverAvailable">
+<md-card>
     <md-toolbar class="md-toolbar-tools md-hue-2">
         Drive Rover
+        <span flex></span>
+        <md-switch ng-model="showJoystick" aria-label="use Joystick">
+            use Joystick
+        </md-switch>
     </md-toolbar>
-    <md-content layout="row"  layout-align="center center" layout-padding >
+    <md-content layout="row"  layout-align="center center" layout-padding class="driverCard">
         <parking-sensors></parking-sensors>
         <span flex></span>
-        <dpad></dpad>
+        <joystick ng-show="showJoystick" ></joystick>
+        <dpad ng-hide="showJoystick"></dpad>
     </md-content>
 </md-card>
+

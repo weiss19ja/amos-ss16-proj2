@@ -18,6 +18,8 @@ angular.module('myApp', [
   'myApp.developer',
   'myApp.version',
   'myApp.dpad',
+  'myApp.joystick',
+  'myApp.driverCard',
   'myApp.parkingSensors'
 ])
   .config(function ($mdThemingProvider) {

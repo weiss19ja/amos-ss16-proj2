@@ -4,6 +4,7 @@ angular.module('myApp.roverDrive', [])
   .controller('RoverDriveCtrl', ['roverService', '$scope', '$location','$mdMedia', function (roverService, $scope, $location,$mdMedia) {
     $scope.mjpegStreamURL = 'http://' + $location.host() + ':9000/stream/video.mjpeg';
     $scope.roverState = roverService.roverState;
+    $scope.showJoystick = false;
 
     routeView();
 
