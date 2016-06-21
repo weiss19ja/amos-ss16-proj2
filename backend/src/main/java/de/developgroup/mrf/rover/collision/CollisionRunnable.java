@@ -46,8 +46,9 @@ public class CollisionRunnable implements Runnable {
 
     /**
      * Time between two successive sensor queries.
+     * Should make for approx. 10 checks/second. This is not a real-time system anyways.
      */
-    private final int POLL_INTERVAL_MS = 1000;
+    private final int POLL_INTERVAL_MS = 90;
 
     private IRSensor sensorFrontLeft;
 
@@ -76,9 +77,9 @@ public class CollisionRunnable implements Runnable {
                 gpio.provisionDigitalOutputPin(RaspiPin.GPIO_03, PinState.LOW));
         this.sensorFrontLeft = sensorFactory.create(PCF8591ADConverter.InputChannel.ONE,
                 gpio.provisionDigitalOutputPin(RaspiPin.GPIO_05, PinState.LOW));
-        this.sensorBackRight = sensorFactory.create(PCF8591ADConverter.InputChannel.TWO,
+        this.sensorBackRight = sensorFactory.create(PCF8591ADConverter.InputChannel.THREE,
                 gpio.provisionDigitalOutputPin(RaspiPin.GPIO_29, PinState.LOW));
-        this.sensorBackLeft = sensorFactory.create(PCF8591ADConverter.InputChannel.THREE,
+        this.sensorBackLeft = sensorFactory.create(PCF8591ADConverter.InputChannel.TWO,
                 gpio.provisionDigitalOutputPin(RaspiPin.GPIO_24, PinState.LOW));
 
         this.clientManager = clientManager;
@@ -91,7 +92,6 @@ public class CollisionRunnable implements Runnable {
     public void run() {
         while(true) {
             try {
-                LOGGER.info("Executing IR sensor poll event loop");
                 RoverCollisionInformation info = readAllSensors();
                 maybeEmergencyStop(info);
                 if (!info.equals(previousCollisionInformation)) {
@@ -115,7 +115,6 @@ public class CollisionRunnable implements Runnable {
     public void maybeEmergencyStop(RoverCollisionInformation info) {
         if (info.hasDangerousCollision()) {
             try {
-                LOGGER.info("Emergency stop requested.");
                 roverHandler.stop();
             } catch (IOException e) {
                 LOGGER.error("Emergency stop failed. Collision inbound.");
