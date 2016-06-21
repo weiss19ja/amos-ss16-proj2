@@ -11,7 +11,6 @@ import java.util.concurrent.TimeUnit;
 
 import javax.servlet.DispatcherType;
 
-import de.developgroup.mrf.server.handler.ClientInformationHandler;
 import de.developgroup.mrf.rover.collision.CollisionRunnable;
 import org.cfg4j.provider.ConfigurationProvider;
 import org.cfg4j.provider.ConfigurationProviderBuilder;
@@ -44,9 +43,6 @@ public class Main {
 
 	private static boolean useMocks = false;
 	private static boolean developerMode = false;
-
-//	@Inject
-//	public static ClientInformationHandler clientInformationHandler;
 
 	@Inject
 	public static RoverHandler roverHandler;
