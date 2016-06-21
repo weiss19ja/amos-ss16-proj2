@@ -4,6 +4,7 @@ angular.module('myApp.roverDrive', [])
   .controller('RoverDriveCtrl', ['roverService', '$scope', '$location','$mdMedia', function (roverService, $scope, $location,$mdMedia) {
     $scope.mjpegStreamURL = 'http://' + $location.host() + ':9000/stream/video.mjpeg';
     $scope.roverState = roverService.roverState;
+    $scope.showJoystick = false;
 
     routeView();
 
@@ -29,7 +30,7 @@ angular.module('myApp.roverDrive', [])
       var nextRoutePath = next.$$route.originalPath;
 
       // drive and roverMaster target pages are valid for drive mode - do not log out user here
-      if(!(urlContainsStr(nextRoutePath, 'drive') || urlContainsStr(nextRoutePath, 'roverMaster'))) {
+      if(!urlContainsStr(nextRoutePath, 'drive')) {
         console.log('Exit Driver Mode, changing to URL: ' + nextRoutePath);
         roverService.exitDriverMode();
       }

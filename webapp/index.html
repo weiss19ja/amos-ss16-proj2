@@ -59,7 +59,7 @@
 
                     <!-- only for desktop devices -->
                     <md-menu-item hide show-gt-md>
-                        <md-button ng-href="#/roverMaster" ng-click="closeSidebar()">
+                        <md-button ng-href="#/drive/roverMaster" ng-click="closeSidebar()">
                             <md-icon md-svg-icon="assets/icons/ic_filter_center_focus_48px.svg"></md-icon>
                             Rover Master
                         </md-button>
@@ -179,6 +179,7 @@
 <script src="bower_components/angular-material/angular-material.min.js"></script>
 <script src="bower_components/angular-img-fallback/angular.dcb-img-fallback.min.js"></script>
 <!-- Project Dependencies -->
+<script src="bower_components/nipplejs/dist/nipplejs.min.js"></script>
 <script src="bower_components/clientjs/src/client.min.js"></script>
 <script src="services/roverService/roverService.js"></script>
 <script src="main/main.js"></script>
@@ -194,6 +195,8 @@
 <script src="components/version/version-directive.js"></script>
 <script src="components/version/interpolate-filter.js"></script>
 <script src="components/dpad/dpad.js"></script>
+<script src="components/joystick/joystick.js"></script>
+<script src="components/driverCard/driverCard.js"></script>
 <script src="components/parkingSensors/parkingSensors.js"></script>
 </body>
 </html>

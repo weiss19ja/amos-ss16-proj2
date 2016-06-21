@@ -1,18 +1,19 @@
 <div>
-        <div layout="row" layout-align="center">
-                <h2 class="md-title">Developer Options</h2>
-        </div>
+    <div layout="row" layout-align="center">
+        <h2 class="md-title">Developer Options</h2>
+    </div>
 
-        <md-card>
-                <md-toolbar class="md-toolbar-tools md-hue-2">
-                        Kill Switch
-                </md-toolbar>
-                <md-content layout-padding>
-                <md-switch ng-model="killswitch.enabled" aria-label="Killswitch" ng-change="onChange(killswitch.enabled)" class="md-warn">
-                        User interaction with rover: {{ killswitchText }}
-                </md-switch>
-                </md-content>
-        </md-card>
+    <md-card>
+        <md-toolbar class="md-toolbar-tools md-hue-2">
+            Kill Switch
+        </md-toolbar>
+        <md-content layout-padding>
+            <md-switch ng-model="roverState.isKillswitchEnabled" aria-label="Killswitch"
+                       ng-change="onChange(roverState.isKillswitchEnabled)" class="md-warn">
+                User interaction with rover: {{ killswitchText }}
+            </md-switch>
+        </md-content>
+    </md-card>
 
         <md-card>
                 <md-toolbar class="md-toolbar-tools md-hue-2">
@@ -20,62 +21,81 @@
                 </md-toolbar>
                 <md-content layout-padding>
                         <md-list>
-                                <!-- For further ideas on lists, visit: https://material.angularjs.org/latest/demo/list -->
-                                <md-list-item class="secondary-button-padding" ng-repeat="user in connectedUsers.list">
+                                <!-- Definition of attributes for connectedUsers can be found in DeveloperSettingsHandler -->
+                                <md-list-item class="md-3-line" class="secondary-button-padding" ng-repeat="user in connectedUsers.list">
                                         <div class="md-list-item-text" layout="column">
-                                                <p>{{user}}</p>
+                                                <h4>IP address: {{user.ipAddress}}</h4>
+                                                <p>Connections from this IP: {{user.numberOfConnections}} Connected clienIds: {{user.clientIds.join(", ")}}</p>
+                                                <p>Operating system: {{user.operatingSystem}} Browsers: {{user.browsers.join(", ")}} </p>
                                         </div>
-                                        <md-button class="md-secondary" ng-click="blockUser($event)">Block</md-button>
+                                        <md-button class="md-secondary" ng-click="blockIp(user.ipAddress)">Block</md-button>
                                 </md-list-item>
 
                                 <md-divider></md-divider>
                                 <md-subheader class="md-no-sticky">Blocked users</md-subheader>
-                                <md-list-item class="secondary-button-padding" ng-repeat="user in blockedUsers">
-                                        <p>{{user}}</p>
-                                        <md-button class="md-secondary" ng-click="unblockUser($event)">Unblock</md-button>
+                                <md-list-item class="md-3-line" class="secondary-button-padding" ng-repeat="user in blockedUsers.list">
+                                        <div class="md-list-item-text" layout="column">
+                                                <h4>IP address: {{user.ipAddress}}</h4>
+                                                <p>Connections from this IP: {{user.numberOfConnections}} Connected clienIds: {{user.clientIds.join(", ")}}</p>
+                                                <p>Operating system: {{user.operatingSystem}}  Browser: {{user.browsers.join(", ")}} </p>
+                                        </div>
+                                        <md-button class="md-secondary" ng-click="unblockIp(user.ipAddress)">Unblock</md-button>
                                 </md-list-item>
                         </md-list>
                 </md-content>
         </md-card>
 
-        <md-card>
-                <md-toolbar class="md-toolbar-tools md-hue-2">
-                       Send Alerts to Users
-                </md-toolbar>
-                <md-card-title>
-                        <md-card-title-text>
-                                Send a alert notification that all connected users will see.
-                        </md-card-title-text>
-                </md-card-title>
-                <md-content  layout-align="space-between" layout-padding>
-                        <md-input-container class="md-block" flex-gt-sm>
-                                <label>Alert Message</label>
-                                <input ng-model="alertMsgToSend">
-                        </md-input-container>
+    <md-card>
+        <md-toolbar class="md-toolbar-tools md-hue-2">
+            Send Alerts to Users
+        </md-toolbar>
+        <md-card-title>
+            <md-card-title-text>
+                Send a alert notification that all connected users will see.
+            </md-card-title-text>
+        </md-card-title>
+        <md-content layout-align="space-between" layout-padding>
+            <md-input-container class="md-block" flex-gt-sm>
+                <label>Alert Message</label>
+                <input ng-model="alertMsgToSend">
+            </md-input-container>
 
-                        <md-card-actions layout="row" layout-align="end center">
-                                <md-button class="md-raised md-accent" flex="nogrow" ng-click="sendAlertMsg()">Send</md-button>
-                        </md-card-actions>
-                </md-content>
+            <md-card-actions layout="row" layout-align="end center">
+                <md-button class="md-raised md-accent" flex="nogrow" ng-click="sendAlertMsg()">Send</md-button>
+            </md-card-actions>
+        </md-content>
 
-        </md-card>
+    </md-card>
 
-        <md-card>
-                <md-toolbar>
-                        <div class="md-toolbar-tools">
-                                <h3>Log Entries</h3>
-                        </div>
-                </md-toolbar>
-                <!-- Mobile View -->
-                <md-content layout-padding layout="row" layout-align="center center" hide-gt-md>
-                        <md-button class="md-raised md-accent" flex="nogrow" ng-click="goToLogEntries()">Get log entries</md-button>
-                </md-content>
-                <!-- Desktop View -->
-                <md-content layout-padding layout="row" hide-xs hide-md hide-sm>
-                        <md-button class="md-raised md-accent" flex="nogrow" ng-click="goToLogEntries()">Get log entries</md-button>
-                </md-content>
+    <md-card>
+        <md-toolbar class="md-toolbar-tools md-hue-2">
+            <h3>System uptime</h3>
+            <span flex></span>
+            <md-button class="md-fab md-mini" ng-click="refreshSystemUpTime($event)"
+                       aria-label="Refresh rovers uptime">
+                <md-icon md-svg-icon="assets/icons/ic_refresh_black_48px.svg"></md-icon>
+            </md-button>
+        </md-toolbar>
+        <md-card-title>
+            <md-card-title-text ng-bind="systemUpTimeString">
+            </md-card-title-text>
+        </md-card-title>
+    </md-card>
 
-        </md-card>
+    <md-card>
+        <md-toolbar class="md-toolbar-tools md-hue-2">
+            <h3>Log Entries</h3>
+        </md-toolbar>
+        <!-- Mobile View -->
+        <md-content layout-padding layout="row" layout-align="center center" hide-gt-md>
+            <md-button class="md-raised md-accent" flex="nogrow" ng-click="goToLogEntries()">Get log entries</md-button>
+        </md-content>
+        <!-- Desktop View -->
+        <md-content layout-padding layout="row" hide-xs hide-md hide-sm>
+            <md-button class="md-raised md-accent" flex="nogrow" ng-click="goToLogEntries()">Get log entries</md-button>
+        </md-content>
+
+    </md-card>
 
 
 </div>
