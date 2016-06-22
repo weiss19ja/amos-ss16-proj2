@@ -20,7 +20,8 @@ angular.module('myApp', [
   'myApp.dpad',
   'myApp.joystick',
   'myApp.driverCard',
-  'myApp.parkingSensors'
+  'myApp.parkingSensors',
+  'myApp.developerService'
 ])
   .config(function ($mdThemingProvider) {
     $mdThemingProvider.theme('default')
@@ -74,7 +75,8 @@ angular.module('myApp', [
     }).otherwise({redirectTo: '/main'});
 
   }])
-  .controller('SidebarCtrl', function ($scope, $timeout, $mdSidenav, $mdUtil, $log) {
+  .controller('SidebarCtrl', function ($scope, $timeout, $mdSidenav, $mdUtil, developerService) {
+    $scope.devService = developerService;
     $scope.closeSidebar = function () {
       $mdSidenav('sidebar').close();
     };

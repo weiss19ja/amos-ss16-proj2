@@ -227,8 +227,8 @@ describe ('sidebar navigation for smartphones', function() {
   });
 
   it('should have thirteen entries', function() {
-    // 13 entries with hidden developer view + desktop view
-    expect (sidebarItems.count()).toBe(13);
+    // 12 entries with hidden developer view + desktop view
+    expect (sidebarItems.count()).toBe(12);
   });
 
   it('should redirect to main page when main is clicked', function() {
@@ -290,12 +290,15 @@ describe ('sidebar navigation for smartphones', function() {
   });
 
   it('should be redirect to /info when "About" is clicked', function() {
-    expect (sidebarItems.get(11).getText()).toBe('About');
-    sidebarItems.get(11).click();
+    expect (sidebarItems.get(10).getText()).toBe('About');
+    sidebarItems.get(10).click();
     browser.refresh();
     expect(browser.getLocationAbsUrl()).toMatch("/info");
   });
 
+  it('should check if view "Developer Options" exists', function() {
+    expect(sidebarItems.get(11).isDisplayed()).toBe(true);
+  });
 
 });
 
@@ -323,8 +326,8 @@ describe ('sidebar navigation for laptops', function() {
   });
 
   it('should have also thirteen entries', function() {
-    // 13 entries with hidden developer view + desktop rover master view
-    expect (sidebarItems.count()).toBe(13);
+    // 12 entries with hidden developer view + desktop rover master view
+    expect (sidebarItems.count()).toBe(12);
   });
 
   it('should be display "Rover Master" in sidebar', function() {
@@ -350,6 +353,8 @@ describe ('sidebar navigation for laptops', function() {
     expect(sidebarItems.get(4).isDisplayed()).toBe(false);
   });
 
-
+  it('should check if view "Developer Options" exists', function() {
+    expect(sidebarItems.get(11).isDisplayed()).toBe(true);
+  });
 
 });

@@ -1,7 +1,9 @@
 'use strict';
 
 angular.module('myApp.developer', [])
-    .controller('DeveloperCtrl', ['$scope', '$location', 'roverService', function ($scope, $location, roverService) {
+    .controller('DeveloperCtrl', ['$scope', '$location', 'roverService', 'developerService', function ($scope, $location, roverService, developerService) {
+      developerService.setShouldShowDevEntryInSidebar();
+
       // Killswitch
       $scope.killswitchText = 'allowed';
       $scope.roverState = roverService.roverState;

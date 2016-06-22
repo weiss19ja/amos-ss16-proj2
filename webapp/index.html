@@ -101,7 +101,6 @@
                         </md-button>
                     </md-menu-item>
 
-                    <!--<md-menu-item class="submenu" hide-gt-md>-->
                     <md-menu-item class="submenu">
                         <md-button ng-href="#/observe/cameraController" ng-click="closeSidebar()">
                             <md-icon md-svg-icon="assets/icons/ic_chevron_right_48px.svg"></md-icon>
@@ -125,27 +124,20 @@
                     </md-menu-item>
 
                     <md-menu-item>
-                        <md-button ng-href="#/logs" ng-click="closeSidebar()">
-                            <md-icon md-svg-icon="assets/icons/ic_receipt_48px.svg"></md-icon>
-                            Logs
-                        </md-button>
-                    </md-menu-item>
-
-                    <md-menu-item>
                         <md-button ng-href="#/info" ng-click="closeSidebar()">
                             <md-icon md-svg-icon="assets/icons/ic_info_outline_48px.svg"></md-icon>
                             About
                         </md-button>
                     </md-menu-item>
 
-                    </md-menu-divider>
-
                     <md-menu-item>
-                        <md-button id="devButton" ng-hide="true" ng-href="#/developer" ng-click="closeSidebar()">
-                            <md-icon md-svg-icon="assets/icons/ic_settings_48px.svg"></md-icon>
-                            Developer options
+                        <md-button ng-href="#/developer" ng-show="devService.getShouldShowDevEntryInSidebar()" ng-click="closeSidebar()">
+                            <md-icon md-svg-icon="assets/icons/ic_bug_report_black_48px.svg"></md-icon>
+                            Developer Options
                         </md-button>
                     </md-menu-item>
+
+                    </md-menu-divider>
 
                 </md-menu-content>
             </md-content>
@@ -183,6 +175,7 @@
 <script src="bower_components/nipplejs/dist/nipplejs.min.js"></script>
 <script src="bower_components/clientjs/src/client.min.js"></script>
 <script src="services/roverService/roverService.js"></script>
+<script src="services/developerService/developerService.js"></script>
 <script src="main/main.js"></script>
 <script src="roverDrive/roverDrive.js"></script>
 <script src="roverMaster/roverMaster.js"></script>
