@@ -37,14 +37,14 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
     var systemUpTimeCallback;
     var connectedUsers = {
       list: []
-    };
-    var blockedUsers = {
-      list: []
-    };
-    var myIp= {
-        ipAddress: "",
-        isBlocked: false
-    };
+    }
+      var blockedUsers = {
+          list: []
+      }
+      var myIp = {
+          ipAddress: "",
+          isBlocked: false
+      };
     var clientJs = new ClientJS();
 
 
@@ -325,7 +325,7 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
      * Receive image data and invoke callback function
      */
     function incomingSnapshot(imageData) {
-        snapshotCallback(imageData);
+      snapshotCallback(imageData);
     }
     /**
      * setBlocking State and display message to client if he got blocked

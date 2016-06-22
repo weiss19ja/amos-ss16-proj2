@@ -61,6 +61,10 @@ angular.module('myApp.developer', [])
         }
       };
 
+      $scope.refreshSystemUpTime = function (event) {
+        getSystemUpTime();
+      };
+
       $scope.goToLogEntries = function () {
         $location.path('/logs')
       };

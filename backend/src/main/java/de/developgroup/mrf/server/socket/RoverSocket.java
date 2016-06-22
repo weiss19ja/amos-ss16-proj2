@@ -160,6 +160,11 @@ public class RoverSocket extends JsonRpc2Socket {
 		roverHandler.getLoggingEntries(clientId.intValue(), lastEntry);
 	}
 
+	public void getSystemUpTime(Number clientId) {
+		LOGGER.trace("getSystemUpTime()");
+		roverHandler.getSystemUpTime(clientId.intValue());
+	}
+
 	// TODO: Delete if not needed
 	public Boolean getKillswitchState() {
 		return developerSettingsHandler.isKillswitchEnabled();
