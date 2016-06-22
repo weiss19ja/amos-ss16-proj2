@@ -1,40 +1,32 @@
 'use strict';
 
 angular.module('myApp.roverObserve', ['ngMaterial'])
-.controller('RoverObserveCtrl', ['roverService', '$scope', '$location', '$mdDialog', '$mdMedia', function(roverService, $scope, $location, $mdDialog, $mdMedia) {
-    $scope.mjpegStreamURL = 'http://' + $location.host() + ':9000/stream/video.mjpeg';
-    $scope.snapshotEnabled = true;
-    checkRedirect();
+    .controller('RoverObserveCtrl', ['roverService', '$scope', '$location', '$mdDialog', '$mdMedia', function (roverService, $scope, $location, $mdDialog, $mdMedia) {
+      $scope.mjpegStreamURL = 'http://' + $location.host() + ':9000/stream/video.mjpeg';
+      $scope.snapshotEnabled = true;
 
-    $scope.snapshotClicked = function(clickEvent) {
+      $scope.snapshotClicked = function (clickEvent) {
         roverService.getCameraSnapshot(function (imageData) {
 
-            $mdDialog.show({
-                controller: SnapshotDialogController,
-                templateUrl: 'roverObserve/snapshotDialog.html',
-                parent: angular.element(document.body),
-                targetEvent: clickEvent,
-                clickOutsideToClose: true,
-                locals: {
-                    imageUrl: imageData[0]
-                }
-            });
+          $mdDialog.show({
+            controller: SnapshotDialogController,
+            templateUrl: 'roverObserve/snapshotDialog.html',
+            parent: angular.element(document.body),
+            targetEvent: clickEvent,
+            clickOutsideToClose: true,
+            locals: {
+              imageUrl: imageData[0]
+            }
+          });
 
         });
-    };
+      };
 
-    function SnapshotDialogController($scope, $mdDialog, imageUrl) {
+      function SnapshotDialogController($scope, $mdDialog, imageUrl) {
         $scope.imageUrl = imageUrl;
-        $scope.cancel = function() {
-            $mdDialog.cancel();
+        $scope.cancel = function () {
+          $mdDialog.cancel();
         }
-    }
+      }
 
-    function checkRedirect() {
-        if($location.path().indexOf('cameraController') > -1) {
-            if($mdMedia('gt-md')) {
-                $location.path('/main');
-            }
-        }
-    }
-}]);
+    }]);
