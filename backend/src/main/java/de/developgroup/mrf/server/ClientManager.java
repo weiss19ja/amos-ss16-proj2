@@ -204,7 +204,7 @@ public class ClientManager extends Observable {
 		}
 	}
 
-	private void doSendNotificationToClient(int clientId,
+	private synchronized void doSendNotificationToClient(int clientId,
 			JsonRpc2Request notification) {
 		Session session = sessions.get(clientId);
 		try {
