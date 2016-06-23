@@ -50,6 +50,7 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
           isBlocked: false
       };
     var clientJs = new ClientJS();
+    var hasConnection = false;
 
 
     /**
@@ -107,10 +108,12 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
 
     ws.onClose(function (event) {
       console.log('connection closed', event);
+      hasConnection = false;
     });
 
     ws.onOpen(function () {
       console.log('connection open to ' + wsURL);
+      hasConnection = true;
     });
 
     ws.onMessage(function (message) {
@@ -131,6 +134,10 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
         handleError(msgData);
       }
     });
+
+    function getConnectionStatus () {
+      return hasConnection;
+    };
 
     /**
      * Handles JSON-RPC method calls
@@ -407,6 +414,7 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
       clientJs: clientJs,
       errors: errorResponses,
       myIp: myIp,
+      hasConnection: getConnectionStatus,
       getLastErrorResponse: function () {
         return lastErrorResponse;
       },

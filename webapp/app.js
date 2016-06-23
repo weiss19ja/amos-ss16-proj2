@@ -78,7 +78,9 @@ angular.module('myApp', [
     }).otherwise({redirectTo: '/main'});
 
   }])
-  .controller('SidebarCtrl', function ($scope, $timeout, $mdSidenav, $mdUtil, $log) {
+  .controller('SidebarCtrl', function ($scope, $timeout, $mdSidenav, $mdUtil, roverService) {
+    $scope.roverService = roverService;
+
     $scope.closeSidebar = function () {
       $mdSidenav('sidebar').close();
     };
@@ -87,5 +89,6 @@ angular.module('myApp', [
       console.log('toggle sidebar');
       $mdSidenav('sidebar').toggle();
     }, 200);
+
   })
 ;
