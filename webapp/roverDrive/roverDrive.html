@@ -3,11 +3,7 @@
 <!-- Mobile Robot Framework is free software under the terms of GNU AFFERO GENERAL PUBLIC LICENSE. -->
 <!-- -->
 
-<!-- div ausenrum mit ng-show="roverState.isDriverAvailable"
-dafür in drivercard unten das ng-show sparen?
--->
-
-<md-card>
+<md-card ng-show="roverState.isDriverAvailable">
     <md-toolbar class="md-toolbar-tools md-hue-2">
         <span hide-xs>Drive Rover</span>
         <span hide-gt-xs>Video Stream</span>
