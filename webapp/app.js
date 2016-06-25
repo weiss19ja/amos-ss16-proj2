@@ -23,6 +23,7 @@ angular.module('myApp', [
   'myApp.version',
   'myApp.dpad',
   'myApp.joystick',
+  'myApp.joystickService',
   'myApp.driverCard',
   'myApp.parkingSensors'
 ])

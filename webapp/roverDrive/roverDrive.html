@@ -8,7 +8,7 @@
         <span hide-xs>Drive Rover</span>
         <span hide-gt-xs>Video Stream</span>
         <span flex></span>
-        <md-switch hide-xs ng-model="showJoystick" aria-label="use Joystick">
+        <md-switch  hide-xs ng-controller="JoystickCtrl" ng-model="joystickState.isJoystickEnabled" ng-change="onChangeJoystickShow()" aria-label="use Joystick">
             use Joystick
         </md-switch>
     </md-toolbar>
@@ -19,8 +19,8 @@
                  class="md-card-image" alt="Video-Stream" style="width: 90%">
         </div>
         <div hide-xs >
-            <joystick ng-show="showJoystick"></joystick>
-            <dpad ng-hide="showJoystick"></dpad>
+            <joystick zone="zone_joystick_2" ng-show="joystickState.isJoystickEnabled"></joystick>
+            <dpad ng-hide="joystickState.isJoystickEnabled"></dpad>
         </div>
 
     </md-content>

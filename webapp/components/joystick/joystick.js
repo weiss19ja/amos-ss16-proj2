@@ -12,7 +12,10 @@
  * For communication with the rover 'roverService' is used.
  */
 angular.module('myApp.joystick', [])
-  .controller('JoystickCtrl', ['$scope', 'roverService','$attrs','$timeout', function($scope, roverService, $attrs,$timeout) {
+  .controller('JoystickCtrl', ['$scope', 'roverService','$attrs','$timeout','joystickService', function($scope, roverService, $attrs,$timeout,joystickService) {
+
+    
+    /*
     var manager = {
       on:function () {},
       destroy:function () {}
@@ -101,6 +104,23 @@ angular.module('myApp.joystick', [])
         $scope.stop();
       });
     }
+    
+*/
+    $scope.joystickId = 'zone_joystick';
+    $scope.joystickState = joystickService.joystickState;
+    
+    $scope.onChangeJoystickShow = function () {
+      console.log('onChangeJoystickShow');
+      if($scope.joystickState.isJoystickEnabled){
+        $timeout(function () {
+          joystickService.initJoystick($scope.joystickId);
+        },100);
+      }
+    };
+    
+    $timeout(function () {
+      joystickService.initJoystick($scope.joystickId);
+    },100);
 
 
   }])

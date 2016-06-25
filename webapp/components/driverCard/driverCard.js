@@ -5,9 +5,9 @@
 'use strict';
 
 angular.module('myApp.driverCard', [])
-  .controller('DriverCardCtrl', ['$scope', function($scope) {
-  
-    $scope.showJoystick = true;
+  .controller('DriverCardCtrl', ['$scope', 'joystickService', function($scope, joystickService) {
+
+    $scope.joystickState = joystickService.joystickState;
   
   }])
 .component('drivercard', {
