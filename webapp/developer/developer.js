@@ -45,7 +45,10 @@ angular.module('myApp.developer', [])
             }
           });
 
-      // inform server about change made by the user
+      /**
+       * Inform server about change made by the user
+       * @param isKillswitchEnabled state to which the killswitch should be changed
+       */
       $scope.onChange = function (isKillswitchEnabled) {
         console.debug("Killswitch button changed to:" + isKillswitchEnabled);
         var notificationMessage;
@@ -73,14 +76,27 @@ angular.module('myApp.developer', [])
         $location.path('/logs')
       };
 
+      /**
+       * Block the selected ipAddress
+       * In case it's your own ip, an message is
+       * displayed that says can't block yourself
+       * @param ipAddress the ipAddress to block
+       */
       $scope.blockIp = function(ipAddress) {
           if (ipAddress == $scope.myIp.ipAddress) {
               roverService.showAlertNotification('You do not want to block yourself');
               return;
           }
           console.debug("Blocking ip address: " + ipAddress);
+
+        if ($location.host().indexOf('osr-amos.cs.fau.de') > -1) {
+          roverService.showAlertNotification('There is no blocking preview available on the osr-amos.cs.fau server.');
+        } else {
           roverService.blockIp(ipAddress);
+          }
       }
+
+
       function getSystemUpTime() {
         if ($location.host().indexOf('osr-amos.cs.fau.de') > -1) {
           $scope.systemUpTimeString = "There is no uptime preview available on the osr-amos.cs.fau server.";
@@ -90,10 +106,18 @@ angular.module('myApp.developer', [])
           });
         }
       }
-        
+
+      /**
+       * Unlock the selected ipAddress
+       * @param ipAddress the ipAddress to block
+       */
       $scope.unblockIp = function(ipAddress) {
-          console.debug("Unblocking ip address: "+ ipAddress);
+        console.debug("Unblocking ip address: "+ ipAddress);
+        if ($location.host().indexOf('osr-amos.cs.fau.de') > -1) {
+          roverService.showAlertNotification('There is no unblocking preview available on the osr-amos.cs.fau server.');
+        } else {
           roverService.unblockIp(ipAddress);
+        }
       }
 
     }]);
