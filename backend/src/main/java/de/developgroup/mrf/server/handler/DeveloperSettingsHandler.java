@@ -210,29 +210,4 @@ public class DeveloperSettingsHandler implements Observer {
 		notifyClientsAboutConnectedUsers(unblockedUsers, blockedUsers);
 		notifyUsersAboutTheirBlockingState(unblockedUsers, blockedUsers);
 	}
-
-	/**
-	 * @param sessions
-	 * @return
-	 */
-	private Map<String, Integer> getNumberOfConnectionsPerIp(Map<Integer, Session> sessions) {
-
-		// Map containing ip and corresponding number of connecitons
-		Map<String, Integer> connectionsPerIp = new HashMap<String, Integer>();
-
-		// initiate the list with 0 connections per ip
-		for (Session session : sessions.values()) {
-			String clientIp = session.getRemoteAddress().getHostString();
-			connectionsPerIp.put(clientIp, 0);
-		}
-
-		// compute the real number of connections per ip
-		for (Map.Entry<Integer, Session> entry : sessions.entrySet()) {
-			String clientIp = entry.getValue().getRemoteAddress().getHostString();
-			// compute new number of connections
-			int connectionsForThisIp = connectionsPerIp.get(clientIp) + 1;
-			connectionsPerIp.put(clientIp, connectionsForThisIp);
-		}
-		return connectionsPerIp;
-	}
 }

@@ -243,12 +243,12 @@ public class ClientManager extends Observable {
 	}
 
 	// TODO: Document usage
-	public static List<ClientInformation> getBlockedConnections(){
+	public List<ClientInformation> getBlockedConnections(){
 		return clientInformationHandler.getBlockedConnections();
 	}
 
 	// TODO: Document usage
-	public static List<ClientInformation> getUnblockedConnections(){
+	public List<ClientInformation> getUnblockedConnections(){
 		return clientInformationHandler.getUnblockedConnections();
 	}
 
