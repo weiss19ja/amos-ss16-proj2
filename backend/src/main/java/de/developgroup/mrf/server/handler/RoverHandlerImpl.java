@@ -135,6 +135,11 @@ public class RoverHandlerImpl implements RoverHandler {
 	}
 
 	@Override
+	public void driveContinuously(int angle, int speed) {
+		driveController.setContinuousDriving(angle, speed);
+	}
+
+	@Override
 	public void turnHeadUp(int angle) throws IOException {
 		LOGGER.debug("Turn head up by " + angle + " degree");
 		headController.turnHeadUp(angle);

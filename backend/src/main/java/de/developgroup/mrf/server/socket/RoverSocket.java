@@ -101,6 +101,19 @@ public class RoverSocket extends JsonRpc2Socket {
 		roverHandler.turnRight(turnRate.intValue());
 	}
 
+	/**
+	 * Drive not in a discrete (forward. left. right. back) way but giving a turning angle and a speed setting.
+	 * @param angle Turning Angle in degrees. 0° means "right", 90° means "forward".
+	 * @param speed speed between 0 (stop) and 100 (full speed).
+	 */
+	public void driveContinuously(int angle, int speed) {
+		if (remoteIpIsBlocked() || developerSettingsHandler.checkKillswitchEnabled()) {
+			return;
+		}
+		LOGGER.trace("driveContinuously({0}, {1})", angle, speed);
+		roverHandler.driveContinuously(angle, speed);
+	}
+
 	public void turnHeadUp(Number angle) throws IOException {
 		if (remoteIpIsBlocked() || developerSettingsHandler.checkKillswitchEnabled()) {
 			return;
