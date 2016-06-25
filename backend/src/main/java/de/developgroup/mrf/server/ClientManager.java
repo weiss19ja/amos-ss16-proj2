@@ -242,28 +242,49 @@ public class ClientManager extends Observable {
 		notifyObservers();
 	}
 
-	// TODO: Document usage
+	/**
+	 * This method returns a list of all blocked clients, grouped by ipAddress
+	 * @return
+     */
 	public List<ClientInformation> getBlockedConnections(){
 		return clientInformationHandler.getBlockedConnections();
 	}
 
-	// TODO: Document usage
+	/**
+	 * This method returns a list of all unblocked clients, grouped by ipAddress
+	 * @return
+	 */
 	public List<ClientInformation> getUnblockedConnections(){
 		return clientInformationHandler.getUnblockedConnections();
 	}
 
+	/**
+	 * adds the ipAddress to blockedIps list
+	 * and informs developerSettingsHandler about change
+	 * @param ipAddress
+     */
 	public void blockIp(String ipAddress) {
 		clientInformationHandler.blockIp(ipAddress);
 		setChanged();
 		notifyObservers();
 	}
 
+	/**
+	 * removes the ipAddress from blockedIps list
+	 * and informs developerSettingsHandler about change
+	 * @param ipAddress
+	 */
 	public void unblockIp(String ipAddress) {
 		clientInformationHandler.unblockIp(ipAddress);
 		setChanged();
 		notifyObservers();
 	}
 
+	/**
+	 * looks up whether the specified ipAddress is on the blockedIps list
+	 * @param ipAddress
+	 * @return
+     */
 	public boolean clientIsBlocked(String ipAddress){
 		return clientInformationHandler.isBlocked(ipAddress);
 	}

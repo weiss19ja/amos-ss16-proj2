@@ -189,9 +189,11 @@ public class DeveloperSettingsHandler implements Observer {
 	}
 
 	/**
-	 * This method gets called if information in the Client Manager change.
+	 * This method gets called if information in the Client Manager changes.
 	 * A list of connected users containing additional information is generated and send out to the clients
 	 * to be displayed in the developer view
+	 * Also, every client gets informed about his current blocking state so that the blocking screen can be
+	 * displayed to the user
 	 *
 	 * @param o   Observable, in this Case the clientManager
 	 * @param arg not used
