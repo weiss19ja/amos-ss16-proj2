@@ -237,9 +237,6 @@ public class ClientManager extends Observable {
 	 * @param operatingSystem	String containiing user's operatingSystem
      */
 	public void setClientInformation(int clientId, String browser, String operatingSystem) {
-		Session session = sessions.get(clientId);
-		InetSocketAddress remoteAddr = session.getRemoteAddress();
-		// store additional information
 		clientInformationHandler.addClientInformation(clientId, browser, operatingSystem);
 		setChanged();
 		notifyObservers();
