@@ -184,7 +184,6 @@ describe ('developer view', function() {
   });
 
   it('should have the same text after page reload', function(){
-    var input = element(by.model('killswitch.enabled'));
     var textBefore = element(by.binding('killswitchText')).getText();
     browser.refresh();
     expect(element(by.binding('killswitchText')).getText()).toBe(textBefore);
@@ -241,6 +240,10 @@ describe ('sidebar navigation for smartphones', function() {
     sidebarItems.get(0).click();
     browser.refresh();
     expect(browser.getLocationAbsUrl()).toMatch("/main");
+  });
+
+  it('should not display "Rover Master" in sidebar for smartphones', function() {
+    expect (sidebarItems.get(1).isDisplayed()).toBe(false);
   });
 
   it('should be display "Drive Control" in sidebar', function() {
@@ -332,7 +335,7 @@ describe ('sidebar navigation for laptops', function() {
     expect (sidebarItems.count()).toBe(13);
   });
 
-  it('should be display "Rover Master" in sidebar', function() {
+  it('should display "Rover Master" in sidebar', function() {
     expect (sidebarItems.get(1).isDisplayed()).toBe(true);
   });
 
@@ -355,6 +358,22 @@ describe ('sidebar navigation for laptops', function() {
     expect(sidebarItems.get(4).isDisplayed()).toBe(false);
   });
 
+  it('should display "Camera Control" in sidebar', function() {
+    expect (sidebarItems.get(6).getText()).toBe('Camera Control');
+  });
 
+  it('should redirect to /observe/cameracontroller page when "Camera Movement" is clicked', function() {
+    expect (sidebarItems.get(7).getText()).toBe('Camera Movement');
+    sidebarItems.get(7).click();
+    browser.refresh();
+    expect(browser.getLocationAbsUrl()).toMatch("/observe/cameraController");
+  });
+
+  it('should redirect to /observe page when "Camera View" is clicked', function() {
+    expect (sidebarItems.get(8).getText()).toBe('Camera View');
+    sidebarItems.get(8).click();
+    browser.refresh();
+    expect(browser.getLocationAbsUrl()).toMatch("/observe");
+  });
 
 });
