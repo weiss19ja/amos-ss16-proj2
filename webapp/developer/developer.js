@@ -10,8 +10,13 @@ angular.module('myApp.developer', [])
       $scope.killswitchText = 'allowed';
       $scope.roverState = roverService.roverState;
       $scope.myIp = roverService.myIp;
-      roverService.getKillswitchState();
 
+      if ($location.host().indexOf('osr-amos.cs.fau.de') > -1) {
+        // do noting
+      } else {
+        roverService.getKillswitchState();
+      }
+      
       $scope.alertMsgToSend = "";
 
       $scope.entries = [];
@@ -58,7 +63,12 @@ angular.module('myApp.developer', [])
         else {
           notificationMessage = "Interactions with the rover are allowed";
         }
-        roverService.setKillswitch(isKillswitchEnabled, notificationMessage);
+
+        if ($location.host().indexOf('osr-amos.cs.fau.de') > -1) {
+          roverService.showAlertNotification('There is no killswitch function available on the osr-amos.cs.fau server.');
+        } else {
+          roverService.setKillswitch(isKillswitchEnabled, notificationMessage);
+        }
       };
 
       $scope.sendAlertMsg = function () {
