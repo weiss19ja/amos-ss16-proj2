@@ -88,8 +88,15 @@ angular.module('myApp.developer', [])
               return;
           }
           console.debug("Blocking ip address: " + ipAddress);
+
+        if ($location.host().indexOf('osr-amos.cs.fau.de') > -1) {
+          roverService.showAlertNotification('There is no blocking preview available on the osr-amos.cs.fau server.');
+        } else {
           roverService.blockIp(ipAddress);
+          }
       }
+
+
       function getSystemUpTime() {
         if ($location.host().indexOf('osr-amos.cs.fau.de') > -1) {
           $scope.systemUpTimeString = "There is no uptime preview available on the osr-amos.cs.fau server.";
@@ -105,8 +112,12 @@ angular.module('myApp.developer', [])
        * @param ipAddress the ipAddress to block
        */
       $scope.unblockIp = function(ipAddress) {
-          console.debug("Unblocking ip address: "+ ipAddress);
+        console.debug("Unblocking ip address: "+ ipAddress);
+        if ($location.host().indexOf('osr-amos.cs.fau.de') > -1) {
+          roverService.showAlertNotification('There is no unblocking preview available on the osr-amos.cs.fau server.');
+        } else {
           roverService.unblockIp(ipAddress);
+        }
       }
 
     }]);
