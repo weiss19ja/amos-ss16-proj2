@@ -45,7 +45,10 @@ angular.module('myApp.developer', [])
             }
           });
 
-      // inform server about change made by the user
+      /**
+       * Inform server about change made by the user
+       * @param isKillswitchEnabled state to which the killswitch should be changed
+       */
       $scope.onChange = function (isKillswitchEnabled) {
         console.debug("Killswitch button changed to:" + isKillswitchEnabled);
         var notificationMessage;
@@ -73,6 +76,12 @@ angular.module('myApp.developer', [])
         $location.path('/logs')
       };
 
+      /**
+       * Block the selected ipAddress
+       * In case it's your own ip, an message is
+       * displayed that says can't block yourself
+       * @param ipAddress the ipAddress to block
+       */
       $scope.blockIp = function(ipAddress) {
           if (ipAddress == $scope.myIp.ipAddress) {
               roverService.showAlertNotification('You do not want to block yourself');
@@ -90,7 +99,11 @@ angular.module('myApp.developer', [])
           });
         }
       }
-        
+
+      /**
+       * Unlock the selected ipAddress
+       * @param ipAddress the ipAddress to block
+       */
       $scope.unblockIp = function(ipAddress) {
           console.debug("Unblocking ip address: "+ ipAddress);
           roverService.unblockIp(ipAddress);
