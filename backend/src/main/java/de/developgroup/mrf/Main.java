@@ -1,3 +1,7 @@
+/**
+ * This file is part of Mobile Robot Framework.
+ * Mobile Robot Framework is free software under the terms of GNU AFFERO GENERAL PUBLIC LICENSE.
+ */
 package de.developgroup.mrf;
 
 import java.io.File;
@@ -12,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 import javax.servlet.DispatcherType;
 
 import de.developgroup.mrf.server.handler.ClientInformationHandler;
+import de.developgroup.mrf.rover.collision.CollisionRunnable;
 import org.cfg4j.provider.ConfigurationProvider;
 import org.cfg4j.provider.ConfigurationProviderBuilder;
 import org.cfg4j.source.ConfigurationSource;
@@ -55,6 +60,9 @@ public class Main {
 
 	@Inject
 	public static DeveloperSettingsHandler developerSettingsHandler;
+
+	@Inject
+	public static CollisionRunnable collisionRunnable;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
@@ -114,6 +122,9 @@ public class Main {
 		handlers.setHandlers(new Handler[] { resourceHandler,
 				servletContextHandler, new DefaultHandler() });
 		server.setHandler(handlers);
+
+		Thread collisionThread = new Thread(collisionRunnable, "collision");
+		collisionThread.start();
 
 		try {
 			server.start();

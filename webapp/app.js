@@ -1,3 +1,7 @@
+/**
+ * This file is part of Mobile Robot Framework.
+ * Mobile Robot Framework is free software under the terms of GNU AFFERO GENERAL PUBLIC LICENSE.
+ */
 'use strict';
 
 // Declare app level module which depends on views, and components
@@ -18,6 +22,8 @@ angular.module('myApp', [
   'myApp.developer',
   'myApp.version',
   'myApp.dpad',
+  'myApp.joystick',
+  'myApp.driverCard',
   'myApp.parkingSensors'
 ])
   .config(function ($mdThemingProvider) {
@@ -72,7 +78,9 @@ angular.module('myApp', [
     }).otherwise({redirectTo: '/main'});
 
   }])
-  .controller('SidebarCtrl', function ($scope, $timeout, $mdSidenav, $mdUtil, $log) {
+  .controller('SidebarCtrl', function ($scope, $timeout, $mdSidenav, $mdUtil, roverService) {
+    $scope.roverService = roverService;
+
     $scope.closeSidebar = function () {
       $mdSidenav('sidebar').close();
     };
@@ -81,5 +89,6 @@ angular.module('myApp', [
       console.log('toggle sidebar');
       $mdSidenav('sidebar').toggle();
     }, 200);
+
   })
 ;

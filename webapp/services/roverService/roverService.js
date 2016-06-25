@@ -1,3 +1,7 @@
+/**
+ * This file is part of Mobile Robot Framework.
+ * Mobile Robot Framework is free software under the terms of GNU AFFERO GENERAL PUBLIC LICENSE.
+ */
 'use strict';
 
 /**
@@ -25,11 +29,12 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
       isKillswitchEnabled: false
     };
 
-    var collisionDetection = {
-      frontLeft: false,
-      frontRight: false,
-      backLeft: false,
-      backRight: false
+    var collisionInformation = {
+      taintedReadings: false,
+      collisionFrontLeft: "None",
+      collisionFrontRight: "None",
+      collisionBackLeft: "None",
+      collisionBackRight: "None"
     };
     var snapshotCallback;
     var logEntriesCallback;
@@ -45,6 +50,7 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
           isBlocked: false
       };
     var clientJs = new ClientJS();
+    var hasConnection = false;
 
 
     /**
@@ -102,10 +108,12 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
 
     ws.onClose(function (event) {
       console.log('connection closed', event);
+      hasConnection = false;
     });
 
     ws.onOpen(function () {
       console.log('connection open to ' + wsURL);
+      hasConnection = true;
     });
 
     ws.onMessage(function (message) {
@@ -126,6 +134,10 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
         handleError(msgData);
       }
     });
+
+    function getConnectionStatus () {
+      return hasConnection;
+    };
 
     /**
      * Handles JSON-RPC method calls
@@ -261,17 +273,18 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
       $mdToast.show($mdToast.simple().textContent(msg).position('top right').theme('error-toast').hideDelay(4000));
     }
 
-    /**
-     * Update collision detection information by the server.
-     */
-    function updateCollisionInformation(collisionInfo) {
-      var collisionState = collisionInfo[0];
+      /**
+       * Update collision detection information by the server.
+       */
+      function updateCollisionInformation(param) {
+        var collisionState = param[0];
 
-      collisionDetection.frontLeft = !!collisionState.frontLeft;
-      collisionDetection.frontRight = !!collisionState.frontRight;
-      collisionDetection.backLeft = !!collisionState.backLeft;
-      collisionDetection.backRight = !!collisionState.backRight;
-    }
+        collisionInformation.taintedReadings = collisionState.taintedReadings;
+        collisionInformation.collisionFrontLeft = collisionState.collisionFrontLeft;
+        collisionInformation.collisionFrontRight = collisionState.collisionFrontRight;
+        collisionInformation.collisionBackRight = collisionState.collisionBackRight;
+        collisionInformation.collisionBackLeft = collisionState.collisionBackLeft;
+      }
 
     /**
      * Update rover state
@@ -323,7 +336,7 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
      * Receive image data and invoke callback function
      */
     function incomingSnapshot(imageData) {
-        snapshotCallback(imageData);
+      snapshotCallback(imageData);
     }
     /**
      * setBlocking State and display message to client if he got blocked
@@ -395,12 +408,13 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
       responses: responses,
       notifications: notifications,
       roverState: roverState,
-      collisions: collisionDetection,
+      collisions: collisionInformation,
       connectedUsers: connectedUsers,
       blockedUsers: blockedUsers,
       clientJs: clientJs,
       errors: errorResponses,
       myIp: myIp,
+      hasConnection: getConnectionStatus,
       getLastErrorResponse: function () {
         return lastErrorResponse;
       },

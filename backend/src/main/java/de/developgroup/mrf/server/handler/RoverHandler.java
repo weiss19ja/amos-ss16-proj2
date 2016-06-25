@@ -1,3 +1,7 @@
+/**
+ * This file is part of Mobile Robot Framework.
+ * Mobile Robot Framework is free software under the terms of GNU AFFERO GENERAL PUBLIC LICENSE.
+ */
 package de.developgroup.mrf.server.handler;
 
 import java.io.IOException;
@@ -95,9 +99,14 @@ public interface RoverHandler extends Observer {
 	 * Request for the log file entries which are newer than the lastLogEntry value. If the lastLogEntry equals null or is empty it will send all log file entries to the client.
 	 * @param clientId
 	 * @param lastLogEntry
-	 * @throws IOException
 	 */
-	void getLoggingEntries(int clientId, String lastLogEntry) throws IOException;
+	void getLoggingEntries(int clientId, String lastLogEntry);
+
+    /**
+     * Request for the systems uptime and send the response to the client with the clientId.
+     * @param clientId
+     */
+	void getSystemUpTime(int clientId);
 
 	/**
 	 * Reset the head to neutral position.

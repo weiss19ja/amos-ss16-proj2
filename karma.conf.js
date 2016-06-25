@@ -1,3 +1,7 @@
+/**
+ * This file is part of Mobile Robot Framework.
+ * Mobile Robot Framework is free software under the terms of GNU AFFERO GENERAL PUBLIC LICENSE.
+ */
 'use strict';
 module.exports = function(config){
     config.set({
@@ -21,6 +25,7 @@ module.exports = function(config){
       'webapp/bower_components/angular-img-fallback/angular.dcb-img-fallback.js',
       'webapp/bower_components/angular-css/angular-css.js',
       'webapp/bower_components/clientjs/dist/client.min.js',
+      'webapp/bower_components/nipplejs/dist/nipplejs.min.js',
       'webapp/components/**/*.html',
       'webapp/components/**/*.js',
       'webapp/developer/**/*.js',

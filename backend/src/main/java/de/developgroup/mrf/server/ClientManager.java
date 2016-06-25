@@ -1,3 +1,7 @@
+/**
+ * This file is part of Mobile Robot Framework.
+ * Mobile Robot Framework is free software under the terms of GNU AFFERO GENERAL PUBLIC LICENSE.
+ */
 package de.developgroup.mrf.server;
 
 import java.io.IOException;
@@ -204,7 +208,7 @@ public class ClientManager extends Observable {
 		}
 	}
 
-	private void doSendNotificationToClient(int clientId,
+	private synchronized void doSendNotificationToClient(int clientId,
 			JsonRpc2Request notification) {
 		Session session = sessions.get(clientId);
 		try {

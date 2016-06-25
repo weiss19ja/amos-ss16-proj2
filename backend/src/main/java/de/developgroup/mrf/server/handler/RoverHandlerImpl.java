@@ -1,3 +1,7 @@
+/**
+ * This file is part of Mobile Robot Framework.
+ * Mobile Robot Framework is free software under the terms of GNU AFFERO GENERAL PUBLIC LICENSE.
+ */
 package de.developgroup.mrf.server.handler;
 
 import java.io.IOException;
@@ -167,8 +171,14 @@ public class RoverHandlerImpl implements RoverHandler {
 	}
 
 	@Override
-	public void getLoggingEntries(int clientId, String lastLogEntry) throws IOException {
+	public void getLoggingEntries(int clientId, String lastLogEntry) {
 		LOGGER.debug("Get logging entries");
 		loggingCommunicationController.getLoggingEntries(clientId, lastLogEntry);
+	}
+
+	@Override
+	public void getSystemUpTime(int clientId) {
+		LOGGER.debug("Get the systems uptime");
+		loggingCommunicationController.getSystemUpTime(clientId);
 	}
 }

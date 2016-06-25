@@ -1,3 +1,7 @@
+<!-- -->
+<!-- This file is part of Mobile Robot Framework. -->
+<!-- Mobile Robot Framework is free software under the terms of GNU AFFERO GENERAL PUBLIC LICENSE. -->
+<!-- -->
 <!DOCTYPE html>
 <!--[if lt IE 7]>
 <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -31,10 +35,18 @@
                 <span>Mobile Robot Framework</span>
             </h2>
             <span flex></span>
-            <md-button class="md-icon-button md-warn" aria-label="Favorite">
-                <md-icon md-svg-icon="assets/icons/ic_warning_48px.svg"></md-icon>
+            <!--Has no connection to the rover-->
+            <md-button class="md-icon-button md-warn" ng-show="roverService.hasConnection() === false" aria-label="Favorite">
+                <md-icon md-svg-icon="assets/icons/ic_sync_disabled_48px.svg"></md-icon>
                 <md-tooltip md-direction="left">
                     No connection to Rover!
+                </md-tooltip>
+            </md-button>
+            <!--Has a connection to the rover-->
+            <md-button class="md-icon-button" ng-show="roverService.hasConnection() === true" aria-label="Favorite">
+                <md-icon md-svg-icon="assets/icons/ic_sync_48px.svg"></md-icon>
+                <md-tooltip md-direction="left">
+                    You are connected to the rover!
                 </md-tooltip>
             </md-button>
         </div>
@@ -101,7 +113,8 @@
                         </md-button>
                     </md-menu-item>
 
-                    <md-menu-item class="submenu" hide-gt-md>
+                    <!--<md-menu-item class="submenu" hide-gt-md>-->
+                    <md-menu-item class="submenu">
                         <md-button ng-href="#/observe/cameraController" ng-click="closeSidebar()">
                             <md-icon md-svg-icon="assets/icons/ic_chevron_right_48px.svg"></md-icon>
                             Camera Movement
@@ -179,6 +192,7 @@
 <script src="bower_components/angular-material/angular-material.min.js"></script>
 <script src="bower_components/angular-img-fallback/angular.dcb-img-fallback.min.js"></script>
 <!-- Project Dependencies -->
+<script src="bower_components/nipplejs/dist/nipplejs.min.js"></script>
 <script src="bower_components/clientjs/src/client.min.js"></script>
 <script src="services/roverService/roverService.js"></script>
 <script src="main/main.js"></script>
@@ -194,6 +208,8 @@
 <script src="components/version/version-directive.js"></script>
 <script src="components/version/interpolate-filter.js"></script>
 <script src="components/dpad/dpad.js"></script>
+<script src="components/joystick/joystick.js"></script>
+<script src="components/driverCard/driverCard.js"></script>
 <script src="components/parkingSensors/parkingSensors.js"></script>
 </body>
 </html>

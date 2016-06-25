@@ -1,17 +1,29 @@
-<md-card ng-show="roverState.isDriverAvailable">
+<!-- -->
+<!-- This file is part of Mobile Robot Framework. -->
+<!-- Mobile Robot Framework is free software under the terms of GNU AFFERO GENERAL PUBLIC LICENSE. -->
+<!-- -->
+<md-card>
     <md-toolbar class="md-toolbar-tools md-hue-2">
         <span hide-xs>Drive Rover</span>
         <span hide-gt-xs>Video Stream</span>
+        <span flex></span>
+        <md-switch hide-xs ng-model="showJoystick" aria-label="use Joystick">
+            use Joystick
+        </md-switch>
     </md-toolbar>
-    <md-content layout="row" layout-align="center center" style="padding-left: 10px; padding-right: 10px" >
+    <md-content layout="row" layout-align="center center" style="padding-left: 10px; padding-right: 10px; overflow-y: hidden; overflow-x: hidden;" >
         <parking-sensors hide-xs></parking-sensors>
         <div layout="column" layout-align="center center" style="padding: 0px; margin-left: 10px; margin-right: 10px">
             <img ng-src="{{mjpegStreamURL}}" fallback-src="{{'assets/images/videocam_off_800x600.png'}}"
                  class="md-card-image" alt="Video-Stream" style="width: 90%">
         </div>
-        <dpad hide-xs></dpad>
+        <div hide-xs >
+            <joystick ng-show="showJoystick"></joystick>
+            <dpad ng-hide="showJoystick"></dpad>
+        </div>
+
     </md-content>
 </md-card>
-<div hide-gt-xs ng-include="'components/driverCard/driverCard.html'"></div>
+<drivercard hide-gt-xs ng-show="roverState.isDriverAvailable"></drivercard>
 
 <div ng-include="'components/driverModeUnavailableCard/driverModeUnavailableCard.html'"></div>

@@ -1,9 +1,14 @@
+/**
+ * This file is part of Mobile Robot Framework.
+ * Mobile Robot Framework is free software under the terms of GNU AFFERO GENERAL PUBLIC LICENSE.
+ */
 'use strict';
 
 angular.module('myApp.roverDrive', [])
   .controller('RoverDriveCtrl', ['roverService', '$scope', '$location','$mdMedia', function (roverService, $scope, $location,$mdMedia) {
     $scope.mjpegStreamURL = 'http://' + $location.host() + ':9000/stream/video.mjpeg';
     $scope.roverState = roverService.roverState;
+    $scope.showJoystick = false;
 
     routeView();
 

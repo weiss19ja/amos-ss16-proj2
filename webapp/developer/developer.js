@@ -1,3 +1,7 @@
+/**
+ * This file is part of Mobile Robot Framework.
+ * Mobile Robot Framework is free software under the terms of GNU AFFERO GENERAL PUBLIC LICENSE.
+ */
 'use strict';
 
 angular.module('myApp.developer', [])
@@ -59,6 +63,10 @@ angular.module('myApp.developer', [])
           roverService.sendAlertNotification($scope.alertMsgToSend);
           $scope.alertMsgToSend = "";
         }
+      };
+
+      $scope.refreshSystemUpTime = function (event) {
+        getSystemUpTime();
       };
 
       $scope.goToLogEntries = function () {

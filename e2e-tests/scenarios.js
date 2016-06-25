@@ -1,3 +1,8 @@
+/**
+ * This file is part of Mobile Robot Framework.
+ * Mobile Robot Framework is free software under the terms of GNU AFFERO GENERAL PUBLIC LICENSE.
+ */
+
 'use strict';
 
 /* https://github.com/angular/protractor/blob/master/docs/toc.md */
@@ -56,11 +61,11 @@ describe ('Camera and Drive view', function() {
   it('should display the drive dpad', function() {
     expect(element(by.tagName('dpad')).getText()).toBeDefined();
   });
-  
+
   it('should display the parking sensors', function() {
     expect(element(by.tagName('parking-sensors')).getText()).toBeDefined();
   });
-  
+
   it('should display the camera stream', function() {
     expect(browser.findElement(by.className('md-card-image')).getText()).toBeDefined;
   });
@@ -179,7 +184,6 @@ describe ('developer view', function() {
   });
 
   it('should have the same text after page reload', function(){
-    var input = element(by.model('killswitch.enabled'));
     var textBefore = element(by.binding('killswitchText')).getText();
     browser.refresh();
     expect(element(by.binding('killswitchText')).getText()).toBe(textBefore);
@@ -197,6 +201,9 @@ describe ('developer view', function() {
     expect(notification.getText()).toBe('Interactions with the rover are allowed');
   });
 
+  it('should display the systems uptime label', function () {
+    expect(element(by.binding('systemUpTimeString')).getText()).toBeDefined();
+  });
 
 });
 
@@ -233,6 +240,10 @@ describe ('sidebar navigation for smartphones', function() {
     sidebarItems.get(0).click();
     browser.refresh();
     expect(browser.getLocationAbsUrl()).toMatch("/main");
+  });
+
+  it('should not display "Rover Master" in sidebar for smartphones', function() {
+    expect (sidebarItems.get(1).isDisplayed()).toBe(false);
   });
 
   it('should be display "Drive Control" in sidebar', function() {
@@ -324,7 +335,7 @@ describe ('sidebar navigation for laptops', function() {
     expect (sidebarItems.count()).toBe(13);
   });
 
-  it('should be display "Rover Master" in sidebar', function() {
+  it('should display "Rover Master" in sidebar', function() {
     expect (sidebarItems.get(1).isDisplayed()).toBe(true);
   });
 
@@ -347,6 +358,22 @@ describe ('sidebar navigation for laptops', function() {
     expect(sidebarItems.get(4).isDisplayed()).toBe(false);
   });
 
+  it('should display "Camera Control" in sidebar', function() {
+    expect (sidebarItems.get(6).getText()).toBe('Camera Control');
+  });
 
+  it('should redirect to /observe/cameracontroller page when "Camera Movement" is clicked', function() {
+    expect (sidebarItems.get(7).getText()).toBe('Camera Movement');
+    sidebarItems.get(7).click();
+    browser.refresh();
+    expect(browser.getLocationAbsUrl()).toMatch("/observe/cameraController");
+  });
+
+  it('should redirect to /observe page when "Camera View" is clicked', function() {
+    expect (sidebarItems.get(8).getText()).toBe('Camera View');
+    sidebarItems.get(8).click();
+    browser.refresh();
+    expect(browser.getLocationAbsUrl()).toMatch("/observe");
+  });
 
 });

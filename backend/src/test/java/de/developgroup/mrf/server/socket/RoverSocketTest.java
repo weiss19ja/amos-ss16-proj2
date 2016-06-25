@@ -1,3 +1,7 @@
+/**
+ * This file is part of Mobile Robot Framework.
+ * Mobile Robot Framework is free software under the terms of GNU AFFERO GENERAL PUBLIC LICENSE.
+ */
 package de.developgroup.mrf.server.socket;
 
 import java.io.IOException;
@@ -267,5 +271,11 @@ public class RoverSocketTest {
 	public void testGetSpecificLogEntries() throws IOException {
 		roverSocket.getLoggingEntries(5002, "Test");
 		verify(RoverSocket.roverHandler).getLoggingEntries(5002, "Test");
+	}
+
+	@Test
+	public void testGetSystemUpTime() {
+		roverSocket.getSystemUpTime(5002);
+		verify(RoverSocket.roverHandler).getSystemUpTime(5002);
 	}
 }
