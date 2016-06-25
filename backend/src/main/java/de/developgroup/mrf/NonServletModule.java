@@ -99,6 +99,7 @@ public class NonServletModule extends AbstractModule {
 				LoggingCommunicationControllerImpl.class);
 		bind(NotificationHandler.class).to(NotificationHandlerImpl.class);
 		bind(SingleDriverHandler.class).to(SingleDriverHandlerImpl.class);
+		bind(ContinuousDrivingAlgorithm.class).to(ContinuousDrivingAlgorithmImpl.class);
 
 		requestStaticInjection(RoverSocket.class);
 		requestStaticInjection(Main.class);

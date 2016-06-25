@@ -12,12 +12,21 @@ import java.io.IOException;
 public abstract class AbstractDriveController implements DriveController {
 
     /**
+     * The algorithm used to convert joystick input to motor commands.
+     */
+    protected ContinuousDrivingAlgorithm drivingAlgorithm;
+
+    /**
      * Motor turn rate value. Needed to map speed values to turn rate.
      */
     private int maxTurnRate = 300;
 
+    public AbstractDriveController(ContinuousDrivingAlgorithm drivingAlgorithm) {
+        this.drivingAlgorithm = drivingAlgorithm;
+    }
+
     public void setContinuousDriving(int angle, int speed) {
-        // TODO
+
     }
 
     public void setAndApply(int speed, int turnrate) throws IOException {

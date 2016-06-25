@@ -35,7 +35,8 @@ public class DriveControllerImpl extends AbstractDriveController {
     private int desiredTurnrate = 0;
 
     @Inject
-    public DriveControllerImpl() throws IOException {
+    public DriveControllerImpl(ContinuousDrivingAlgorithm drivingAlgorithm) throws IOException {
+        super(drivingAlgorithm);
     }
 
     @Override

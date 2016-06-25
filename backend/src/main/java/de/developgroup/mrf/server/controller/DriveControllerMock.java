@@ -4,6 +4,7 @@
  */
 package de.developgroup.mrf.server.controller;
 
+import com.google.inject.Inject;
 import org.cfg4j.provider.ConfigurationProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,11 @@ import java.io.IOException;
 public class DriveControllerMock extends AbstractDriveController {
 
     private static Logger LOGGER = LoggerFactory.getLogger(DriveControllerMock.class);
+
+    @Inject
+    public DriveControllerMock(ContinuousDrivingAlgorithm drivingAlgorithm)  {
+        super(drivingAlgorithm);
+    }
 
     @Override
     public void initialize(ConfigurationProvider configurationProvider) throws IOException {
