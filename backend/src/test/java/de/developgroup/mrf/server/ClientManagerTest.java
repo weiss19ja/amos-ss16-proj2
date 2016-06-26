@@ -206,4 +206,17 @@ public class ClientManagerTest {
 		clientManager.clientIsBlocked(ipAddress);
 		verify(clientInformationHandler).isBlocked(ipAddress);
 	}
+
+	@Test
+	public void testClientIdIsBlocked(){
+		int clientId = 1337;
+		clientManager.clientIdIsBlocked(clientId);
+		verify(clientInformationHandler).isBlocked(clientId);
+	}
+
+	@Test
+	public void testReleaseDriverIfBlocked(){
+		clientManager.releaseDriverIfBlocked();
+		verify(clientInformationHandler).releaseDriverIfBlocked();
+	}
 }
