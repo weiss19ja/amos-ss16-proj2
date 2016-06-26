@@ -81,6 +81,7 @@ angular.module('myApp', [
   }])
   .controller('SidebarCtrl', function ($scope, $timeout, $mdSidenav, $mdUtil, developerService) {
     $scope.devService = developerService;
+
     $scope.closeSidebar = function () {
       $mdSidenav('sidebar').close();
     };
@@ -89,5 +90,6 @@ angular.module('myApp', [
       console.log('toggle sidebar');
       $mdSidenav('sidebar').toggle();
     }, 200);
+
   })
 ;

@@ -16,10 +16,10 @@ import java.util.List;
 public class ClientInformationHandler {
 
     // Contains Client's IP and additional information
-    private static final List<ClientInformation> clientInformationList = Collections
+    private final List<ClientInformation> clientInformationList = Collections
             .synchronizedList(new ArrayList<ClientInformation>());
 
-    private static final List<String> blockedIpsList = Collections
+    private final List<String> blockedIpsList = Collections
             .synchronizedList(new ArrayList<String>());
 
     private static final Logger LOGGER = LoggerFactory

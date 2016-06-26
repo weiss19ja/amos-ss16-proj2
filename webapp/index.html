@@ -35,10 +35,18 @@
                 <span>Mobile Robot Framework</span>
             </h2>
             <span flex></span>
-            <md-button class="md-icon-button md-warn" aria-label="Favorite">
-                <md-icon md-svg-icon="assets/icons/ic_warning_48px.svg"></md-icon>
+            <!--Has no connection to the rover-->
+            <md-button class="md-icon-button md-warn" ng-show="roverService.hasConnection() === false" aria-label="Favorite">
+                <md-icon md-svg-icon="assets/icons/ic_sync_disabled_48px.svg"></md-icon>
                 <md-tooltip md-direction="left">
                     No connection to Rover!
+                </md-tooltip>
+            </md-button>
+            <!--Has a connection to the rover-->
+            <md-button class="md-icon-button" ng-show="roverService.hasConnection() === true" aria-label="Favorite">
+                <md-icon md-svg-icon="assets/icons/ic_sync_48px.svg"></md-icon>
+                <md-tooltip md-direction="left">
+                    You are connected to the rover!
                 </md-tooltip>
             </md-button>
         </div>

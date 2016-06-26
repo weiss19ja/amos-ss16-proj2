@@ -26,13 +26,13 @@
                 <md-content layout-padding>
                         <md-list>
                                 <!-- Definition of attributes for connectedUsers can be found in DeveloperSettingsHandler -->
-                                <md-list-item class="md-3-line" class="secondary-button-padding" ng-repeat="user in connectedUsers.list">
-                                        <div class="md-list-item-text" layout="column">
+                                <md-list-item class="md-3-line" ng-repeat="user in connectedUsers.list">
+                                        <div class="md-list-item-text" layout="column" >
                                                 <h4>IP address: {{user.ipAddress}}</h4>
                                                 <p>Connections from this IP: {{user.numberOfConnections}} Connected clienIds: {{user.clientIds.join(", ")}}</p>
                                                 <p>Operating system: {{user.operatingSystem}} Browsers: {{user.browsers.join(", ")}} </p>
                                         </div>
-                                        <md-button class="md-secondary" ng-click="blockIp(user.ipAddress)">Block</md-button>
+                                        <md-button class="md-raised md-accent" flex="nogrow" ng-click="blockIp(user.ipAddress)">Block</md-button>
                                 </md-list-item>
 
                                 <md-divider></md-divider>
@@ -43,7 +43,7 @@
                                                 <p>Connections from this IP: {{user.numberOfConnections}} Connected clienIds: {{user.clientIds.join(", ")}}</p>
                                                 <p>Operating system: {{user.operatingSystem}}  Browser: {{user.browsers.join(", ")}} </p>
                                         </div>
-                                        <md-button class="md-secondary" ng-click="unblockIp(user.ipAddress)">Unblock</md-button>
+                                        <md-button class="md-raised md-accent" flex="nogrow" ng-click="unblockIp(user.ipAddress)">Unblock</md-button>
                                 </md-list-item>
                         </md-list>
                 </md-content>

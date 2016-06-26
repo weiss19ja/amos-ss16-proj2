@@ -31,6 +31,10 @@ describe('myApp.roverService service', function () {
     expect(roverService.responses.length).toBe(0);
   });
 
+  it('should has connection to the rover false at begin', function () {
+    expect(roverService.hasConnection()).toBe(false);
+  });
+
   beforeEach(function (done) {
     setTimeout(function () {
       done();
