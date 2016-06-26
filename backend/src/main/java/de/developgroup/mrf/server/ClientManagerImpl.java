@@ -304,4 +304,14 @@ public class ClientManagerImpl extends Observable implements ClientManager {
 	public boolean clientIsBlocked(String ipAddress){
 		return clientInformationHandler.isBlocked(ipAddress);
 	}
+
+	@Override
+	public boolean clientIdIsBlocked(int clientId){
+		return clientInformationHandler.isBlocked(clientId);
+	}
+
+	@Override
+	public void releaseDriverIfBlocked(){
+		clientInformationHandler.releaseDriverIfBlocked();
+	}
 }

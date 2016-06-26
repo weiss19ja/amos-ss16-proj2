@@ -48,4 +48,8 @@ public interface ClientManager{
 	boolean clientIsBlocked(String ipAddress);
 
 	void addObserver(Observer o);
+
+	boolean clientIdIsBlocked(int clientId);
+
+	void releaseDriverIfBlocked();
 }

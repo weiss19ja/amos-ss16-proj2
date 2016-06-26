@@ -69,4 +69,13 @@ public interface ClientInformationHandler {
      * @return
      */
     boolean isBlocked(String ipAddress);
+
+    boolean isBlocked(int clientId);
+
+
+    /**
+     * releases the driverMode if the user that gets blocked was driver
+     *
+     */
+    void releaseDriverIfBlocked();
 }

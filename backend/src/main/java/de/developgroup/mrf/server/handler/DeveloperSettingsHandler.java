@@ -114,7 +114,7 @@ public class DeveloperSettingsHandler implements Observer {
 
         JsonRpc2Request jsonRpc2Request = new JsonRpc2Request("updateConnectedUsers", params);
 
-        LOGGER.debug("informing clients about connected users: " + connectedUsers);
+//        LOGGER.debug("informing clients about connected users: " + connectedUsers);
         clientManager.notifyAllClients(jsonRpc2Request);
     }
 
@@ -200,7 +200,7 @@ public class DeveloperSettingsHandler implements Observer {
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
-		LOGGER.debug("Updating connected users list");
+//		LOGGER.debug("Updating connected users list");
 
 		List<ClientInformation> blockedConnections = clientManager.getBlockedConnections();
 		ClientInformation[] blockedUsers = (ClientInformation[]) blockedConnections.toArray(new ClientInformation[blockedConnections.size()]);
@@ -211,5 +211,7 @@ public class DeveloperSettingsHandler implements Observer {
 
 		notifyClientsAboutConnectedUsers(unblockedUsers, blockedUsers);
 		notifyUsersAboutTheirBlockingState(unblockedUsers, blockedUsers);
+
+		clientManager.releaseDriverIfBlocked();
 	}
 }

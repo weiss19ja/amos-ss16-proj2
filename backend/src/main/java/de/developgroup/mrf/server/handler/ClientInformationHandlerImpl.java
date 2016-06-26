@@ -5,6 +5,7 @@
 package de.developgroup.mrf.server.handler;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@Singleton
 public class ClientInformationHandlerImpl implements ClientInformationHandler {
     // Contains Client's IP and additional information
     private final List<ClientInformation> clientInformationList = Collections
@@ -48,7 +50,9 @@ public class ClientInformationHandlerImpl implements ClientInformationHandler {
     @Override
     public void unblockIp(String ipAddress) {
         int indexToRemove = blockedIpsList.indexOf(ipAddress);
-        blockedIpsList.remove(indexToRemove);
+        if (indexToRemove >= 0 || indexToRemove < blockedIpsList.size()) {
+            blockedIpsList.remove(indexToRemove);
+        }
     }
 
     @Override
@@ -142,5 +146,35 @@ public class ClientInformationHandlerImpl implements ClientInformationHandler {
     @Override
     public boolean isBlocked(String ipAddress) {
         return blockedIpsList.contains(ipAddress);
+    }
+
+    @Override
+    public boolean isBlocked(int clientId){
+        List<ClientInformation> blockedConnections = getBlockedConnections();
+        boolean isBlocked = false;
+        for (ClientInformation clientInformation : blockedConnections) {
+            for(int clientInformationClientId : clientInformation.getClientIds()){
+                if(clientId == clientInformationClientId){
+                    // clientId isBlocked
+                    return true;
+                }
+            }
+        }
+        // clientId is not blocked
+        return false;
+    }
+
+    @Override
+    public void releaseDriverIfBlocked(){
+        List<ClientInformation> blockedConnections = getBlockedConnections();
+        int driverClientId = singleDriverHandler.getCurrentDriverId();
+        for (ClientInformation clientInformation : blockedConnections) {
+            for (int clientId : clientInformation.getClientIds()) {
+                if (singleDriverHandler.getCurrentDriverId() == clientId) {
+                    LOGGER.debug("Driver with cliend ID "+ clientId +" gets released");
+                    singleDriverHandler.releaseDriver(clientId);
+                }
+            }
+        }
     }
 }
