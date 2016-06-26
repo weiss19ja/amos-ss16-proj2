@@ -5,8 +5,6 @@
 package de.developgroup.mrf;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.BindingAnnotation;
-import com.google.inject.Provides;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.pi4j.io.gpio.GpioController;
 
@@ -17,6 +15,8 @@ import de.developgroup.mrf.rover.collision.*;
 import de.developgroup.mrf.rover.gpio.GpioControllerMockProvider;
 import de.developgroup.mrf.rover.gpio.GpioControllerProvider;
 import de.developgroup.mrf.rover.pcf8591.*;
+import de.developgroup.mrf.server.ClientManager;
+import de.developgroup.mrf.server.ClientManagerImpl;
 import de.developgroup.mrf.server.controller.*;
 import de.developgroup.mrf.server.handler.*;
 import de.developgroup.mrf.server.socket.RoverSocket;
@@ -24,8 +24,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 
 
 public class NonServletModule extends AbstractModule {
@@ -99,6 +97,8 @@ public class NonServletModule extends AbstractModule {
 				LoggingCommunicationControllerImpl.class);
 		bind(NotificationHandler.class).to(NotificationHandlerImpl.class);
 		bind(SingleDriverHandler.class).to(SingleDriverHandlerImpl.class);
+		bind(ClientInformationHandler.class).to(ClientInformationHandlerImpl.class);
+		bind(ClientManager.class).to(ClientManagerImpl.class);
 
 		requestStaticInjection(RoverSocket.class);
 		requestStaticInjection(Main.class);
