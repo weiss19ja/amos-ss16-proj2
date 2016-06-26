@@ -6,13 +6,12 @@
     <md-toolbar class="md-toolbar-tools md-hue-2">
         Drive Rover
         <span flex></span>
-        <joystick-dpad-switch></joystick-dpad-switch>
+        <joystick-dpad-switch zone="zone_joystick_1" ></joystick-dpad-switch>
     </md-toolbar>
     <md-content layout="row"  layout-align="center center" layout-padding class="driverCard">
         <parking-sensors></parking-sensors>
         <span flex></span>
         <div id="zone_joystick_1" class="joystick" ng-show="joystickState.isJoystickEnabled"></div>
-        <!--<joystick ng-show="joystickState.isJoystickEnabled" ></joystick>-->
         <dpad ng-hide="joystickState.isJoystickEnabled"></dpad>
     </md-content>
 </md-card>

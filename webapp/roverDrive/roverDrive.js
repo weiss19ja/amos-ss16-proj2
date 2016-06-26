@@ -54,7 +54,23 @@ angular.module('myApp.roverDrive', [])
       }
     };
 
-    
+    /**
+     * Portrait
+     */
+    $scope.$watch(function() { return $mdMedia('xs'); }, function() {
+      if($mdMedia('xs')){
+        joystickService.initJoystick('zone_joystick_1');
+      }
+    });
+
+    /**
+     * Lanscape
+     */
+    $scope.$watch(function() { return $mdMedia('gt-xs'); }, function() {
+      if($mdMedia('gt-xs')){
+        joystickService.initJoystick('zone_joystick_2');
+      }
+    });
 
     /**
      * helper function to find string in URL

@@ -25,7 +25,7 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
     var clientId = 0;
     var clientIdPromise;
     var roverState = {
-      isDriverAvailable: false,
+      isDriverAvailable: true,
       isKillswitchEnabled: false
     };
 

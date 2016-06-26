@@ -2,7 +2,6 @@
 <!-- This file is part of Mobile Robot Framework. -->
 <!-- Mobile Robot Framework is free software under the terms of GNU AFFERO GENERAL PUBLIC LICENSE. -->
 <!-- -->
-
 <md-card ng-show="roverState.isDriverAvailable">
     <md-toolbar class="md-toolbar-tools md-hue-2">
         <span hide-xs>Drive Rover</span>
@@ -18,10 +17,8 @@
         </div>
         <div hide-xs >
             <div id="zone_joystick_2" class="joystick" ng-show="joystickState.isJoystickEnabled"></div>
-            <!--<joystick zone="zone_joystick_2" ng-show="joystickState.isJoystickEnabled"></joystick>-->
             <dpad ng-hide="joystickState.isJoystickEnabled"></dpad>
         </div>
-
     </md-content>
 </md-card>
 <drivercard hide-gt-xs ng-show="roverState.isDriverAvailable"></drivercard>
