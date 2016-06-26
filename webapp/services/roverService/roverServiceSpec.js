@@ -203,7 +203,7 @@ describe('myApp.roverService service', function () {
     beforeEach(function (done) {
       setTimeout(function () {
         done();
-      }, 1);
+      }, 100);
     });
 
     it('should client id be 1234',function (done) {
@@ -230,13 +230,14 @@ describe('myApp.roverService service', function () {
 
 
     it('should send exitDriverMode json-rpc', function () {
+      defaultWSResponse();
       roverService.exitDriverMode();
 
       var msg = roverService.getLastSendMsg();
-      expect(msg).toBe('{"jsonrpc":"2.0","method":"exitDriverMode","params":[1234],"id":2}');
+      expect(msg).toBe('{"jsonrpc":"2.0","method":"exitDriverMode","params":[1234],"id":3}');
 
       // handled two responses in object {result:true}, setClientId is method call from backend (so no response)
-      expect(roverService.responses.length).toBe(1);
+      expect(roverService.responses.length).toBe(2);
     });
 
 
@@ -264,7 +265,6 @@ describe('myApp.roverService service', function () {
     it('should set driver not available if there is no driver but Im still on drive page', function () {
       // simulate the drive page
       $location.path('/drive');
-      roverService.sendPing();
 
       $websocketBackend.expectSend({
         data: JSON.stringify({
@@ -280,7 +280,6 @@ describe('myApp.roverService service', function () {
     });
 
     it('should set driver NOT available if there is another driver', function () {
-      roverService.sendPing();
       $websocketBackend.expectSend({
         data: JSON.stringify({
           jsonrpc: "2.0",
@@ -288,6 +287,7 @@ describe('myApp.roverService service', function () {
           params: [{"currentDriverId": 5001}]
         })
       });
+      defaultWSResponse();
       roverService.sendPing();
       expect(roverService.roverState.isDriverAvailable).toBe(false);
     });
