@@ -28,8 +28,8 @@ public class DriveControllerImpl extends AbstractDriveController {
 
     private static Logger LOGGER = LoggerFactory.getLogger(DriveControllerImpl.class);
 
-    private MotorController leftMotor;
-    private MotorController rightMotor;
+    public MotorController leftMotor;
+    public MotorController rightMotor;
 
     private int desiredSpeed = 0;
     private int desiredTurnrate = 0;
@@ -85,7 +85,14 @@ public class DriveControllerImpl extends AbstractDriveController {
         rightMotor.setSpeedPercentage(settings.rightMotorPercentage);
     }
 
-    private int clamp(int val, int min, int max) {
+    /**
+     * Return a value in a defined interval [min, max] or min or max if the value exceeds the interval.
+     * @param val value to confine to the interval
+     * @param min lower border of the interval
+     * @param max upper border of the interval
+     * @return
+     */
+    public int clamp(int val, int min, int max) {
         return Math.max(min, Math.min(max, val));
     }
 }
