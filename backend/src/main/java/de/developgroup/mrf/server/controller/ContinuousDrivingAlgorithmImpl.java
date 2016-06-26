@@ -32,17 +32,23 @@ public class ContinuousDrivingAlgorithmImpl implements ContinuousDrivingAlgorith
         double leftMotorPercentage = 0d;
         double rightMotorPercentage = 0d;
 
-        double angleRadians = angle / 360 * 2 * Math.PI;
+        double angleRadians = (double)angle / 360d * 2 * Math.PI;
 
         if (angle <= 90 || angle > 270) {
             // right side of coordinate system
-            if (angle <= ROTATE_ZONE_DEGREES || angle > 360 - ROTATE_ZONE_DEGREES) {
+            if (angle <= ROTATE_ZONE_DEGREES || angle >= 360 - ROTATE_ZONE_DEGREES) {
                 // right robot rotate zone
                 leftMotorPercentage = V_MAX;
                 rightMotorPercentage = -V_MAX;
             } else {
-                leftMotorPercentage = V_MAX;
-                rightMotorPercentage = Math.sin(angleRadians) * V_MAX;
+                if (angle <= 90) {
+                    // forward right
+                    leftMotorPercentage = V_MAX;
+                    rightMotorPercentage = Math.sin(angleRadians) * V_MAX;
+                } else {
+                    leftMotorPercentage = -V_MAX;
+                    rightMotorPercentage = Math.sin(angleRadians) * V_MAX;
+                }
             }
         } else {
             // left side of coordinate system
@@ -50,10 +56,18 @@ public class ContinuousDrivingAlgorithmImpl implements ContinuousDrivingAlgorith
                 leftMotorPercentage = -V_MAX;
                 rightMotorPercentage = V_MAX;
             } else {
-                rightMotorPercentage = V_MAX;
-                leftMotorPercentage =  - Math.sin(angleRadians) * V_MAX;
+                if (angle <= 180) {
+                    leftMotorPercentage = Math.sin(angleRadians) * V_MAX;
+                    rightMotorPercentage = V_MAX;
+                } else {
+                    leftMotorPercentage = Math.sin(angleRadians) * V_MAX;
+                    rightMotorPercentage = -V_MAX;
+                }
             }
         }
+
+        leftMotorPercentage *= (double)speed/100d;
+        rightMotorPercentage *= (double)speed/100d;
 
         return new MotorSetting(leftMotorPercentage, rightMotorPercentage);
     }
