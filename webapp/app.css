@@ -58,3 +58,10 @@ md-toast.md-alert-toast-theme div.md-toast-content{
 md-toast.md-error-toast-theme div.md-toast-content{
   background-color: #FF5722 !important;
 }
+
+.joystick{
+  height: 192px;
+  width:  200px;
+  position: relative;
+  z-index: 10;
+}

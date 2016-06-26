@@ -41,14 +41,14 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
     var systemUpTimeCallback;
     var connectedUsers = {
       list: []
-    }
-      var blockedUsers = {
-          list: []
-      }
-      var myIp = {
-          ipAddress: "",
-          isBlocked: false
-      };
+    };
+    var blockedUsers = {
+      list: []
+    };
+    var myIp = {
+      ipAddress: "",
+      isBlocked: false
+    };
     var clientJs = new ClientJS();
     var hasConnection = false;
 
@@ -455,6 +455,14 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
        */
       turnRight: function () {
         send("turnRight", [turnRate]);
+      },
+      /**
+       * Continuously driving 
+       * @param angle in degree
+       * @param speed [0..100]
+       */
+      driveContinuously: function (angle,speed) {
+        send('driveContinuously',[angle,speed]);
       },
       /**
        * Move camera up

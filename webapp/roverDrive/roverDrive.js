@@ -5,10 +5,13 @@
 'use strict';
 
 angular.module('myApp.roverDrive', [])
-  .controller('RoverDriveCtrl', ['roverService', '$scope', '$location','$mdMedia', function (roverService, $scope, $location,$mdMedia) {
-    $scope.mjpegStreamURL = 'http://' + $location.host() + ':9000/stream/video.mjpeg';
+  .controller('RoverDriveCtrl', ['roverService', '$scope', '$location','$mdMedia', 'joystickService', function (roverService, $scope, $location,$mdMedia, joystickService) {
+    $scope.mjpegStreamURL = 'assets/images/videocam_off_800x600.png';
+    setTimeout(function () {
+      $scope.mjpegStreamURL = 'http://' + $location.host() + ':9000/stream/video.mjpeg';
+    }, 200);
     $scope.roverState = roverService.roverState;
-    $scope.showJoystick = false;
+    $scope.joystickState = joystickService.joystickState;
 
     routeView();
 
@@ -50,6 +53,24 @@ angular.module('myApp.roverDrive', [])
         }
       }
     };
+
+    /**
+     * Portrait
+     */
+    $scope.$watch(function() { return $mdMedia('xs'); }, function() {
+      if($mdMedia('xs')){
+        joystickService.initJoystick('zone_joystick_1');
+      }
+    });
+
+    /**
+     * Lanscape
+     */
+    $scope.$watch(function() { return $mdMedia('gt-xs'); }, function() {
+      if($mdMedia('gt-xs')){
+        joystickService.initJoystick('zone_joystick_2');
+      }
+    });
 
     /**
      * helper function to find string in URL

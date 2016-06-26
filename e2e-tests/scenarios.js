@@ -346,16 +346,23 @@ describe ('sidebar navigation for laptops', function() {
     expect(browser.getLocationAbsUrl()).toMatch("/drive/roverMaster");
   });
 
-  it('should not view "Camera & Driving"', function() {
-    expect(sidebarItems.get(3).isDisplayed()).toBe(false);
+  it('should display "Drive Control" in sidebar', function() {
+    expect (sidebarItems.get(2).getText()).toBe('Drive Control');
+  });
+
+  it('should redirect to /drive when "Camera & Driving" is clicked', function() {
+    expect (sidebarItems.get(3).getText()).toBe('Camera & Driving');
+    sidebarItems.get(3).click();
+    browser.refresh();
+    expect(browser.getLocationAbsUrl()).toMatch("/drive");
   });
 
   it('should not view "Driving only"', function() {
-    expect(sidebarItems.get(3).isDisplayed()).toBe(false);
+    expect(sidebarItems.get(4).isDisplayed()).toBe(false);
   });
 
   it('should not view "Emergency Stop"', function() {
-    expect(sidebarItems.get(4).isDisplayed()).toBe(false);
+    expect(sidebarItems.get(5).isDisplayed()).toBe(false);
   });
 
   it('should display "Camera Control" in sidebar', function() {
