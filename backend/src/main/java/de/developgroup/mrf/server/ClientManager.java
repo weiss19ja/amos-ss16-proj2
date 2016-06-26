@@ -37,6 +37,12 @@ public class ClientManager extends Observable {
 
 	private AtomicInteger lastClientId = new AtomicInteger(5000);
 
+
+	@Inject
+	public ClientManager(ClientInformationHandler clientInformationHandler){
+		this.clientInformationHandler = clientInformationHandler;
+	}
+
 	/**
 	 * Add a client to the list of connected clients. Each client gets an ID,
 	 * which the client manger communicate to the client via JSON-RPC

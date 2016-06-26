@@ -52,7 +52,7 @@ public class ClientManagerTest {
 	public void setUp() throws Exception {
 		// injector = Guice.createInjector();
 		// clientManager = injector.getInstance(ClientManager.class);
-		clientManager = new ClientManager();
+		clientManager = new ClientManager(clientInformationHandler);
 
 		// mocking session
 		session = mock(Session.class);
