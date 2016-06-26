@@ -552,7 +552,6 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
        * needs the clientId to register driver, uses a promise object to wait for the clientId being set by the backend
        */
       enterDriverMode: function () {
-        send('enterDriverMode', [clientId]);
         clientIdPromise.then(function (fulfilledClientId) {
           send("enterDriverMode", [fulfilledClientId]);
         }, function (rejectedClientId) {
