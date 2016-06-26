@@ -1,16 +1,20 @@
+<!-- -->
+<!-- This file is part of Mobile Robot Framework. -->
+<!-- Mobile Robot Framework is free software under the terms of GNU AFFERO GENERAL PUBLIC LICENSE. -->
+<!-- -->
 <md-card>
     <md-toolbar class="md-toolbar-tools md-hue-2">
         Drive Rover
         <span flex></span>
-        <md-switch ng-model="showJoystick" aria-label="use Joystick">
+        <md-switch ng-controller="JoystickCtrl" ng-model="joystickState.isJoystickEnabled" ng-change="onChangeJoystickShow()" aria-label="use Joystick">
             use Joystick
         </md-switch>
     </md-toolbar>
     <md-content layout="row"  layout-align="center center" layout-padding class="driverCard">
         <parking-sensors></parking-sensors>
         <span flex></span>
-        <joystick ng-show="showJoystick" ></joystick>
-        <dpad ng-hide="showJoystick"></dpad>
+        <joystick ng-show="joystickState.isJoystickEnabled" ></joystick>
+        <dpad ng-hide="joystickState.isJoystickEnabled"></dpad>
     </md-content>
 </md-card>
 

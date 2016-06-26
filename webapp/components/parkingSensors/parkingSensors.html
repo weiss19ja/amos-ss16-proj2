@@ -1,10 +1,27 @@
+<!-- -->
+<!-- This file is part of Mobile Robot Framework. -->
+<!-- Mobile Robot Framework is free software under the terms of GNU AFFERO GENERAL PUBLIC LICENSE. -->
+<!-- -->
 <div>
     <div align="center" layout-align="center">
         <svg viewBox="0 0 100 100" width="100px" height="100px">
-            <path class="collision-fl" ng-show="collisions.frontLeft" d="M 5 30 C 5 30, 5 5, 30 5" stroke="red" stroke-width="4" stroke-linecap="round" fill="transparent"></path>
-            <path class="collision-fr" ng-show="collisions.frontRight" d="M 70 5 C 70 5, 95 5, 95 30" stroke="red" stroke-width="4" stroke-linecap="round" fill="transparent"></path>
-            <path class="collision-bl" ng-show="collisions.backLeft" d="M 5 70 C 5 70, 5 95, 30 95" stroke="red" stroke-width="4" stroke-linecap="round" fill="transparent"></path>
-            <path class="collision-br" ng-show="collisions.backRight" d="M 95 70 C 95 70, 95 95, 70 95" stroke="red" stroke-width="4" stroke-linecap="round" fill="transparent"></path>
+            <!-- front left -->
+            <path ng-show="barVisible(collisions.collisionFrontLeft, 'Far')" class="collision-fl" d="M 5 30 C 5 30, 5 5, 30 5" stroke="green" stroke-width="4" stroke-linecap="round" fill="transparent"></path>
+            <path ng-show="barVisible(collisions.collisionFrontLeft, 'Medium')" class="collision-fl" d="M 10 30 C 10 30, 10 10, 30 10" stroke="orange" stroke-width="4" stroke-linecap="round" fill="transparent"></path>
+            <path ng-show="barVisible(collisions.collisionFrontLeft, 'Close')" class="collision-fl" d="M 15 30 C 15 30, 15 15, 30 15" stroke="red" stroke-width="4" stroke-linecap="round" fill="transparent"></path>
+            <!-- front right -->
+            <path ng-show="barVisible(collisions.collisionFrontRight, 'Far')" class="collision-fr" d="M 70 5 C 70 5, 95 5, 95 30" stroke="green" stroke-width="4" stroke-linecap="round" fill="transparent"></path>
+            <path ng-show="barVisible(collisions.collisionFrontRight, 'Medium')" class="collision-fr" d="M 70 10 C 70 10, 90 10, 90 30" stroke="orange" stroke-width="4" stroke-linecap="round" fill="transparent"></path>
+            <path ng-show="barVisible(collisions.collisionFrontRight, 'Close')" class="collision-fr" d="M 70 15 C 70 15, 85 15, 85 30" stroke="red" stroke-width="4" stroke-linecap="round" fill="transparent"></path>
+            <!-- back left -->
+            <path ng-show="barVisible(collisions.collisionBackLeft, 'Far')" class="collision-bl" d="M 5 70 C 5 70, 5 95, 30 95" stroke="green" stroke-width="4" stroke-linecap="round" fill="transparent"></path>
+            <path ng-show="barVisible(collisions.collisionBackLeft, 'Medium')" class="collision-bl" d="M 10 70 C 10 70, 10 90, 30 90" stroke="orange" stroke-width="4" stroke-linecap="round" fill="transparent"></path>
+            <path ng-show="barVisible(collisions.collisionBackLeft, 'Close')" class="collision-bl" d="M 15 70 C 15 70, 15 85, 30 85" stroke="red" stroke-width="4" stroke-linecap="round" fill="transparent"></path>
+            <!-- back right -->
+            <path ng-show="barVisible(collisions.collisionBackRight, 'Far')" class="collision-br" d="M 95 70 C 95 70, 95 95, 70 95" stroke="green" stroke-width="4" stroke-linecap="round" fill="transparent"></path>
+            <path ng-show="barVisible(collisions.collisionBackRight, 'Medium')" class="collision-br" d="M 90 70 C 90 70, 90 90, 70 90" stroke="orange" stroke-width="4" stroke-linecap="round" fill="transparent"></path>
+            <path ng-show="barVisible(collisions.collisionBackRight, 'Close')" class="collision-br" d="M 85 70 C 85 70, 85 85, 70 85" stroke="red" stroke-width="4" stroke-linecap="round" fill="transparent"></path>
+            <!-- rover image -->
             <rect x="25" y="20" width="10" height="60" class="tracks"></rect>
             <rect x="65" y="20" width="10" height="60" class="tracks"></rect>
             <rect x="35" y="30" height="40" width="30" class="rover-body"></rect>

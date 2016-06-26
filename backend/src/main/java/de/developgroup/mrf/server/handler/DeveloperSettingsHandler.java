@@ -1,20 +1,19 @@
+/**
+ * This file is part of Mobile Robot Framework.
+ * Mobile Robot Framework is free software under the terms of GNU AFFERO GENERAL PUBLIC LICENSE.
+ */
 package de.developgroup.mrf.server.handler;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
-
+import com.google.inject.Inject;
+import de.developgroup.mrf.server.ClientManager;
+import de.developgroup.mrf.server.rpc.JsonRpc2Request;
+import de.developgroup.mrf.server.rpc.msgdata.RoverStatusVO;
 import org.eclipse.jetty.websocket.api.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.inject.Inject;
-
-import de.developgroup.mrf.server.ClientManager;
-import de.developgroup.mrf.server.rpc.JsonRpc2Request;
-import de.developgroup.mrf.server.rpc.msgdata.RoverStatusVO;
+import java.io.IOException;
+import java.util.*;
 
 public class DeveloperSettingsHandler implements Observer {
 
@@ -106,19 +105,18 @@ public class DeveloperSettingsHandler implements Observer {
 	 * Changes the List in the client's developer view according the
 	 * connectedUsersList
 	 */
-	public void notifyClientsAboutConnectedUsers(String[] connectedUsers) {
+	public void notifyClientsAboutConnectedUsers(ClientInformation[] connectedUsers, ClientInformation[] blockedUsers) {
 
-		// create JSON RPC object
-		ArrayList<Object> params = new ArrayList<>();
-		params.add(connectedUsers);
+        // create JSON RPC object
+        ArrayList<Object> params = new ArrayList<>();
+        params.add(connectedUsers);
+        params.add(blockedUsers);
 
-		JsonRpc2Request jsonRpc2Request = new JsonRpc2Request(
-				"updateConnectedUsers", params);
+        JsonRpc2Request jsonRpc2Request = new JsonRpc2Request("updateConnectedUsers", params);
 
-		LOGGER.debug("informing clients about connected users: "
-				+ connectedUsers);
-		clientManager.notifyAllClients(jsonRpc2Request);
-	}
+        LOGGER.debug("informing clients about connected users: " + connectedUsers);
+        clientManager.notifyAllClients(jsonRpc2Request);
+    }
 
 	/**
 	 * Sends a message to all clients so they know the developer just changed
@@ -135,10 +133,46 @@ public class DeveloperSettingsHandler implements Observer {
 	}
 
 	/**
+	 * Send a notification to the users to tell them whether their ip is blocked or not
+	 * In case of blocking, the frontend can react to this
+	 * frontend can also block their interactions from frontend side
+	 * @param connectedUsers List of connected users
+	 * @param blockedUsers List of blocked userss
+	 */
+	private void notifyUsersAboutTheirBlockingState(ClientInformation[] connectedUsers, ClientInformation[] blockedUsers){
+		LOGGER.trace("Informing clients about their blocking state");
+		// normal connections
+
+		for(ClientInformation clientInfo : connectedUsers){
+			sendBlockingStateToAllClientsOfThisIp(clientInfo);
+		}
+		for(ClientInformation clientInfo : blockedUsers){
+			sendBlockingStateToAllClientsOfThisIp(clientInfo);
+		}
+	}
+
+	/**
+	 * Send a message about their blocking state to all connected clients contained in this clienInformation
+	 * Message includes own ip and whether or not a developer blocked this ip
+	 * @param clientInfo
+	 */
+	private void sendBlockingStateToAllClientsOfThisIp(ClientInformation clientInfo){
+		ArrayList<Object> params = new ArrayList<>();
+		String ipAddress = clientInfo.getIpAddress();
+		params.add(ipAddress);
+		params.add(clientManager.clientIsBlocked(ipAddress));
+		JsonRpc2Request jsonRpc2Request = new JsonRpc2Request("setMyBlockingState", params);
+
+		for(int clientId: clientInfo.getClientIds()){
+			clientManager.notifyClientById(clientId,jsonRpc2Request);
+		}
+	}
+
+	/**
 	 * Sends a message to one specific client so he knows the killswitch is
 	 * active and he can't interact with the rover The method should be called
 	 * if a new client connects to the server
-	 * 
+	 *
 	 * @param clientId
 	 *            the client who should receive the message
 	 * @param message
@@ -155,31 +189,50 @@ public class DeveloperSettingsHandler implements Observer {
 	}
 
 	/**
-	 * This method gets called if information in the Client Manager change. A
-	 * list of connected users containing additional information is generated
-	 * and send out to the clients to be displayed in the developer view
-	 * 
-	 * @param o
-	 *            Observable, in this Case the clientManager
-	 * @param arg
-	 *            not used
+	 * This method gets called if information in the Client Manager change.
+	 * A list of connected users containing additional information is generated and send out to the clients
+	 * to be displayed in the developer view
+	 *
+	 * @param o   Observable, in this Case the clientManager
+	 * @param arg not used
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
-		Map<Integer, Session> sessions = clientManager.getSessions();
-		Map<Integer, String> clientInfo = clientManager.getClientInformation();
-		int numberOfConnectedClients = sessions.size();
-		String[] connectedUsers = new String[numberOfConnectedClients];
-		int count = 0;
+		LOGGER.debug("Updating connected users list");
 
-		for (Map.Entry<Integer, Session> entry : sessions.entrySet()) {
-			int clientId = entry.getKey();
-			String ipAddress = entry.getValue().getRemoteAddress()
-					.getHostString();
-			String additionalInformation = clientInfo.get(clientId);
-			connectedUsers[count++] = "IP Address: " + ipAddress
-					+ "   ClientID: " + clientId + "  " + additionalInformation;
+		List<ClientInformation> blockedConnections = clientManager.getBlockedConnections();
+		ClientInformation[] blockedUsers = (ClientInformation[]) blockedConnections.toArray(new ClientInformation[blockedConnections.size()]);
+
+
+		List<ClientInformation> unblockedConnections = clientManager.getUnblockedConnections();
+		ClientInformation[] unblockedUsers = (ClientInformation[]) unblockedConnections.toArray(new ClientInformation[unblockedConnections.size()]);
+
+		notifyClientsAboutConnectedUsers(unblockedUsers, blockedUsers);
+		notifyUsersAboutTheirBlockingState(unblockedUsers, blockedUsers);
+	}
+
+	/**
+	 * @param sessions
+	 * @return
+	 */
+	private Map<String, Integer> getNumberOfConnectionsPerIp(Map<Integer, Session> sessions) {
+
+		// Map containing ip and corresponding number of connecitons
+		Map<String, Integer> connectionsPerIp = new HashMap<String, Integer>();
+
+		// initiate the list with 0 connections per ip
+		for (Session session : sessions.values()) {
+			String clientIp = session.getRemoteAddress().getHostString();
+			connectionsPerIp.put(clientIp, 0);
 		}
-		notifyClientsAboutConnectedUsers(connectedUsers);
+
+		// compute the real number of connections per ip
+		for (Map.Entry<Integer, Session> entry : sessions.entrySet()) {
+			String clientIp = entry.getValue().getRemoteAddress().getHostString();
+			// compute new number of connections
+			int connectionsForThisIp = connectionsPerIp.get(clientIp) + 1;
+			connectionsPerIp.put(clientIp, connectionsForThisIp);
+		}
+		return connectionsPerIp;
 	}
 }

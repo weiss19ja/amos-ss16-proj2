@@ -1,3 +1,7 @@
+/**
+ * This file is part of Mobile Robot Framework.
+ * Mobile Robot Framework is free software under the terms of GNU AFFERO GENERAL PUBLIC LICENSE.
+ */
 'use strict';
 /**
  * Joystick component to control the rover movement.
@@ -8,7 +12,10 @@
  * For communication with the rover 'roverService' is used.
  */
 angular.module('myApp.joystick', [])
-  .controller('JoystickCtrl', ['$scope', 'roverService','$attrs','$timeout', function($scope, roverService, $attrs,$timeout) {
+  .controller('JoystickCtrl', ['$scope', 'roverService','$attrs','$timeout','joystickService', function($scope, roverService, $attrs,$timeout,joystickService) {
+
+    
+    /*
     var manager = {
       on:function () {},
       destroy:function () {}
@@ -97,6 +104,23 @@ angular.module('myApp.joystick', [])
         $scope.stop();
       });
     }
+    
+*/
+    $scope.joystickId = 'zone_joystick_1';
+    $scope.joystickState = joystickService.joystickState;
+    
+    $scope.onChangeJoystickShow = function () {
+      console.log('onChangeJoystickShow');
+      if($scope.joystickState.isJoystickEnabled){
+        $timeout(function () {
+          joystickService.initJoystick($scope.joystickId);
+        },100);
+      }
+    };
+    
+    $timeout(function () {
+      joystickService.initJoystick($scope.joystickId);
+    },100);
 
 
   }])

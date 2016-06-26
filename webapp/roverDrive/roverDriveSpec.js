@@ -1,9 +1,14 @@
+/**
+ * This file is part of Mobile Robot Framework.
+ * Mobile Robot Framework is free software under the terms of GNU AFFERO GENERAL PUBLIC LICENSE.
+ */
 'use strict';
 
 describe('myApp.roverDrive module', function () {
 
   beforeEach(module('myApp.roverDrive'));
   beforeEach(module('myApp.roverService'));
+  beforeEach(module('myApp.joystickService'));
 
   describe('should define roverDriveController', function () {
     var scope, roverDriveCtrl, $location, roverService;

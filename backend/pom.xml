@@ -1,3 +1,7 @@
+<!-- -->
+<!-- This file is part of Mobile Robot Framework. -->
+<!-- Mobile Robot Framework is free software under the terms of GNU AFFERO GENERAL PUBLIC LICENSE. -->
+<!-- -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
@@ -219,5 +223,10 @@
       <version>4.0</version>
     </dependency>
 
+    <dependency>
+      <groupId>com.google.inject.extensions</groupId>
+      <artifactId>guice-assistedinject</artifactId>
+      <version>4.0</version>
+    </dependency>
   </dependencies>
 </project>

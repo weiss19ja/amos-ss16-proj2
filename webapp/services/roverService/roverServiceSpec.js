@@ -1,3 +1,7 @@
+/**
+ * This file is part of Mobile Robot Framework.
+ * Mobile Robot Framework is free software under the terms of GNU AFFERO GENERAL PUBLIC LICENSE.
+ */
 'use strict';
 
 describe('myApp.roverService service', function () {
@@ -25,6 +29,10 @@ describe('myApp.roverService service', function () {
 
   it('should responses be empty at begin', function () {
     expect(roverService.responses.length).toBe(0);
+  });
+
+  it('should has connection to the rover false at begin', function () {
+    expect(roverService.hasConnection()).toBe(false);
   });
 
   beforeEach(function (done) {

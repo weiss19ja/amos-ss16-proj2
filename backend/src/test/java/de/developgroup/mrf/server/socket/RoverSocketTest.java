@@ -1,9 +1,8 @@
+/**
+ * This file is part of Mobile Robot Framework.
+ * Mobile Robot Framework is free software under the terms of GNU AFFERO GENERAL PUBLIC LICENSE.
+ */
 package de.developgroup.mrf.server.socket;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 
@@ -18,14 +17,18 @@ import de.developgroup.mrf.server.handler.NotificationHandler;
 import de.developgroup.mrf.server.handler.RoverHandler;
 import de.developgroup.mrf.server.handler.SingleDriverHandler;
 
+import static org.mockito.Mockito.*;
+
 public class RoverSocketTest {
 
-	RoverSocket roverSocket = new RoverSocket();
+	// using Mock with call real methods in order to be able to mock the remoteIpIsBlocked method
+	RoverSocket roverSocket = mock(RoverSocket.class, CALLS_REAL_METHODS);
 	ClientManager clientManager = mock(ClientManager.class);
 	DeveloperSettingsHandler developerSettingsHandler = mock(DeveloperSettingsHandler.class);
 	SingleDriverHandler singleDriverHandler = mock(SingleDriverHandler.class);
 	RoverHandler roverHandler = mock(RoverHandler.class);
 	NotificationHandler notificationHandler = mock(NotificationHandler.class);
+
 
 	@Before
 	public void setUp() {
@@ -34,10 +37,21 @@ public class RoverSocketTest {
 		RoverSocket.singleDriverHandler = singleDriverHandler;
 		RoverSocket.roverHandler = roverHandler;
 		RoverSocket.notificationHandler = notificationHandler;
+
+		// mock method
+		doReturn(false).when(roverSocket).remoteIpIsBlocked();
 	}
 
 	@After
 	public void tearDown() {
+	}
+
+	/**
+	 * This method simulates having a client-ip that is not blocked by a developer
+	 */
+	private void setClientAsUnblocked(){
+		when(roverSocket.getSession().getRemoteAddress().getHostString()).thenReturn("123.456.789");
+		when(clientManager.clientIsBlocked("123.456.789")).thenReturn(false);
 	}
 
 	@Test
@@ -56,6 +70,7 @@ public class RoverSocketTest {
 		verify(RoverSocket.clientManager).removeClosedSessions();
 		verify(RoverSocket.singleDriverHandler).verifyDriverAvailability();
 	}
+
 
 	@Test
 	public void testDriveForeward() throws IOException {
