@@ -45,4 +45,9 @@ public class DriveControllerMock extends AbstractDriveController {
     public void updateMotors() throws IOException {
         LOGGER.info("updating motor settings");
     }
+
+    @Override
+    public void applyMotorSettings(MotorSetting settings) throws IOException {
+        LOGGER.info("applying motor settings object " + settings);
+    }
 }

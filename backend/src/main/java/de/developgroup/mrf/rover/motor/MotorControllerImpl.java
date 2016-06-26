@@ -67,6 +67,11 @@ public class MotorControllerImpl implements MotorController {
 	}
 
 	@Override
+	public void setSpeedPercentage(double percentage) throws IOException {
+		setSpeed((int)(percentage * SPEED_MAX_FORWARD));
+	}
+
+	@Override
 	public void close() throws IOException {
 		output.setPWM(0);
 	}

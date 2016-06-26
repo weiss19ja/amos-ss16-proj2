@@ -79,6 +79,12 @@ public class DriveControllerImpl extends AbstractDriveController {
         rightMotor.setSpeed(rightSpeed);
     }
 
+    @Override
+    public void applyMotorSettings(MotorSetting settings) throws IOException {
+        leftMotor.setSpeedPercentage(settings.leftMotorPercentage);
+        rightMotor.setSpeedPercentage(settings.rightMotorPercentage);
+    }
+
     private int clamp(int val, int min, int max) {
         return Math.max(min, Math.min(max, val));
     }

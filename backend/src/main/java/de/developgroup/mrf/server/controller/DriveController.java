@@ -48,4 +48,10 @@ public interface DriveController {
      * @throws IOException
      */
     void updateMotors() throws IOException;
+
+    /**
+     * Apply raw input to motor values.
+     * @param settings the settings object to apply to the motors.
+     */
+    void applyMotorSettings(MotorSetting settings) throws IOException;
 }
