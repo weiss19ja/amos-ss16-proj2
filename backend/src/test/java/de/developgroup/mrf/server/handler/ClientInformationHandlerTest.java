@@ -21,9 +21,9 @@ public class ClientInformationHandlerTest {
 
     @Before
     public void setUp() {
-        handler = new ClientInformationHandlerImpl();
+        handler = new ClientInformationHandlerImpl(mock(SingleDriverHandlerImpl.class));
         System.out.println("Set up handler");
-//                mock(ClientManager.class)
+//                mock(ClientManagerImpl.class)
 
     }
 

@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import de.developgroup.mrf.server.ClientManager;
 
 public class ClientInformationHandlerImpl implements ClientInformationHandler {
     // Contains Client's IP and additional information
@@ -24,10 +23,16 @@ public class ClientInformationHandlerImpl implements ClientInformationHandler {
     private static final Logger LOGGER = LoggerFactory
             .getLogger(ClientInformationHandlerImpl.class);
 
+    @Inject
+    static SingleDriverHandler singleDriverHandler;
+
+
+
 
     @Inject
-    public ClientInformationHandlerImpl() {
+    public ClientInformationHandlerImpl(SingleDriverHandler singleDriverHandler) {
         LOGGER.debug("Creating new instance of ClientInformationHandlerImpl");
+        this.singleDriverHandler = singleDriverHandler;
     }
 
     @Override

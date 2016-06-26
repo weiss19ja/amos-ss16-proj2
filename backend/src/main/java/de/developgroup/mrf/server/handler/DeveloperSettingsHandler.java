@@ -6,9 +6,9 @@ package de.developgroup.mrf.server.handler;
 
 import com.google.inject.Inject;
 import de.developgroup.mrf.server.ClientManager;
+import de.developgroup.mrf.server.ClientManagerImpl;
 import de.developgroup.mrf.server.rpc.JsonRpc2Request;
 import de.developgroup.mrf.server.rpc.msgdata.RoverStatusVO;
-import org.eclipse.jetty.websocket.api.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

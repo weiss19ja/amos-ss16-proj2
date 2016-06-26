@@ -16,13 +16,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jetty.websocket.api.RemoteEndpoint;
-import org.eclipse.jetty.websocket.api.Session;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.developgroup.mrf.server.ClientManager;
+import de.developgroup.mrf.server.ClientManagerImpl;
 import de.developgroup.mrf.server.rpc.JsonRpc2Request;
 import de.developgroup.mrf.server.rpc.msgdata.RoverStatusVO;
 
@@ -32,7 +30,7 @@ public class DeveloperSettingsHandlerTest {
 
     @Before
     public void setUp() {
-        handler = new DeveloperSettingsHandler(mock(ClientManager.class),
+        handler = new DeveloperSettingsHandler(mock(ClientManagerImpl.class),
                 mock(RoverHandler.class));
     }
 

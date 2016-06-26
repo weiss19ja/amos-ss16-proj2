@@ -34,7 +34,7 @@ import org.junit.Test;
 public class ClientManagerTest {
 
     private Injector injector;
-    private static ClientManager clientManager;
+    private static ClientManagerImpl clientManager;
     private static ClientInformationHandler clientInformationHandler = mock(ClientInformationHandlerImpl.class);
 
 	private static Session session;
@@ -51,8 +51,8 @@ public class ClientManagerTest {
 	@Before
 	public void setUp() throws Exception {
 		// injector = Guice.createInjector();
-		// clientManager = injector.getInstance(ClientManager.class);
-		clientManager = new ClientManager(clientInformationHandler);
+		// clientManager = injector.getInstance(ClientManagerImpl.class);
+		clientManager = new ClientManagerImpl(clientInformationHandler);
 
 		// mocking session
 		session = mock(Session.class);

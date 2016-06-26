@@ -6,12 +6,13 @@ package de.developgroup.mrf.server.handler;
 
 import java.io.IOException;
 
+import de.developgroup.mrf.server.ClientManager;
+import de.developgroup.mrf.server.ClientManagerImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
-import de.developgroup.mrf.server.ClientManager;
 import de.developgroup.mrf.server.rpc.JsonRpc2Request;
 import de.developgroup.mrf.server.rpc.msgdata.RoverStatusVO;
 
