@@ -12,6 +12,10 @@ angular.module("myApp.joystickService", [])
   .factory("joystickService", function () {
 
     var actualZone;
+    var lastAngle = 0;
+    var lastSpeed = 0;
+    var angleSteps = 30;
+    var speedLevels = 5;
 
     var options = {
       zone: document.getElementById('zone_joystick'),
@@ -36,7 +40,7 @@ angular.module("myApp.joystickService", [])
       manager.destroy();
       options.zone = document.getElementById(zone);
       manager = nipplejs.create(options);
-
+/**
       manager.on('dir:up',function (evt,data) {
         console.log('joystick:up');
         //$scope.up();
@@ -57,11 +61,47 @@ angular.module("myApp.joystickService", [])
         //$scope.right();
 
       });
-
+*/
       manager.on('end',function (evt,data) {
         console.log('joystick:stop');
-        //$scope.stop();
+        onStop();
       });
+
+      manager.on('move',function (evt,data) {
+        var speed = getSpeedLevel(data.distance);
+        var angle = getAngleSector(data.angle.degree);
+
+        if(angle != lastAngle || speed != lastSpeed){
+          onMove(angle,speed);
+          lastAngle = angle;
+          lastSpeed = speed;
+        }
+
+      });
+    }
+    
+    function getAngleSector(angle) {
+      var targetAngle;
+      var remainder = angle % angleSteps;
+      if(remainder > (angleSteps / 2)){
+        targetAngle = angle - remainder + angleSteps;
+      } else {
+        targetAngle = angle - remainder;
+      }
+      return Math.round(targetAngle);
+    }
+
+    function getSpeedLevel(speed) {
+      var normalisedSpeed = Math.round(speed / (options.size / 2) * speedLevels);
+      return Math.round(normalisedSpeed * 100/speedLevels);
+    }
+
+    function onMove(angle,speed) {
+      console.log('joystick:move   angle:'+angle+' with speed '+speed);
+    }
+
+    function onStop() {
+
     }
 
     return {
@@ -72,7 +112,10 @@ angular.module("myApp.joystickService", [])
         setTimeout(function () {
           initJoystick(zone);
         },100)
-      }
+      },
+
+      stop:onStop,
+      move:onMove
     };
   })
 ;
