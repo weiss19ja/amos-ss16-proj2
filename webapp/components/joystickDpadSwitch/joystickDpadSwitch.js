@@ -10,9 +10,9 @@
  *
  */
 angular.module('myApp.joystickDpadSwitch', [])
-  .controller('JoystickDpadSwitchCtrl', ['$scope','$attrs','$timeout','joystickService', function($scope, $attrs,$timeout,joystickService) {
+  .controller('JoystickDpadSwitchCtrl', ['$scope','$attrs','$timeout','$mdMedia','joystickService', function($scope, $attrs,$timeout,$mdMedia,joystickService) {
 
-    var zoneId = 'zone_joystick_1';
+    var zone = 'zone_joystick_1';
     
     $scope.joystickState = joystickService.joystickState;
     
@@ -22,19 +22,28 @@ angular.module('myApp.joystickDpadSwitch', [])
         initJoystick();
       }
     };
+
+    $scope.$watch(function() { return $mdMedia('xs'); }, function(big) {
+      console.log("screen is xs");
+    });
+
+    $scope.$watch(function() { return $mdMedia('gt-xs'); }, function(big) {
+      console.log("screen is gt-xs");
+    });
     
     function initJoystick() {
       $timeout(function () {
-        joystickService.initJoystick($scope.joystickId);
+        joystickService.initJoystick(zone);
       },100);
     }
 
 
-    $scope.init = function() {
-      if($attrs.zoneId){
-        zoneId = $attrs.zoneId;
+    function init() {
+      if($attrs.zone){
+        zone = $attrs.zone;
       }
     };
+    init();
     
     
   }])
@@ -43,6 +52,6 @@ angular.module('myApp.joystickDpadSwitch', [])
     templateUrl: 'components/joystickDpadSwitch/joystickDpadSwitch.html',
     controller: 'JoystickDpadSwitchCtrl',
     bindings: {
-      zoneId: '<'
+      zone: '<'
     }
   });

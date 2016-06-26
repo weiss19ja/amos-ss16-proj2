@@ -11,7 +11,8 @@
     <md-content layout="row"  layout-align="center center" layout-padding class="driverCard">
         <parking-sensors></parking-sensors>
         <span flex></span>
-        <joystick ng-show="joystickState.isJoystickEnabled" ></joystick>
+        <div id="zone_joystick_1" class="joystick" ng-show="joystickState.isJoystickEnabled"></div>
+        <!--<joystick ng-show="joystickState.isJoystickEnabled" ></joystick>-->
         <dpad ng-hide="joystickState.isJoystickEnabled"></dpad>
     </md-content>
 </md-card>

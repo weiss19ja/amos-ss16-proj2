@@ -108,11 +108,11 @@ angular.module('myApp.joystick', [])
 */
     $scope.joystickId = 'zone_joystick_1';
     $scope.joystickState = joystickService.joystickState;
-    
+    /*
     $timeout(function () {
       joystickService.initJoystick($scope.joystickId);
     },100);
-
+*/
 
   }])
   .component('joystick', {
