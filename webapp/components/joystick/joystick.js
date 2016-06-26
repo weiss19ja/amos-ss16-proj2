@@ -109,15 +109,6 @@ angular.module('myApp.joystick', [])
     $scope.joystickId = 'zone_joystick_1';
     $scope.joystickState = joystickService.joystickState;
     
-    $scope.onChangeJoystickShow = function () {
-      console.log('onChangeJoystickShow');
-      if($scope.joystickState.isJoystickEnabled){
-        $timeout(function () {
-          joystickService.initJoystick($scope.joystickId);
-        },100);
-      }
-    };
-    
     $timeout(function () {
       joystickService.initJoystick($scope.joystickId);
     },100);

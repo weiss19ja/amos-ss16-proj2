@@ -41,7 +41,6 @@ angular.module("myApp.joystickService", [])
         manager.destroy();
         options.zone = document.getElementById(zone);
         manager = nipplejs.create(options);
-        console.log('joystick position :'+manager.get(0).position);
 
         manager.on('dir:up',function (evt,data) {
           console.log('joystick:up');

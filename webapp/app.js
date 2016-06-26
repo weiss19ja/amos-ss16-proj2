@@ -24,6 +24,7 @@ angular.module('myApp', [
   'myApp.dpad',
   'myApp.joystick',
   'myApp.joystickService',
+  'myApp.joystickDpadSwitch',
   'myApp.driverCard',
   'myApp.parkingSensors'
 ])

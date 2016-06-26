@@ -8,9 +8,7 @@
         <span hide-xs>Drive Rover</span>
         <span hide-gt-xs>Video Stream</span>
         <span flex></span>
-        <md-switch  hide-xs ng-controller="JoystickCtrl" ng-model="joystickState.isJoystickEnabled" ng-change="onChangeJoystickShow()" aria-label="use Joystick">
-            use Joystick
-        </md-switch>
+        <joystick-dpad-switch></joystick-dpad-switch>
     </md-toolbar>
     <md-content layout="row" layout-align="center center" style="padding-left: 10px; padding-right: 10px; overflow-y: hidden; overflow-x: hidden;" >
         <parking-sensors hide-xs></parking-sensors>
