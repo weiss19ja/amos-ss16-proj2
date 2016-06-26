@@ -106,7 +106,7 @@ angular.module('myApp.joystick', [])
     }
     
 */
-    $scope.joystickId = 'zone_joystick';
+    $scope.joystickId = 'zone_joystick_1';
     $scope.joystickState = joystickService.joystickState;
     
     $scope.onChangeJoystickShow = function () {

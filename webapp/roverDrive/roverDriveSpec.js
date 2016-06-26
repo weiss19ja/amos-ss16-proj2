@@ -8,6 +8,7 @@ describe('myApp.roverDrive module', function () {
 
   beforeEach(module('myApp.roverDrive'));
   beforeEach(module('myApp.roverService'));
+  beforeEach(module('myApp.joystickService'));
 
   describe('should define roverDriveController', function () {
     var scope, roverDriveCtrl, $location, roverService;

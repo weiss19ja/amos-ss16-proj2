@@ -36,7 +36,7 @@ describe('myApp.joystick module', function() {
 
   }));
 
-  it('should send drive forward request on up',function () {
+  xit('should send drive forward request on up',function () {
     scope = element.isolateScope() || element.scope();
     scope.up();
     var shouldMsg = '{"jsonrpc":"2.0","method":"driveForward","params":[500],"id":1}';
@@ -44,28 +44,28 @@ describe('myApp.joystick module', function() {
     expect(lastMsg).toBe(shouldMsg);
   });
 
-  it('should send drive backward request on down',function () {
+  xit('should send drive backward request on down',function () {
     scope.down();
     var shouldMsg = '{"jsonrpc":"2.0","method":"driveBackward","params":[500],"id":1}';
     var lastMsg = roverService.getLastSendMsg();
     expect(lastMsg).toBe(shouldMsg);
   });
 
-  it('should send turn left request on left',function () {
+  xit('should send turn left request on left',function () {
     scope.left();
     var shouldMsg = '{"jsonrpc":"2.0","method":"turnLeft","params":[300],"id":1}';
     var lastMsg = roverService.getLastSendMsg();
     expect(lastMsg).toBe(shouldMsg);
   });
 
-  it('should send turn right request on right',function () {
+  xit('should send turn right request on right',function () {
     scope.right();
     var shouldMsg = '{"jsonrpc":"2.0","method":"turnRight","params":[300],"id":1}';
     var lastMsg = roverService.getLastSendMsg();
     expect(lastMsg).toBe(shouldMsg);
   });
 
-  it('should send stop request on buttonClick',function () {
+  xit('should send stop request on buttonClick',function () {
     scope.stop();
     var shouldMsg = '{"jsonrpc":"2.0","method":"stop","params":[],"id":1}';
     var lastMsg = roverService.getLastSendMsg();

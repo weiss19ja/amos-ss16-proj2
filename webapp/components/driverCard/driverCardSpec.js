@@ -9,6 +9,9 @@ describe('myApp.driverCard module', function() {
 
   beforeEach(angular.mock.module('templates'));
   beforeEach(module('myApp.driverCard'));
+  beforeEach(module('myApp.joystickService'));
+  beforeEach(module('myApp.roverService'));
+  beforeEach(module('myApp.joystick'));
 
   /**
    * General setup
@@ -23,10 +26,10 @@ describe('myApp.driverCard module', function() {
     scope = element.isolateScope() || element.scope();
   }));
 
-  it('should exposes showJoystick', function() {
+  it('should exposes Joystick state', function() {
     expect(scope).toBeDefined();
     console.log(scope);
-    expect(scope.showJoystick).toBeDefined();
+    expect(scope.joystickState).toBeDefined();
   });
   
 });
