@@ -9,7 +9,7 @@
  * Service for joystick management.
  */
 angular.module("myApp.joystickService", [])
-  .factory("joystickService", function () {
+  .factory("joystickService", function (roverService) {
 
     var actualZone;
     var lastAngle = 0;
@@ -97,11 +97,11 @@ angular.module("myApp.joystickService", [])
     }
 
     function onMove(angle,speed) {
-      console.log('joystick:move   angle:'+angle+' with speed '+speed);
+      roverService.driveContinuously(angle,speed);
     }
 
     function onStop() {
-
+      roverService.stop();
     }
 
     return {
