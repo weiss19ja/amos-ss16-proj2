@@ -5,7 +5,6 @@
 package de.developgroup.mrf.server;
 
 import java.io.IOException;
-import java.net.InetSocketAddress;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -33,8 +32,8 @@ public class ClientManager extends Observable {
 	private static final Map<Integer, Session> sessions = Collections
 			.synchronizedMap(new HashMap<Integer, Session>());
 
-//	@Inject
-	static ClientInformationHandler clientInformationHandler = new ClientInformationHandler();
+	@Inject
+	static ClientInformationHandler clientInformationHandler;
 
 	private AtomicInteger lastClientId = new AtomicInteger(5000);
 

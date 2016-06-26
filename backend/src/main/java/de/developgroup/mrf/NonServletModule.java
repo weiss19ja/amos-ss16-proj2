@@ -5,8 +5,6 @@
 package de.developgroup.mrf;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.BindingAnnotation;
-import com.google.inject.Provides;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.pi4j.io.gpio.GpioController;
 
@@ -24,8 +22,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 
 
 public class NonServletModule extends AbstractModule {
@@ -99,6 +95,7 @@ public class NonServletModule extends AbstractModule {
 				LoggingCommunicationControllerImpl.class);
 		bind(NotificationHandler.class).to(NotificationHandlerImpl.class);
 		bind(SingleDriverHandler.class).to(SingleDriverHandlerImpl.class);
+		bind(ClientInformationHandler.class).to(ClientInformationHandlerImpl.class);
 
 		requestStaticInjection(RoverSocket.class);
 		requestStaticInjection(Main.class);

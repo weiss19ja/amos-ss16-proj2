@@ -4,8 +4,6 @@
  */
 package de.developgroup.mrf.server.handler;
 
-import de.developgroup.mrf.server.ClientManager;
-import junit.runner.Version;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,7 +21,7 @@ public class ClientInformationHandlerTest {
 
     @Before
     public void setUp() {
-        handler = new ClientInformationHandler();
+        handler = new ClientInformationHandlerImpl();
         System.out.println("Set up handler");
 //                mock(ClientManager.class)
 

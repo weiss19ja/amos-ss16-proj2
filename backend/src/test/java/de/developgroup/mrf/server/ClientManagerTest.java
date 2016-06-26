@@ -16,34 +16,26 @@ import static org.mockito.Mockito.when;
 
 import com.google.inject.Injector;
 import de.developgroup.mrf.server.handler.ClientInformationHandler;
-import de.developgroup.mrf.server.handler.DeveloperSettingsHandler;
+import de.developgroup.mrf.server.handler.ClientInformationHandlerImpl;
 import de.developgroup.mrf.server.rpc.JsonRpc2Request;
 import org.eclipse.jetty.websocket.api.RemoteEndpoint;
 import org.eclipse.jetty.websocket.api.Session;
-import org.junit.*;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import org.eclipse.jetty.websocket.api.RemoteEndpoint;
-import org.eclipse.jetty.websocket.api.Session;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.google.inject.Injector;
-
-import de.developgroup.mrf.server.rpc.JsonRpc2Request;
-
 public class ClientManagerTest {
 
     private Injector injector;
     private static ClientManager clientManager;
-    private static ClientInformationHandler clientInformationHandler = mock(ClientInformationHandler.class);
+    private static ClientInformationHandler clientInformationHandler = mock(ClientInformationHandlerImpl.class);
 
 	private static Session session;
 	private static RemoteEndpoint remoteEndpoint;
