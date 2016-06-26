@@ -11,7 +11,6 @@ describe('myApp.driverCard module', function() {
   beforeEach(module('myApp.driverCard'));
   beforeEach(module('myApp.joystickService'));
   beforeEach(module('myApp.roverService'));
-  beforeEach(module('myApp.joystick'));
 
   /**
    * General setup
