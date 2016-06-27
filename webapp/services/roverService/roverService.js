@@ -41,14 +41,14 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
     var systemUpTimeCallback;
     var connectedUsers = {
       list: []
-    }
-      var blockedUsers = {
-          list: []
-      }
-      var myIp = {
-          ipAddress: "",
-          isBlocked: false
-      };
+    };
+    var blockedUsers = {
+      list: []
+    };
+    var myIp = {
+      ipAddress: "",
+      isBlocked: false
+    };
     var clientJs = new ClientJS();
     var hasConnection = false;
 
@@ -313,9 +313,11 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
         console.log('driver mode is available');
       } else if (currentDriverId == -1) {
         // nobody is driver, when im already on driver page i must reaquire the driver mode
-        if ($location.path() == '/drive') {
+        if ($location.path().indexOf('/drive') > -1 ) {
           roverState.isDriverAvailable = false;
-          send('enterDriverMode', [clientId]);
+          if(!myIp.isBlocked){
+            send('enterDriverMode', [clientId]);
+          }
         }
       } else {
         // somebody else is driver at the moment
@@ -453,6 +455,14 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
        */
       turnRight: function () {
         send("turnRight", [turnRate]);
+      },
+      /**
+       * Continuously driving 
+       * @param angle in degree
+       * @param speed [0..100]
+       */
+      driveContinuously: function (angle,speed) {
+        send('driveContinuously',[angle,speed]);
       },
       /**
        * Move camera up

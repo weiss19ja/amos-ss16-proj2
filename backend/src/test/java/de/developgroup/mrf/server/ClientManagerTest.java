@@ -16,34 +16,26 @@ import static org.mockito.Mockito.when;
 
 import com.google.inject.Injector;
 import de.developgroup.mrf.server.handler.ClientInformationHandler;
-import de.developgroup.mrf.server.handler.DeveloperSettingsHandler;
+import de.developgroup.mrf.server.handler.ClientInformationHandlerImpl;
 import de.developgroup.mrf.server.rpc.JsonRpc2Request;
 import org.eclipse.jetty.websocket.api.RemoteEndpoint;
 import org.eclipse.jetty.websocket.api.Session;
-import org.junit.*;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import org.eclipse.jetty.websocket.api.RemoteEndpoint;
-import org.eclipse.jetty.websocket.api.Session;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.google.inject.Injector;
-
-import de.developgroup.mrf.server.rpc.JsonRpc2Request;
-
 public class ClientManagerTest {
 
     private Injector injector;
-    private static ClientManager clientManager;
-    private static ClientInformationHandler clientInformationHandler = mock(ClientInformationHandler.class);
+    private static ClientManagerImpl clientManager;
+    private static ClientInformationHandler clientInformationHandler = mock(ClientInformationHandlerImpl.class);
 
 	private static Session session;
 	private static RemoteEndpoint remoteEndpoint;
@@ -59,8 +51,8 @@ public class ClientManagerTest {
 	@Before
 	public void setUp() throws Exception {
 		// injector = Guice.createInjector();
-		// clientManager = injector.getInstance(ClientManager.class);
-		clientManager = new ClientManager();
+		// clientManager = injector.getInstance(ClientManagerImpl.class);
+		clientManager = new ClientManagerImpl(clientInformationHandler);
 
 		// mocking session
 		session = mock(Session.class);
@@ -85,6 +77,12 @@ public class ClientManagerTest {
 	@Test
 	public void testNoClientConnectedAtBegin() {
 		assertTrue(clientManager.isNoClientConnected());
+	}
+
+	@Test
+	public void testAddSessions(){
+		clientManager.addClient(session);
+		assertEquals(1,clientManager.getSessions().size());
 	}
 
 	@Test
@@ -167,31 +165,58 @@ public class ClientManagerTest {
 		assertTrue(clientManager.isClientConnected(5000));
 	}
 
-//    @Test
-//    public void testSetClientInformation() {
-//        clientManager.addClient(session);
-//
-//        clientManager.setClientInformation(5000, "1234", "Firefox", "Windows");
-//
-//        Map<Integer, String> clientInfo = clientManager.getClientInformationList();
-//        assertTrue("clientInfo should cointain exactly one element after inserting one", clientInfo.size() == 1);
-//
-//        String additionalInformation = clientInfo.get(5000);
-//        assertNotNull("clientInfo should contain addedClient ",additionalInformation);
-//    }
-//
-//    @Test
-//    public void testSetClientInformationContent() {
-//        clientManager.addClient(session);
-//
-//        clientManager.setClientInformation(5000, "1234", "Firefox", "Windows");
-//
-//        Map<Integer, String> clientInfo = clientManager.getClientInformationList();
-//
-//        String additionalInformation = clientInfo.get(5000);
-//
-//        assertTrue("additional information should contain browser",additionalInformation.contains("Firefox"));
-//        assertTrue("additional information should contain operating system",additionalInformation.contains("Windows"));
-//    }
+    @Test
+    public void testGetUnblockedConnections() {
 
+        clientManager.getUnblockedConnections();
+		verify(clientInformationHandler).getUnblockedConnections();
+    }
+
+	@Test
+	public void testGetBlockedConnections() {
+
+		clientManager.getBlockedConnections();
+		verify(clientInformationHandler).getBlockedConnections();
+	}
+
+    @Test
+    public void testSetClientInformationContent() {
+        clientManager.setClientInformation(5000, "Firefox", "Windows");
+
+        verify(clientInformationHandler).addClientInformation(5000, "Firefox", "Windows");
+    }
+
+	@Test
+	public void testBlockIp(){
+		String ipAddress = "123.456.789";
+		clientManager.blockIp(ipAddress);
+		verify(clientInformationHandler).blockIp(ipAddress);
+	}
+
+	@Test
+	public void testUnblockIp(){
+		String ipAddress = "123.456.789";
+		clientManager.unblockIp(ipAddress);
+		verify(clientInformationHandler).unblockIp(ipAddress);
+	}
+
+	@Test
+	public void testClientIsBlocked(){
+		String ipAddress = "123.456.789";
+		clientManager.clientIsBlocked(ipAddress);
+		verify(clientInformationHandler).isBlocked(ipAddress);
+	}
+
+	@Test
+	public void testClientIdIsBlocked(){
+		int clientId = 1337;
+		clientManager.clientIdIsBlocked(clientId);
+		verify(clientInformationHandler).isBlocked(clientId);
+	}
+
+	@Test
+	public void testReleaseDriverIfBlocked(){
+		clientManager.releaseDriverIfBlocked();
+		verify(clientInformationHandler).releaseDriverIfBlocked();
+	}
 }

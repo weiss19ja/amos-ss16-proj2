@@ -44,4 +44,5 @@ public interface SingleDriverHandler {
 	 */
 	public int getCurrentDriverId();
 
+	void sendClientNotification();
 }

@@ -6,12 +6,13 @@ package de.developgroup.mrf.server.socket;
 
 import java.io.IOException;
 
+import de.developgroup.mrf.server.ClientManager;
+import de.developgroup.mrf.server.ClientManagerImpl;
 import org.eclipse.jetty.websocket.api.Session;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.developgroup.mrf.server.ClientManager;
 import de.developgroup.mrf.server.handler.DeveloperSettingsHandler;
 import de.developgroup.mrf.server.handler.NotificationHandler;
 import de.developgroup.mrf.server.handler.RoverHandler;
@@ -23,7 +24,7 @@ public class RoverSocketTest {
 
 	// using Mock with call real methods in order to be able to mock the remoteIpIsBlocked method
 	RoverSocket roverSocket = mock(RoverSocket.class, CALLS_REAL_METHODS);
-	ClientManager clientManager = mock(ClientManager.class);
+	ClientManager clientManager = mock(ClientManagerImpl.class);
 	DeveloperSettingsHandler developerSettingsHandler = mock(DeveloperSettingsHandler.class);
 	SingleDriverHandler singleDriverHandler = mock(SingleDriverHandler.class);
 	RoverHandler roverHandler = mock(RoverHandler.class);

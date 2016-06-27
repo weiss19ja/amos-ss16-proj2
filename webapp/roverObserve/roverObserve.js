@@ -6,7 +6,10 @@
 
 angular.module('myApp.roverObserve', ['ngMaterial'])
     .controller('RoverObserveCtrl', ['roverService', '$scope', '$location', '$mdDialog', '$mdMedia', function (roverService, $scope, $location, $mdDialog, $mdMedia) {
-      $scope.mjpegStreamURL = 'http://' + $location.host() + ':9000/stream/video.mjpeg';
+      $scope.mjpegStreamURL = 'assets/images/videocam_off_800x600.png';
+      setTimeout(function () {
+        $scope.mjpegStreamURL = 'http://' + $location.host() + ':9000/stream/video.mjpeg';
+      }, 200);
       $scope.snapshotEnabled = true;
 
       $scope.snapshotClicked = function (clickEvent) {

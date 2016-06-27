@@ -2,14 +2,12 @@
 <!-- This file is part of Mobile Robot Framework. -->
 <!-- Mobile Robot Framework is free software under the terms of GNU AFFERO GENERAL PUBLIC LICENSE. -->
 <!-- -->
-<md-card>
+<md-card ng-show="roverState.isDriverAvailable">
     <md-toolbar class="md-toolbar-tools md-hue-2">
         <span hide-xs>Drive Rover</span>
         <span hide-gt-xs>Video Stream</span>
         <span flex></span>
-        <md-switch hide-xs ng-model="showJoystick" aria-label="use Joystick">
-            use Joystick
-        </md-switch>
+        <joystick-dpad-switch hide-xs zone="zone_joystick_2"></joystick-dpad-switch>
     </md-toolbar>
     <md-content layout="row" layout-align="center center" style="padding-left: 10px; padding-right: 10px; overflow-y: hidden; overflow-x: hidden;" >
         <parking-sensors hide-xs></parking-sensors>
@@ -18,10 +16,9 @@
                  class="md-card-image" alt="Video-Stream" style="width: 90%">
         </div>
         <div hide-xs >
-            <joystick ng-show="showJoystick"></joystick>
-            <dpad ng-hide="showJoystick"></dpad>
+            <div id="zone_joystick_2" class="joystick" ng-show="joystickState.isJoystickEnabled"></div>
+            <dpad ng-hide="joystickState.isJoystickEnabled"></dpad>
         </div>
-
     </md-content>
 </md-card>
 <drivercard hide-gt-xs ng-show="roverState.isDriverAvailable"></drivercard>
