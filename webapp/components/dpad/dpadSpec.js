@@ -53,35 +53,35 @@ describe('myApp.dpad module', function() {
 
         it('should send drive forward request on up',function () {
             scope.up();
-            var shouldMsg = '{"jsonrpc":"2.0","method":"driveForward","params":[500],"id":1}';
+            var shouldMsg = '{"jsonrpc":"2.0","method":"driveForward","params":[500]}';
             var lastMsg = roverService.getLastSendMsg();
             expect(lastMsg).toBe(shouldMsg);
         });
 
         it('should send drive backward request on down',function () {
             scope.down();
-            var shouldMsg = '{"jsonrpc":"2.0","method":"driveBackward","params":[500],"id":1}';
+            var shouldMsg = '{"jsonrpc":"2.0","method":"driveBackward","params":[500]}';
             var lastMsg = roverService.getLastSendMsg();
             expect(lastMsg).toBe(shouldMsg);
         });
 
         it('should send turn left request on left',function () {
             scope.left();
-            var shouldMsg = '{"jsonrpc":"2.0","method":"turnLeft","params":[300],"id":1}';
+            var shouldMsg = '{"jsonrpc":"2.0","method":"turnLeft","params":[300]}';
             var lastMsg = roverService.getLastSendMsg();
             expect(lastMsg).toBe(shouldMsg);
         });
 
         it('should send turn right request on right',function () {
             scope.right();
-            var shouldMsg = '{"jsonrpc":"2.0","method":"turnRight","params":[300],"id":1}';
+            var shouldMsg = '{"jsonrpc":"2.0","method":"turnRight","params":[300]}';
             var lastMsg = roverService.getLastSendMsg();
             expect(lastMsg).toBe(shouldMsg);
         });
 
         it('should send stop request on buttonClick',function () {
             scope.buttonClick();
-            var shouldMsg = '{"jsonrpc":"2.0","method":"stop","params":[],"id":1}';
+            var shouldMsg = '{"jsonrpc":"2.0","method":"stop","params":[]}';
             var lastMsg = roverService.getLastSendMsg();
             expect(lastMsg).toBe(shouldMsg);
         });

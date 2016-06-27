@@ -105,16 +105,36 @@ angular.module("myApp.joystickService", [])
     }
 
     return {
-
+      /**
+       * JoystickState object contains isJoystickEnabled var
+       */
       joystickState : joystickState,
-
+      
+      /**
+       * Initialize joystick and draw it to the zone.
+       * By initialize the joystick the previous joystick will be destroyed, 
+       * so only one joystick.
+       * 
+       * @param zone div element to draw the joystick to it.
+       */
       initJoystick:function (zone) {
         setTimeout(function () {
           initJoystick(zone);
         },100)
       },
 
+      /**
+       * Stop method for joystick.
+       * Will be called when joystick trigger was released
+       */
       stop:onStop,
+
+      /**
+       * Will be called if joystick trigger moves.
+       * 
+       * @param angle destination in degree
+       * @param speed value between 0 (stop) and 100 (max speed)
+       */
       move:onMove
     };
   })

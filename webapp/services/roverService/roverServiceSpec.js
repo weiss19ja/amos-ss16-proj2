@@ -133,35 +133,35 @@ describe('myApp.roverService service', function () {
       roverService.driveForward();
       expect(roverService.responses.length).toBe(1);
       var msg = roverService.getLastSendMsg();
-      expect(msg).toBe('{"jsonrpc":"2.0","method":"driveForward","params":[' + desiredSpeed + '],"id":1}');
+      expect(msg).toBe('{"jsonrpc":"2.0","method":"driveForward","params":[' + desiredSpeed + ']}');
     });
 
     it('should send drive backward json-rpc', function () {
       roverService.driveBackward();
       expect(roverService.responses.length).toBe(1);
       var msg = roverService.getLastSendMsg();
-      expect(msg).toBe('{"jsonrpc":"2.0","method":"driveBackward","params":[' + desiredSpeed + '],"id":1}');
+      expect(msg).toBe('{"jsonrpc":"2.0","method":"driveBackward","params":[' + desiredSpeed + ']}');
     });
 
     it('should send turn left json-rpc', function () {
       roverService.turnLeft();
       expect(roverService.responses.length).toBe(1);
       var msg = roverService.getLastSendMsg();
-      expect(msg).toBe('{"jsonrpc":"2.0","method":"turnLeft","params":[' + turnRate + '],"id":1}');
+      expect(msg).toBe('{"jsonrpc":"2.0","method":"turnLeft","params":[' + turnRate + ']}');
     });
 
     it('should send turn right json-rpc', function () {
       roverService.turnRight();
       expect(roverService.responses.length).toBe(1);
       var msg = roverService.getLastSendMsg();
-      expect(msg).toBe('{"jsonrpc":"2.0","method":"turnRight","params":[' + turnRate + '],"id":1}');
+      expect(msg).toBe('{"jsonrpc":"2.0","method":"turnRight","params":[' + turnRate + ']}');
     });
 
     it('should send stop json-rpc', function () {
       roverService.stop();
       expect(roverService.responses.length).toBe(1);
       var msg = roverService.getLastSendMsg();
-      expect(msg).toBe('{"jsonrpc":"2.0","method":"stop","params":[],"id":1}');
+      expect(msg).toBe('{"jsonrpc":"2.0","method":"stop","params":[]}');
     });
 
   });
