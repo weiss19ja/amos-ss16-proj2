@@ -17,6 +17,7 @@ import org.mockito.Mockito;
 
 import java.io.IOException;
 
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 public class CollisionRunnableTest {
@@ -41,10 +42,22 @@ public class CollisionRunnableTest {
     public void testMaybeEmergencyStop() throws IOException {
         RoverCollisionInformation info = new RoverCollisionInformation();
         info.collisionBackRight = CollisionState.Close;
+        info.taintedReadings = false;
 
         runnable.maybeEmergencyStop(info);
 
         verify(roverHandler).stop();
+    }
+
+    @Test
+    public void testMaybeEmergencyStopDoesNotStopInSunlight() throws IOException {
+        RoverCollisionInformation info = new RoverCollisionInformation();
+        info.collisionBackRight = CollisionState.Close;
+        info.taintedReadings = true;
+
+        runnable.maybeEmergencyStop(info);
+
+        verify(roverHandler, never()).stop();
     }
 
     @Test

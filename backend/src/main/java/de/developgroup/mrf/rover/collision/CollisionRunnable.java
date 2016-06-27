@@ -115,10 +115,12 @@ public class CollisionRunnable implements Runnable {
 
     /**
      * Perform rover emergency stop maneuver if an obstacle is too close.
+     *
+     * Attention: Does not stop if sensor readings are tainted.
      * @param info current rover collision information
      */
     public void maybeEmergencyStop(RoverCollisionInformation info) {
-        if (info.hasDangerousCollision()) {
+        if (!info.taintedReadings && info.hasDangerousCollision()) {
             try {
                 roverHandler.stop();
             } catch (IOException e) {
