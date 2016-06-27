@@ -8,6 +8,8 @@
 /**
  * Toggle switch to choose between joystick and dpad control.
  *
+ * Param zone bind the toggle switch to a specific joystick.
+ *
  */
 angular.module('myApp.joystickDpadSwitch', [])
   .controller('JoystickDpadSwitchCtrl', ['$scope','$attrs','joystickService', function($scope, $attrs,joystickService) {
@@ -26,7 +28,7 @@ angular.module('myApp.joystickDpadSwitch', [])
       if($attrs.zone){
         zone = $attrs.zone;
       }
-    };
+    }
     init();
     
     
