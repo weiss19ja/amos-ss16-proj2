@@ -2,7 +2,6 @@ package de.developgroup.mrf.server;
 
 import de.developgroup.mrf.server.handler.ClientInformation;
 import de.developgroup.mrf.server.rpc.JsonRpc2Request;
-import javafx.beans.Observable;
 import org.eclipse.jetty.websocket.api.Session;
 
 import java.util.List;
