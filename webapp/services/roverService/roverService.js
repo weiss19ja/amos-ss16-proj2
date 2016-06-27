@@ -52,6 +52,17 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
     var clientJs = new ClientJS();
     var hasConnection = false;
 
+    if($location.port() == 8000){
+      developerMode();
+    }
+
+    /**
+     * Developer mode function was called if webapp runs on the developer port 8000.
+     */
+    function developerMode() {
+      console.log('developer mode enabled');
+      roverState.isDriverAvailable = true;
+    }
 
     /**
      * Get URL for websocket connection depending on used protocol (http or https)
