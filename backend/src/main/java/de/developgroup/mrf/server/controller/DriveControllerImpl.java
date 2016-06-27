@@ -72,8 +72,8 @@ public class DriveControllerImpl extends AbstractDriveController {
 
     @Override
     public void updateMotors() throws IOException {
-        final int leftSpeed = clamp(desiredSpeed - desiredTurnrate, leftMotor.SPEED_MAX_BACKWARD, leftMotor.SPEED_MAX_FORWARD);
-        final int rightSpeed = clamp(desiredSpeed + desiredTurnrate, leftMotor.SPEED_MAX_BACKWARD, leftMotor.SPEED_MAX_FORWARD);
+        final int leftSpeed = clamp(desiredSpeed - desiredTurnrate, MotorController.SPEED_MAX_BACKWARD, MotorController.SPEED_MAX_FORWARD);
+        final int rightSpeed = clamp(desiredSpeed + desiredTurnrate, MotorController.SPEED_MAX_BACKWARD, MotorController.SPEED_MAX_FORWARD);
 
         leftMotor.setSpeed(leftSpeed);
         rightMotor.setSpeed(rightSpeed);
@@ -81,6 +81,7 @@ public class DriveControllerImpl extends AbstractDriveController {
 
     @Override
     public void applyMotorSettings(MotorSetting settings) throws IOException {
+        LOGGER.debug("left: {} right: {}", settings.leftMotorPercentage, settings.rightMotorPercentage);
         leftMotor.setSpeedPercentage(settings.leftMotorPercentage);
         rightMotor.setSpeedPercentage(settings.rightMotorPercentage);
     }

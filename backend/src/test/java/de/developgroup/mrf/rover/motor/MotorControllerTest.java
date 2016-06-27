@@ -98,7 +98,7 @@ public class MotorControllerTest {
 
 		assertThat(directionPinMock.getState(), is(PinState.HIGH));
 		assertThat(pwmGenDeviceMock.getOnTimerValue(CHANNEL), is(0));
-		assertThat(pwmGenDeviceMock.getOffTimerValue(CHANNEL), is(3276));
+		assertThat(pwmGenDeviceMock.getOffTimerValue(CHANNEL), is(3272));
 	}
 
 	@Test
@@ -107,6 +107,6 @@ public class MotorControllerTest {
 
 		assertThat(directionPinMock.getState(), is(PinState.LOW));
 		assertThat(pwmGenDeviceMock.getOnTimerValue(CHANNEL), is(0));
-		assertThat(pwmGenDeviceMock.getOffTimerValue(CHANNEL), is(3276));
+		assertThat(pwmGenDeviceMock.getOffTimerValue(CHANNEL), is(3272));
 	}
 }

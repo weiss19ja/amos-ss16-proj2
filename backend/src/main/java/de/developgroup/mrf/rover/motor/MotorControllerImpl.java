@@ -68,7 +68,10 @@ public class MotorControllerImpl implements MotorController {
 
 	@Override
 	public void setSpeedPercentage(double percentage) throws IOException {
-		setSpeed((int)(percentage * SPEED_MAX_FORWARD));
+		// fix off by one to accumulate for getCycleCount()'s value range from 0 to getCycleCount()-1
+		int speed = (int)(percentage * (double)(SPEED_MAX_FORWARD-1));
+		LOGGER.debug("set speed: {}", speed);
+		setSpeed(speed);
 	}
 
 	@Override
