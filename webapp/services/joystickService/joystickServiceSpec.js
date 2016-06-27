@@ -18,33 +18,33 @@ describe('myApp.joystickService service', function () {
   it('should send stop rpc request', function () {
     joystickService.stop();
     var msg = roverService.getLastSendMsg();
-    expect(msg).toBe('{"jsonrpc":"2.0","method":"stop","params":[],"id":1}');
+    expect(msg).toBe('{"jsonrpc":"2.0","method":"stop","params":[]}');
   });
 
   it('should send move rpc request', function () {
     joystickService.move(0,0);
     var msg = roverService.getLastSendMsg();
-    expect(msg).toBe('{"jsonrpc":"2.0","method":"driveContinuously","params":[0,0],"id":1}');
+    expect(msg).toBe('{"jsonrpc":"2.0","method":"driveContinuously","params":[0,0]}');
 
     joystickService.move(0,100);
     var msg = roverService.getLastSendMsg();
-    expect(msg).toBe('{"jsonrpc":"2.0","method":"driveContinuously","params":[0,100],"id":2}');
+    expect(msg).toBe('{"jsonrpc":"2.0","method":"driveContinuously","params":[0,100]}');
 
     joystickService.move(90,100);
     var msg = roverService.getLastSendMsg();
-    expect(msg).toBe('{"jsonrpc":"2.0","method":"driveContinuously","params":[90,100],"id":3}');
+    expect(msg).toBe('{"jsonrpc":"2.0","method":"driveContinuously","params":[90,100]}');
 
     joystickService.move(90,50);
     var msg = roverService.getLastSendMsg();
-    expect(msg).toBe('{"jsonrpc":"2.0","method":"driveContinuously","params":[90,50],"id":4}');
+    expect(msg).toBe('{"jsonrpc":"2.0","method":"driveContinuously","params":[90,50]}');
 
     joystickService.move(180,100);
     var msg = roverService.getLastSendMsg();
-    expect(msg).toBe('{"jsonrpc":"2.0","method":"driveContinuously","params":[180,100],"id":5}');
+    expect(msg).toBe('{"jsonrpc":"2.0","method":"driveContinuously","params":[180,100]}');
 
     joystickService.move(242,12);
     var msg = roverService.getLastSendMsg();
-    expect(msg).toBe('{"jsonrpc":"2.0","method":"driveContinuously","params":[242,12],"id":6}');
+    expect(msg).toBe('{"jsonrpc":"2.0","method":"driveContinuously","params":[242,12]}');
   });
 
 });

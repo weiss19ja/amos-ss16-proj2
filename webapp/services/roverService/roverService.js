@@ -86,7 +86,13 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
       return url;
     }
 
-    function generateMessage(method, params) {
+    /**
+     * Generate JSON-RPC 2.0 Request object
+     * @param method
+     * @param params
+     * @returns JSON-RPC 2.0 Request object
+     */
+    function generateRpcRequest(method, params) {
       return {
         "jsonrpc": "2.0",
         "method": method,
@@ -95,9 +101,42 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
       };
     }
 
+    /**
+     * Generate JSON-RPC 2.0 Notification object
+     * @param method
+     * @param params
+     * @returns JSON-RPC 2.0 Notification object
+     */
+    function generateRpcNotification(method, params) {
+      return {
+        "jsonrpc": "2.0",
+        "method": method,
+        "params": params
+      };
+    }
+
+    /**
+     * Send a JSON-RPC 2.0 Request.
+     * Backend responses to each request with a JSON-RPC 2.0 Response/Error.
+     * @param method
+     * @param params as array
+     */
     function send(method, params) {
-      console.log("send JRPC");
-      var msg = JSON.stringify(generateMessage(method, params));
+      var msg = JSON.stringify(generateRpcRequest(method, params));
+      console.log(msg);
+      ws.send(msg);
+      lastSendMsg = msg;
+    }
+
+    /**
+     * Send a JSON-RPC 2.0 Notification.
+     * A RPC-Notification is a request without a id.
+     * The Server MUST NOT reply to a Notification.
+     * @param method
+     * @param params as array
+     */
+    function sendWithoutResponse(method, params) {
+      var msg = JSON.stringify(generateRpcNotification(method, params));
       console.log(msg);
       ws.send(msg);
       lastSendMsg = msg;
@@ -441,31 +480,31 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
        * Stop rover movements
        */
       stop: function () {
-        send("stop", []);
+        sendWithoutResponse("stop", []);
       },
       /**
        * Drive rover forward
        */
       driveForward: function () {
-        send("driveForward", [desiredSpeed]);
+        sendWithoutResponse("driveForward", [desiredSpeed]);
       },
       /**
        * Drive rover backward
        */
       driveBackward: function () {
-        send("driveBackward", [desiredSpeed]);
+        sendWithoutResponse("driveBackward", [desiredSpeed]);
       },
       /**
        * Turn rover left
        */
       turnLeft: function () {
-        send("turnLeft", [turnRate]);
+        sendWithoutResponse("turnLeft", [turnRate]);
       },
       /**
        * Turn rover right
        */
       turnRight: function () {
-        send("turnRight", [turnRate]);
+        sendWithoutResponse("turnRight", [turnRate]);
       },
       /**
        * Continuously driving 
@@ -473,7 +512,7 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
        * @param speed [0..100]
        */
       driveContinuously: function (angle,speed) {
-        send('driveContinuously',[angle,speed]);
+        sendWithoutResponse('driveContinuously',[angle,speed]);
       },
       /**
        * Move camera up
