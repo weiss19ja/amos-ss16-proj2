@@ -52,6 +52,17 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
     var clientJs = new ClientJS();
     var hasConnection = false;
 
+    if($location.port() == 8000){
+      developerMode();
+    }
+
+    /**
+     * Developer mode function was called if webapp runs on the developer port 8000.
+     */
+    function developerMode() {
+      console.log('developer mode enabled');
+      roverState.isDriverAvailable = true;
+    }
 
     /**
      * Get URL for websocket connection depending on used protocol (http or https)
@@ -313,9 +324,11 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
         console.log('driver mode is available');
       } else if (currentDriverId == -1) {
         // nobody is driver, when im already on driver page i must reaquire the driver mode
-        if ($location.path().indexOf('/drive') > -1) {
+        if ($location.path().indexOf('/drive') > -1 ) {
           roverState.isDriverAvailable = false;
-          send('enterDriverMode', [clientId]);
+          if(!myIp.isBlocked){
+            send('enterDriverMode', [clientId]);
+          }
         }
       } else {
         // somebody else is driver at the moment

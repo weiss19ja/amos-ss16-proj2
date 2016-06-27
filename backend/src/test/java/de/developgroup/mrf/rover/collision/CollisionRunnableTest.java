@@ -6,6 +6,7 @@ package de.developgroup.mrf.rover.collision;
 
 import com.pi4j.io.gpio.GpioController;
 import de.developgroup.mrf.server.ClientManager;
+import de.developgroup.mrf.server.ClientManagerImpl;
 import de.developgroup.mrf.server.handler.RoverHandler;
 import de.developgroup.mrf.server.rpc.JsonRpc2Request;
 import org.junit.Assert;
@@ -30,7 +31,7 @@ public class CollisionRunnableTest {
     public void setUp() {
         irSensorFactory = Mockito.mock(IRSensorFactory.class);
         gpio = Mockito.mock(GpioController.class);
-        clientManager = Mockito.mock(ClientManager.class);
+        clientManager = Mockito.mock(ClientManagerImpl.class);
         roverHandler = Mockito.mock(RoverHandler.class);
 
         runnable = new CollisionRunnable(irSensorFactory, gpio, clientManager, roverHandler);

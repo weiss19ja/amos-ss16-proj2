@@ -8,11 +8,12 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import de.developgroup.mrf.server.ClientManager;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.developgroup.mrf.server.ClientManager;
+import de.developgroup.mrf.server.ClientManagerImpl;
 
 public class SingleDriverHandlerImplTest {
 
@@ -25,7 +26,7 @@ public class SingleDriverHandlerImplTest {
 
 	@Before
 	public void setUp() {
-		clientManager = mock(ClientManager.class);
+		clientManager = mock(ClientManagerImpl.class);
 		roverHandler = mock(RoverHandler.class);
 
 		singleDriverHandler = new SingleDriverHandlerImpl(clientManager,
