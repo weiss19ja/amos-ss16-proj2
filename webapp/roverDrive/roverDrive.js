@@ -13,7 +13,9 @@ angular.module('myApp.roverDrive', [])
         routeView();
         reinitJoystickOnImageLoad();
 
-        // do not enter driver mode when accessing the amazing stop view
+        /**
+         * do not enter driver mode when accessing the amazing stop view
+         */
         if (!urlContainsStr($location.path(), 'stop')) {
             console.log('Enter Driver Mode');
             roverService.enterDriverMode();
