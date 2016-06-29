@@ -42,12 +42,12 @@ angular.module('myApp.roverDrive', [])
         });
 
         /**
-         * route to /main when view should only be visible to smartphone (not greater than md)
+         * route to /observe when view should only be visible to smartphone (not greater than md)
          */
         function routeView() {
             if (urlContainsStr($location.path(), 'driveonly') || urlContainsStr($location.path(), 'stop')) {
                 if ($mdMedia('gt-md')) {
-                    $location.path('/main');
+                    $location.path('/observe');
                 }
             }
         };

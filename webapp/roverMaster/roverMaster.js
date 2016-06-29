@@ -48,11 +48,11 @@ angular.module('myApp.roverMaster', [])
     });
 
     /**
-     * If the device is larger than medium, redirect the user to the main page.
+     * If the device is larger than medium, redirect the user to the observe page.
      */
     function redirectWrongDeviceSize() {
       if(!$mdMedia('gt-md')) {
-        $location.path('/main');
+        $location.path('/observe');
       }
     }
 
