@@ -17,7 +17,6 @@ angular.module('myApp', [
   'myApp.roverObserve',
   'myApp.roverService',
   'myApp.logs',
-  'myApp.settings',
   'myApp.info',
   'myApp.developer',
   'myApp.version',
@@ -65,9 +64,6 @@ angular.module('myApp', [
     }).when('/observe/cameraController', {
       templateUrl: 'roverObserve/roverCameraController.html',
       controller: 'RoverObserveCtrl'
-    }).when('/settings', {
-      templateUrl: 'settings/settings.html',
-      controller: 'SettingsCtrl'
     }).when('/logs', {
       templateUrl: 'logs/logs.html',
       controller: 'LogsCtrl'

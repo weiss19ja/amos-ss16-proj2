@@ -72,7 +72,7 @@ describe ('Camera and Drive view in portrait mode', function() {
 
 
 describe ('Camera and Drive view in landscape / laptop mode', function() {
-  
+
   var joystickSwitchInLandscapeMode;
   var dpadInLandscapeMode;
   var joystickInLandscapeMode;
@@ -192,19 +192,6 @@ describe ('Camera Controller view', function() {
 
   it('should display the camera controller view headline', function() {
     expect(element(by.tagName('h3')).getText()).toBe('Camera Controller Mode');
-  });
-
-});
-
-describe ('settings view', function() {
-
-  beforeEach(function() {
-    browser.get('#/settings');
-  });
-
-  it('should display the settings view headline', function() {
-    // there are two h2 headers in ng-scope --> the second one is the settings view text
-    expect(element(by.css('.ng-scope')).all(by.tagName('h2')).get(1).getText()).toBe('Settings View');
   });
 
 });
@@ -338,13 +325,6 @@ describe ('sidebar navigation for smartphones', function() {
     expect(browser.getLocationAbsUrl()).toMatch("/observe");
   });
 
-  it('should be redirect to /info when "About" is clicked', function() {
-    expect (sidebarItems.get(10).getText()).toBe('About');
-    sidebarItems.get(10).click();
-    browser.refresh();
-    expect(browser.getLocationAbsUrl()).toMatch("/info");
-  });
-
   it('should check if view "Developer Options" exists', function() {
     expect(sidebarItems.get(10).isDisplayed()).toBe(true);
   });
@@ -353,7 +333,7 @@ describe ('sidebar navigation for smartphones', function() {
     expect(sidebarItems.get(9).isDisplayed()).toBe(true);
     sidebarItems.get(9).click();
     browser.refresh();
-    expect(browser.getLocationAbsUrl()).toMatch("/about");
+    expect(browser.getLocationAbsUrl()).toMatch("/info");
   });
 
 });
@@ -424,7 +404,7 @@ describe ('sidebar navigation for laptops', function() {
     expect(sidebarItems.get(9).isDisplayed()).toBe(true);
     sidebarItems.get(9).click();
     browser.refresh();
-    expect(browser.getLocationAbsUrl()).toMatch("/about");
+    expect(browser.getLocationAbsUrl()).toMatch("/info");
   });
 
   it('should display "Camera Control" in sidebar', function() {
