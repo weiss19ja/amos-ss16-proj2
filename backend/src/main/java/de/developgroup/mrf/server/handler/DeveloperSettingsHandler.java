@@ -6,9 +6,9 @@ package de.developgroup.mrf.server.handler;
 
 import com.google.inject.Inject;
 import de.developgroup.mrf.server.ClientManager;
+import de.developgroup.mrf.server.ClientManagerImpl;
 import de.developgroup.mrf.server.rpc.JsonRpc2Request;
 import de.developgroup.mrf.server.rpc.msgdata.RoverStatusVO;
-import org.eclipse.jetty.websocket.api.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -114,7 +114,7 @@ public class DeveloperSettingsHandler implements Observer {
 
         JsonRpc2Request jsonRpc2Request = new JsonRpc2Request("updateConnectedUsers", params);
 
-        LOGGER.debug("informing clients about connected users: " + connectedUsers);
+//        LOGGER.debug("informing clients about connected users: " + connectedUsers);
         clientManager.notifyAllClients(jsonRpc2Request);
     }
 
@@ -189,16 +189,18 @@ public class DeveloperSettingsHandler implements Observer {
 	}
 
 	/**
-	 * This method gets called if information in the Client Manager change.
+	 * This method gets called if information in the Client Manager changes.
 	 * A list of connected users containing additional information is generated and send out to the clients
 	 * to be displayed in the developer view
+	 * Also, every client gets informed about his current blocking state so that the blocking screen can be
+	 * displayed to the user
 	 *
 	 * @param o   Observable, in this Case the clientManager
 	 * @param arg not used
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
-		LOGGER.debug("Updating connected users list");
+//		LOGGER.debug("Updating connected users list");
 
 		List<ClientInformation> blockedConnections = clientManager.getBlockedConnections();
 		ClientInformation[] blockedUsers = (ClientInformation[]) blockedConnections.toArray(new ClientInformation[blockedConnections.size()]);
@@ -209,30 +211,7 @@ public class DeveloperSettingsHandler implements Observer {
 
 		notifyClientsAboutConnectedUsers(unblockedUsers, blockedUsers);
 		notifyUsersAboutTheirBlockingState(unblockedUsers, blockedUsers);
-	}
 
-	/**
-	 * @param sessions
-	 * @return
-	 */
-	private Map<String, Integer> getNumberOfConnectionsPerIp(Map<Integer, Session> sessions) {
-
-		// Map containing ip and corresponding number of connecitons
-		Map<String, Integer> connectionsPerIp = new HashMap<String, Integer>();
-
-		// initiate the list with 0 connections per ip
-		for (Session session : sessions.values()) {
-			String clientIp = session.getRemoteAddress().getHostString();
-			connectionsPerIp.put(clientIp, 0);
-		}
-
-		// compute the real number of connections per ip
-		for (Map.Entry<Integer, Session> entry : sessions.entrySet()) {
-			String clientIp = entry.getValue().getRemoteAddress().getHostString();
-			// compute new number of connections
-			int connectionsForThisIp = connectionsPerIp.get(clientIp) + 1;
-			connectionsPerIp.put(clientIp, connectionsForThisIp);
-		}
-		return connectionsPerIp;
+		clientManager.releaseDriverIfBlocked();
 	}
 }

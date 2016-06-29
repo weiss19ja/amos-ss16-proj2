@@ -23,6 +23,14 @@ public interface MotorController {
 	 */
 	void setSpeed(int speed) throws IOException;
 
+	/**
+	 * Set the motor speed as percentage of the maximum speed allowed by the motors.
+	 *
+	 * @param speed the speed to set in the interval [-1, 1].
+	 * @throws IOException if the PWM could not be accessed
+	 */
+	void setSpeedPercentage(double speed) throws IOException;
+
 	void close() throws IOException;
 
 }

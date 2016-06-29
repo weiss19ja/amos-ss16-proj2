@@ -4,45 +4,22 @@
  */
 package de.developgroup.mrf.server.handler;
 
-import com.google.inject.Inject;
-import de.developgroup.mrf.server.ClientManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public class ClientInformationHandler {
+public interface ClientInformationHandler {
+    List<ClientInformation> getClientInformationList();
 
-    // Contains Client's IP and additional information
-    private final List<ClientInformation> clientInformationList = Collections
-            .synchronizedList(new ArrayList<ClientInformation>());
+    /**
+     * Adds the specified ipAddress to the blockedIpsList
+     * @param ipAddress
+     */
+    void blockIp(String ipAddress);
 
-    private final List<String> blockedIpsList = Collections
-            .synchronizedList(new ArrayList<String>());
-
-    private static final Logger LOGGER = LoggerFactory
-            .getLogger(ClientInformationHandler.class);
-
-
-    @Inject
-    public ClientInformationHandler() {
-        LOGGER.debug("Creating new instance of ClientInformationHandler");
-    }
-
-    public List<ClientInformation> getClientInformationList() {
-        return clientInformationList;
-    }
-
-    public void blockIp(String ipAddress) {
-        blockedIpsList.add(ipAddress);
-    }
-
-    public void unblockIp(String ipAddress) {
-        int indexToRemove = blockedIpsList.indexOf(ipAddress);
-        blockedIpsList.remove(indexToRemove);
-    }
+    /**
+     * Unblocks specified ipAddress
+     * @param ipAddress
+     */
+    void unblockIp(String ipAddress);
 
     /**
      * This method returns a list of all blocked ips with additional client information.
@@ -51,34 +28,7 @@ public class ClientInformationHandler {
      *
      * @return List containing information about all blocked users
      */
-    public List<ClientInformation> getBlockedConnections() {
-        List<ClientInformation> blockedConnections = new ArrayList<>();
-
-        // add all blocked users that are connected
-        for (ClientInformation clientInfo : clientInformationList) {
-            if (blockedIpsList.contains(clientInfo.getIpAddress())) {
-                blockedConnections.add(clientInfo);
-            }
-        }
-        // check if there is a blocked ip that isn't connected
-        for (String ipAddress : blockedIpsList) {
-            boolean contained = false;
-            for (ClientInformation blockedClientInfo : blockedConnections) {
-                if (blockedClientInfo.getIpAddress().equals(ipAddress)) {
-                    contained = true;
-                    break;
-                }
-            }
-            // If the client isn't connected, add his ip without additional information
-            if (!contained) {
-                ClientInformation unconnectedIp = new ClientInformation();
-                unconnectedIp.setIpAddress(ipAddress);
-                blockedConnections.add(unconnectedIp);
-            }
-        }
-
-        return blockedConnections;
-    }
+    List<ClientInformation> getBlockedConnections();
 
     /**
      * This method returns all connected clients that are not blocked.
@@ -86,61 +36,46 @@ public class ClientInformationHandler {
      *
      * @return
      */
-    public List<ClientInformation> getUnblockedConnections() {
+    List<ClientInformation> getUnblockedConnections();
 
-        List<ClientInformation> unblockedConnections = new ArrayList<>();
-        // add all blocked users that are connected
-        for (ClientInformation clientInfo : clientInformationList) {
-            if (!blockedIpsList.contains(clientInfo.getIpAddress())) {
-                unblockedConnections.add(clientInfo);
-            }
-        }
-        return unblockedConnections;
-    }
+    /**
+     * Add a connection specified by ipAddress and clientId.
+     * If a ClientInformation object with the corresponding ipAddress
+     * already exists, the clientId will be added to this object
+     * @param ipAddress
+     * @param clientId
+     */
+    void addConnection(String ipAddress, int clientId);
 
-    public void addConnection(String ipAddress, int clientId) {
-        boolean foundExistingObject = false;
-        for (ClientInformation item : clientInformationList) {
-            if (item.getIpAddress().equals(ipAddress)) {
-                // Found the right client object
-                foundExistingObject = true;
-                item.addClientId(clientId);
-                break;
-            }
-        }
-        if (!foundExistingObject) {
-            // add a new one
-            ClientInformation item = new ClientInformation();
-            item.setIpAddress(ipAddress);
-            item.addClientId(clientId);
-            clientInformationList.add(item);
-        }
-    }
+    /**
+     * Remove a certain clientId from the connections.
+     * @param clientId
+     */
+    void removeConnection(int clientId);
 
-    public void removeConnection(int clientId) {
-        for (ClientInformation item : clientInformationList) {
-            if (item.containsClientId(clientId)) {
-                // Found the right client object
-                item.removeClientId(clientId);
-                // Remove if no more connections to this ip exist
-                if (item.hasNoClientId()) {
-                    clientInformationList.remove(item);
-                }
-                break;
-            }
-        }
-    }
+    /**
+     * Adds additional information to the ClientInformation object that contains
+     * the corresponding clientId
+     * One client might have different browsers, so the new browser is added to the list
+     * @param clientId
+     * @param browser Additional information about the browser
+     * @param operatingSystem Additional information about the operating system
+     */
+    void addClientInformation(int clientId, String browser, String operatingSystem);
 
-    public void addClientInformation(int clientId, String browser, String operatingSystem) {
-        for (ClientInformation item : clientInformationList) {
-            if (item.containsClientId(clientId)) {
-                item.addBrowser(browser);
-                item.setOperatingSystem(operatingSystem);
-            }
-        }
-    }
+    /**
+     * Check whether the specified ipAddress is blocked or not
+     * @param ipAddress
+     * @return
+     */
+    boolean isBlocked(String ipAddress);
 
-    public boolean isBlocked(String ipAddress) {
-        return blockedIpsList.contains(ipAddress);
-    }
+    boolean isBlocked(int clientId);
+
+
+    /**
+     * releases the driverMode if the user that gets blocked was driver
+     *
+     */
+    void releaseDriverIfBlocked();
 }

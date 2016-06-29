@@ -17,6 +17,8 @@ import de.developgroup.mrf.rover.collision.*;
 import de.developgroup.mrf.rover.gpio.GpioControllerMockProvider;
 import de.developgroup.mrf.rover.gpio.GpioControllerProvider;
 import de.developgroup.mrf.rover.pcf8591.*;
+import de.developgroup.mrf.server.ClientManager;
+import de.developgroup.mrf.server.ClientManagerImpl;
 import de.developgroup.mrf.server.controller.*;
 import de.developgroup.mrf.server.handler.*;
 import de.developgroup.mrf.server.socket.RoverSocket;
@@ -99,6 +101,9 @@ public class NonServletModule extends AbstractModule {
 				LoggingCommunicationControllerImpl.class);
 		bind(NotificationHandler.class).to(NotificationHandlerImpl.class);
 		bind(SingleDriverHandler.class).to(SingleDriverHandlerImpl.class);
+		bind(ContinuousDrivingAlgorithm.class).to(ContinuousDrivingAlgorithmImpl.class);
+		bind(ClientInformationHandler.class).to(ClientInformationHandlerImpl.class);
+		bind(ClientManager.class).to(ClientManagerImpl.class);
 
 		requestStaticInjection(RoverSocket.class);
 		requestStaticInjection(Main.class);

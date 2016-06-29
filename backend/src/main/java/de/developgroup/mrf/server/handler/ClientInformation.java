@@ -4,7 +4,6 @@
  */
 package de.developgroup.mrf.server.handler;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class ClientInformation {

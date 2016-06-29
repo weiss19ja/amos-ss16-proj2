@@ -6,6 +6,7 @@ package de.developgroup.mrf.rover.collision;
 
 import com.pi4j.io.gpio.GpioController;
 import de.developgroup.mrf.server.ClientManager;
+import de.developgroup.mrf.server.ClientManagerImpl;
 import de.developgroup.mrf.server.handler.RoverHandler;
 import de.developgroup.mrf.server.rpc.JsonRpc2Request;
 import org.junit.Assert;
@@ -16,6 +17,7 @@ import org.mockito.Mockito;
 
 import java.io.IOException;
 
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 public class CollisionRunnableTest {
@@ -30,7 +32,7 @@ public class CollisionRunnableTest {
     public void setUp() {
         irSensorFactory = Mockito.mock(IRSensorFactory.class);
         gpio = Mockito.mock(GpioController.class);
-        clientManager = Mockito.mock(ClientManager.class);
+        clientManager = Mockito.mock(ClientManagerImpl.class);
         roverHandler = Mockito.mock(RoverHandler.class);
 
         runnable = new CollisionRunnable(irSensorFactory, gpio, clientManager, roverHandler);
@@ -40,10 +42,22 @@ public class CollisionRunnableTest {
     public void testMaybeEmergencyStop() throws IOException {
         RoverCollisionInformation info = new RoverCollisionInformation();
         info.collisionBackRight = CollisionState.Close;
+        info.taintedReadings = false;
 
         runnable.maybeEmergencyStop(info);
 
         verify(roverHandler).stop();
+    }
+
+    @Test
+    public void testMaybeEmergencyStopDoesNotStopInSunlight() throws IOException {
+        RoverCollisionInformation info = new RoverCollisionInformation();
+        info.collisionBackRight = CollisionState.Close;
+        info.taintedReadings = true;
+
+        runnable.maybeEmergencyStop(info);
+
+        verify(roverHandler, never()).stop();
     }
 
     @Test

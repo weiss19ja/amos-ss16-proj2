@@ -4,8 +4,6 @@
  */
 package de.developgroup.mrf.server.handler;
 
-import de.developgroup.mrf.server.ClientManager;
-import junit.runner.Version;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,19 +11,22 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.List;
 
+import static de.developgroup.mrf.server.handler.ClientInformationHandlerImpl.singleDriverHandler;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class ClientInformationHandlerTest {
     ClientInformationHandler handler;
 
     @Before
     public void setUp() {
-        handler = new ClientInformationHandler();
+        handler = new ClientInformationHandlerImpl(mock(SingleDriverHandlerImpl.class));
         System.out.println("Set up handler");
-//                mock(ClientManager.class)
+//                mock(ClientManagerImpl.class)
 
     }
 
@@ -41,9 +42,28 @@ public class ClientInformationHandlerTest {
     }
 
     @Test
+    public void testIsBlockedClientIdOnStartup() throws IOException {
+        boolean isBlocked = handler.isBlocked(1337);
+        assertFalse(isBlocked);
+    }
+
+    @Test
+    public void testIsBlockedClientId() throws IOException {
+        handler.addConnection("192.168.0.42", 1337);
+        handler.addConnection("192.168.0.42", 1234);
+        handler.blockIp("192.168.0.42");
+
+        boolean isBlocked = handler.isBlocked(1337);
+        assertTrue("isBlocked should be true but is " + isBlocked, isBlocked);
+
+        isBlocked = handler.isBlocked(1234);
+        assertTrue("isBlocked should be true but is " + isBlocked, isBlocked);
+    }
+
+    @Test
     public void testClientInformationListEmpty() throws IOException {
         List<ClientInformation> clientInformationList = handler.getClientInformationList();
-        assertEquals("clientInformationList should initially be empty", clientInformationList.size(), 0);
+        assertEquals("clientInformationList should initially be empty", 0, clientInformationList.size());
     }
 
     @Test
@@ -53,7 +73,7 @@ public class ClientInformationHandlerTest {
         List<ClientInformation> clientInformationList = handler.getClientInformationList();
 
         assertEquals("clientInformationList should contain no intems after inserting information " +
-                "with unregistered ip, but contains " + clientInformationList.size(), clientInformationList.size(), 0);
+                "with unregistered ip, but contains " + clientInformationList.size(), 0, clientInformationList.size());
     }
 
     @Test
@@ -64,32 +84,32 @@ public class ClientInformationHandlerTest {
         List<ClientInformation> clientInformationList = handler.getClientInformationList();
 
         assertEquals("clientInformationList should contain 1 intem after inserting it, but contains " +
-                clientInformationList.size(), clientInformationList.size(), 1);
+                clientInformationList.size(), 1, clientInformationList.size());
         ClientInformation clientInformation = clientInformationList.get(0);
-        assertEquals("IpAddres should be the one inserted before", clientInformation.getIpAddress(), "192.168.0.42");
-        assertEquals("OperatingSystem should be the one inserted before", clientInformation.getOperatingSystem(), "Windows");
+        assertEquals("IpAddres should be the one inserted before", "192.168.0.42", clientInformation.getIpAddress());
+        assertEquals("OperatingSystem should be the one inserted before", "Windows", clientInformation.getOperatingSystem());
         List<String> browsers = clientInformation.getBrowsers();
-        assertEquals("Browser should contain exactly one element", browsers.size(), 1);
-        assertEquals("Browser should be the one inserted before", (String) browsers.get(0), "Firefox");
+        assertEquals("Browser should contain exactly one element", 1, browsers.size());
+        assertEquals("Browser should be the one inserted before", "Firefox", (String) browsers.get(0));
         List<Integer> clientIds = clientInformation.getClientIds();
         assertTrue("ClientId should contain exactly one element", clientIds.size() == 1);
-        assertEquals("ClientId should be the one inserted before", (int) clientIds.get(0), 1337);
+        assertEquals("ClientId should be the one inserted before", 1337, (int) clientIds.get(0));
     }
 
     @Test
-    public void testNoConnectedClientsOnStartup() throws IOException{
+    public void testNoConnectedClientsOnStartup() throws IOException {
         List<ClientInformation> blockedConnections = handler.getBlockedConnections();
         assertEquals("blockedConnections should contain no items on startup, " +
-                "but contains " + blockedConnections.size(), blockedConnections.size(), 0);
+                "but contains " + blockedConnections.size(), 0, blockedConnections.size());
 
         List<ClientInformation> unblockedConnections = handler.getUnblockedConnections();
         assertEquals("unblockedConnections should contain no items on startup, " +
-                "but contains " + unblockedConnections.size(), unblockedConnections.size(), 0);
+                "but contains " + unblockedConnections.size(), 0, unblockedConnections.size());
 
     }
 
     @Test
-    public void testAddConnection() throws IOException{
+    public void testAddConnection() throws IOException {
         handler.addConnection("192.168.0.42", 1337);
         List<ClientInformation> unblockedConnections = handler.getUnblockedConnections();
         assertEquals("after adding a connection, the unblocked connections list should contain one item",
@@ -100,7 +120,7 @@ public class ClientInformationHandlerTest {
     }
 
     @Test
-    public void testBlockIp() throws IOException{
+    public void testBlockIp() throws IOException {
         handler.addConnection("192.168.0.42", 1337);
         handler.blockIp("192.168.0.42");
 
@@ -113,7 +133,7 @@ public class ClientInformationHandlerTest {
     }
 
     @Test
-    public void testUnblockIp() throws IOException{
+    public void testUnblockIp() throws IOException {
         handler.addConnection("192.168.0.42", 1337);
         handler.blockIp("192.168.0.42");
         handler.unblockIp("192.168.0.42");
@@ -127,7 +147,7 @@ public class ClientInformationHandlerTest {
     }
 
     @Test
-    public void testBlockUnconnectedIp() throws IOException{
+    public void testBlockUnconnectedIp() throws IOException {
         handler.blockIp("192.168.0.42");
         List<ClientInformation> unblockedConnections = handler.getUnblockedConnections();
         assertEquals("after blocking the connection, the unblocked connections list should be empty, " +
@@ -138,7 +158,7 @@ public class ClientInformationHandlerTest {
     }
 
     @Test
-    public void testAddMultipleClientIds() throws IOException{
+    public void testAddMultipleClientIds() throws IOException {
         handler.addConnection("192.168.0.42", 1337);
         handler.addConnection("192.168.0.42", 1338);
         handler.addConnection("192.168.0.42", 1339);
@@ -157,7 +177,7 @@ public class ClientInformationHandlerTest {
     }
 
     @Test
-    public void testRemoveUnblockedConnection() throws IOException{
+    public void testRemoveUnblockedConnection() throws IOException {
         handler.addConnection("192.168.0.42", 1337);
         handler.addConnection("192.168.0.42", 1338);
         handler.addConnection("192.168.0.42", 1339);
@@ -177,7 +197,7 @@ public class ClientInformationHandlerTest {
     }
 
     @Test
-    public void testRemoveUnblockedConnectionLastConnection() throws IOException{
+    public void testRemoveUnblockedConnectionLastConnection() throws IOException {
         handler.addConnection("192.168.0.42", 1337);
         handler.removeConnection(1337);
 
@@ -190,7 +210,7 @@ public class ClientInformationHandlerTest {
     }
 
     @Test
-    public void testRemoveBlockedConnectionLastConnection() throws IOException{
+    public void testRemoveBlockedConnectionLastConnection() throws IOException {
         handler.addConnection("192.168.0.42", 1337);
         handler.blockIp("192.168.0.42");
         handler.removeConnection(1337);
@@ -204,8 +224,16 @@ public class ClientInformationHandlerTest {
 
     }
 
-    //addClientInformation
+    @Test
+    public void testReleaseDriverIfBlocked(){
+        when(singleDriverHandler.getCurrentDriverId()).thenReturn(1337);
 
-    // add something to clientInfoList
+        int clientId = 1337;
+        handler.addConnection("192.168.0.42", 1337);
+        handler.blockIp("192.168.0.42");
+        handler.releaseDriverIfBlocked();
+
+        verify(singleDriverHandler).releaseDriver(clientId);
+    }
 
 }

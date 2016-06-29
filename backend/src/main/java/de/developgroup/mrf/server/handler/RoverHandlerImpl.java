@@ -5,9 +5,9 @@
 package de.developgroup.mrf.server.handler;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.Observable;
 
+import de.developgroup.mrf.server.ClientManager;
 import de.developgroup.mrf.server.controller.LoggingCommunicationController;
 import org.cfg4j.provider.ConfigurationProvider;
 import org.slf4j.Logger;
@@ -19,7 +19,7 @@ import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
 
 import de.developgroup.mrf.rover.collision.CollisionController;
-import de.developgroup.mrf.server.ClientManager;
+import de.developgroup.mrf.server.ClientManagerImpl;
 import de.developgroup.mrf.server.controller.CameraSnapshotController;
 import de.developgroup.mrf.server.controller.DriveController;
 import de.developgroup.mrf.server.controller.HeadController;
@@ -132,6 +132,11 @@ public class RoverHandlerImpl implements RoverHandler {
 	@Override
 	public void turnRight(int turnRate) throws IOException {
 		driveController.setAndApply(0, -turnRate);
+	}
+
+	@Override
+	public void driveContinuously(int angle, int speed) {
+		driveController.setContinuousDriving(angle, speed);
 	}
 
 	@Override

@@ -4,11 +4,11 @@
  */
 'use strict';
 
-describe('myApp.driverCard module', function() {
+describe('myApp.joystickDpadSwitch module', function() {
   var $compile, $rootScope, scope, $controller, element,controller;
 
   beforeEach(angular.mock.module('templates'));
-  beforeEach(module('myApp.driverCard'));
+  beforeEach(module('myApp.joystickDpadSwitch'));
   beforeEach(module('myApp.joystickService'));
   beforeEach(module('myApp.roverService'));
 
@@ -19,9 +19,9 @@ describe('myApp.driverCard module', function() {
     $compile = _$compile_;
     $rootScope = _$rootScope_;
     $controller = _$controller_;
-    element = $compile('<drivercard></drivercard>')($rootScope);
+    element = $compile('<joystick-dpad-switch></joystick-dpad-switch>')($rootScope);
     $rootScope.$digest();
-    controller = element.controller("drivercard");
+    controller = element.controller("joystick-dpad-switch");
     scope = element.isolateScope() || element.scope();
   }));
 
@@ -30,5 +30,5 @@ describe('myApp.driverCard module', function() {
     console.log(scope);
     expect(scope.joystickState).toBeDefined();
   });
-  
+
 });

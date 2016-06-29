@@ -2,4 +2,6 @@
 <!-- This file is part of Mobile Robot Framework. -->
 <!-- Mobile Robot Framework is free software under the terms of GNU AFFERO GENERAL PUBLIC LICENSE. -->
 <!-- -->
-<div id="zone_joystick" class="joystick"></div>
+<md-switch ng-model="joystickState.isJoystickEnabled" ng-change="onChangeJoystickShow()" aria-label="use Joystick">
+    use Joystick
+</md-switch>

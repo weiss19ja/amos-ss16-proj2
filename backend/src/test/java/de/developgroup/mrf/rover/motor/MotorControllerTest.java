@@ -92,4 +92,21 @@ public class MotorControllerTest {
 
 	}
 
+	@Test
+	public void testSetSpeedPercentageForward() throws IOException {
+		motorController.setSpeedPercentage(0.8);
+
+		assertThat(directionPinMock.getState(), is(PinState.HIGH));
+		assertThat(pwmGenDeviceMock.getOnTimerValue(CHANNEL), is(0));
+		assertThat(pwmGenDeviceMock.getOffTimerValue(CHANNEL), is(3272));
+	}
+
+	@Test
+	public void testSetSpeedPercentageBackward() throws IOException {
+		motorController.setSpeedPercentage(-0.8);
+
+		assertThat(directionPinMock.getState(), is(PinState.LOW));
+		assertThat(pwmGenDeviceMock.getOnTimerValue(CHANNEL), is(0));
+		assertThat(pwmGenDeviceMock.getOffTimerValue(CHANNEL), is(3272));
+	}
 }

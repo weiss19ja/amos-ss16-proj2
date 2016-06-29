@@ -12,6 +12,7 @@ import com.pi4j.io.gpio.RaspiPin;
 import de.developgroup.mrf.rover.pcf8591.IRSensor;
 import de.developgroup.mrf.rover.pcf8591.PCF8591ADConverter;
 import de.developgroup.mrf.server.ClientManager;
+import de.developgroup.mrf.server.ClientManagerImpl;
 import de.developgroup.mrf.server.handler.RoverHandler;
 import de.developgroup.mrf.server.rpc.JsonRpc2Request;
 import org.slf4j.Logger;
@@ -114,10 +115,12 @@ public class CollisionRunnable implements Runnable {
 
     /**
      * Perform rover emergency stop maneuver if an obstacle is too close.
+     *
+     * Attention: Does not stop if sensor readings are tainted.
      * @param info current rover collision information
      */
     public void maybeEmergencyStop(RoverCollisionInformation info) {
-        if (info.hasDangerousCollision()) {
+        if (!info.taintedReadings && info.hasDangerousCollision()) {
             try {
                 roverHandler.stop();
             } catch (IOException e) {

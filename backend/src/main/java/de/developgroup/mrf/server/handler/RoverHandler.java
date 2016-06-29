@@ -54,6 +54,16 @@ public interface RoverHandler extends Observer {
 	void turnRight(int turnRate) throws IOException;
 
 	/**
+	 * Set driving direction on speed not in a discrete (forward. left. right. back) but in a continuous mode based
+	 * on turning angle and speed.
+	 *
+	 * Stopping can be achieved via setting the speed to 0, regardless of turning angle.
+	 * @param angle Angle in degrees. 0° means "right", 90° means "forward"
+	 * @param speed Speed between 0 (stop) and 100 (full power)
+	 */
+	void driveContinuously(int angle, int speed);
+
+	/**
 	 * Set up the connections and initialize the driver controller.
 	 * @param roverProperties
 	 * @throws IOException

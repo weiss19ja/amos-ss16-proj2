@@ -52,18 +52,16 @@ describe ('Main view', function() {
 
 });
 
-describe ('Camera and Drive view', function() {
+describe ('Camera and Drive view in portrait mode', function() {
 
   beforeEach(function() {
+    // nexus 5x portrait mode size
+    browser.manage().window().setSize(411, 731);
     browser.get('#/drive');
   });
 
-  it('should display the drive dpad', function() {
-    expect(element(by.tagName('dpad')).getText()).toBeDefined();
-  });
-
-  it('should display the parking sensors', function() {
-    expect(element(by.tagName('parking-sensors')).getText()).toBeDefined();
+  it('should display the driver card', function() {
+    expect(element(by.tagName('drivercard')).isDisplayed()).toBe(true);
   });
 
   it('should display the camera stream', function() {
@@ -73,19 +71,70 @@ describe ('Camera and Drive view', function() {
 });
 
 
+describe ('Camera and Drive view in landscape / laptop mode', function() {
+  
+  var joystickSwitchInLandscapeMode;
+  var dpadInLandscapeMode;
+  var joystickInLandscapeMode;
+
+  beforeEach(function() {
+    // nexus landscape mode size
+    browser.manage().window().setSize(773, 435);
+    browser.get('#/drive');
+    joystickSwitchInLandscapeMode = element.all(by.tagName('joystick-dpad-switch')).get(0);
+    dpadInLandscapeMode = element.all(by.tagName('dpad')).get(0);
+    joystickInLandscapeMode = browser.findElement(by.id('zone_joystick_2'));
+  });
+
+  it('should not display the driver card', function() {
+    expect(element(by.tagName('drivercard')).isDisplayed()).toBe(false);
+  });
+
+  it('should display the camera stream', function() {
+    expect(browser.findElement(by.className('md-card-image')).getText()).toBeDefined;
+  });
+
+  it('should display the joystick when switch is clicked', function() {
+    expect(dpadInLandscapeMode.isDisplayed()).toBe(true);
+    expect(joystickInLandscapeMode.isDisplayed()).toBe(false);
+    joystickSwitchInLandscapeMode.click();
+    expect(dpadInLandscapeMode.isDisplayed()).toBe(false);
+    expect(joystickInLandscapeMode.isDisplayed()).toBe(true);
+  });
+
+});
+
+/**
+ * here are made the e2e tests for the drive card too
+ */
 describe ('Driving only view', function() {
+
+  var dpad;
+  var joystick;
+  var joystickSwitch;
+  var parkingSensors;
 
   beforeEach(function() {
     browser.manage().window().setSize(773, 435);
     browser.get('#/drive/driveonly');
+    parkingSensors = element(by.tagName('parking-sensors'));
+    joystickSwitch = element(by.tagName('joystick-dpad-switch'));
+    joystick = browser.findElement(by.id('zone_joystick_1'));
+    dpad = element(by.tagName('dpad'));
+
   });
 
-  it('should display the drive dpad', function() {
-    expect(element(by.tagName('dpad')).getText()).toBeDefined();
+  it('should display the driver card', function() {
+    expect(element(by.tagName('drivercard')).isDisplayed()).toBe(true);
   });
 
-  it('should display the parking sensors', function() {
-    expect(element(by.tagName('parking-sensors')).getText()).toBeDefined();
+  it('should display the joystick when the switch is clicked', function() {
+    expect(parkingSensors.isDisplayed()).toBe(true);
+    expect(dpad.isDisplayed()).toBe(true);
+    expect(joystick.isDisplayed()).toBe(false);
+    joystickSwitch.click();
+    expect(dpad.isDisplayed()).toBe(false);
+    expect(joystick.isDisplayed()).toBe(true);
   });
 
 });
@@ -349,16 +398,23 @@ describe ('sidebar navigation for laptops', function() {
     expect(browser.getLocationAbsUrl()).toMatch("/drive/roverMaster");
   });
 
-  it('should not view "Camera & Driving"', function() {
-    expect(sidebarItems.get(3).isDisplayed()).toBe(false);
+  it('should display "Drive Control" in sidebar', function() {
+    expect (sidebarItems.get(2).getText()).toBe('Drive Control');
+  });
+
+  it('should redirect to /drive when "Camera & Driving" is clicked', function() {
+    expect (sidebarItems.get(3).getText()).toBe('Camera & Driving');
+    sidebarItems.get(3).click();
+    browser.refresh();
+    expect(browser.getLocationAbsUrl()).toMatch("/drive");
   });
 
   it('should not view "Driving only"', function() {
-    expect(sidebarItems.get(3).isDisplayed()).toBe(false);
+    expect(sidebarItems.get(4).isDisplayed()).toBe(false);
   });
 
   it('should not view "Emergency Stop"', function() {
-    expect(sidebarItems.get(4).isDisplayed()).toBe(false);
+    expect(sidebarItems.get(5).isDisplayed()).toBe(false);
   });
 
   it('should check if view "Developer Options" exists', function() {

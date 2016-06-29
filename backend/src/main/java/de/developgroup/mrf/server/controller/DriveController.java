@@ -18,6 +18,13 @@ public interface DriveController {
     void initialize(ConfigurationProvider configurationProvider) throws IOException;
 
     /**
+     * Set continous driving.
+     * @param angle Angle in degrees. 0° is right, 90° is forward.
+     * @param speed value between 0 (stop) and 100 (full speed).
+     */
+    void setContinuousDriving(int angle, int speed);
+
+    /**
      * Convenience method that allows setting speed and turnrate and switches the motors.
      * @param speed value for the speed (negative and positive)
      * @param turnrate set turnrate
@@ -41,4 +48,10 @@ public interface DriveController {
      * @throws IOException
      */
     void updateMotors() throws IOException;
+
+    /**
+     * Apply raw input to motor values.
+     * @param settings the settings object to apply to the motors.
+     */
+    void applyMotorSettings(MotorSetting settings) throws IOException;
 }

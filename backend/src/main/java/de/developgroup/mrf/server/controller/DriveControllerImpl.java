@@ -28,14 +28,15 @@ public class DriveControllerImpl extends AbstractDriveController {
 
     private static Logger LOGGER = LoggerFactory.getLogger(DriveControllerImpl.class);
 
-    private MotorController leftMotor;
-    private MotorController rightMotor;
+    public MotorController leftMotor;
+    public MotorController rightMotor;
 
     private int desiredSpeed = 0;
     private int desiredTurnrate = 0;
 
     @Inject
-    public DriveControllerImpl() throws IOException {
+    public DriveControllerImpl(ContinuousDrivingAlgorithm drivingAlgorithm) throws IOException {
+        super(drivingAlgorithm);
     }
 
     @Override
@@ -71,14 +72,28 @@ public class DriveControllerImpl extends AbstractDriveController {
 
     @Override
     public void updateMotors() throws IOException {
-        final int leftSpeed = clamp(desiredSpeed - desiredTurnrate, leftMotor.SPEED_MAX_BACKWARD, leftMotor.SPEED_MAX_FORWARD);
-        final int rightSpeed = clamp(desiredSpeed + desiredTurnrate, leftMotor.SPEED_MAX_BACKWARD, leftMotor.SPEED_MAX_FORWARD);
+        final int leftSpeed = clamp(desiredSpeed - desiredTurnrate, MotorController.SPEED_MAX_BACKWARD, MotorController.SPEED_MAX_FORWARD);
+        final int rightSpeed = clamp(desiredSpeed + desiredTurnrate, MotorController.SPEED_MAX_BACKWARD, MotorController.SPEED_MAX_FORWARD);
 
         leftMotor.setSpeed(leftSpeed);
         rightMotor.setSpeed(rightSpeed);
     }
 
-    private int clamp(int val, int min, int max) {
+    @Override
+    public void applyMotorSettings(MotorSetting settings) throws IOException {
+        LOGGER.debug("left: {} right: {}", settings.leftMotorPercentage, settings.rightMotorPercentage);
+        leftMotor.setSpeedPercentage(settings.leftMotorPercentage);
+        rightMotor.setSpeedPercentage(settings.rightMotorPercentage);
+    }
+
+    /**
+     * Return a value in a defined interval [min, max] or min or max if the value exceeds the interval.
+     * @param val value to confine to the interval
+     * @param min lower border of the interval
+     * @param max upper border of the interval
+     * @return
+     */
+    public int clamp(int val, int min, int max) {
         return Math.max(min, Math.min(max, val));
     }
 }
