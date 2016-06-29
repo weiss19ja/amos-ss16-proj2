@@ -158,14 +158,14 @@ describe ('Hide views for desktop devices', function() {
     browser.manage().window().setSize(1400, 1024);
   });
 
-  it('should hide the "Driving Only" view and redirect to /main', function() {
+  it('should hide the "Driving Only" view and redirect to /observe', function() {
     browser.get('#/drive/driveonly');
-    expect(browser.getLocationAbsUrl()).toMatch("/main");
+    expect(browser.getLocationAbsUrl()).toMatch("/observe");
   });
 
-  it('should hide the "Emergency Stop" view and redirect to /main', function() {
+  it('should hide the "Emergency Stop" view and redirect to /observe', function() {
     browser.get('#/stop')
-    expect(browser.getLocationAbsUrl()).toMatch("/main");
+    expect(browser.getLocationAbsUrl()).toMatch("/observe");
   });
 
 });
