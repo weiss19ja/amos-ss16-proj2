@@ -76,7 +76,7 @@ angular.module('myApp', [
     }).when('/developer', {
       templateUrl: 'developer/developer.html',
       controller: 'DeveloperCtrl'
-    }).otherwise({redirectTo: '/main'});
+    }).otherwise({redirectTo: '/observe'});
 
   }])
   .controller('SidebarCtrl', function ($scope, $timeout, $mdSidenav, $mdUtil, roverService) {
