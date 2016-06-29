@@ -84,14 +84,16 @@ angular.module('myApp.roverDrive', [])
             setTimeout(function () {
                 var images = angular.element(document).find('img');
                 console.log(images);
-                images[0].onload = function () {
-                    console.log('image loaded');
-                    if ($mdMedia('xs')) {
-                        joystickService.initJoystick('zone_joystick_1');
-                    } else {
-                        joystickService.initJoystick('zone_joystick_2');
-                    }
-                };
+                if (images.length > 0) {
+                    images[0].onload = function () {
+                        console.log('image loaded');
+                        if ($mdMedia('xs')) {
+                            joystickService.initJoystick('zone_joystick_1');
+                        } else {
+                            joystickService.initJoystick('zone_joystick_2');
+                        }
+                    };
+                }
             }, 1);
         };
 
