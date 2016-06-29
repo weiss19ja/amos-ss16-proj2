@@ -281,7 +281,7 @@ describe ('sidebar navigation for smartphones', function() {
 
   it('should have thirteen entries', function() {
     // 12 entries with hidden developer view + desktop view
-    expect (sidebarItems.count()).toBe(12);
+    expect (sidebarItems.count()).toBe(11);
   });
 
   it('should redirect to main page when main is clicked', function() {
@@ -338,14 +338,6 @@ describe ('sidebar navigation for smartphones', function() {
     expect(browser.getLocationAbsUrl()).toMatch("/observe");
   });
 
-
-  it('should redirect to /settings page when "Settings" is clicked', function() {
-    expect (sidebarItems.get(9).getText()).toBe('Settings');
-    sidebarItems.get(9).click();
-    browser.refresh();
-    expect(browser.getLocationAbsUrl()).toMatch("/settings");
-  });
-
   it('should be redirect to /info when "About" is clicked', function() {
     expect (sidebarItems.get(10).getText()).toBe('About');
     sidebarItems.get(10).click();
@@ -354,7 +346,14 @@ describe ('sidebar navigation for smartphones', function() {
   });
 
   it('should check if view "Developer Options" exists', function() {
-    expect(sidebarItems.get(11).isDisplayed()).toBe(true);
+    expect(sidebarItems.get(10).isDisplayed()).toBe(true);
+  });
+
+  it('should check if view "About" exists', function() {
+    expect(sidebarItems.get(9).isDisplayed()).toBe(true);
+    sidebarItems.get(9).click();
+    browser.refresh();
+    expect(browser.getLocationAbsUrl()).toMatch("/about");
   });
 
 });
@@ -384,7 +383,7 @@ describe ('sidebar navigation for laptops', function() {
 
   it('should have also thirteen entries', function() {
     // 12 entries with hidden developer view + desktop rover master view
-    expect (sidebarItems.count()).toBe(12);
+    expect (sidebarItems.count()).toBe(11);
   });
 
   it('should display "Rover Master" in sidebar', function() {
@@ -418,7 +417,14 @@ describe ('sidebar navigation for laptops', function() {
   });
 
   it('should check if view "Developer Options" exists', function() {
-    expect(sidebarItems.get(11).isDisplayed()).toBe(true);
+    expect(sidebarItems.get(10).isDisplayed()).toBe(true);
+  });
+
+  it('should check if view "About" exists', function() {
+    expect(sidebarItems.get(9).isDisplayed()).toBe(true);
+    sidebarItems.get(9).click();
+    browser.refresh();
+    expect(browser.getLocationAbsUrl()).toMatch("/about");
   });
 
   it('should display "Camera Control" in sidebar', function() {
