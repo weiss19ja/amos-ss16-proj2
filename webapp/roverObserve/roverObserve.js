@@ -6,34 +6,31 @@
 
 angular.module('myApp.roverObserve', ['ngMaterial'])
     .controller('RoverObserveCtrl', ['roverService', '$scope', '$location', '$mdDialog', '$mdMedia', function (roverService, $scope, $location, $mdDialog, $mdMedia) {
-      $scope.mjpegStreamURL = 'assets/images/videocam_off_800x600.png';
-      setTimeout(function () {
         $scope.mjpegStreamURL = 'http://' + $location.host() + ':9000/stream/video.mjpeg';
-      }, 200);
-      $scope.snapshotEnabled = true;
+        $scope.snapshotEnabled = true;
 
-      $scope.snapshotClicked = function (clickEvent) {
-        roverService.getCameraSnapshot(function (imageData) {
+        $scope.snapshotClicked = function (clickEvent) {
+            roverService.getCameraSnapshot(function (imageData) {
 
-          $mdDialog.show({
-            controller: SnapshotDialogController,
-            templateUrl: 'roverObserve/snapshotDialog.html',
-            parent: angular.element(document.body),
-            targetEvent: clickEvent,
-            clickOutsideToClose: true,
-            locals: {
-              imageUrl: imageData[0]
+                $mdDialog.show({
+                    controller: SnapshotDialogController,
+                    templateUrl: 'roverObserve/snapshotDialog.html',
+                    parent: angular.element(document.body),
+                    targetEvent: clickEvent,
+                    clickOutsideToClose: true,
+                    locals: {
+                        imageUrl: imageData[0]
+                    }
+                });
+
+            });
+        };
+
+        function SnapshotDialogController($scope, $mdDialog, imageUrl) {
+            $scope.imageUrl = imageUrl;
+            $scope.cancel = function () {
+                $mdDialog.cancel();
             }
-          });
-
-        });
-      };
-
-      function SnapshotDialogController($scope, $mdDialog, imageUrl) {
-        $scope.imageUrl = imageUrl;
-        $scope.cancel = function () {
-          $mdDialog.cancel();
         }
-      }
 
     }]);
