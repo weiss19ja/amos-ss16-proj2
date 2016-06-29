@@ -8,6 +8,7 @@ describe('myApp.developer module', function () {
 
   beforeEach(module('myApp.developer'));
   beforeEach(module('myApp.roverService'));
+  beforeEach(module('myApp.developerService'));
 
   describe('developer controller', function () {
     var scope, developerCtrl;

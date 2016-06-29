@@ -72,7 +72,7 @@ describe ('Camera and Drive view in portrait mode', function() {
 
 
 describe ('Camera and Drive view in landscape / laptop mode', function() {
-  
+
   var joystickSwitchInLandscapeMode;
   var dpadInLandscapeMode;
   var joystickInLandscapeMode;
@@ -196,19 +196,6 @@ describe ('Camera Controller view', function() {
 
 });
 
-describe ('settings view', function() {
-
-  beforeEach(function() {
-    browser.get('#/settings');
-  });
-
-  it('should display the settings view headline', function() {
-    // there are two h2 headers in ng-scope --> the second one is the settings view text
-    expect(element(by.css('.ng-scope')).all(by.tagName('h2')).get(1).getText()).toBe('Settings View');
-  });
-
-});
-
 describe ('developer view', function() {
 
   beforeEach(function() {
@@ -268,8 +255,8 @@ describe ('sidebar navigation for smartphones', function() {
   });
 
   it('should have thirteen entries', function() {
-    // 13 entries with hidden developer view + desktop view
-    expect (sidebarItems.count()).toBe(13);
+    // 12 entries with hidden developer view + desktop view
+    expect (sidebarItems.count()).toBe(11);
   });
 
   it('should redirect to main page when main is clicked', function() {
@@ -326,21 +313,16 @@ describe ('sidebar navigation for smartphones', function() {
     expect(browser.getLocationAbsUrl()).toMatch("/observe");
   });
 
-
-  it('should redirect to /settings page when "Settings" is clicked', function() {
-    expect (sidebarItems.get(9).getText()).toBe('Settings');
-    sidebarItems.get(9).click();
-    browser.refresh();
-    expect(browser.getLocationAbsUrl()).toMatch("/settings");
+  it('should check if view "Developer Options" exists', function() {
+    expect(sidebarItems.get(10).isDisplayed()).toBe(true);
   });
 
-  it('should be redirect to /info when "About" is clicked', function() {
-    expect (sidebarItems.get(11).getText()).toBe('About');
-    sidebarItems.get(11).click();
+  it('should check if view "About" exists', function() {
+    expect(sidebarItems.get(9).isDisplayed()).toBe(true);
+    sidebarItems.get(9).click();
     browser.refresh();
     expect(browser.getLocationAbsUrl()).toMatch("/info");
   });
-
 
 });
 
@@ -368,8 +350,8 @@ describe ('sidebar navigation for laptops', function() {
   });
 
   it('should have also thirteen entries', function() {
-    // 13 entries with hidden developer view + desktop rover master view
-    expect (sidebarItems.count()).toBe(13);
+    // 12 entries with hidden developer view + desktop rover master view
+    expect (sidebarItems.count()).toBe(11);
   });
 
   it('should display "Rover Master" in sidebar', function() {
@@ -400,6 +382,17 @@ describe ('sidebar navigation for laptops', function() {
 
   it('should not view "Emergency Stop"', function() {
     expect(sidebarItems.get(5).isDisplayed()).toBe(false);
+  });
+
+  it('should check if view "Developer Options" exists', function() {
+    expect(sidebarItems.get(10).isDisplayed()).toBe(true);
+  });
+
+  it('should check if view "About" exists', function() {
+    expect(sidebarItems.get(9).isDisplayed()).toBe(true);
+    sidebarItems.get(9).click();
+    browser.refresh();
+    expect(browser.getLocationAbsUrl()).toMatch("/info");
   });
 
   it('should display "Camera Control" in sidebar', function() {
