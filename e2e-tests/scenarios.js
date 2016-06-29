@@ -13,8 +13,8 @@ describe('mobile robot framework app', function() {
     browser.get('index.html');
   });
 
-  it('should automatically redirect to /main when location hash/fragment is empty', function() {
-    expect(browser.getLocationAbsUrl()).toMatch("/main");
+  it('should automatically redirect to /observe when location hash/fragment is empty', function() {
+    expect(browser.getLocationAbsUrl()).toMatch("/observe");
   });
 
   it('should have a title', function() {
@@ -37,7 +37,7 @@ describe ('Main view', function() {
   });
 
   it('should have three buttons', function() {
-    expect (mainViewButtons.count()).toBe(3);
+    expect (mainViewButtons.count()).toBe(2);
   });
 
   it('should redirect to drive when drive is clicked', function() {
@@ -158,14 +158,14 @@ describe ('Hide views for desktop devices', function() {
     browser.manage().window().setSize(1400, 1024);
   });
 
-  it('should hide the "Driving Only" view and redirect to /main', function() {
+  it('should hide the "Driving Only" view and redirect to /observe', function() {
     browser.get('#/drive/driveonly');
-    expect(browser.getLocationAbsUrl()).toMatch("/main");
+    expect(browser.getLocationAbsUrl()).toMatch("/observe");
   });
 
-  it('should hide the "Emergency Stop" view and redirect to /main', function() {
+  it('should hide the "Emergency Stop" view and redirect to /observe', function() {
     browser.get('#/stop')
-    expect(browser.getLocationAbsUrl()).toMatch("/main");
+    expect(browser.getLocationAbsUrl()).toMatch("/observe");
   });
 
 });
@@ -223,18 +223,6 @@ describe ('developer view', function() {
     var textBefore = element(by.binding('killswitchText')).getText();
     browser.refresh();
     expect(element(by.binding('killswitchText')).getText()).toBe(textBefore);
-  });
-
-  xit('should show a notification to all clients when killswitch is triggered', function() {
-    var input = element(by.model('killswitch.enabled'));
-    var notification = element(by.css('md-toast'));
-    browser.wait(function(){
-      return browser.isElementPresent(notification);
-    });
-    input.click();
-    expect(notification.getText()).toBe('All interactions with the rover are blocked');
-    input.click();
-    expect(notification.getText()).toBe('Interactions with the rover are allowed');
   });
 
   it('should display the systems uptime label', function () {
