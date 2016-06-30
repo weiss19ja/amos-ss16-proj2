@@ -147,7 +147,7 @@ backend/                      // Java backend
 +--target/	                 // generated jar file  
 |  
 info/                        // pdf files about rover hardware
-videostream/		         // shellscripts and config file to install/remove uv4l on the pi
+scripts/		         // various shellscripts and config files for rover actions
 webapp/                      // webproject
 |  index.html                // landing page
 |  app.js
