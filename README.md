@@ -14,7 +14,8 @@ The Goal of this project is to develop a framework for a Raspberry Pi powered ro
 
 ### Setup the raspberry pi
 
-To get the video stream to work on the raspberry pi please have a look at our [setup video stream wiki page](https://github.com/weiss19ja/amos-ss16-proj2/wiki/Installing-and-running-video-stream).
+To get the video stream to work on the raspberry pi please have a look at our [setup video stream wiki page](https://github.com/weiss19ja/amos-ss16-proj2/wiki/Installing-and-running-video-stream).   
+If the backend should be started as systemd service please have a look at our [systemd service wiki page](https://github.com/weiss19ja/amos-ss16-proj2/wiki/Systemd-Service).
 
 ### Install Dependencies
 
