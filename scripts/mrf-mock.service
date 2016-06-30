@@ -1,7 +1,7 @@
 [Unit]
 Description=MRF
 [Service]
-ExecStart=/usr/bin/java -jar /home/pi/backend-1.0-SNAPSHOT-jar-with-dependencies.jar
+ExecStart=/usr/bin/java -jar /home/pi/backend-1.0-SNAPSHOT-jar-with-dependencies.jar -m -d
 User=root
 Type=oneshot
 [Install]
