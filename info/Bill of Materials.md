@@ -121,6 +121,12 @@ The icons in the webapp are the official material design icons from Google.
 License: Creative Common Attribution 4.0 International License (CC-BY 4.0)  
 [Link to GitHub](https://github.com/google/material-design-icons/)
 
+### Mobile Robot Framework Logo
+The logo for this project was created by Wilhelm Bauer.
+
+License:  
+Wilhelm Bauer has dedicated the work to "The Mobile Robot Framework Projekt" Team by waiving all of his rights to the work worldwide under copyright law, including all related and neighboring rights, to the extent allowed by law. You can copy, modify, distribute and perform the work, even for commercial purposes, all without asking permission, but only for this Projekt.
+
 ## Raspbery Pi
 
 ### Video Stream

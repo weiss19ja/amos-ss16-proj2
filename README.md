@@ -1,4 +1,7 @@
 <img src="https://travis-ci.org/weiss19ja/amos-ss16-proj2.svg?branch=master">
+<p align="center">
+  <img src="mrf-logo-schrift.png"  width="450">
+</p>
 # The Mobile Robot Framework Project 
 
 The Mobile Robot Framework Project is conducted by students as a project work at the Friedrich-Alexander University Erlangen-Nürnberg.   

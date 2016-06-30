@@ -65,3 +65,8 @@ md-toast.md-error-toast-theme div.md-toast-content{
   position: relative;
   z-index: 10;
 }
+
+.logo{
+  height: 50px;
+  width: 60px;
+}
