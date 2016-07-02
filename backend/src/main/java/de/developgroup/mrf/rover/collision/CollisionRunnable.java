@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Observable;
 
 import static java.lang.Thread.sleep;
 
@@ -29,7 +30,7 @@ import static java.lang.Thread.sleep;
  * to the frontend.
  */
 @Singleton
-public class CollisionRunnable implements Runnable {
+public class CollisionRunnable extends Observable implements Runnable {
 
     private static Logger LOGGER = LoggerFactory.getLogger(CollisionRunnable.class);
 
@@ -105,8 +106,8 @@ public class CollisionRunnable implements Runnable {
         while(true) {
             try {
                 RoverCollisionInformation info = readAllSensors();
-                maybeEmergencyStop(info);
                 if (!info.equals(getCurrentCollisionInformation())) {
+                    notifyObservers(info);
                     // only send to client if anything new occurred
                     sendToClients(info);
                     setCurrentCollisionInformation(info);
@@ -130,24 +131,6 @@ public class CollisionRunnable implements Runnable {
         synchronized (collisionInformationLock) {
             currentCollisionInformation = newCollisionInfo;
         }
-    }
-
-    /**
-     * Perform rover emergency stop maneuver if an obstacle is too close.
-     *
-     * Attention: Does not stop if sensor readings are tainted.
-     * @param info current rover collision information
-     */
-    public void maybeEmergencyStop(RoverCollisionInformation info) {
-        /*
-        if (!info.taintedReadings && info.hasDangerousCollision()) {
-            try {
-                roverHandler.stop();
-            } catch (IOException e) {
-                LOGGER.error("Emergency stop failed. Collision inbound.");
-            }
-        }
-        */
     }
 
     /**

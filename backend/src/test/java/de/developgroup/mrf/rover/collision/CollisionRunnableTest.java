@@ -38,30 +38,6 @@ public class CollisionRunnableTest {
         runnable = new CollisionRunnable(irSensorFactory, gpio, clientManager, roverHandler);
     }
 
-    /* TODO fix
-    @Test
-    public void testMaybeEmergencyStop() throws IOException {
-        RoverCollisionInformation info = new RoverCollisionInformation();
-        info.collisionBackRight = CollisionState.Close;
-        info.taintedReadings = false;
-
-        runnable.maybeEmergencyStop(info);
-
-        verify(roverHandler).stop();
-    }
-    */
-
-    @Test
-    public void testMaybeEmergencyStopDoesNotStopInSunlight() throws IOException {
-        RoverCollisionInformation info = new RoverCollisionInformation();
-        info.collisionBackRight = CollisionState.Close;
-        info.taintedReadings = true;
-
-        runnable.maybeEmergencyStop(info);
-
-        verify(roverHandler, never()).stop();
-    }
-
     @Test
     public void testSendToClients() {
         ArgumentCaptor<JsonRpc2Request> requestCaptor = ArgumentCaptor.forClass(JsonRpc2Request.class);

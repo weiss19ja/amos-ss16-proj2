@@ -44,6 +44,35 @@ public interface DriveController {
     void setDesiredTurnrate(int turnrate);
 
     /**
+     * Drive the rover forwards.
+     * @throws IOException
+     */
+    void driveForwards() throws IOException;
+
+    /**
+     * Drive the rover backwards.
+     * @throws IOException
+     */
+    void driveBackwards() throws IOException;
+
+    /**
+     * Start left turn (the rover will continue to turn until another command is sent).
+     * @throws IOException
+     */
+    void turnLeft() throws IOException;
+
+    /**
+     * Start right turn (the rover will continue to turn until another command is sent).
+     * @throws IOException
+     */
+    void turnRight() throws IOException;
+
+    /**
+     * Stop the rover.
+     */
+    void stop() throws IOException;
+
+    /**
      * Apply values set with setDesiredSpeed() and setDesiredTurnrate() to the motors.
      * @throws IOException
      */
@@ -54,4 +83,16 @@ public interface DriveController {
      * @param settings the settings object to apply to the motors.
      */
     void applyMotorSettings(MotorSettings settings) throws IOException;
+
+    /**
+     * Retrieve the currently used motor settings
+     * @return a MotorSettings object
+     */
+    MotorSettings getCurrentMotorSettings();
+
+    /**
+     * Set the motor settings to use and store
+     * @param newSettings the new motor settings for this instance of DriveController
+     */
+    void setCurrentMotorSettings(MotorSettings newSettings);
 }
