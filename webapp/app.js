@@ -29,15 +29,15 @@ angular.module('myApp', [
 ])
   .config(function ($mdThemingProvider) {
     $mdThemingProvider.theme('default')
-      .primaryPalette('blue', {
-        'default': '800',
+      .primaryPalette('cyan',{
+        'default': '700',
         'hue-1': '200',
         'hue-2': '600',
         'hue-3': '800'
       })
-      .accentPalette('green', {'default': '500'})
-      .warnPalette('red');
-    
+      .accentPalette('indigo',{'default': '800'})
+      .warnPalette('red', {'default': '800'});
+
     $mdThemingProvider.theme("success-toast");
     $mdThemingProvider.theme("alert-toast");
     $mdThemingProvider.theme("error-toast");
