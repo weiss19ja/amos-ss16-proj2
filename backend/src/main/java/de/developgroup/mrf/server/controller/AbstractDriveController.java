@@ -5,6 +5,7 @@
 package de.developgroup.mrf.server.controller;
 
 import com.google.inject.Inject;
+import de.developgroup.mrf.rover.collision.CollisionRunnable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,19 +24,28 @@ public abstract class AbstractDriveController implements DriveController {
     protected ContinuousDrivingAlgorithm drivingAlgorithm;
 
     /**
-     * Motor turn rate value. Needed to map speed values to turn rate.
+     * The runnable that holds and generates collision information for the rover.
      */
-    private int maxTurnRate = 300;
+    protected CollisionRunnable collisionRunnable;
 
     @Inject
-    public AbstractDriveController(ContinuousDrivingAlgorithm drivingAlgorithm) {
+    public AbstractDriveController(ContinuousDrivingAlgorithm drivingAlgorithm, CollisionRunnable collisionRunnable) {
         this.drivingAlgorithm = drivingAlgorithm;
+        this.collisionRunnable = collisionRunnable;
     }
 
     public void setContinuousDriving(int angle, int speed) {
         MotorSettings setting = drivingAlgorithm.calculateMotorSetting(angle, speed);
         try {
-            applyMotorSettings(setting);
+            if (setting.drivesForwards()
+                    && !collisionRunnable.getCurrentCollisionInformation().hasCollisionFront()) {
+                applyMotorSettings(setting);
+            } else if (setting.drivesBackwards()
+                    && !collisionRunnable.getCurrentCollisionInformation().hasCollisionBack()) {
+                applyMotorSettings(setting);
+            } else {
+                LOGGER.info("Do not drive - collision in the direction of joystick driving detected.");
+            }
         } catch (IOException e)  {
             LOGGER.error("Failed to set motor settings: " + e);
         }

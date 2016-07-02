@@ -5,6 +5,7 @@
 package de.developgroup.mrf.server.controller;
 
 import com.google.inject.Inject;
+import de.developgroup.mrf.rover.collision.CollisionRunnable;
 import org.cfg4j.provider.ConfigurationProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,8 +17,8 @@ public class DriveControllerMock extends AbstractDriveController {
     private static Logger LOGGER = LoggerFactory.getLogger(DriveControllerMock.class);
 
     @Inject
-    public DriveControllerMock(ContinuousDrivingAlgorithm drivingAlgorithm)  {
-        super(drivingAlgorithm);
+    public DriveControllerMock(ContinuousDrivingAlgorithm drivingAlgorithm, CollisionRunnable collisionRunnable)  {
+        super(drivingAlgorithm, collisionRunnable);
     }
 
     @Override

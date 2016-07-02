@@ -9,6 +9,7 @@ import com.google.inject.Singleton;
 import com.pi4j.io.i2c.I2CBus;
 import com.pi4j.io.i2c.I2CDevice;
 import com.pi4j.io.i2c.I2CFactory;
+import de.developgroup.mrf.rover.collision.CollisionRunnable;
 import de.developgroup.mrf.rover.motor.MotorController;
 import de.developgroup.mrf.rover.motor.MotorControllerConfiguration;
 import de.developgroup.mrf.rover.motor.MotorControllerImpl;
@@ -35,8 +36,8 @@ public class DriveControllerImpl extends AbstractDriveController {
     private int desiredTurnrate = 0;
 
     @Inject
-    public DriveControllerImpl(ContinuousDrivingAlgorithm drivingAlgorithm) throws IOException {
-        super(drivingAlgorithm);
+    public DriveControllerImpl(ContinuousDrivingAlgorithm drivingAlgorithm, CollisionRunnable collisionRunnable) throws IOException {
+        super(drivingAlgorithm, collisionRunnable);
     }
 
     @Override
