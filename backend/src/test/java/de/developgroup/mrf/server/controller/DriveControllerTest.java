@@ -67,6 +67,9 @@ public class DriveControllerTest {
         collisionFront.collisionFrontLeft = CollisionState.Close;
         Mockito.when(collisionRunnable.getCurrentCollisionInformation()).thenReturn(collisionFront);
 
+        driveController.leftMotor = Mockito.mock(MotorController.class);
+        driveController.rightMotor = Mockito.mock(MotorController.class);
+
         driveController.setContinuousDriving(90, 100);
 
         verify(driveController, never()).applyMotorSettings(any());
@@ -79,6 +82,9 @@ public class DriveControllerTest {
         RoverCollisionInformation collisionBack = new RoverCollisionInformation();
         collisionBack.collisionBackRight = CollisionState.Close;
         Mockito.when(collisionRunnable.getCurrentCollisionInformation()).thenReturn(collisionBack);
+
+        driveController.leftMotor = Mockito.mock(MotorController.class);
+        driveController.rightMotor = Mockito.mock(MotorController.class);
 
         driveController.setContinuousDriving(270, 100);
 

@@ -139,6 +139,7 @@ public class CollisionRunnable implements Runnable {
      * @param info current rover collision information
      */
     public void maybeEmergencyStop(RoverCollisionInformation info) {
+        /*
         if (!info.taintedReadings && info.hasDangerousCollision()) {
             try {
                 roverHandler.stop();
@@ -146,6 +147,7 @@ public class CollisionRunnable implements Runnable {
                 LOGGER.error("Emergency stop failed. Collision inbound.");
             }
         }
+        */
     }
 
     /**

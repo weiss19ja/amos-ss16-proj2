@@ -44,6 +44,8 @@ public abstract class AbstractDriveController implements DriveController {
                     && !collisionRunnable.getCurrentCollisionInformation().hasCollisionBack()) {
                 applyMotorSettings(setting);
             } else {
+                setDesiredSpeed(0);
+                updateMotors();
                 LOGGER.info("Do not drive - collision in the direction of joystick driving detected.");
             }
         } catch (IOException e)  {
