@@ -19,6 +19,22 @@ public class MotorSetting {
         this.rightMotorPercentage = rightMotorPercentage;
     }
 
+    /**
+     * Get whether these motor settings lead to the rover driving forwards.
+     * @return true if these motor settings lead to the rover driving forwards; else false
+     */
+    public boolean drivesForwards() {
+        return leftMotorPercentage > 0 || rightMotorPercentage > 0;
+    }
+
+    /**
+     * Get whether these motor settings lead to the rover driving backwards.
+     * @return true if these motor settings lead to the rover driving backwards; else false
+     */
+    public boolean drivesBackwards() {
+        return leftMotorPercentage < 0 || rightMotorPercentage < 0;
+    }
+
     @Override
     public String toString() {
         return "MotorSetting{" +
