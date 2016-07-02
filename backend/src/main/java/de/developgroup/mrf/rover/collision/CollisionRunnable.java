@@ -12,7 +12,6 @@ import com.pi4j.io.gpio.RaspiPin;
 import de.developgroup.mrf.rover.pcf8591.IRSensor;
 import de.developgroup.mrf.rover.pcf8591.PCF8591ADConverter;
 import de.developgroup.mrf.server.ClientManager;
-import de.developgroup.mrf.server.ClientManagerImpl;
 import de.developgroup.mrf.server.handler.RoverHandler;
 import de.developgroup.mrf.server.rpc.JsonRpc2Request;
 import org.slf4j.Logger;
@@ -68,9 +67,17 @@ public class CollisionRunnable implements Runnable {
     private RoverHandler roverHandler;
 
     /**
-     * Used to prevent spamming the clients: only new infos are sent to the client.
+     * Contains recently gathered collision information.
+     * Also used to prevent spamming the clients: only new infos are sent to the client.
+     *
+     * Synchronize access - this information may be accessed by multiple threads.
      */
-    private RoverCollisionInformation previousCollisionInformation;
+    private RoverCollisionInformation currentCollisionInformation;
+
+    /**
+     * Lock object for currentCollisionInformation
+     */
+    private final Object collisionInformationLock = new Object();
 
     @Inject
     public CollisionRunnable(IRSensorFactory sensorFactory,
@@ -99,10 +106,10 @@ public class CollisionRunnable implements Runnable {
             try {
                 RoverCollisionInformation info = readAllSensors();
                 maybeEmergencyStop(info);
-                if (!info.equals(previousCollisionInformation)) {
+                if (!info.equals(getCurrentCollisionInformation())) {
                     // only send to client if anything new occurred
                     sendToClients(info);
-                    previousCollisionInformation = info;
+                    setCurrentCollisionInformation(info);
                 }
                 sleep(POLL_INTERVAL_MS);
             } catch (InterruptedException e) {
@@ -110,6 +117,18 @@ public class CollisionRunnable implements Runnable {
             } catch (IOException e) {
                 LOGGER.error("An IO exception occured while reading the sensors: " + e);
             }
+        }
+    }
+    
+    public RoverCollisionInformation getCurrentCollisionInformation() {
+        synchronized (collisionInformationLock) {
+            return currentCollisionInformation;
+        }
+    }
+
+    public void setCurrentCollisionInformation(RoverCollisionInformation newCollisionInfo) {
+        synchronized (collisionInformationLock) {
+            currentCollisionInformation = newCollisionInfo;
         }
     }
 
