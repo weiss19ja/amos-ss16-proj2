@@ -46,6 +46,24 @@ public class RoverCollisionInformation {
                 || (collisionBackRight == CollisionState.Close);
     }
 
+    /**
+     * Determine whether this instance of collision information has a collision on the front of the rover
+     * @return true if the rover's front is too close to an obstacle; else false
+     */
+    public boolean hasCollisionFront() {
+        return (collisionFrontLeft == CollisionState.Close)
+                || (collisionFrontRight == CollisionState.Close);
+    }
+
+    /**
+     * Determin whether this instance of collision information has a collision on the bakc of the rover
+     * @return true if the rover's back is too close to an obstacle; else false
+     */
+    public boolean hasCollisionBack() {
+        return (collisionBackLeft == CollisionState.Close)
+                || (collisionBackRight == CollisionState.Close);
+    }
+
     @Override
     public String toString() {
         return "RoverCollisionInformation{" +

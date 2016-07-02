@@ -25,7 +25,7 @@ import static java.lang.Thread.sleep;
 
 
 /**
- * Representation of a thread that continously polls the IR sensors (in a defined interval) and sends the information
+ * Representation of a thread that continuously polls the IR sensors (in a defined interval) and sends the information
  * to the frontend.
  */
 @Singleton
