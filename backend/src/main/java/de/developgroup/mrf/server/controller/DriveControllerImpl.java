@@ -80,7 +80,7 @@ public class DriveControllerImpl extends AbstractDriveController {
     }
 
     @Override
-    public void applyMotorSettings(MotorSetting settings) throws IOException {
+    public void applyMotorSettings(MotorSettings settings) throws IOException {
         LOGGER.debug("left: {} right: {}", settings.leftMotorPercentage, settings.rightMotorPercentage);
         leftMotor.setSpeedPercentage(settings.leftMotorPercentage);
         rightMotor.setSpeedPercentage(settings.rightMotorPercentage);

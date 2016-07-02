@@ -15,5 +15,5 @@ public interface ContinuousDrivingAlgorithm {
      * @param speed the deviation of the joystick, e.g. its speed
      * @return a motor settings object that describes the movement of the robot for this input
      */
-    MotorSetting calculateMotorSetting(int angle, int speed);
+    MotorSettings calculateMotorSetting(int angle, int speed);
 }

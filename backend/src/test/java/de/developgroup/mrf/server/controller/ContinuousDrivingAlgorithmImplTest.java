@@ -20,7 +20,7 @@ public class ContinuousDrivingAlgorithmImplTest {
 
     @Test
     public void testFullPowerForward() {
-        MotorSetting setting = algorithm.calculateMotorSetting(90, 100);
+        MotorSettings setting = algorithm.calculateMotorSetting(90, 100);
 
         Assert.assertEquals(1d, setting.leftMotorPercentage);
         Assert.assertEquals(1d, setting.rightMotorPercentage);
@@ -28,7 +28,7 @@ public class ContinuousDrivingAlgorithmImplTest {
 
     @Test
     public void testFullPowerBackward() {
-        MotorSetting setting = algorithm.calculateMotorSetting(270, 100);
+        MotorSettings setting = algorithm.calculateMotorSetting(270, 100);
 
         Assert.assertEquals(-1d, setting.leftMotorPercentage);
         Assert.assertEquals(-1d, setting.rightMotorPercentage);
@@ -37,7 +37,7 @@ public class ContinuousDrivingAlgorithmImplTest {
     @Test
     public void testRoverDoesTheStopAtSpeedZero() {
         for (int angle = 0; angle < 360; angle += 90) {
-            MotorSetting setting = algorithm.calculateMotorSetting(angle, 0);
+            MotorSettings setting = algorithm.calculateMotorSetting(angle, 0);
 
             Assert.assertEquals(0d, setting.leftMotorPercentage, 0);
             Assert.assertEquals(0d, setting.rightMotorPercentage, 0);
@@ -46,7 +46,7 @@ public class ContinuousDrivingAlgorithmImplTest {
 
     @Test
     public void testSlightTurnRightForward() {
-        MotorSetting setting = algorithm.calculateMotorSetting(50, 100);
+        MotorSettings setting = algorithm.calculateMotorSetting(50, 100);
 
         Assert.assertEquals(1d, setting.leftMotorPercentage);
         Assert.assertTrue(setting.rightMotorPercentage > 0d);
@@ -56,7 +56,7 @@ public class ContinuousDrivingAlgorithmImplTest {
 
     @Test
     public void testSlightTurnLeftForward() {
-        MotorSetting setting = algorithm.calculateMotorSetting(130, 100);
+        MotorSettings setting = algorithm.calculateMotorSetting(130, 100);
 
         Assert.assertEquals(1d, setting.rightMotorPercentage);
         Assert.assertTrue(setting.leftMotorPercentage > 0d);
@@ -66,7 +66,7 @@ public class ContinuousDrivingAlgorithmImplTest {
 
     @Test
     public void testSlightTurnLeftBackward() {
-        MotorSetting setting = algorithm.calculateMotorSetting(230, 100);
+        MotorSettings setting = algorithm.calculateMotorSetting(230, 100);
 
         Assert.assertEquals(-1d, setting.rightMotorPercentage);
         Assert.assertTrue(setting.leftMotorPercentage < 0d);
@@ -76,7 +76,7 @@ public class ContinuousDrivingAlgorithmImplTest {
 
     @Test
     public void testSlightTurnRightBackward() {
-        MotorSetting setting = algorithm.calculateMotorSetting(310, 100);
+        MotorSettings setting = algorithm.calculateMotorSetting(310, 100);
 
         Assert.assertEquals(-1d, setting.leftMotorPercentage);
         Assert.assertTrue(setting.rightMotorPercentage < 0d);
@@ -86,7 +86,7 @@ public class ContinuousDrivingAlgorithmImplTest {
 
     @Test
     public void testRotateLeft() {
-        MotorSetting setting = algorithm.calculateMotorSetting(180, 100);
+        MotorSettings setting = algorithm.calculateMotorSetting(180, 100);
 
         Assert.assertEquals(1d, setting.rightMotorPercentage);
         Assert.assertEquals(-1d, setting.leftMotorPercentage);
@@ -94,7 +94,7 @@ public class ContinuousDrivingAlgorithmImplTest {
 
     @Test
     public void testRotateRight() {
-        MotorSetting setting = algorithm.calculateMotorSetting(0, 100);
+        MotorSettings setting = algorithm.calculateMotorSetting(0, 100);
 
         Assert.assertEquals(-1d, setting.rightMotorPercentage);
         Assert.assertEquals(1d, setting.leftMotorPercentage);
@@ -102,8 +102,8 @@ public class ContinuousDrivingAlgorithmImplTest {
 
     @Test
     public void testRotationZoneRight20Degrees() {
-        MotorSetting rightUp = algorithm.calculateMotorSetting(20, 100);
-        MotorSetting rightDown = algorithm.calculateMotorSetting(340, 100);
+        MotorSettings rightUp = algorithm.calculateMotorSetting(20, 100);
+        MotorSettings rightDown = algorithm.calculateMotorSetting(340, 100);
 
         Assert.assertEquals(rightUp.leftMotorPercentage, rightDown.leftMotorPercentage);
         Assert.assertEquals(rightUp.rightMotorPercentage, rightDown.rightMotorPercentage);
@@ -111,8 +111,8 @@ public class ContinuousDrivingAlgorithmImplTest {
 
     @Test
     public void testRotationZoneLeft20Degrees() {
-        MotorSetting leftUp = algorithm.calculateMotorSetting(160, 100);
-        MotorSetting leftDown = algorithm.calculateMotorSetting(200, 100);
+        MotorSettings leftUp = algorithm.calculateMotorSetting(160, 100);
+        MotorSettings leftDown = algorithm.calculateMotorSetting(200, 100);
 
         Assert.assertEquals(leftUp.leftMotorPercentage, leftDown.leftMotorPercentage);
         Assert.assertEquals(leftUp.rightMotorPercentage, leftDown.rightMotorPercentage);
@@ -120,8 +120,8 @@ public class ContinuousDrivingAlgorithmImplTest {
 
     @Test
     public void testSpeedScalingForward() {
-        MotorSetting upFast = algorithm.calculateMotorSetting(90, 100);
-        MotorSetting upSlow = algorithm.calculateMotorSetting(90, 50);
+        MotorSettings upFast = algorithm.calculateMotorSetting(90, 100);
+        MotorSettings upSlow = algorithm.calculateMotorSetting(90, 50);
 
         Assert.assertTrue(Math.abs(upFast.leftMotorPercentage) + Math.abs(upFast.rightMotorPercentage)
                 > Math.abs(upSlow.leftMotorPercentage) + Math.abs(upSlow.rightMotorPercentage));

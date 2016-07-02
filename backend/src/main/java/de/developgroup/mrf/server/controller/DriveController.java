@@ -53,5 +53,5 @@ public interface DriveController {
      * Apply raw input to motor values.
      * @param settings the settings object to apply to the motors.
      */
-    void applyMotorSettings(MotorSetting settings) throws IOException;
+    void applyMotorSettings(MotorSettings settings) throws IOException;
 }

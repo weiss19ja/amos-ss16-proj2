@@ -8,13 +8,13 @@ package de.developgroup.mrf.server.controller;
 /**
  * Object that contains motor settings for left and right motor as percentage values.
  */
-public class MotorSetting {
+public class MotorSettings {
 
     public double leftMotorPercentage;
 
     public double rightMotorPercentage;
     
-    public MotorSetting(double leftMotorPercentage, double rightMotorPercentage) {
+    public MotorSettings(double leftMotorPercentage, double rightMotorPercentage) {
         this.leftMotorPercentage = leftMotorPercentage;
         this.rightMotorPercentage = rightMotorPercentage;
     }
@@ -37,7 +37,7 @@ public class MotorSetting {
 
     @Override
     public String toString() {
-        return "MotorSetting{" +
+        return "MotorSettings{" +
                 "leftMotorPercentage=" + leftMotorPercentage +
                 ", rightMotorPercentage=" + rightMotorPercentage +
                 '}';

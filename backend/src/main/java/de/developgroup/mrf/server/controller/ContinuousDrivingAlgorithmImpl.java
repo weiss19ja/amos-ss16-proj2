@@ -28,7 +28,7 @@ public class ContinuousDrivingAlgorithmImpl implements ContinuousDrivingAlgorith
      * @return new motor settings
      */
     @Override
-    public MotorSetting calculateMotorSetting(int angle, int speed) {
+    public MotorSettings calculateMotorSetting(int angle, int speed) {
         double leftMotorPercentage = 0d;
         double rightMotorPercentage = 0d;
 
@@ -69,6 +69,6 @@ public class ContinuousDrivingAlgorithmImpl implements ContinuousDrivingAlgorith
         leftMotorPercentage *= (double)speed/100d;
         rightMotorPercentage *= (double)speed/100d;
 
-        return new MotorSetting(leftMotorPercentage, rightMotorPercentage);
+        return new MotorSettings(leftMotorPercentage, rightMotorPercentage);
     }
 }

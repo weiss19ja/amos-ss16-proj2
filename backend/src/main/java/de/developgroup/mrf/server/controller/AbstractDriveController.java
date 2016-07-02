@@ -33,7 +33,7 @@ public abstract class AbstractDriveController implements DriveController {
     }
 
     public void setContinuousDriving(int angle, int speed) {
-        MotorSetting setting = drivingAlgorithm.calculateMotorSetting(angle, speed);
+        MotorSettings setting = drivingAlgorithm.calculateMotorSetting(angle, speed);
         try {
             applyMotorSettings(setting);
         } catch (IOException e)  {

@@ -9,13 +9,13 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class MotorSettingTest {
+public class MotorSettingsTest {
 
-    MotorSetting setting;
+    MotorSettings setting;
 
     @Before
     public void setUp() {
-        setting = new MotorSetting(0d, 0d);
+        setting = new MotorSettings(0d, 0d);
     }
 
     @Test

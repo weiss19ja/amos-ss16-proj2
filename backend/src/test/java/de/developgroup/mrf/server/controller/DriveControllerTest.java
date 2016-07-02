@@ -29,7 +29,7 @@ public class DriveControllerTest {
 
     @Test
     public void testApplyMotorSettings() throws IOException {
-        MotorSetting newSetting = new MotorSetting(0.6, -0.8);
+        MotorSettings newSetting = new MotorSettings(0.6, -0.8);
 
         driveController.applyMotorSettings(newSetting);
 
