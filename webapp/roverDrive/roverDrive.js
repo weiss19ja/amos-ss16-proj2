@@ -43,7 +43,6 @@ angular.module('myApp.roverDrive', [])
             }
 
             if (urlContainsStr(nextRoutePath, 'driveonly')) {
-                console.log('init joystick zone 1, changing to URL: ' + nextRoutePath);
                 joystickService.initJoystick('zone_joystick_1');
             }
         });
