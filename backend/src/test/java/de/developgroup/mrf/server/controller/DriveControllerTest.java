@@ -10,14 +10,18 @@ import de.developgroup.mrf.rover.collision.CollisionState;
 import de.developgroup.mrf.rover.collision.RoverCollisionInformation;
 import de.developgroup.mrf.rover.motor.MotorController;
 import junit.framework.Assert;
+import org.eclipse.jetty.util.IO;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.io.IOException;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Mockito.mockingDetails;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
@@ -33,7 +37,7 @@ public class DriveControllerTest {
     public void setUp() throws IOException {
         drivingAlgorithm = Mockito.mock(ContinuousDrivingAlgorithm.class);
         collisionRunnable = Mockito.mock(CollisionRunnable.class);
-        driveController = new DriveControllerImpl(drivingAlgorithm, collisionRunnable);
+        driveController = Mockito.spy(new DriveControllerImpl(drivingAlgorithm, collisionRunnable));
         driveController.leftMotor = Mockito.mock(MotorController.class);
         driveController.rightMotor = Mockito.mock(MotorController.class);
     }
@@ -49,12 +53,67 @@ public class DriveControllerTest {
     }
 
     @Test
+    public void testDriveForwards() throws IOException {
+        ArgumentCaptor<MotorSettings> motorSettingsCaptor = ArgumentCaptor.forClass(MotorSettings.class);
+
+        driveController.driveForwards();
+
+        verify(driveController).applyMotorSettings(motorSettingsCaptor.capture());
+        Assert.assertEquals(1d, motorSettingsCaptor.getValue().leftMotorPercentage);
+        Assert.assertEquals(1d, motorSettingsCaptor.getValue().rightMotorPercentage);
+    }
+
+    @Test
+    public void testDriveBackwards() throws IOException {
+        ArgumentCaptor<MotorSettings> motorSettingsCaptor = ArgumentCaptor.forClass(MotorSettings.class);
+
+        driveController.driveBackwards();
+
+        verify(driveController).applyMotorSettings(motorSettingsCaptor.capture());
+        Assert.assertEquals(-1d, motorSettingsCaptor.getValue().leftMotorPercentage);
+        Assert.assertEquals(-1d, motorSettingsCaptor.getValue().rightMotorPercentage);
+    }
+
+    @Test
+    public void testTurnLeft() throws IOException {
+        ArgumentCaptor<MotorSettings> motorSettingsCaptor = ArgumentCaptor.forClass(MotorSettings.class);
+
+        driveController.turnLeft();
+
+        verify(driveController).applyMotorSettings(motorSettingsCaptor.capture());
+        Assert.assertEquals(-1d, motorSettingsCaptor.getValue().leftMotorPercentage);
+        Assert.assertEquals(1d, motorSettingsCaptor.getValue().rightMotorPercentage);
+    }
+
+    @Test
+    public void testTurnRight() throws IOException {
+        ArgumentCaptor<MotorSettings> motorSettingsCaptor = ArgumentCaptor.forClass(MotorSettings.class);
+
+        driveController.turnRight();
+
+        verify(driveController).applyMotorSettings(motorSettingsCaptor.capture());
+        Assert.assertEquals(1d, motorSettingsCaptor.getValue().leftMotorPercentage);
+        Assert.assertEquals(-1d, motorSettingsCaptor.getValue().rightMotorPercentage);
+    }
+
+    @Test
+    public void testStop() throws IOException {
+        ArgumentCaptor<MotorSettings> motorSettingsCaptor = ArgumentCaptor.forClass(MotorSettings.class);
+
+        driveController.stop();
+
+        verify(driveController).applyMotorSettings(motorSettingsCaptor.capture());
+        Assert.assertEquals(0d, motorSettingsCaptor.getValue().leftMotorPercentage);
+        Assert.assertEquals(0d, motorSettingsCaptor.getValue().rightMotorPercentage);
+    }
+
+    @Test
     public void testNoDrivingForwardsIfCollision() throws IOException {
-        driveController = Mockito.spy(new DriveControllerImpl(new ContinuousDrivingAlgorithmImpl(), collisionRunnable));
         // assure a collision front is encountered
         RoverCollisionInformation collisionFront = new RoverCollisionInformation();
         collisionFront.collisionFrontLeft = CollisionState.Close;
         Mockito.when(collisionRunnable.getCurrentCollisionInformation()).thenReturn(collisionFront);
+        Mockito.when(drivingAlgorithm.calculateMotorSetting(anyInt(), anyInt())).thenReturn(new MotorSettings(1, 1));
 
         driveController.leftMotor = Mockito.mock(MotorController.class);
         driveController.rightMotor = Mockito.mock(MotorController.class);
@@ -66,11 +125,11 @@ public class DriveControllerTest {
 
     @Test
     public void testNoDrivingBackwardsIfCollision() throws IOException {
-        driveController = Mockito.spy(new DriveControllerImpl(new ContinuousDrivingAlgorithmImpl(), collisionRunnable));
         // make collision back happen
         RoverCollisionInformation collisionBack = new RoverCollisionInformation();
         collisionBack.collisionBackRight = CollisionState.Close;
         Mockito.when(collisionRunnable.getCurrentCollisionInformation()).thenReturn(collisionBack);
+        Mockito.when(drivingAlgorithm.calculateMotorSetting(anyInt(), anyInt())).thenReturn(new MotorSettings(-1, -1));
 
         driveController.leftMotor = Mockito.mock(MotorController.class);
         driveController.rightMotor = Mockito.mock(MotorController.class);
@@ -78,6 +137,50 @@ public class DriveControllerTest {
         driveController.setContinuousDriving(270, 100);
 
         verify(driveController).stop();
+    }
+
+    @Test
+    public void testUpdateWithCollidingCollisionInformationStopsForwards() throws IOException {
+        RoverCollisionInformation info = Mockito.mock(RoverCollisionInformation.class);
+        Mockito.when(info.hasCollisionFront()).thenReturn(true);
+
+        driveController.driveForwards();
+        driveController.update(collisionRunnable, info);
+
+        verify(driveController).stop();
+    }
+
+    @Test
+    public void testUpdateWithNonCollidingCollisionInformationDoesNotStopForwards() throws IOException {
+        RoverCollisionInformation info = Mockito.mock(RoverCollisionInformation.class);
+        Mockito.when(info.hasCollisionFront()).thenReturn(false);
+
+        driveController.driveForwards();
+        driveController.update(collisionRunnable, info);
+
+        verify(driveController, never()).stop();
+    }
+
+    @Test
+    public void testUpdateWithCollidingCollisionInformationStopsBackwards() throws IOException {
+        RoverCollisionInformation info = Mockito.mock(RoverCollisionInformation.class);
+        Mockito.when(info.hasCollisionBack()).thenReturn(true);
+
+        driveController.driveBackwards();
+        driveController.update(collisionRunnable, info);
+
+        verify(driveController).stop();
+    }
+
+    @Test
+    public void testUpdateWithNonCollidingCollisionInformationDoesNotStopBackwards() throws IOException {
+        RoverCollisionInformation info = Mockito.mock(RoverCollisionInformation.class);
+        Mockito.when(info.hasCollisionBack()).thenReturn(false);
+
+        driveController.driveBackwards();
+        driveController.update(collisionRunnable, info);
+
+        verify(driveController, never()).stop();
     }
 
     @Test
@@ -89,5 +192,4 @@ public class DriveControllerTest {
         Assert.assertEquals(min, driveController.clamp(-1337, min, max));
         Assert.assertEquals(max, driveController.clamp(666, min, max));
     }
-
 }
