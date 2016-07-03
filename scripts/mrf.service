@@ -1,6 +1,7 @@
 [Unit]
 Description=MRF
 [Service]
+WorkingDirectory=/home/pi
 ExecStart=/usr/bin/java -jar /home/pi/backend-1.0-SNAPSHOT-jar-with-dependencies.jar
 User=root
 Type=oneshot
