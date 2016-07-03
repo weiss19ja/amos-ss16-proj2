@@ -41,6 +41,11 @@ angular.module('myApp.roverDrive', [])
                 console.log('Exit Driver Mode, changing to URL: ' + nextRoutePath);
                 roverService.exitDriverMode();
             }
+
+            if (urlContainsStr(nextRoutePath, 'driveonly')) {
+                console.log('init joystick zone 1, changing to URL: ' + nextRoutePath);
+                joystickService.initJoystick('zone_joystick_1');
+            }
         });
 
         /**
@@ -60,7 +65,7 @@ angular.module('myApp.roverDrive', [])
         $scope.$watch(function () {
             return $mdMedia('xs');
         }, function () {
-            if ($mdMedia('xs')) {
+            if ($mdMedia('xs') && (!urlContainsStr($location.path(), 'driveonly'))) {
                 joystickService.initJoystick('zone_joystick_1');
             }
         });
@@ -71,7 +76,7 @@ angular.module('myApp.roverDrive', [])
         $scope.$watch(function () {
             return $mdMedia('gt-xs');
         }, function () {
-            if ($mdMedia('gt-xs')) {
+            if ($mdMedia('gt-xs') && (!urlContainsStr($location.path(), 'driveonly'))) {
                 joystickService.initJoystick('zone_joystick_2');
             }
         });
