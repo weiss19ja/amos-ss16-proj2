@@ -14,12 +14,14 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class LoggingCommunicationControllerImpl extends AbstractLoggingCommunicationController implements LoggingCommunicationController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LoggingCommunicationControllerImpl.class);
 
     private final ClientManager clientManager;
+    private static AtomicBoolean isRunning = new AtomicBoolean(false);
 
     @Inject
     public LoggingCommunicationControllerImpl(ClientManager clientManager) throws IOException {
@@ -28,7 +30,13 @@ public class LoggingCommunicationControllerImpl extends AbstractLoggingCommunica
 
     @Override
     public void getLoggingEntries(int clientId, String lastEntry) {
+        if(isRunning.get()){
+            LOGGER.info("Abort get log entries: another thread is running");
+            return;
+        }
+
         LOGGER.info("Get log entries from client with id: {} and last entry: {}", clientId, lastEntry);
+        isRunning.set(true);
         new Thread(() -> {
             try {
                 boolean isFirstIteration = true;
@@ -50,6 +58,8 @@ public class LoggingCommunicationControllerImpl extends AbstractLoggingCommunica
             } catch (IOException ioExc) {
                 LOGGER.error("IOException while getting and sending log entries async:\n{}", ioExc.toString());
                 ioExc.printStackTrace();
+            } finally {
+                isRunning.set(false);
             }
         }).start();
     }
