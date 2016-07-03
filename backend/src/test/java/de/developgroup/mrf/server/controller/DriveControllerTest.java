@@ -49,17 +49,6 @@ public class DriveControllerTest {
     }
 
     @Test
-    public void testUpdateMotors() throws IOException {
-        driveController.setDesiredSpeed(42);
-        driveController.setDesiredTurnrate(23);
-
-        driveController.updateMotors();
-
-        verify(driveController.leftMotor).setSpeed(42 - 23);
-        verify(driveController.rightMotor).setSpeed(42 + 23);
-    }
-
-    @Test
     public void testNoDrivingForwardsIfCollision() throws IOException {
         driveController = Mockito.spy(new DriveControllerImpl(new ContinuousDrivingAlgorithmImpl(), collisionRunnable));
         // assure a collision front is encountered
@@ -72,7 +61,7 @@ public class DriveControllerTest {
 
         driveController.setContinuousDriving(90, 100);
 
-        verify(driveController, never()).applyMotorSettings(any());
+        verify(driveController).stop();
     }
 
     @Test
@@ -88,7 +77,7 @@ public class DriveControllerTest {
 
         driveController.setContinuousDriving(270, 100);
 
-        verify(driveController, never()).applyMotorSettings(any());
+        verify(driveController).stop();
     }
 
     @Test

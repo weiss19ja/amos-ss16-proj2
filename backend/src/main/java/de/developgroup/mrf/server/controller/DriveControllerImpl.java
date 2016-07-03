@@ -32,9 +32,6 @@ public class DriveControllerImpl extends AbstractDriveController {
     public MotorController leftMotor;
     public MotorController rightMotor;
 
-    private int desiredSpeed = 0;
-    private int desiredTurnrate = 0;
-
     @Inject
     public DriveControllerImpl(ContinuousDrivingAlgorithm drivingAlgorithm, CollisionRunnable collisionRunnable) throws IOException {
         super(drivingAlgorithm, collisionRunnable);
@@ -59,25 +56,6 @@ public class DriveControllerImpl extends AbstractDriveController {
                 configurationProvider.bind("motorRight", MotorControllerConfiguration.class));
 
         LOGGER.debug("Completed setting up DriveController");
-    }
-
-    @Override
-    public void setDesiredSpeed(int speed) {
-        desiredSpeed = speed;
-    }
-
-    @Override
-    public void setDesiredTurnrate(int turnrate) {
-        desiredTurnrate = turnrate;
-    }
-
-    @Override
-    public void updateMotors() throws IOException {
-        final int leftSpeed = clamp(desiredSpeed - desiredTurnrate, MotorController.SPEED_MAX_BACKWARD, MotorController.SPEED_MAX_FORWARD);
-        final int rightSpeed = clamp(desiredSpeed + desiredTurnrate, MotorController.SPEED_MAX_BACKWARD, MotorController.SPEED_MAX_FORWARD);
-
-        leftMotor.setSpeed(leftSpeed);
-        rightMotor.setSpeed(rightSpeed);
     }
 
     @Override

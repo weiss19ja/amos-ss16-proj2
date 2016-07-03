@@ -31,7 +31,7 @@ public abstract class AbstractDriveController implements DriveController, Observ
      */
     protected CollisionRunnable collisionRunnable;
     protected MotorSettings currentMotorSettings;
-    private Object motorSettingsLock = new Object();
+    private final Object motorSettingsLock = new Object();
 
     @Inject
     public AbstractDriveController(ContinuousDrivingAlgorithm drivingAlgorithm, CollisionRunnable collisionRunnable) {
@@ -49,8 +49,7 @@ public abstract class AbstractDriveController implements DriveController, Observ
                     && !collisionRunnable.getCurrentCollisionInformation().hasCollisionBack()) {
                 applyMotorSettings(setting);
             } else {
-                setDesiredSpeed(0);
-                updateMotors();
+                stop();
                 LOGGER.info("Do not drive - collision in the direction of joystick driving detected.");
             }
         } catch (IOException e)  {
@@ -79,14 +78,8 @@ public abstract class AbstractDriveController implements DriveController, Observ
     }
 
     public void stop() throws IOException {
-        setDesiredSpeed(0);
-        updateMotors();
-    }
-
-    public void setAndApply(int speed, int turnrate) throws IOException {
-        setDesiredSpeed(speed);
-        setDesiredTurnrate(turnrate);
-        updateMotors();
+        MotorSettings settings = new MotorSettings(0, 0);
+        applyMotorSettings(settings);
     }
 
     @Override

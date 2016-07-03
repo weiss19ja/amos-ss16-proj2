@@ -27,27 +27,6 @@ public class DriveControllerMock extends AbstractDriveController {
     }
 
     @Override
-    public void setAndApply(int speed, int turnrate) throws IOException {
-        LOGGER.info("setting and applying speed {} and turnrate {}", speed, turnrate);
-        super.setAndApply(speed, turnrate);
-    }
-
-    @Override
-    public void setDesiredSpeed(int speed) {
-        LOGGER.info("setting speed {}", speed);
-    }
-
-    @Override
-    public void setDesiredTurnrate(int turnrate) {
-        LOGGER.info("setting turnate {}", turnrate);
-    }
-
-    @Override
-    public void updateMotors() throws IOException {
-        LOGGER.info("updating motor settings");
-    }
-
-    @Override
     public void applyMotorSettings(MotorSettings settings) throws IOException {
         LOGGER.info("applying motor settings object " + settings);
     }

@@ -45,35 +45,35 @@ public class RoverHandlerImplTest {
 	public void testDriveForward() throws IOException {
 		handler.driveForward(100);
 
-		verify(handler.driveController).setAndApply(100, 0);
+		verify(handler.driveController).driveForwards();
 	}
 
 	@Test
 	public void testDriveBackward() throws IOException {
 		handler.driveBackward(100);
 
-		verify(handler.driveController).setAndApply(-100, 0);
+		verify(handler.driveController).driveBackwards();
 	}
 
 	@Test
 	public void testStop() throws IOException {
 		handler.stop();
 
-		verify(handler.driveController).setAndApply(0, 0);
+		verify(handler.driveController).stop();
 	}
 
 	@Test
 	public void testTurnLeft() throws IOException {
 		handler.turnLeft(20);
 
-		verify(handler.driveController).setAndApply(0, 20);
+		verify(handler.driveController).turnLeft();
 	}
 
 	@Test
 	public void testTurnRight() throws IOException {
 		handler.turnRight(20);
 
-		verify(handler.driveController).setAndApply(0, -20);
+		verify(handler.driveController).turnRight();
 	}
 
 	@Test

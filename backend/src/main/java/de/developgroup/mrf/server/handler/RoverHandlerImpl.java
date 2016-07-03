@@ -83,14 +83,14 @@ public class RoverHandlerImpl implements RoverHandler {
 
 	@Override
 	public void driveForward(int desiredSpeed) throws IOException {
-		LOGGER.debug("driveForward() with speed " + desiredSpeed);
-		driveController.setAndApply(desiredSpeed, 0);
+		LOGGER.debug("driveForward()");
+		driveController.driveForwards();
 	}
 
 	@Override
 	public void driveBackward(int desiredSpeed) throws IOException {
 		LOGGER.debug("driveBackward() with speed " + desiredSpeed);
-		driveController.setAndApply(-desiredSpeed, 0);
+		driveController.driveBackwards();
 	}
 
 	/**
@@ -120,18 +120,19 @@ public class RoverHandlerImpl implements RoverHandler {
 
 	@Override
 	public void stop() throws IOException {
-		driveController.setAndApply(0, 0);
+		driveController.stop();
 	}
 
 	@Override
 	public void turnLeft(int turnRate) throws IOException {
-		// links negativ recht pos
-		driveController.setAndApply(0, turnRate);
+		LOGGER.debug("turnLeft()");
+		driveController.turnLeft();
 	}
 
 	@Override
 	public void turnRight(int turnRate) throws IOException {
-		driveController.setAndApply(0, -turnRate);
+		LOGGER.debug("turnRight()");
+		driveController.turnRight();
 	}
 
 	@Override
