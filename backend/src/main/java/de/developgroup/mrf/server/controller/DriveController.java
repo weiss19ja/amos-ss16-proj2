@@ -26,12 +26,14 @@ public interface DriveController {
 
     /**
      * Drive the rover forwards.
+     * Drives only if no collision front was encountered.
      * @throws IOException
      */
     void driveForwards() throws IOException;
 
     /**
      * Drive the rover backwards.
+     * Drives only if no collision back was encountered.
      * @throws IOException
      */
     void driveBackwards() throws IOException;

@@ -21,9 +21,7 @@ import java.io.IOException;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
-import static org.mockito.Mockito.mockingDetails;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 public class DriveControllerTest {
 
@@ -37,6 +35,8 @@ public class DriveControllerTest {
     public void setUp() throws IOException {
         drivingAlgorithm = Mockito.mock(ContinuousDrivingAlgorithm.class);
         collisionRunnable = Mockito.mock(CollisionRunnable.class);
+        Mockito.when(collisionRunnable.getCurrentCollisionInformation()).thenReturn(new RoverCollisionInformation());
+
         driveController = Mockito.spy(new DriveControllerImpl(drivingAlgorithm, collisionRunnable));
         driveController.leftMotor = Mockito.mock(MotorController.class);
         driveController.rightMotor = Mockito.mock(MotorController.class);
@@ -108,7 +108,29 @@ public class DriveControllerTest {
     }
 
     @Test
-    public void testNoDrivingForwardsIfCollision() throws IOException {
+    public void testDriveForwardsBlocked() throws IOException {
+        RoverCollisionInformation info = new RoverCollisionInformation();
+        info.collisionFrontLeft = CollisionState.Close;
+        when(collisionRunnable.getCurrentCollisionInformation()).thenReturn(info);
+
+        driveController.driveForwards();
+
+        verify(driveController, never()).applyMotorSettings(any());
+    }
+
+    @Test
+    public void testDriveBackwardsBlocked() throws IOException {
+        RoverCollisionInformation info = new RoverCollisionInformation();
+        info.collisionBackRight = CollisionState.Close;
+        when(collisionRunnable.getCurrentCollisionInformation()).thenReturn(info);
+
+        driveController.driveBackwards();
+
+        verify(driveController, never()).applyMotorSettings(any());
+    }
+
+    @Test
+    public void testJoystickNoDrivingForwardsIfCollision() throws IOException {
         // assure a collision front is encountered
         RoverCollisionInformation collisionFront = new RoverCollisionInformation();
         collisionFront.collisionFrontLeft = CollisionState.Close;
@@ -124,7 +146,7 @@ public class DriveControllerTest {
     }
 
     @Test
-    public void testNoDrivingBackwardsIfCollision() throws IOException {
+    public void testJoystickNoDrivingBackwardsIfCollision() throws IOException {
         // make collision back happen
         RoverCollisionInformation collisionBack = new RoverCollisionInformation();
         collisionBack.collisionBackRight = CollisionState.Close;

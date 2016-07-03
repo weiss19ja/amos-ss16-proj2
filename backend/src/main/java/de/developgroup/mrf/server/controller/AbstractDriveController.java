@@ -62,12 +62,16 @@ public abstract class AbstractDriveController implements DriveController, Observ
 
     public void driveForwards() throws IOException {
         MotorSettings settings = new MotorSettings(1d, 1d);
-        applyMotorSettings(settings);
+        if (!collisionRunnable.getCurrentCollisionInformation().hasCollisionFront()) {
+            applyMotorSettings(settings);
+        }
     }
 
     public void driveBackwards() throws IOException {
         MotorSettings settings = new MotorSettings(-1d, -1d);
-        applyMotorSettings(settings);
+        if (!collisionRunnable.getCurrentCollisionInformation().hasCollisionBack()) {
+            applyMotorSettings(settings);
+        }
     }
 
     public void turnLeft() throws IOException {
