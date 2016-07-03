@@ -29,8 +29,11 @@ public class ClientManagerImpl extends Observable implements ClientManager {
 			.getLogger(ClientManagerImpl.class);
 	private static final String TEXT_NOTIFICATION_METHOD = "incomingNotification";
 
+	/**
+	 * Map client ids to their sessions.
+	 */
 	private static final Map<Integer, Session> sessions = Collections
-			.synchronizedMap(new HashMap<Integer, Session>());
+			.synchronizedMap(new HashMap<>());
 
 	@Inject
 	static ClientInformationHandler clientInformationHandler;
@@ -56,7 +59,7 @@ public class ClientManagerImpl extends Observable implements ClientManager {
 	public int addClient(final Session session) {
 		int clientId = generateClientId();
 		sessions.put(clientId, session);
-		sendClientId(session, clientId);
+		notifyClientAboutId(clientId);
 		String msg = "new client has connected to server, id: " + clientId;
 		notifyAllClients(msg);
 
@@ -70,7 +73,7 @@ public class ClientManagerImpl extends Observable implements ClientManager {
 
 	@Override
 	public Map<Integer, Session> getSessions() {
-		return sessions;
+		return Collections.unmodifiableMap(sessions);
 	}
 
 	/**
@@ -80,7 +83,7 @@ public class ClientManagerImpl extends Observable implements ClientManager {
 	@Override
 	public void removeClosedSessions() {
 		// New set because otherwise data wouldn't be copied
-		Set<Integer> clientIdsBefore = new HashSet<Integer>();
+		Set<Integer> clientIdsBefore = new HashSet<>();
 		clientIdsBefore.addAll(sessions.keySet());
 
 		boolean removedSomething = false;
@@ -88,7 +91,6 @@ public class ClientManagerImpl extends Observable implements ClientManager {
 		while (iter.hasNext()) {
 			Session session = iter.next();
 			if (!session.isOpen()) {
-				String ipAddress = session.getRemoteAddress().toString();
 				LOGGER.info("Remove session: "
 						+ session.getRemoteAddress().toString());
 				iter.remove();
@@ -137,9 +139,7 @@ public class ClientManagerImpl extends Observable implements ClientManager {
 	 */
 	@Override
 	public boolean isClientConnected(int clientId) {
-		Session session = sessions.get(clientId);
-		boolean isClientConnected = session != null;
-		return isClientConnected;
+		return sessions.containsKey(clientId);
 	}
 
 	/**
@@ -206,16 +206,12 @@ public class ClientManagerImpl extends Observable implements ClientManager {
 		return lastClientId.getAndIncrement();
 	}
 
-	private void sendClientId(final Session session, final int clientId) {
+	private void notifyClientAboutId(final int clientId) {
 		List<Object> params = new ArrayList<>();
 		params.add(clientId);
 		JsonRpc2Request notification = new JsonRpc2Request("setClientId",
 				params);
-		try {
-			session.getRemote().sendString(notification.toString());
-		} catch (IOException e) {
-			LOGGER.error("An error has occurred by sending id to client");
-		}
+		doSendNotificationToClient(clientId, notification);
 	}
 
 	private synchronized void doSendNotificationToClient(int clientId,

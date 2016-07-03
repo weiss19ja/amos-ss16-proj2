@@ -25,11 +25,7 @@ public class ClientInformationHandlerImpl implements ClientInformationHandler {
     private static final Logger LOGGER = LoggerFactory
             .getLogger(ClientInformationHandlerImpl.class);
 
-    @Inject
-    static SingleDriverHandler singleDriverHandler;
-
-
-
+    private SingleDriverHandler singleDriverHandler;
 
     @Inject
     public ClientInformationHandlerImpl(SingleDriverHandler singleDriverHandler) {
@@ -49,10 +45,7 @@ public class ClientInformationHandlerImpl implements ClientInformationHandler {
 
     @Override
     public void unblockIp(String ipAddress) {
-        int indexToRemove = blockedIpsList.indexOf(ipAddress);
-        if (indexToRemove >= 0 || indexToRemove < blockedIpsList.size()) {
-            blockedIpsList.remove(indexToRemove);
-        }
+        blockedIpsList.remove(ipAddress);
     }
 
     @Override
@@ -151,7 +144,6 @@ public class ClientInformationHandlerImpl implements ClientInformationHandler {
     @Override
     public boolean isBlocked(int clientId){
         List<ClientInformation> blockedConnections = getBlockedConnections();
-        boolean isBlocked = false;
         for (ClientInformation clientInformation : blockedConnections) {
             for(int clientInformationClientId : clientInformation.getClientIds()){
                 if(clientId == clientInformationClientId){
@@ -167,7 +159,6 @@ public class ClientInformationHandlerImpl implements ClientInformationHandler {
     @Override
     public void releaseDriverIfBlocked(){
         List<ClientInformation> blockedConnections = getBlockedConnections();
-        int driverClientId = singleDriverHandler.getCurrentDriverId();
         for (ClientInformation clientInformation : blockedConnections) {
             for (int clientId : clientInformation.getClientIds()) {
                 if (singleDriverHandler.getCurrentDriverId() == clientId) {

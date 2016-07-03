@@ -4,26 +4,27 @@
  */
 package de.developgroup.mrf.server.handler;
 
+import de.developgroup.mrf.server.ClientManager;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.util.List;
 
-import static de.developgroup.mrf.server.handler.ClientInformationHandlerImpl.singleDriverHandler;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class ClientInformationHandlerTest {
     ClientInformationHandler handler;
+    SingleDriverHandler singleDriverHandler;
 
     @Before
     public void setUp() {
+        singleDriverHandler = Mockito.mock(SingleDriverHandler.class) ;
         handler = new ClientInformationHandlerImpl(mock(SingleDriverHandlerImpl.class));
         System.out.println("Set up handler");
 //                mock(ClientManagerImpl.class)
@@ -227,6 +228,7 @@ public class ClientInformationHandlerTest {
     @Test
     public void testReleaseDriverIfBlocked(){
         when(singleDriverHandler.getCurrentDriverId()).thenReturn(1337);
+        handler = new ClientInformationHandlerImpl(singleDriverHandler);
 
         int clientId = 1337;
         handler.addConnection("192.168.0.42", 1337);
