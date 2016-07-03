@@ -583,9 +583,13 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
        * If lastLogEntry is null or empty the backend will send all log file entries.
        */
       getLoggingEntries: function (lastLogEntry, callback) {
-        logEntriesCallback = callback;
-        console.log(lastLogEntry);
-        send("getLoggingEntries", [clientId, lastLogEntry]);
+        if (clientId) {
+          logEntriesCallback = callback;
+          console.log(lastLogEntry);
+          send("getLoggingEntries", [clientId, lastLogEntry]);
+        } else {
+          showErrorNotification("Could not fetch logging entries because connecting to the rover is still in progress.")
+        }
       },
       /**
        * Requests the rovers system uptime
