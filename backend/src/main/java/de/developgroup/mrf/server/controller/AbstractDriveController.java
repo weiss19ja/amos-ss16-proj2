@@ -37,6 +37,9 @@ public abstract class AbstractDriveController implements DriveController, Observ
     public AbstractDriveController(ContinuousDrivingAlgorithm drivingAlgorithm, CollisionRunnable collisionRunnable) {
         this.drivingAlgorithm = drivingAlgorithm;
         this.collisionRunnable = collisionRunnable;
+        this.currentMotorSettings = new MotorSettings(0, 0);
+
+        collisionRunnable.addObserver(this);
     }
 
     public void setContinuousDriving(int angle, int speed) {

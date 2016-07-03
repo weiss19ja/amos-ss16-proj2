@@ -107,6 +107,7 @@ public class CollisionRunnable extends Observable implements Runnable {
             try {
                 RoverCollisionInformation info = readAllSensors();
                 if (!info.equals(getCurrentCollisionInformation())) {
+                    setChanged();
                     notifyObservers(info);
                     // only send to client if anything new occurred
                     sendToClients(info);
