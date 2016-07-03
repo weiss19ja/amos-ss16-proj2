@@ -5,11 +5,6 @@
 <div ng-show="roverState.isDriverAvailable">
     <!-- top card for camera stream view -->
     <md-card>
-        <md-card-title>
-            <md-card-title-text>
-                <span class="md-headline">Camera View</span>
-            </md-card-title-text>
-        </md-card-title>
         <md-card-content layout="row" layout-align="center center">
             <img ng-src="{{ mjpegStreamURL }}" fallback-src="{{ 'assets/images/videocam_off_640x480.png' }}"
                  class="md-card-image" align="middle" style="width: calc(100%/2)" class="md-card-image" alt="video stream">
@@ -18,11 +13,6 @@
 
     <!-- bottom card for controls -->
     <md-card>
-        <md-card-title>
-            <md-card-title-text>
-                <span class="md-headline">Controls</span>
-            </md-card-title-text>
-        </md-card-title>
         <md-content layout="row" layout-align="center center" layout-padding>
             <!-- column driving dpad -->
             <div layout="column" layout-align="center center">

@@ -9,11 +9,11 @@
         <span flex></span>
         <joystick-dpad-switch hide-xs zone="zone_joystick_2"></joystick-dpad-switch>
     </md-toolbar>
-    <md-content layout="row" layout-align="center center" style="padding-left: 10px; padding-right: 10px; overflow-y: hidden; overflow-x: hidden;" >
+    <md-content layout="row" layout-align="space-around start">
         <parking-sensors hide-xs></parking-sensors>
-        <div layout="column" layout-align="center center" style="padding: 0px; margin-left: 10px; margin-right: 10px">
+        <div flex="50">
             <img ng-src="{{mjpegStreamURL}}" fallback-src="{{'assets/images/videocam_off_640x480.png'}}"
-                 class="md-card-image" alt="Video-Stream" style="width: 90%">
+                 class="md-card-image" alt="Video-Stream">
         </div>
         <div hide-xs >
             <div id="zone_joystick_2" class="joystick" ng-show="joystickState.isJoystickEnabled"></div>
