@@ -11,6 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import com.google.inject.Inject;
 import de.developgroup.mrf.server.handler.ClientInformation;
 import de.developgroup.mrf.server.handler.ClientInformationHandler;
+import de.developgroup.mrf.server.handler.SingleDriverHandler;
 import org.eclipse.jetty.websocket.api.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,12 +39,15 @@ public class ClientManagerImpl extends Observable implements ClientManager {
 
 	ClientInformationHandler clientInformationHandler;
 
+	SingleDriverHandler singleDriverHandler;
+
 	private AtomicInteger lastClientId = new AtomicInteger(5000);
 
 
 	@Inject
-	public ClientManagerImpl(ClientInformationHandler clientInformationHandler){
+	public ClientManagerImpl(ClientInformationHandler clientInformationHandler, SingleDriverHandler singleDriverHandler){
 		this.clientInformationHandler = clientInformationHandler;
+		this.singleDriverHandler = singleDriverHandler;
 	}
 
 	/**
@@ -317,5 +321,14 @@ public class ClientManagerImpl extends Observable implements ClientManager {
 	@Override
 	public void releaseDriverIfBlocked(){
 		clientInformationHandler.releaseDriverIfBlocked();
+	}
+
+	/**
+	 * Always releases the current  driver
+	 */
+	@Override
+	public void releaseDriver(){
+		int driverId = singleDriverHandler.getCurrentDriverId();
+		singleDriverHandler.releaseDriver(driverId);
 	}
 }
