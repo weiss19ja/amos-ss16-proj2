@@ -35,8 +35,8 @@ public class ClientManagerImpl extends Observable implements ClientManager {
 	private static final Map<Integer, Session> sessions = Collections
 			.synchronizedMap(new HashMap<>());
 
-	@Inject
-	static ClientInformationHandler clientInformationHandler;
+
+	ClientInformationHandler clientInformationHandler;
 
 	private AtomicInteger lastClientId = new AtomicInteger(5000);
 

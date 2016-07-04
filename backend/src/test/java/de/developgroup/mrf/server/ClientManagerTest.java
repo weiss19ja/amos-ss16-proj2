@@ -35,7 +35,7 @@ public class ClientManagerTest {
 
     private Injector injector;
     private static ClientManagerImpl clientManager;
-    private static ClientInformationHandler clientInformationHandler = mock(ClientInformationHandlerImpl.class);
+    private ClientInformationHandler clientInformationHandler = mock(ClientInformationHandlerImpl.class);
 
 	private static Session session;
 	private static RemoteEndpoint remoteEndpoint;
@@ -45,13 +45,10 @@ public class ClientManagerTest {
 
     @BeforeClass
     public static void setUpBeforeAll() throws IOException {
-        clientManager.clientInformationHandler = clientInformationHandler;
     }
 
 	@Before
 	public void setUp() throws Exception {
-		// injector = Guice.createInjector();
-		// clientManager = injector.getInstance(ClientManagerImpl.class);
 		clientManager = new ClientManagerImpl(clientInformationHandler);
 
 		// mocking session
