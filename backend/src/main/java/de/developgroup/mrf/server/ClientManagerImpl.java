@@ -323,9 +323,12 @@ public class ClientManagerImpl extends Observable implements ClientManager {
 		clientInformationHandler.releaseDriverIfBlocked();
 	}
 
-
+	/**
+	 * Always releases the current  driver
+	 */
 	@Override
 	public void releaseDriver(){
-
+		int driverId = singleDriverHandler.getCurrentDriverId();
+		singleDriverHandler.releaseDriver(driverId);
 	}
 }

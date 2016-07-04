@@ -17,6 +17,7 @@ import static org.mockito.Mockito.when;
 import com.google.inject.Injector;
 import de.developgroup.mrf.server.handler.ClientInformationHandler;
 import de.developgroup.mrf.server.handler.ClientInformationHandlerImpl;
+import de.developgroup.mrf.server.handler.SingleDriverHandler;
 import de.developgroup.mrf.server.rpc.JsonRpc2Request;
 import org.eclipse.jetty.websocket.api.RemoteEndpoint;
 import org.eclipse.jetty.websocket.api.Session;
@@ -36,6 +37,7 @@ public class ClientManagerTest {
     private Injector injector;
     private static ClientManagerImpl clientManager;
     private ClientInformationHandler clientInformationHandler = mock(ClientInformationHandlerImpl.class);
+	private SingleDriverHandler singleDriverHandler = mock(SingleDriverHandler.class);
 
 	private static Session session;
 	private static RemoteEndpoint remoteEndpoint;
@@ -49,7 +51,7 @@ public class ClientManagerTest {
 
 	@Before
 	public void setUp() throws Exception {
-		clientManager = new ClientManagerImpl(clientInformationHandler);
+		clientManager = new ClientManagerImpl(clientInformationHandler, singleDriverHandler);
 
 		// mocking session
 		session = mock(Session.class);
