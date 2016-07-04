@@ -174,17 +174,6 @@ public class ClientManagerImpl extends Observable implements ClientManager {
     }
 
 	/**
-	 * Generates a random number in range [min, max]
-	 * @param min minimum of random number, inclusive
-	 * @param max maximum of random number, inclusive
-     * @return randomNumber
-     */
-	private static int randInt(int min, int max) {
-		Random rand = new Random();
-		int randomNum = rand.nextInt((max - min) + 1) + min;
-		return randomNum;
-	}
-	/**
 	 * Notify all connected clients with a general text notification. A general
 	 * text notification is a JSON-RPC 2.0 Notification where the destination
 	 * method is {@value #TEXT_NOTIFICATION_METHOD} and the message string is
