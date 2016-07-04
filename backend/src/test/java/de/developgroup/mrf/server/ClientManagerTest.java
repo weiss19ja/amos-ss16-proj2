@@ -218,4 +218,11 @@ public class ClientManagerTest {
 		clientManager.releaseDriverIfBlocked();
 		verify(clientInformationHandler).releaseDriverIfBlocked();
 	}
+
+	@Test
+	public void testReleaseDriver() throws IOException {
+		when(singleDriverHandler.getCurrentDriverId()).thenReturn(42);
+		singleDriverHandler.releaseDriver(42);
+		verify(singleDriverHandler).releaseDriver(42);
+	}
 }
