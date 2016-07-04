@@ -301,11 +301,19 @@ public class ClientManagerImpl extends Observable implements ClientManager {
 		return clientInformationHandler.isBlocked(ipAddress);
 	}
 
+	/**
+	 * Returns whether the corresponding ipAddress of the clientId is blocked
+	 * @param clientId ClientId to check
+	 * @return
+     */
 	@Override
 	public boolean clientIdIsBlocked(int clientId){
 		return clientInformationHandler.isBlocked(clientId);
 	}
 
+	/**
+	 * Releases the current driver if the current driver's ip is blocked
+	 */
 	@Override
 	public void releaseDriverIfBlocked(){
 		clientInformationHandler.releaseDriverIfBlocked();
