@@ -214,4 +214,11 @@ public class DeveloperSettingsHandler implements Observer {
 
 		clientManager.releaseDriverIfBlocked();
 	}
+
+	/**
+	 * Releases the current  driver
+	 */
+	public void releaseDriver(){
+		clientManager.releaseDriver();
+	}
 }
