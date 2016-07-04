@@ -566,6 +566,12 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
           send("unblockIp", [ipAddress]);
       },
       /**
+       * releases the current driver
+       */
+      releaseDriver: function(){
+        send("releaseDriver", []);
+      },
+      /**
        * show an alert notification to the user
        */
       showAlertNotification: function (msg) {
