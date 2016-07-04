@@ -33,8 +33,8 @@ public class ClientManagerImpl extends Observable implements ClientManager {
 	/**
 	 * Map client ids to their sessions.
 	 */
-	private static final Map<Integer, Session> sessions = Collections
-			.synchronizedMap(new HashMap<>());
+	private static final NavigableMap<Integer, Session> sessions = Collections
+			.synchronizedNavigableMap(new TreeMap<>());
 
 
 	ClientInformationHandler clientInformationHandler;
@@ -42,6 +42,7 @@ public class ClientManagerImpl extends Observable implements ClientManager {
 	SingleDriverHandler singleDriverHandler;
 
 	private AtomicInteger lastClientId = new AtomicInteger(5000);
+	private boolean notifyAscending = true;
 
 
 	@Inject
@@ -152,14 +153,37 @@ public class ClientManagerImpl extends Observable implements ClientManager {
 	 * @param notification
 	 *            JSON-RPC 2.0 Notification object.
 	 */
-	@Override
-	public void notifyAllClients(JsonRpc2Request notification) {
-		for (Map.Entry<Integer, Session> entry : sessions.entrySet()) {
-			int clientId = entry.getKey();
-			doSendNotificationToClient(clientId, notification);
-		}
-	}
+    @Override
+    public void notifyAllClients(JsonRpc2Request notification) {
+        if (sessions.isEmpty()) {
+            return;
+        }
+        // notify ascending
+        if (notifyAscending) {
+            for (Integer clientId : sessions.keySet()) {
+                doSendNotificationToClient(clientId, notification);
+            }
+        // notify descending
+        } else {
+			for (Integer clientId : sessions.descendingKeySet()) {
+				doSendNotificationToClient(clientId, notification);
+			}
+        }
+        // toggle ascending state for next iteration
+        notifyAscending = !notifyAscending;
+    }
 
+	/**
+	 * Generates a random number in range [min, max]
+	 * @param min minimum of random number, inclusive
+	 * @param max maximum of random number, inclusive
+     * @return randomNumber
+     */
+	private static int randInt(int min, int max) {
+		Random rand = new Random();
+		int randomNum = rand.nextInt((max - min) + 1) + min;
+		return randomNum;
+	}
 	/**
 	 * Notify all connected clients with a general text notification. A general
 	 * text notification is a JSON-RPC 2.0 Notification where the destination
