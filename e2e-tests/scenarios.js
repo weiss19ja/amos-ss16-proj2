@@ -104,6 +104,39 @@ describe ('Camera and Drive view in landscape / laptop mode', function() {
 
 });
 
+describe ('Joystick switch portrait and landscape mode in Camera and Driving', function() {
+
+  var joystickSwitchInLandscapeMode;
+  var joystickInLandscapeMode;
+  var joystickInPortraitMode;
+
+  beforeEach(function() {
+    // nexus landscape mode size
+    browser.manage().window().setSize(773, 435);
+    browser.get('#/drive');
+    joystickSwitchInLandscapeMode = element.all(by.tagName('joystick-dpad-switch')).get(0);
+    joystickInLandscapeMode = browser.findElement(by.id('zone_joystick_2'));
+  });
+
+  it('should display the joystick without clicking the switch when device is rotated', function () {
+    joystickSwitchInLandscapeMode.click();
+    expect(joystickInLandscapeMode.isDisplayed()).toBe(true);
+    
+    // nexus 5x portrait mode size
+    browser.manage().window().setSize(411, 731);
+    joystickInPortraitMode = browser.findElement(by.id('zone_joystick_1'));
+    expect(joystickInPortraitMode.isDisplayed()).toBe(true);
+    expect(joystickInLandscapeMode.isDisplayed()).toBe(false);
+
+    // nexus 5x landscape mode size
+    browser.manage().window().setSize(773, 435);
+    expect(joystickInLandscapeMode.isDisplayed()).toBe(true);
+    expect(joystickInPortraitMode.isDisplayed()).toBe(false);
+  });
+
+});
+
+
 /**
  * here are made the e2e tests for the drive card too
  */
