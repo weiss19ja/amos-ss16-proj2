@@ -11,6 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import com.google.inject.Inject;
 import de.developgroup.mrf.server.handler.ClientInformation;
 import de.developgroup.mrf.server.handler.ClientInformationHandler;
+import de.developgroup.mrf.server.handler.SingleDriverHandler;
 import org.eclipse.jetty.websocket.api.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,18 +33,22 @@ public class ClientManagerImpl extends Observable implements ClientManager {
 	/**
 	 * Map client ids to their sessions.
 	 */
-	private static final Map<Integer, Session> sessions = Collections
-			.synchronizedMap(new HashMap<>());
+	private static final NavigableMap<Integer, Session> sessions = Collections
+			.synchronizedNavigableMap(new TreeMap<>());
 
-	@Inject
-	static ClientInformationHandler clientInformationHandler;
+
+	ClientInformationHandler clientInformationHandler;
+
+	SingleDriverHandler singleDriverHandler;
 
 	private AtomicInteger lastClientId = new AtomicInteger(5000);
+	private boolean notifyAscending = true;
 
 
 	@Inject
-	public ClientManagerImpl(ClientInformationHandler clientInformationHandler){
+	public ClientManagerImpl(ClientInformationHandler clientInformationHandler, SingleDriverHandler singleDriverHandler){
 		this.clientInformationHandler = clientInformationHandler;
+		this.singleDriverHandler = singleDriverHandler;
 	}
 
 	/**
@@ -148,13 +153,25 @@ public class ClientManagerImpl extends Observable implements ClientManager {
 	 * @param notification
 	 *            JSON-RPC 2.0 Notification object.
 	 */
-	@Override
-	public void notifyAllClients(JsonRpc2Request notification) {
-		for (Map.Entry<Integer, Session> entry : sessions.entrySet()) {
-			int clientId = entry.getKey();
-			doSendNotificationToClient(clientId, notification);
-		}
-	}
+    @Override
+    public void notifyAllClients(JsonRpc2Request notification) {
+        if (sessions.isEmpty()) {
+            return;
+        }
+        // notify ascending
+        if (notifyAscending) {
+            for (Integer clientId : sessions.keySet()) {
+                doSendNotificationToClient(clientId, notification);
+            }
+        // notify descending
+        } else {
+			for (Integer clientId : sessions.descendingKeySet()) {
+				doSendNotificationToClient(clientId, notification);
+			}
+        }
+        // toggle ascending state for next iteration
+        notifyAscending = !notifyAscending;
+    }
 
 	/**
 	 * Notify all connected clients with a general text notification. A general
@@ -301,13 +318,30 @@ public class ClientManagerImpl extends Observable implements ClientManager {
 		return clientInformationHandler.isBlocked(ipAddress);
 	}
 
+	/**
+	 * Returns whether the corresponding ipAddress of the clientId is blocked
+	 * @param clientId ClientId to check
+	 * @return
+     */
 	@Override
 	public boolean clientIdIsBlocked(int clientId){
 		return clientInformationHandler.isBlocked(clientId);
 	}
 
+	/**
+	 * Releases the current driver if the current driver's ip is blocked
+	 */
 	@Override
 	public void releaseDriverIfBlocked(){
 		clientInformationHandler.releaseDriverIfBlocked();
+	}
+
+	/**
+	 * Always releases the current  driver
+	 */
+	@Override
+	public void releaseDriver(){
+		int driverId = singleDriverHandler.getCurrentDriverId();
+		singleDriverHandler.releaseDriver(driverId);
 	}
 }

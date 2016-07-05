@@ -187,4 +187,10 @@ public class DeveloperSettingsHandlerTest {
         handler.update(null, null);
         verify(handler.clientManager).notifyAllClients((JsonRpc2Request)anyObject());
     }
+
+    @Test
+    public void testReleaseDriver() throws IOException {
+        handler.releaseDriver();
+        verify(handler.clientManager).releaseDriver();
+    }
 }

@@ -50,6 +50,7 @@ public class SingleDriverHandlerImpl implements SingleDriverHandler {
 
 		if (clientId == currentDriverId) {
 			doReleaseDriver();
+			LOGGER.info("Driver with clientId "+clientId+" got released");
 		} else {
 			LOGGER.info("release driver mode denied for user " + clientId);
 		}

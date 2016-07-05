@@ -226,4 +226,8 @@ public class RoverSocket extends JsonRpc2Socket {
         }
         return isBlocked;
     }
+
+    public void releaseDriver(){
+        developerSettingsHandler.releaseDriver();
+    }
 }

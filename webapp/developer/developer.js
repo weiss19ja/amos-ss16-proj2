@@ -131,5 +131,16 @@ angular.module('myApp.developer', [])
           roverService.unblockIp(ipAddress);
         }
       }
+      /**
+       * Releases the current driver
+       */
+      $scope.releaseDriver = function(){
+        console.debug("Releasing driver");
+        if ($location.host().indexOf('osr-amos.cs.fau.de') > -1) {
+          roverService.showAlertNotification('There is no releasingDriver functionality available on the osr-amos.cs.fau server.');
+        } else {
+          roverService.releaseDriver();
+        }
+      }
 
     }]);

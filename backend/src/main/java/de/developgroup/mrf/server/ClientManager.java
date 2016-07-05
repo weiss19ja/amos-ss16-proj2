@@ -51,4 +51,6 @@ public interface ClientManager{
 	boolean clientIdIsBlocked(int clientId);
 
 	void releaseDriverIfBlocked();
+
+	void releaseDriver();
 }

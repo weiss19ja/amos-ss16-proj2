@@ -17,6 +17,7 @@ import static org.mockito.Mockito.when;
 import com.google.inject.Injector;
 import de.developgroup.mrf.server.handler.ClientInformationHandler;
 import de.developgroup.mrf.server.handler.ClientInformationHandlerImpl;
+import de.developgroup.mrf.server.handler.SingleDriverHandler;
 import de.developgroup.mrf.server.rpc.JsonRpc2Request;
 import org.eclipse.jetty.websocket.api.RemoteEndpoint;
 import org.eclipse.jetty.websocket.api.Session;
@@ -35,7 +36,8 @@ public class ClientManagerTest {
 
     private Injector injector;
     private static ClientManagerImpl clientManager;
-    private static ClientInformationHandler clientInformationHandler = mock(ClientInformationHandlerImpl.class);
+    private ClientInformationHandler clientInformationHandler = mock(ClientInformationHandlerImpl.class);
+	private SingleDriverHandler singleDriverHandler = mock(SingleDriverHandler.class);
 
 	private static Session session;
 	private static RemoteEndpoint remoteEndpoint;
@@ -45,14 +47,11 @@ public class ClientManagerTest {
 
     @BeforeClass
     public static void setUpBeforeAll() throws IOException {
-        clientManager.clientInformationHandler = clientInformationHandler;
     }
 
 	@Before
 	public void setUp() throws Exception {
-		// injector = Guice.createInjector();
-		// clientManager = injector.getInstance(ClientManagerImpl.class);
-		clientManager = new ClientManagerImpl(clientInformationHandler);
+		clientManager = new ClientManagerImpl(clientInformationHandler, singleDriverHandler);
 
 		// mocking session
 		session = mock(Session.class);
@@ -218,5 +217,12 @@ public class ClientManagerTest {
 	public void testReleaseDriverIfBlocked(){
 		clientManager.releaseDriverIfBlocked();
 		verify(clientInformationHandler).releaseDriverIfBlocked();
+	}
+
+	@Test
+	public void testReleaseDriver() throws IOException {
+		when(singleDriverHandler.getCurrentDriverId()).thenReturn(42);
+		singleDriverHandler.releaseDriver(42);
+		verify(singleDriverHandler).releaseDriver(42);
 	}
 }
