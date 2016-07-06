@@ -55,6 +55,27 @@
 
     <md-card>
         <md-toolbar class="md-toolbar-tools md-hue-2">
+            Driving Speed Limit
+        </md-toolbar>
+        <md-content layout-padding>
+            <div layout="row" layout-padding layout-align="center center">
+                    <md-slider flex="79" ng-model="maxSpeedValue" min="{{maxSpeedMin}}" max="{{maxSpeedMax}}" aria-label="maximum speed" id="speed-slider">
+                    </md-slider>
+                    <md-input-container flex="20">
+                        <label>Percentage of top speed</label>
+                        <input flex="80" ng-model="maxSpeedValue" min="{{maxSpeedMin}}" max="{{maxSpeedMax}}" type="number"
+                               aria-label="maximum speed" id="speed-input">
+                        <span flex>%</span>
+                    </md-input-container>
+            </div>
+        </md-content>
+        <md-card-actions layout="row" layout-align="end center">
+            <md-button class="md-raised md-accent" flex="nogrow" ng-click="sendMaxSpeed()">Apply</md-button>
+        </md-card-actions>
+    </md-card>
+
+    <md-card>
+        <md-toolbar class="md-toolbar-tools md-hue-2">
             Release driver
         </md-toolbar>
         <md-content layout-padding>

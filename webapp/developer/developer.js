@@ -27,6 +27,22 @@ angular.module('myApp.developer', [])
       getSystemUpTime();
 
       /**
+       * Currently set maximum speed of the rover (between 0 and 100 inclusive)
+       * @type {number}
+       */
+      $scope.maxSpeedValue = 100;
+      /**
+       * Minimum allowed speed multiplier (default 0).
+       * @type {number}
+       */
+      $scope.maxSpeedMin = 0;
+      /**
+       * Maximum allowed speed multiplier (default 100).
+       * @type {number}
+       */
+      $scope.maxSpeedMax = 100;
+
+      /**
        * not used?
        $scope.setBlocked = function(roverService, cbState) {
             console.log("setBlocked");
@@ -106,7 +122,7 @@ angular.module('myApp.developer', [])
         } else {
           roverService.blockIp(ipAddress);
           }
-      }
+      };
 
 
       function getSystemUpTime() {
@@ -130,7 +146,7 @@ angular.module('myApp.developer', [])
         } else {
           roverService.unblockIp(ipAddress);
         }
-      }
+      };
       /**
        * Releases the current driver
        */
