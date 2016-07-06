@@ -190,6 +190,14 @@ public class RoverSocket extends JsonRpc2Socket {
         developerSettingsHandler.notifyClientsAboutButtonState();
     }
 
+    public void setMaxSpeedValue(Number maxSpeed) {
+        developerSettingsHandler.setMaxSpeedValue(maxSpeed.intValue());
+    }
+
+    public void sendMaxSpeedValue() {
+        developerSettingsHandler.notifyClientsAboutSpeedValue();
+    }
+
     public void distributeAlertNotification(String alertMsg) {
         notificationHandler.distributeAlertNotification(alertMsg);
     }

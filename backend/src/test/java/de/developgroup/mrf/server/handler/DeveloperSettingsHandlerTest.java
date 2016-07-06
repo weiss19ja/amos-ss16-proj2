@@ -78,6 +78,8 @@ public class DeveloperSettingsHandlerTest {
         RoverStatusVO roverState = new RoverStatusVO();
 
         roverState.isKillswitchEnabled = true;
+        roverState.maxSpeedValue = 100; // default value, to be expected
+        roverState.maxSpeedValue = 100;
         testNotification = new JsonRpc2Request("updateRoverState", roverState);
         handler.setKillswitchEnabled(true, "testMessage");
         verify(handler.clientManager).notifyAllClients(testNotification);

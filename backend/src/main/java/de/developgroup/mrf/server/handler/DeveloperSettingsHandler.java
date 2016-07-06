@@ -19,7 +19,16 @@ public class DeveloperSettingsHandler implements Observer {
 
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(DeveloperSettingsHandler.class);
+
+	/**
+	 * Flag to tell whether the global kill switch for user interaction was set.
+	 */
 	protected boolean killswitchEnabled = false;
+
+	/**
+	 * Value that limits driving speed in [0; 100].
+	 */
+	protected int maxSpeed = 100;
 
 	protected ClientManager clientManager;
 
@@ -94,10 +103,39 @@ public class DeveloperSettingsHandler implements Observer {
 	 * killswitch State
 	 */
 	public void notifyClientsAboutButtonState() {
-		RoverStatusVO roverState = new RoverStatusVO();
-		roverState.isKillswitchEnabled = killswitchEnabled;
-		JsonRpc2Request notification = new JsonRpc2Request("updateRoverState",
-				roverState);
+		doNotifyClientsAboutRoverState();
+	}
+
+	/**
+	 * Sets the maximum speed for the rover's driving.
+	 * @param maxSpeed speed in an interval of [0; 100]
+	 */
+	public void setMaxSpeedValue(int maxSpeed) {
+		LOGGER.info("set speed value" + maxSpeed);
+		if (maxSpeed < 0 || maxSpeed > 100) {
+			LOGGER.info("set speed value");
+			LOGGER.error("invalid paramter value (must be in [0; 100]): " + maxSpeed);
+			return;
+		}
+		this.maxSpeed = maxSpeed;
+
+		notifyClientsAboutSpeedValue();
+	}
+
+	/**
+	 * Distribute the current maximum speed value to all connected clients.
+	 */
+	public void notifyClientsAboutSpeedValue() {
+		doNotifyClientsAboutRoverState();
+	}
+
+	private void doNotifyClientsAboutRoverState() {
+		RoverStatusVO roverStatusVO = new RoverStatusVO();
+		// driver id is not set as we cannot access it here and the frontend's rover service checks whether we send it
+		roverStatusVO.isKillswitchEnabled = isKillswitchEnabled();
+		roverStatusVO.maxSpeedValue = maxSpeed;
+
+		JsonRpc2Request notification = new JsonRpc2Request("updateRoverState", roverStatusVO);
 		clientManager.notifyAllClients(notification);
 	}
 

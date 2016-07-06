@@ -347,8 +347,13 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
         setDriverAvailable(receivedRoverState.currentDriverId);
       }
 
-      if (typeof receivedRoverState.isKillswitchEnabled !== 'undefined')
+      if (typeof receivedRoverState.isKillswitchEnabled !== 'undefined') {
         roverState.isKillswitchEnabled = receivedRoverState.isKillswitchEnabled;
+      }
+
+      if (receivedRoverState.maxSpeedValue) {
+        roverState.maxSpeedValue = receivedRoverState.maxSpeedValue;
+      }
     }
 
     /**
