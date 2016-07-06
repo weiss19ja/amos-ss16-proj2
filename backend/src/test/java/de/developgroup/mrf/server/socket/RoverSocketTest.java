@@ -279,4 +279,10 @@ public class RoverSocketTest {
 		roverSocket.getSystemUpTime(5002);
 		verify(RoverSocket.roverHandler).getSystemUpTime(5002);
 	}
+
+	@Test
+	public void testSetMaximumSpeedValue() {
+		roverSocket.setMaxSpeedValue(42);
+		verify(RoverSocket.developerSettingsHandler).setMaxSpeedValue(42);
+	}
 }

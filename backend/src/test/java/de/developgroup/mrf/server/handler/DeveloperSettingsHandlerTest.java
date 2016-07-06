@@ -24,6 +24,7 @@ import org.junit.Test;
 import de.developgroup.mrf.server.ClientManagerImpl;
 import de.developgroup.mrf.server.rpc.JsonRpc2Request;
 import de.developgroup.mrf.server.rpc.msgdata.RoverStatusVO;
+import org.mockito.Mockito;
 
 public class DeveloperSettingsHandlerTest {
 
@@ -31,9 +32,9 @@ public class DeveloperSettingsHandlerTest {
 
     @Before
     public void setUp() {
-        handler = new DeveloperSettingsHandler(mock(ClientManagerImpl.class),
+        handler = Mockito.spy(new DeveloperSettingsHandler(mock(ClientManagerImpl.class),
                 mock(RoverHandler.class),
-                mock(DriveController.class));
+                mock(DriveController.class)));
     }
 
     @After
@@ -66,6 +67,31 @@ public class DeveloperSettingsHandlerTest {
     }
 
     @Test
+    public void testSetMaxSpeedValue() {
+        handler.setMaxSpeedValue(42);
+
+        verify(handler).notifyClientsAboutSpeedValue();
+    }
+
+    @Test
+    public void testNotifyClientsAboutSpeedValue() {
+        JsonRpc2Request testRequest;
+        RoverStatusVO roverStatusVO = new RoverStatusVO();
+        roverStatusVO.isKillswitchEnabled = false;
+        roverStatusVO.maxSpeedValue = 42;
+        testRequest = new JsonRpc2Request("updateRoverState", roverStatusVO);
+
+        handler.setMaxSpeedValue(42);
+
+        verify(handler.clientManager).notifyAllClients(testRequest);
+
+        roverStatusVO.maxSpeedValue = 23;
+        handler.setMaxSpeedValue(23);
+
+        verify(handler.clientManager).notifyAllClients(testRequest);
+    }
+
+    @Test
     public void testNotifyIfBlocked() throws IOException {
         handler.setKillswitchEnabled(true, "killswitch");
         handler.notifyIfBlocked(1337, "message");
@@ -81,7 +107,6 @@ public class DeveloperSettingsHandlerTest {
 
         roverState.isKillswitchEnabled = true;
         roverState.maxSpeedValue = 100; // default value, to be expected
-        roverState.maxSpeedValue = 100;
         testNotification = new JsonRpc2Request("updateRoverState", roverState);
         handler.setKillswitchEnabled(true, "testMessage");
         verify(handler.clientManager).notifyAllClients(testNotification);

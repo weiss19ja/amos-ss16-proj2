@@ -18,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.io.IOException;
+import java.util.List;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
@@ -203,6 +204,30 @@ public class DriveControllerTest {
         driveController.update(collisionRunnable, info);
 
         verify(driveController, never()).stop();
+    }
+
+    @Test
+    public void testSpeedMultiplierGetSet() throws IOException {
+        double value = 0.42;
+
+        driveController.setSpeedMultiplier(value);
+        Assert.assertEquals(value, driveController.getSpeedMultiplier());
+    }
+
+    @Test
+    public void testSpeedMultiplierIsBeingApplied() throws IOException {
+        driveController.setSpeedMultiplier(0.42);
+        driveController.driveForwards();
+
+        verify(driveController.leftMotor).setSpeedPercentage(0.42);
+        verify(driveController.rightMotor).setSpeedPercentage(0.42);
+    }
+
+    @Test
+    public void testNewSpeedMultiplierIsAppliedInstantly() throws IOException {
+        driveController.setSpeedMultiplier(0.42);
+
+        verify(driveController).applyMotorSettings(any());
     }
 
     @Test
