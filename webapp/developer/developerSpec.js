@@ -32,10 +32,11 @@ describe('myApp.developer module', function () {
       }
     });
 
-    it('should change the killswitch text when it gets enabled'), function() {
+    it('should change the killswitch text when it gets enabled', function() {
       scope.roverState.isKillswitchEnabled = true;
+      scope.$digest();
       expect(scope.killswitchText).toEqual('blocked');
-    }
+    });
 
   });
 });
