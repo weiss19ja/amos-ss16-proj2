@@ -17,6 +17,7 @@ angular.module('myApp.developer', [])
         // do noting
       } else {
         roverService.getKillswitchState();
+        roverService.getMaxSpeedValue();
       }
       
       $scope.alertMsgToSend = "";
@@ -26,11 +27,6 @@ angular.module('myApp.developer', [])
       $scope.systemUpTimeString = "Please refresh to get the rovers uptime.";
       getSystemUpTime();
 
-      /**
-       * Currently set maximum speed of the rover (between 0 and 100 inclusive)
-       * @type {number}
-       */
-      $scope.maxSpeedValue = 100;
       /**
        * Minimum allowed speed multiplier (default 0).
        * @type {number}
@@ -157,6 +153,13 @@ angular.module('myApp.developer', [])
         } else {
           roverService.releaseDriver();
         }
-      }
-
+      };
+      $scope.sendMaxSpeed = function() {
+        console.debug("Sending maximum speed setting: " + $scope.roverState.maxSpeedValue);
+        if ($location.host().indexOf('osr-amos.cs.fau.de') > -1) {
+          roverService.showAlertNotification("There is no maximum speed functionality avaliable on the osr-amos.cs.fau.de server.");
+        } else {
+          roverService.setMaxSpeedValue($scope.roverState.maxSpeedValue);
+        }
+      };
     }]);

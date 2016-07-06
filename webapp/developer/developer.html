@@ -59,11 +59,11 @@
         </md-toolbar>
         <md-content layout-padding>
             <div layout="row" layout-padding layout-align="center center">
-                    <md-slider flex="79" ng-model="maxSpeedValue" min="{{maxSpeedMin}}" max="{{maxSpeedMax}}" aria-label="maximum speed" id="speed-slider">
+                    <md-slider flex="79" ng-model="roverState.maxSpeedValue" min="{{maxSpeedMin}}" max="{{maxSpeedMax}}" aria-label="maximum speed" id="speed-slider">
                     </md-slider>
                     <md-input-container flex="20">
                         <label>Percentage of top speed</label>
-                        <input flex="80" ng-model="maxSpeedValue" min="{{maxSpeedMin}}" max="{{maxSpeedMax}}" type="number"
+                        <input flex="80" ng-model="roverState.maxSpeedValue" min="{{maxSpeedMin}}" max="{{maxSpeedMax}}" type="number"
                                aria-label="maximum speed" id="speed-input">
                         <span flex>%</span>
                     </md-input-container>

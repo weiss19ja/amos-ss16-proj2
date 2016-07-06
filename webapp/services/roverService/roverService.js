@@ -26,7 +26,8 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
     var clientIdPromise;
     var roverState = {
       isDriverAvailable: false,
-      isKillswitchEnabled: false
+      isKillswitchEnabled: false,
+      maxSpeedValue: 100
     };
 
     var collisionInformation = {
@@ -552,6 +553,19 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
        */
       getKillswitchState: function () {
         send("sendKillswitchState", []);
+      },
+      /**
+       * send the maximum speed value to the server.
+       * @param speedValue percentage between 0 and 100 (inclusive)
+       */
+      setMaxSpeedValue: function(speedValue) {
+        send("setMaxSpeedValue", [speedValue]);
+      },
+      /**
+       * request maximum speed value that was set on the server
+       */
+      getMaxSpeedValue: function() {
+        send("sendMaxSpeedValue", []);
       },
       /**
        * block all interactions with the rover from this ipAddress
