@@ -2,25 +2,31 @@
 <!-- This file is part of Mobile Robot Framework. -->
 <!-- Mobile Robot Framework is free software under the terms of GNU AFFERO GENERAL PUBLIC LICENSE. -->
 <!-- -->
-<!--<div layout="row" layout-align="center">-->
-<!--<h2 class="md-title">About Mobile Robot Framework</h2>-->
-<!--</div>-->
-
-<div layout="row" layout-align="center center">
-    <h2 class="md-flex">About Mobile Robot Framework:</h2>
-</div>
-<md-content flex layout-padding>
-    <p>
-        The Mobile Robot Framework project was developed as part of the AMOS project at the Friedrich Alexander
-        University Erlangen Nuremberg in collaboration with the Basys GmbH (Develop Group) Erlangen.
-    </p>
-    <p>
-        For further information about the AMOS Project please have a look at the <a href="https://osr.cs.fau.de/category/teaching/amos/">website of the Professorship for Open Source Software, Computer Science Department of the Friedrich-Alexander University Erlangen-Nuremberg</a> and for information about the industry partner Basys GmbH please have a look at the <a href="http://www.develop-group.de/">website of the develop group.</a>
-    </p>
-    <p>
-        The Mobile Robot Framework is free software under the terms of GNU AFFERO GENERAL PUBLIC LICENSE.
-    </p>
-</md-content>
+<md-card>
+    <md-toolbar class="md-toolbar-tools md-hue-2">
+        About Mobile Robot Framework
+    </md-toolbar>
+    <md-content flex layout-padding >
+        <div layout="column" layout-align="center">
+            <md-icon md-svg-icon="assets/icons/mrf-logo.svg" style="height: 150px;width: 150px;"></md-icon>
+        </div>
+        <p>
+            The Mobile Robot Framework Project is conducted by students as a project work at the Friedrich-Alexander University Erlangen-Nürnberg.
+            The Goal of this project is to develop a framework for a Raspberry Pi powered robot.
+            The framework should serve the purpose of being a demonstrable and convincing proof of the possibilities of platform-independent mobile apps.
+            It enables a broad variety of devices to interact physically and virtually with their surrounding environment through the robot.
+        </p>
+        <p>
+            For further information about the AMOS Project please have a look at the <a href="https://osr.cs.fau.de/category/teaching/amos/">website of the Professorship for Open Source Software, Computer Science Department of the Friedrich-Alexander University Erlangen-Nuremberg</a> and for information about the industry partner Basys GmbH please have a look at the <a href="http://www.develop-group.de/">website of the develop group.</a>
+        </p>
+        <p>
+            On the <a href="https://github.com/weiss19ja/amos-ss16-proj2">Github</a> page you can see the source files and some more information about this project.
+        </p>
+        <p>
+            The Mobile Robot Framework is free software under the terms of GNU AFFERO GENERAL PUBLIC LICENSE.
+        </p>
+    </md-content>
+</md-card>
 
 <md-card ng-hide="hideDownload">
     <md-toolbar class="md-toolbar-tools md-hue-2">
