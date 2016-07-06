@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.developgroup.mrf.server.controller.DriveController;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,7 +32,8 @@ public class DeveloperSettingsHandlerTest {
     @Before
     public void setUp() {
         handler = new DeveloperSettingsHandler(mock(ClientManagerImpl.class),
-                mock(RoverHandler.class));
+                mock(RoverHandler.class),
+                mock(DriveController.class));
     }
 
     @After

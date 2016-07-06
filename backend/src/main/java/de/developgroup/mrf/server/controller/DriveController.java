@@ -72,4 +72,19 @@ public interface DriveController {
      * @param newSettings the new motor settings for this instance of DriveController
      */
     void setCurrentMotorSettings(MotorSettings newSettings);
+
+    /**
+     * Set a multiplier to cap the speed. All speed values to be set will be multiplied by this value.
+     *
+     * If a value outside the range is passed, it will be silently ignored to not cause unwanted exceptions in the
+     * driving stack.
+     * @param value percentage between 0.0 and 1.0
+     */
+    void setSpeedMultiplier(double value) throws IOException;
+
+    /**
+     * Get the speed multiplier.
+     * @return a speed muliplier value in [0.0; 1.0]
+     */
+    double getSpeedMultiplier();
 }

@@ -29,6 +29,8 @@ public class DriveControllerImpl extends AbstractDriveController {
 
     private static Logger LOGGER = LoggerFactory.getLogger(DriveControllerImpl.class);
 
+    private double speedMultiplier = 1.0;
+
     public MotorController leftMotor;
     public MotorController rightMotor;
 
@@ -60,10 +62,10 @@ public class DriveControllerImpl extends AbstractDriveController {
 
     @Override
     public void applyMotorSettings(MotorSettings settings) throws IOException {
-        LOGGER.debug("left: {} right: {}", settings.leftMotorPercentage, settings.rightMotorPercentage);
+        LOGGER.trace("left: {} right: {}", settings.leftMotorPercentage, settings.rightMotorPercentage);
         setCurrentMotorSettings(settings);
-        leftMotor.setSpeedPercentage(settings.leftMotorPercentage);
-        rightMotor.setSpeedPercentage(settings.rightMotorPercentage);
+        leftMotor.setSpeedPercentage(speedMultiplier * settings.leftMotorPercentage);
+        rightMotor.setSpeedPercentage(speedMultiplier * settings.rightMotorPercentage);
     }
 
     /**
@@ -75,5 +77,18 @@ public class DriveControllerImpl extends AbstractDriveController {
      */
     public int clamp(int val, int min, int max) {
         return Math.max(min, Math.min(max, val));
+    }
+
+    public void setSpeedMultiplier(double value) throws IOException {
+        if (value >= 0.0 && value <= 1.0) {
+            speedMultiplier = value;
+            applyMotorSettings(getCurrentMotorSettings());
+        } else {
+            LOGGER.error("Speed multipilier value is invalid: " + value);
+        }
+    }
+
+    public double getSpeedMultiplier() {
+        return speedMultiplier;
     }
 }

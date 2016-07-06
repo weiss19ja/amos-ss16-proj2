@@ -30,4 +30,14 @@ public class DriveControllerMock extends AbstractDriveController {
     public void applyMotorSettings(MotorSettings settings) throws IOException {
         LOGGER.info("applying motor settings object " + settings);
     }
+
+    @Override
+    public void setSpeedMultiplier(double value) {
+        LOGGER.info("setting speed multiplier to " + value);
+    }
+
+    @Override
+    public double getSpeedMultiplier() {
+        return 0;
+    }
 }

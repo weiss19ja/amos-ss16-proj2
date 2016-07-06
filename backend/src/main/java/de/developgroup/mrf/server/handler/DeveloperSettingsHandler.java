@@ -7,6 +7,7 @@ package de.developgroup.mrf.server.handler;
 import com.google.inject.Inject;
 import de.developgroup.mrf.server.ClientManager;
 import de.developgroup.mrf.server.ClientManagerImpl;
+import de.developgroup.mrf.server.controller.DriveController;
 import de.developgroup.mrf.server.rpc.JsonRpc2Request;
 import de.developgroup.mrf.server.rpc.msgdata.RoverStatusVO;
 import org.slf4j.Logger;
@@ -34,12 +35,16 @@ public class DeveloperSettingsHandler implements Observer {
 
 	protected RoverHandler roverHandler;
 
+	protected DriveController driveController;
+
 	@Inject
 	public DeveloperSettingsHandler(ClientManager clientManager,
-			RoverHandler roverHandler) {
+									RoverHandler roverHandler,
+									DriveController driveController) {
 		LOGGER.debug("Creating new instance of DeveloperSettingsHandler");
 		this.clientManager = clientManager;
 		this.roverHandler = roverHandler;
+		this.driveController = driveController;
 		// Observe clientManger about connected user changes
 		clientManager.addObserver(this);
 	}
@@ -118,6 +123,11 @@ public class DeveloperSettingsHandler implements Observer {
 			return;
 		}
 		this.maxSpeed = maxSpeed;
+		try {
+			driveController.setSpeedMultiplier(((double) maxSpeed) / 100d);
+		} catch (IOException e) {
+			LOGGER.error("Could not set speed multiplier due to exception " + e.getMessage());
+		}
 
 		notifyClientsAboutSpeedValue();
 	}
