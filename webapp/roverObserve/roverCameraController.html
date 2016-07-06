@@ -2,6 +2,7 @@
 <!-- This file is part of Mobile Robot Framework. -->
 <!-- Mobile Robot Framework is free software under the terms of GNU AFFERO GENERAL PUBLIC LICENSE. -->
 <!-- -->
+<link rel="stylesheet" href="roverObserve/roverObserve.css">
 <div layout-gt-xs="row" layout-xs="column" layout-align="center center">
     <md-card layout="column">
         <md-toolbar class="md-toolbar-tools md-hue-2">
@@ -15,13 +16,10 @@
             </md-button>
         </md-toolbar>
 
-        <md-card-content flex layout="row" layout-align="center center">
-            <!-- Mobile View -->
-            <img hide-gt-xs ng-src="{{mjpegStreamURL}}" fallback-src="{{'assets/images/videocam_off_640x480.png'}}"
-                 class="md-card-image" alt="Video-Stream" align="middle">
-            <!-- Mobile Landscape View -->
-            <img hide-xs ng-src="{{mjpegStreamURL}}"
-                 fallback-src="{{'assets/images/videocam_off_640x480.png'}}" class="md-card-image" alt="Video-Stream">
+        <md-card-content flex layout="row" layout-align="center">
+            <img class="videostreamAndMovement"
+                 ng-src="{{mjpegStreamURL}}"
+                 fallback-src="{{'assets/images/videocam_off_640x480.png'}}" alt="Video-Stream">
         </md-card-content>
     </md-card>
     <dpad mode="camera"></dpad>

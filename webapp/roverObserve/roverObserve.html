@@ -2,6 +2,7 @@
 <!-- This file is part of Mobile Robot Framework. -->
 <!-- Mobile Robot Framework is free software under the terms of GNU AFFERO GENERAL PUBLIC LICENSE. -->
 <!-- -->
+<link rel="stylesheet" href="roverObserve/roverObserve.css">
 <div>
     <md-card layout="column" layout-align="center center">
         <md-toolbar class="md-toolbar-tools md-hue-2">
@@ -14,19 +15,10 @@
                 <md-icon md-svg-icon="assets/icons/ic_camera_enhance_black_48px.svg"></md-icon>
             </md-button>
         </md-toolbar>
-
-            <md-card-content flex layout="row" layout-align="center stretch">
-            <!-- Mobile View -->
-            <img hide-gt-xs ng-src="{{mjpegStreamURL}}" fallback-src="{{'assets/images/videocam_off_640x480.png'}}"
-                 style="width: 100%; height: 100%" class="md-card-image" alt="Video-Stream">
-            <!-- Mobile Landscape View -->
-            <img hide-xs hide-gt-md ng-src="{{mjpegStreamURL}}"
-                 fallback-src="{{'assets/images/videocam_off_640x480.png'}}" class="md-card-image" alt="Video-Stream">
-            <!-- Desktop View -->
-            <img hide-xs hide-md hide-sm ng-src="{{mjpegStreamURL}}"
-                 fallback-src="{{'assets/images/videocam_off_640x480.png'}}" class="md-card-image" alt="Video-Stream">
-        </md-card-content>
+            <md-card-content flex layout="row" layout-align="center">
+                <img
+                    ng-src="{{mjpegStreamURL}}" fallback-src="{{'assets/images/videocam_off_640x480.png'}}"
+                    class="videostream" alt="Video-Stream">
+            </md-card-content>
     </md-card>
 </div>
-
-
