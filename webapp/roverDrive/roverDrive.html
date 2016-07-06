@@ -2,6 +2,10 @@
 <!-- This file is part of Mobile Robot Framework. -->
 <!-- Mobile Robot Framework is free software under the terms of GNU AFFERO GENERAL PUBLIC LICENSE. -->
 <!-- -->
+<!--
+    xs = portrait view (<600px)
+    gt-xs = landscape view (>600px)
+-->
 <md-card ng-show="roverState.isDriverAvailable">
     <md-toolbar class="md-toolbar-tools md-hue-2">
         <span hide-xs>Drive Rover</span>
@@ -9,11 +13,11 @@
         <span flex></span>
         <joystick-dpad-switch hide-xs zone="zone_joystick_2"></joystick-dpad-switch>
     </md-toolbar>
-    <md-content layout="row" layout-align="space-around center">
+    <md-content layout="row" layout-align-gt-xs="space-around center" layout-align-xs="center" style="overflow-y: hidden; overflow-x: hidden;">
         <div layout="column" layout-align="center center">
             <parking-sensors hide-xs></parking-sensors>
         </div>
-        <div flex="50">
+        <div flex-xs="75" flex-gt-xs="50">
             <img ng-src="{{mjpegStreamURL}}" fallback-src="{{'assets/images/videocam_off_640x480.png'}}"
                  class="md-card-image" alt="Video-Stream">
         </div>
