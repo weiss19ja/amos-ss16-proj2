@@ -6,6 +6,7 @@ package de.developgroup.mrf.server;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.google.inject.Inject;
@@ -29,6 +30,7 @@ public class ClientManagerImpl extends Observable implements ClientManager {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(ClientManagerImpl.class);
 	private static final String TEXT_NOTIFICATION_METHOD = "incomingNotification";
+	private static final long TIMEOUT = 15000; //[ms]
 
 	/**
 	 * Map client ids to their sessions.
@@ -49,7 +51,13 @@ public class ClientManagerImpl extends Observable implements ClientManager {
 	public ClientManagerImpl(ClientInformationHandler clientInformationHandler, SingleDriverHandler singleDriverHandler){
 		this.clientInformationHandler = clientInformationHandler;
 		this.singleDriverHandler = singleDriverHandler;
+
+		TimerTask timeoutTask = new TimerSchedulePeriod();
+		Timer timer = new Timer();
+		timer.schedule(timeoutTask,TIMEOUT, TIMEOUT);
 	}
+
+
 
 	/**
 	 * Add a client to the list of connected clients. Each client gets an ID,
@@ -63,6 +71,7 @@ public class ClientManagerImpl extends Observable implements ClientManager {
 	@Override
 	public int addClient(final Session session) {
 		int clientId = generateClientId();
+		session.setIdleTimeout(TIMEOUT);
 		sessions.put(clientId, session);
 		notifyClientAboutId(clientId);
 		String msg = "new client has connected to server, id: " + clientId;
@@ -343,5 +352,15 @@ public class ClientManagerImpl extends Observable implements ClientManager {
 	public void releaseDriver(){
 		int driverId = singleDriverHandler.getCurrentDriverId();
 		singleDriverHandler.releaseDriver(driverId);
+	}
+
+	/**
+	 * Timer task class for timeout handling.
+	 */
+	private class TimerSchedulePeriod extends TimerTask {
+		@Override
+		public void run() {
+			removeClosedSessions();
+		}
 	}
 }
