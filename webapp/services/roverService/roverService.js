@@ -27,7 +27,8 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
     var roverState = {
       isDriverAvailable: false,
       isKillswitchEnabled: false,
-      maxSpeedValue: 100
+      maxSpeedValue: 100,
+      hasConnection: false
     };
 
     var collisionInformation = {
@@ -51,7 +52,6 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
       isBlocked: false
     };
     var clientJs = new ClientJS();
-    var hasConnection = false;
 
     if($location.port() == 8000){
       developerMode();
@@ -159,12 +159,12 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
 
     ws.onClose(function (event) {
       console.log('connection closed', event);
-      hasConnection = false;
+      roverState.hasConnection = false;
     });
 
     ws.onOpen(function () {
       console.log('connection open to ' + wsURL);
-      hasConnection = true;
+      roverState.hasConnection = true;
     });
 
     ws.onMessage(function (message) {
@@ -185,11 +185,7 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
         handleError(msgData);
       }
     });
-
-    function getConnectionStatus () {
-      return hasConnection;
-    };
-
+    
     /**
      * Handles JSON-RPC method calls
      */
@@ -472,7 +468,6 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
       clientJs: clientJs,
       errors: errorResponses,
       myIp: myIp,
-      hasConnection: getConnectionStatus,
       getLastErrorResponse: function () {
         return lastErrorResponse;
       },

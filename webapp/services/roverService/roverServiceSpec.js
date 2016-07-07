@@ -32,7 +32,7 @@ describe('myApp.roverService service', function () {
   });
 
   it('should has connection to the rover false at begin', function () {
-    expect(roverService.hasConnection()).toBe(false);
+    expect(roverService.roverState.hasConnection).toBe(false);
   });
 
   beforeEach(function (done) {

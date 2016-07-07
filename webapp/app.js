@@ -76,8 +76,9 @@ angular.module('myApp', [
     }).otherwise({redirectTo: '/observe'});
 
   }])
-  .controller('SidebarCtrl', function ($scope, $timeout, $mdSidenav, $mdUtil, developerService) {
+  .controller('SidebarCtrl', function ($scope, $timeout, $mdSidenav, $mdUtil, developerService, roverService) {
     $scope.devService = developerService;
+    $scope.roverState = roverService.roverState;
 
     $scope.closeSidebar = function () {
       $mdSidenav('sidebar').close();
