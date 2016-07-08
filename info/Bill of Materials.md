@@ -97,6 +97,11 @@ Name: nippleJS
 Verion: 0.6.3
 License: MIT License
 ``` 
+``` 
+Name: Promise Polyfill
+Verion: 5.2.1
+License: MIT License
+``` 
 
 ### Build and Package Tool
 ``` 
