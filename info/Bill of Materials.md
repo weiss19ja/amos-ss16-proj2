@@ -89,17 +89,17 @@ License: MIT License
 ``` 
 ``` 
 Name: Angular Image Fallback
-Verion: 0.1.4
+Version: 0.1.4
 License: MIT License
 ``` 
 ``` 
 Name: nippleJS
-Verion: 0.6.3
+Version: 0.6.3
 License: MIT License
 ``` 
 ``` 
 Name: Promise Polyfill
-Verion: 5.2.1
+Version: 5.2.1
 License: MIT License
 ``` 
 
