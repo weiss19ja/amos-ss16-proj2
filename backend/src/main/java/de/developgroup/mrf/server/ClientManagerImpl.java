@@ -30,7 +30,7 @@ public class ClientManagerImpl extends Observable implements ClientManager {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(ClientManagerImpl.class);
 	private static final String TEXT_NOTIFICATION_METHOD = "incomingNotification";
-	private static final long TIMEOUT = 15000; //[ms]
+	private static final long TIMEOUT = 20000; //[ms]
 
 	/**
 	 * Map client ids to their sessions.
