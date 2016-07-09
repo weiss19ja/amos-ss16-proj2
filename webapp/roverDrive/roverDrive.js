@@ -9,6 +9,7 @@ angular.module('myApp.roverDrive', [])
         $scope.mjpegStreamURL = 'http://' + $location.host() + ':9000/stream/video.mjpeg';
         $scope.roverState = roverService.roverState;
         $scope.joystickState = joystickService.joystickState;
+        var isImageAlreadyLoaded = false;
 
         routeView();
         reinitJoystickOnImageLoad();
@@ -85,6 +86,8 @@ angular.module('myApp.roverDrive', [])
          *
          * when the fallback image load is done the coordinates for the joystick component changes and we need to reinitialize (destroy and create)
          * the joystick for the specific zone in the view in order to get the touch function working
+         *
+         * our stream solution draws the image cyclic in the browser, so we need to check isImageAlreadyLoaded variable and set it correctly
          */
         function reinitJoystickOnImageLoad() {
             setTimeout(function () {
@@ -92,11 +95,14 @@ angular.module('myApp.roverDrive', [])
                 console.log(images);
                 if (images.length > 0) {
                     images[0].onload = function () {
-                        console.log('image loaded');
-                        if ($mdMedia('xs')) {
-                            joystickService.initJoystick('zone_joystick_1');
-                        } else {
-                            joystickService.initJoystick('zone_joystick_2');
+                        if (isImageAlreadyLoaded == false) {
+                            console.log('image loaded');
+                            if ($mdMedia('xs')) {
+                                joystickService.initJoystick('zone_joystick_1');
+                            } else {
+                                joystickService.initJoystick('zone_joystick_2');
+                            }
+                            isImageAlreadyLoaded = true;
                         }
                     };
                 }
