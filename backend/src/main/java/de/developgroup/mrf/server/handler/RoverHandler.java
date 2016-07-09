@@ -20,6 +20,12 @@ public interface RoverHandler extends Observer {
 	String handlePing(int sqn);
 
 	/**
+	 * Heartbeat from clients. If client doesn't send a heartbeat rpc the websocket disconnects on timeout.
+	 * @param clientId
+     */
+	void heartbeat(int clientId);
+
+	/**
 	 * Drive forward with the desired speed. Driving forward with negative speeds means driving backwards.
 	 * @param desiredSpeed speed (positive for forward driving)
 	 * @throws IOException
