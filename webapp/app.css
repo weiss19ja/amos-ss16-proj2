@@ -67,6 +67,13 @@ md-toast.md-error-toast-theme div.md-toast-content{
 }
 
 .logo{
-  height: 50px;
+  height: 48px;
   width: 60px;
+}
+
+ /* only for IE10+ */
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  img[src$=".svg"] {
+    width: 100%;
+  }
 }

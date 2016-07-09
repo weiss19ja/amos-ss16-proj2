@@ -53,7 +53,12 @@ public class CollisionRunnable extends Observable implements Runnable {
      * Time between two successive sensor queries.
      * Should make for approx. 10 checks/second. This is not a real-time system anyways.
      */
-    private final int POLL_INTERVAL_MS = 90;
+    private final int POLL_INTERVAL_MS = 100;
+
+    /**
+     * Counter to perform re-send of old rover information
+     */
+    private CyclicCounter oldNewsDistributionCounter = new CyclicCounter(6);
 
     private IRSensor sensorFrontLeft;
 
@@ -64,8 +69,6 @@ public class CollisionRunnable extends Observable implements Runnable {
     private IRSensor sensorBackLeft;
 
     private ClientManager clientManager;
-
-    private RoverHandler roverHandler;
 
     /**
      * Contains recently gathered collision information.
@@ -96,7 +99,6 @@ public class CollisionRunnable extends Observable implements Runnable {
                 gpio.provisionDigitalOutputPin(RaspiPin.GPIO_24, PinState.LOW));
 
         this.clientManager = clientManager;
-        this.roverHandler = roverHandler;
     }
 
     /**
@@ -106,22 +108,24 @@ public class CollisionRunnable extends Observable implements Runnable {
         while(true) {
             try {
                 RoverCollisionInformation info = readAllSensors();
-                if (!info.equals(getCurrentCollisionInformation())) {
+                if (!info.equals(getCurrentCollisionInformation()) || oldNewsDistributionCounter.incrementAndCheck()) {
+                    // only send to client if anything new occurred || old news should be resent after a break of
+                    // sending nothing.
                     setChanged();
                     notifyObservers(info);
-                    // only send to client if anything new occurred
                     sendToClients(info);
                     setCurrentCollisionInformation(info);
                 }
+
                 sleep(POLL_INTERVAL_MS);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (IOException e) {
-                LOGGER.error("An IO exception occured while reading the sensors: " + e);
+                LOGGER.error("An IO exception occurred while reading the sensors: " + e);
             }
         }
     }
-    
+
     public RoverCollisionInformation getCurrentCollisionInformation() {
         synchronized (collisionInformationLock) {
             return currentCollisionInformation;
