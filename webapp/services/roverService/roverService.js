@@ -8,7 +8,7 @@
  * Service to communicate with the rover via websockets and JSON-RPC.
  */
 angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
-  .factory("roverService", function ($websocket, $location, $mdToast, $mdDialog) {
+  .factory("roverService", function ($websocket, $location, $mdToast, $mdDialog, $interval) {
 
     var wsURL = 'ws://' + $location.host() + ':' + $location.port() + '/rover';
     var ws = $websocket(getWsURL());
@@ -56,6 +56,13 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
     if($location.port() == 8000){
       developerMode();
     }
+
+    /**
+     * Sending an heartbeat rpc notification to backend every 15 seconds.
+     */
+    $interval(function () {
+      sendWithoutResponse("heartbeat",[clientId])
+    },15000);
 
     /**
      * Developer mode function was called if webapp runs on the developer port 8000.

@@ -55,12 +55,24 @@ public class RoverSocket extends JsonRpc2Socket {
         singleDriverHandler.verifyDriverAvailability();
     }
 
+    @Override
+    public void onWebSocketError(Throwable cause) {
+        super.onWebSocketError(cause);
+        clientManager.removeClosedSessions();
+    }
+
+
     public String ping(Number sqn) {
         if (remoteIpIsBlocked()) {
             return null;
         }
         LOGGER.trace("ping({})", sqn);
         return roverHandler.handlePing(sqn.intValue());
+    }
+
+    public void heartbeat(Number clientId){
+        LOGGER.trace("heartbeat({})", clientId);
+        roverHandler.heartbeat(clientId.intValue());
     }
 
     public void driveForward(Number desiredSpeed) throws IOException {

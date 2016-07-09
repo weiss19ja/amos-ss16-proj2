@@ -65,6 +65,10 @@ public class RoverHandlerImpl implements RoverHandler {
 		return "pong " + (sqn + 1);
 	}
 
+	public void heartbeat(int clientId) {
+		LOGGER.debug("Heartbeat from client with id " +clientId);
+	}
+
 	public void update(Observable o, Object arg) {
 		GpioPinDigitalStateChangeEvent event = (GpioPinDigitalStateChangeEvent) arg;
 		if (event.getState().isHigh()) {
