@@ -58,33 +58,4 @@ public class CollisionRunnableTest {
         Assert.assertEquals(CollisionState.Medium, runnable.convertSensorReadingToCollisionState(0.49));
         Assert.assertEquals(CollisionState.Close, runnable.convertSensorReadingToCollisionState(0.5));
     }
-
-    /*
-    @Test
-    public void testOldNewsCounter() {
-        Assert.assertTrue(runnable.oldNewsMustBeSent());
-
-        runnable.incrementOldNewsCounter();
-
-        Assert.assertFalse(runnable.oldNewsMustBeSent());
-
-        runnable.incrementOldNewsCounter();
-
-        Assert.assertFalse(runnable.oldNewsMustBeSent());
-    }
-
-    @Test
-    public void testOldNewsCounterThresholdWorks() {
-        Assert.assertTrue(runnable.oldNewsMustBeSent());
-
-        for (int i = 0; i < runnable.OLD_NEWS_DISTRIBUTION_THRESHOLD - 1; i++) {
-            runnable.incrementOldNewsCounter();
-            Assert.assertFalse(runnable.oldNewsMustBeSent());
-        }
-
-        runnable.incrementOldNewsCounter();
-
-        Assert.assertTrue(runnable.oldNewsMustBeSent());
-    }
-    */
 }
