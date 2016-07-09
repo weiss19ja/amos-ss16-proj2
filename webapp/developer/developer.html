@@ -57,21 +57,13 @@
         <md-toolbar class="md-toolbar-tools md-hue-2">
             Driving Speed Limit
         </md-toolbar>
-        <md-content layout-padding>
-            <div layout="row" layout-padding layout-align="center center">
-                    <md-slider flex="79" ng-model="roverState.maxSpeedValue" min="{{maxSpeedMin}}" max="{{maxSpeedMax}}" aria-label="maximum speed" id="speed-slider">
-                    </md-slider>
-                    <md-input-container flex="20">
-                        <label>Percentage of top speed</label>
-                        <input flex="80" ng-model="roverState.maxSpeedValue" min="{{maxSpeedMin}}" max="{{maxSpeedMax}}" type="number"
-                               aria-label="maximum speed" id="speed-input">
-                        <span flex>%</span>
-                    </md-input-container>
-            </div>
-        </md-content>
-        <md-card-actions layout="row" layout-align="end center">
-            <md-button class="md-raised md-accent" flex="nogrow" ng-click="sendMaxSpeed()">Apply</md-button>
-        </md-card-actions>
+        <md-card-content>
+            <md-radio-group ng-model="roverState.maxSpeedValue" ng-change="sendMaxSpeed()">
+                <md-radio-button value="25">Slow</md-radio-button>
+                <md-radio-button value="50"> Medium</md-radio-button>
+                <md-radio-button value="100">High</md-radio-button>
+            </md-radio-group>
+        </md-card-content>
     </md-card>
 
     <md-card>

@@ -159,7 +159,7 @@ angular.module('myApp.developer', [])
         if ($location.host().indexOf('osr-amos.cs.fau.de') > -1) {
           roverService.showAlertNotification("There is no maximum speed functionality avaliable on the osr-amos.cs.fau.de server.");
         } else {
-          roverService.setMaxSpeedValue($scope.roverState.maxSpeedValue);
+          roverService.setMaxSpeedValue(parseInt($scope.roverState.maxSpeedValue));
         }
       };
     }]);
