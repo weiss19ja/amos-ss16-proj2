@@ -56,17 +56,9 @@ public class CollisionRunnable extends Observable implements Runnable {
     private final int POLL_INTERVAL_MS = 100;
 
     /**
-     * We prevent spamming clients with messages and send only new information.
-     * However this leads to newly connected clients not getting collision information.
-     * To solve this problem, we distribute old news every n check intervals.
-     * This is the counter n.
+     * Counter to perform re-send of old rover information
      */
-    public final int OLD_NEWS_DISTRIBUTION_THRESHOLD = 8; // good for a break of roughly 600ms
-
-    /**
-     * Current old news distribution counter.
-     */
-    private int oldNewsDistributionCounter = 0;
+    private CyclicCounter oldNewsDistributionCounter = new CyclicCounter(6);
 
     private IRSensor sensorFrontLeft;
 
@@ -77,8 +69,6 @@ public class CollisionRunnable extends Observable implements Runnable {
     private IRSensor sensorBackLeft;
 
     private ClientManager clientManager;
-
-    private RoverHandler roverHandler;
 
     /**
      * Contains recently gathered collision information.
@@ -109,7 +99,6 @@ public class CollisionRunnable extends Observable implements Runnable {
                 gpio.provisionDigitalOutputPin(RaspiPin.GPIO_24, PinState.LOW));
 
         this.clientManager = clientManager;
-        this.roverHandler = roverHandler;
     }
 
     /**
@@ -119,17 +108,14 @@ public class CollisionRunnable extends Observable implements Runnable {
         while(true) {
             try {
                 RoverCollisionInformation info = readAllSensors();
-                if (!info.equals(getCurrentCollisionInformation()) || oldNewsMustBeSent()) {
+                if (!info.equals(getCurrentCollisionInformation()) || oldNewsDistributionCounter.incrementAndCheck()) {
                     // only send to client if anything new occurred || old news should be resent after a break of
                     // sending nothing.
                     setChanged();
                     notifyObservers(info);
                     sendToClients(info);
                     setCurrentCollisionInformation(info);
-
-                    resetOldNewsCounter();
                 }
-                incrementOldNewsCounter();
 
                 sleep(POLL_INTERVAL_MS);
             } catch (InterruptedException e) {
@@ -204,29 +190,5 @@ public class CollisionRunnable extends Observable implements Runnable {
             retVal = CollisionState.Close;
         }
         return retVal;
-    }
-
-    /**
-     * We send only collision information if it has changed. However this means that newly registered clients do not
-     * get collision information
-     * @return true if the current collision information must be distributed again.
-     */
-    public boolean oldNewsMustBeSent() {
-        return oldNewsDistributionCounter % OLD_NEWS_DISTRIBUTION_THRESHOLD == 0;
-    }
-
-    /**
-     * Increment the old news counter safely so that it doesn't overflow.
-     */
-    public void incrementOldNewsCounter() {
-        // increment counter in a wrap-around safe way
-        oldNewsDistributionCounter = (oldNewsDistributionCounter + 1) % OLD_NEWS_DISTRIBUTION_THRESHOLD;
-    }
-
-    /**
-     * Reset the old news distribution threshold counter to start.
-     */
-    public void resetOldNewsCounter() {
-        oldNewsDistributionCounter = 0;
     }
 }

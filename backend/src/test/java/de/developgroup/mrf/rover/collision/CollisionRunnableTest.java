@@ -59,6 +59,7 @@ public class CollisionRunnableTest {
         Assert.assertEquals(CollisionState.Close, runnable.convertSensorReadingToCollisionState(0.5));
     }
 
+    /*
     @Test
     public void testOldNewsCounter() {
         Assert.assertTrue(runnable.oldNewsMustBeSent());
@@ -85,4 +86,5 @@ public class CollisionRunnableTest {
 
         Assert.assertTrue(runnable.oldNewsMustBeSent());
     }
+    */
 }
