@@ -39,5 +39,5 @@ public interface PCF8591ADConverter {
      * @return a value between 0 and 255 representing the reading.
      * @throws IOException if the device could not be spoken to
      */
-    public int getChannelValue(InputChannel channel) throws IOException;
+    int getChannelValue(InputChannel channel) throws IOException;
 }

@@ -8,9 +8,9 @@ import java.io.IOException;
 
 public interface ServoController {
 
-	public static int POS_NEUTRAL = 0;
-	public static int POS_MAX = 1000;
-	public static int POS_MIN = -1000;
+	int POS_NEUTRAL = 0;
+	int POS_MAX = 1000;
+	int POS_MIN = -1000;
 
 	/**
 	 * Set the servo position.

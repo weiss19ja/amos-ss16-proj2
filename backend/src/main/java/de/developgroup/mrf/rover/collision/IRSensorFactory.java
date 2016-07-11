@@ -16,6 +16,6 @@ public interface IRSensorFactory {
      * @param ledPin the pin where the IR LED can be found
      * @return a new IRSensor with the given values
      */
-    public IRSensor create(PCF8591ADConverter.InputChannel channel,
-                           GpioPinDigitalOutput ledPin);
+    IRSensor create(PCF8591ADConverter.InputChannel channel,
+                    GpioPinDigitalOutput ledPin);
 }

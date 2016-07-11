@@ -14,41 +14,41 @@ package de.developgroup.mrf.rover.collision;
  */
 public interface CollisionController {
 
-	public static final String RECEIVER_FRONT_RIGHT = "IRReceiverFrontRight";
-	public static final String RECEIVER_FRONT_LEFT = "IRReceiverFrontLeft";
-	public static final String RECEIVER_BACK_LEFT = "IRReceiverBackLeft";
-	public static final String RECEIVER_BACK_RIGHT = "IRReceiverBackRight";
-	public static final String SENDER_FRONT_RIGHT = "IRSenderFrontRight";
-	public static final String SENDER_FRONT_LEFT = "IRSenderFrontLeft";
-	public static final String SENDER_BACK_LEFT = "IRSenderBackLeft";
-	public static final String SENDER_BACK_RIGHT = "IRSenderBackRight";
+	String RECEIVER_FRONT_RIGHT = "IRReceiverFrontRight";
+	String RECEIVER_FRONT_LEFT = "IRReceiverFrontLeft";
+	String RECEIVER_BACK_LEFT = "IRReceiverBackLeft";
+	String RECEIVER_BACK_RIGHT = "IRReceiverBackRight";
+	String SENDER_FRONT_RIGHT = "IRSenderFrontRight";
+	String SENDER_FRONT_LEFT = "IRSenderFrontLeft";
+	String SENDER_BACK_LEFT = "IRSenderBackLeft";
+	String SENDER_BACK_RIGHT = "IRSenderBackRight";
 
 	/**
 	 * Methods returns sensor value of the front right corner.
 	 * 
 	 * @return true if collision detected
 	 */
-	public boolean hasCollisionFrontRight();
+	boolean hasCollisionFrontRight();
 
 	/**
 	 * Methods returns sensor value of the front left corner.
 	 * 
 	 * @return true if collision detected
 	 */
-	public boolean hasCollisionFrontLeft();
+	boolean hasCollisionFrontLeft();
 
 	/**
 	 * Methods returns sensor value of the back left corner.
 	 * 
 	 * @return true if collision detected
 	 */
-	public boolean hasCollisionBackLeft();
+	boolean hasCollisionBackLeft();
 
 	/**
 	 * Methods returns sensor value of the back right corner.
 	 * 
 	 * @return true if collision detected
 	 */
-	public boolean hasCollisionBackRight();
+	boolean hasCollisionBackRight();
 
 }

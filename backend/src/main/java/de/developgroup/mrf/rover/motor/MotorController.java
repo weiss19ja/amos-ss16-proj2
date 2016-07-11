@@ -8,9 +8,9 @@ import java.io.IOException;
 
 public interface MotorController {
 
-	public static int SPEED_STOP = 0;
-	public static int SPEED_MAX_FORWARD = 1000;
-	public static int SPEED_MAX_BACKWARD = -1 * SPEED_MAX_FORWARD;
+	int SPEED_STOP = 0;
+	int SPEED_MAX_FORWARD = 1000;
+	int SPEED_MAX_BACKWARD = -1 * SPEED_MAX_FORWARD;
 
 	/**
 	 * Set the motor speed and direction.

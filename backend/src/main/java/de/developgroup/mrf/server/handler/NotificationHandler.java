@@ -11,19 +11,19 @@ public interface NotificationHandler {
      *
      * @param message message text of the notification
      */
-    public void distributeNotification(String message);
+    void distributeNotification(String message);
 
     /**
      * Send a alert notification to all connected clients.
      *
      * @param message message text of the notification
      */
-    public void distributeAlertNotification(String message);
+    void distributeAlertNotification(String message);
 
     /**
      * Send a error notification to all connected clients.
      *
      * @param message message text of the notification
      */
-    public void distributeErrorNotification(String message);
+    void distributeErrorNotification(String message);
 }

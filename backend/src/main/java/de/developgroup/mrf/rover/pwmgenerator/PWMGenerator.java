@@ -13,7 +13,7 @@ public interface PWMGenerator {
 	 * 
 	 * @param frequency in Hz.
 	 */
-	public void setFrequency(int frequency) throws IOException;
+	void setFrequency(int frequency) throws IOException;
 
 	/**
 	 * Get the output of the given channel.
@@ -22,6 +22,6 @@ public interface PWMGenerator {
 	 *            The number of the channel.
 	 * @return
 	 */
-	public PWMOutput getOutput(int channel);
+	PWMOutput getOutput(int channel);
 
 }

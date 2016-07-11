@@ -15,7 +15,7 @@ public interface SingleDriverHandler {
 	 *            that acquires the driver mode
 	 * @return void
 	 */
-	public void acquireDriver(int clientId);
+	void acquireDriver(int clientId);
 
 	/**
 	 * release exclusive driver mode. All clients get notified about released
@@ -26,7 +26,7 @@ public interface SingleDriverHandler {
 	 *            that releases the driver mode
 	 * @return void
 	 */
-	public void releaseDriver(int clientId);
+	void releaseDriver(int clientId);
 
 	/**
 	 * Gets called everytime a connection closes and verifies that driver is
@@ -35,14 +35,14 @@ public interface SingleDriverHandler {
 	 * 
 	 * @return void
 	 */
-	public void verifyDriverAvailability();
+	void verifyDriverAvailability();
 
 	/**
 	 * Get client id of the current driver
 	 * 
 	 * @return current driver clientId
 	 */
-	public int getCurrentDriverId();
+	int getCurrentDriverId();
 
 	void sendClientNotification();
 }
