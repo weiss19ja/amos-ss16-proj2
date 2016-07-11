@@ -11,19 +11,19 @@
         <md-toolbar class="md-toolbar-tools md-hue-2">
             Kill Switch
         </md-toolbar>
-        <md-content layout-padding>
+        <md-card-content>
             <md-switch ng-model="roverState.isKillswitchEnabled" aria-label="Killswitch"
                        ng-change="onChange(roverState.isKillswitchEnabled)" class="md-warn">
                 User interaction with rover: {{ killswitchText }}
             </md-switch>
-        </md-content>
+        </md-card-content>
     </md-card>
 
     <md-card>
         <md-toolbar class="md-toolbar-tools md-hue-2">
             Connected users
         </md-toolbar>
-        <md-content layout-padding>
+        <md-card-content>
             <md-list>
                 <!-- Definition of attributes for connectedUsers can be found in DeveloperSettingsHandler -->
                 <md-list-item class="md-3-line" ng-repeat="user in connectedUsers.list">
@@ -50,7 +50,7 @@
                     </md-button>
                 </md-list-item>
             </md-list>
-        </md-content>
+        </md-card-content>
     </md-card>
 
     <md-card>
@@ -70,11 +70,11 @@
         <md-toolbar class="md-toolbar-tools md-hue-2">
             Release driver
         </md-toolbar>
-        <md-content layout-padding>
+        <md-card-content>
             <md-button class="md-raised md-accent" flex="nogrow" ng-click="releaseDriver()">
                 Release current driver
             </md-button>
-        </md-content>
+        </md-card-content>
     </md-card>
 
     <md-card>
@@ -86,7 +86,7 @@
                 Send a alert notification that all connected users will see.
             </md-card-title-text>
         </md-card-title>
-        <md-content layout-align="space-between" layout-padding>
+        <md-card-content layout-align="space-between" layout-padding>
             <md-input-container class="md-block" flex-gt-sm>
                 <label>Alert Message</label>
                 <input ng-model="alertMsgToSend">
@@ -95,13 +95,13 @@
             <md-card-actions layout="row" layout-align="end center">
                 <md-button class="md-raised md-accent" flex="nogrow" ng-click="sendAlertMsg()">Send</md-button>
             </md-card-actions>
-        </md-content>
+        </md-card-content>
 
     </md-card>
 
     <md-card>
         <md-toolbar class="md-toolbar-tools md-hue-2">
-            <h3>System uptime</h3>
+            System uptime
             <span flex></span>
             <md-button class="md-fab md-mini" ng-click="refreshSystemUpTime($event)"
                        aria-label="Refresh rovers uptime">
@@ -116,16 +116,16 @@
 
     <md-card>
         <md-toolbar class="md-toolbar-tools md-hue-2">
-            <h3>Log Entries</h3>
+         Log Entries
         </md-toolbar>
         <!-- Mobile View -->
-        <md-content layout-padding layout="row" layout-align="center center" hide-gt-md>
+        <md-card-content layout-padding layout="row" layout-align="center center" hide-gt-md>
             <md-button class="md-raised md-accent" flex="nogrow" ng-click="goToLogEntries()">Get log entries</md-button>
-        </md-content>
+        </md-card-content>
         <!-- Desktop View -->
-        <md-content layout-padding layout="row" hide-xs hide-md hide-sm>
+        <md-card-content layout-padding layout="row" hide-xs hide-md hide-sm>
             <md-button class="md-raised md-accent" flex="nogrow" ng-click="goToLogEntries()">Get log entries</md-button>
-        </md-content>
+        </md-card-content>
 
     </md-card>
 
