@@ -20,6 +20,6 @@ public interface CameraSnapshotController {
      * @param clientId The clientId which should receive the image
      * @throws IOException
      */
-    void sendImageResponseToClient(int clientId, String response) throws IOException;
+    void sendImageResponseToClient(int clientId, String response);
 
 }

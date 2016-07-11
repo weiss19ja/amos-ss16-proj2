@@ -42,7 +42,7 @@ public class JsonRpc2ResponseResultTest {
 
     @Test
     public void testParseFromString(){
-        result = result.parse(expectation);
+        result = JsonRpc2ResponseResult.parse(expectation);
 
     }
 

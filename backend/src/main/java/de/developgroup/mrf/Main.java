@@ -111,8 +111,6 @@ public class Main {
 		URL clientDir = Main.class.getClassLoader().getResource("client");
 		if (clientDir != null) {
 			resourceHandler.setResourceBase(clientDir.toExternalForm());
-		} else {
-
 		}
 		HandlerList handlers = new HandlerList();
 		handlers.setHandlers(new Handler[] { resourceHandler,
@@ -126,7 +124,7 @@ public class Main {
 			server.start();
 			server.join();
 		} catch (Exception e) {
-
+			LOGGER.error("error occurred by starting jetty server");
 		}
 	}
 

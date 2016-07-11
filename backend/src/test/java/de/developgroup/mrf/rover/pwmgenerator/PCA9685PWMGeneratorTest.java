@@ -51,19 +51,19 @@ public class PCA9685PWMGeneratorTest {
 		try {
 			pwmGenerator.setFrequency(20000);
 			fail("No exception");
-		} catch (IllegalArgumentException e) {
+		} catch (IllegalArgumentException ignored) {
 		}
 
 		try {
 			pwmGenerator.setFrequency(0);
 			fail("No exception");
-		} catch (IllegalArgumentException e) {
+		} catch (IllegalArgumentException ignored) {
 		}
 
 		try {
 			pwmGenerator.setFrequency(-1);
 			fail("No exception");
-		} catch (IllegalArgumentException e) {
+		} catch (IllegalArgumentException ignored) {
 		}
 	}
 

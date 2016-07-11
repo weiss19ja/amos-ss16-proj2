@@ -250,11 +250,11 @@ public class DeveloperSettingsHandler implements Observer {
 //		LOGGER.debug("Updating connected users list");
 
 		List<ClientInformation> blockedConnections = clientManager.getBlockedConnections();
-		ClientInformation[] blockedUsers = (ClientInformation[]) blockedConnections.toArray(new ClientInformation[blockedConnections.size()]);
+		ClientInformation[] blockedUsers = blockedConnections.toArray(new ClientInformation[blockedConnections.size()]);
 
 
 		List<ClientInformation> unblockedConnections = clientManager.getUnblockedConnections();
-		ClientInformation[] unblockedUsers = (ClientInformation[]) unblockedConnections.toArray(new ClientInformation[unblockedConnections.size()]);
+		ClientInformation[] unblockedUsers = unblockedConnections.toArray(new ClientInformation[unblockedConnections.size()]);
 
 		notifyClientsAboutConnectedUsers(unblockedUsers, blockedUsers);
 		notifyUsersAboutTheirBlockingState(unblockedUsers, blockedUsers);

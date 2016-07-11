@@ -42,7 +42,7 @@ public class CameraSnapshotControllerImpl extends AbstractCameraSnapshotControll
     }
 
     @Override
-    public void sendImageResponseToClient(int clientId, String response) throws IOException {
+    public void sendImageResponseToClient(int clientId, String response) {
         LOGGER.info("Sending image response to client {}", clientId);
         List<Object> params = new ArrayList<>();
         params.add(response);

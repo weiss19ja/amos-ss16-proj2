@@ -39,7 +39,7 @@ public class JsonRpc2ResponseErrorTest {
 
     @Test
     public void testParseFromString(){
-        errorRpc = errorRpc.parse(expectation);
+        errorRpc = JsonRpc2ResponseError.parse(expectation);
 
         assertEquals(AbstractJsonRpc2.JSONRPC_VALUE,errorRpc.getJsonrpc());
         assertEquals(42,errorRpc.getId());

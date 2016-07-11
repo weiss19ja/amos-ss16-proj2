@@ -31,7 +31,7 @@ public class CameraSnapshotControllerMock extends AbstractCameraSnapshotControll
     }
 
     @Override
-    public void sendImageResponseToClient(int clientId, String response) throws IOException {
+    public void sendImageResponseToClient(int clientId, String response) {
 	//TODO: CameraSnapshotControllerMock sendImageResponseToClient implementation
     }
 

@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class IRSensorMock implements IRSensor {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(IRSensorMock.class);;
+    private static Logger LOGGER = LoggerFactory.getLogger(IRSensorMock.class);
 
     @Override
     public void switchIrOn() {
