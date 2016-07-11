@@ -6,7 +6,6 @@ package de.developgroup.mrf.server;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.google.inject.Inject;

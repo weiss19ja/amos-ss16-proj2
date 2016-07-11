@@ -6,7 +6,6 @@ package de.developgroup.mrf.server.controller;
 
 import com.google.inject.Inject;
 import de.developgroup.mrf.server.ClientManager;
-import de.developgroup.mrf.server.ClientManagerImpl;
 import de.developgroup.mrf.server.rpc.JsonRpc2Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

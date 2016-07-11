@@ -4,7 +4,6 @@
  */
 package de.developgroup.mrf.server.handler;
 
-import de.developgroup.mrf.server.ClientManager;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

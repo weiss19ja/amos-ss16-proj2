@@ -5,7 +5,6 @@
 package de.developgroup.mrf.rover.collision;
 
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
-import com.pi4j.io.gpio.Pin;
 import de.developgroup.mrf.rover.pcf8591.IRSensor;
 import de.developgroup.mrf.rover.pcf8591.PCF8591ADConverter;
 

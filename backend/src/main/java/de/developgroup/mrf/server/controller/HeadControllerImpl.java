@@ -8,15 +8,11 @@ import com.google.inject.Singleton;
 import com.pi4j.io.i2c.I2CBus;
 import com.pi4j.io.i2c.I2CDevice;
 import com.pi4j.io.i2c.I2CFactory;
-import de.developgroup.mrf.rover.motor.MotorController;
-import de.developgroup.mrf.rover.motor.MotorControllerConfiguration;
-import de.developgroup.mrf.rover.motor.MotorControllerImpl;
 import de.developgroup.mrf.rover.pwmgenerator.PCA9685PWMGenerator;
 import de.developgroup.mrf.rover.servo.ServoConfiguration;
 import de.developgroup.mrf.rover.servo.ServoController;
 import de.developgroup.mrf.rover.servo.ServoControllerImpl;
 import org.cfg4j.provider.ConfigurationProvider;
-import org.eclipse.jetty.util.IO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -19,7 +19,6 @@ import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
 
 import de.developgroup.mrf.rover.collision.CollisionController;
-import de.developgroup.mrf.server.ClientManagerImpl;
 import de.developgroup.mrf.server.controller.CameraSnapshotController;
 import de.developgroup.mrf.server.controller.DriveController;
 import de.developgroup.mrf.server.controller.HeadController;

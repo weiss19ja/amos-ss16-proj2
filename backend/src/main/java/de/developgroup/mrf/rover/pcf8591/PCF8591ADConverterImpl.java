@@ -5,7 +5,6 @@
 package de.developgroup.mrf.rover.pcf8591;
 
 import com.google.inject.Inject;
-import com.pi4j.io.i2c.I2CBus;
 import com.pi4j.io.i2c.I2CDevice;
 
 import java.io.IOException;

@@ -7,7 +7,6 @@ package de.developgroup.mrf.server.handler;
 import java.io.IOException;
 
 import de.developgroup.mrf.server.ClientManager;
-import de.developgroup.mrf.server.ClientManagerImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

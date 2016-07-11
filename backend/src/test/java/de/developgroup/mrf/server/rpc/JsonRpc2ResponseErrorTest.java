@@ -7,7 +7,6 @@ package de.developgroup.mrf.server.rpc;
 import static org.junit.Assert.assertEquals;
 
 import de.developgroup.mrf.server.rpc.AbstractJsonRpc2;
-import de.developgroup.mrf.server.rpc.JsonRpc2Request;
 import de.developgroup.mrf.server.rpc.JsonRpc2ResponseError;
 import org.junit.Before;
 import org.junit.Test;

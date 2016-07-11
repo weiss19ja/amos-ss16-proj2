@@ -10,18 +10,13 @@ import de.developgroup.mrf.rover.collision.CollisionState;
 import de.developgroup.mrf.rover.collision.RoverCollisionInformation;
 import de.developgroup.mrf.rover.motor.MotorController;
 import junit.framework.Assert;
-import org.eclipse.jetty.util.IO;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.io.IOException;
-import java.util.List;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.*;
 
 public class DriveControllerTest {

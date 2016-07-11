@@ -7,7 +7,6 @@ package de.developgroup.mrf.server.controller;
 import de.developgroup.mrf.Main;
 import de.developgroup.mrf.rover.servo.ServoController;
 import org.cfg4j.provider.ConfigurationProvider;
-import org.eclipse.jetty.util.IO;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,9 +14,7 @@ import org.junit.Test;
 import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.*;
 
 
 /**

@@ -4,8 +4,6 @@
  */
 package de.developgroup.mrf.server.rpc;
 
-import de.developgroup.mrf.server.rpc.AbstractJsonRpc2;
-import de.developgroup.mrf.server.rpc.JsonRpc2ResponseError;
 import de.developgroup.mrf.server.rpc.JsonRpc2ResponseResult;
 import org.junit.Before;
 import org.junit.Test;

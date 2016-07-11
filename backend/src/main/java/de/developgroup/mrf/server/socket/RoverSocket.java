@@ -2,8 +2,6 @@ package de.developgroup.mrf.server.socket;
 
 import java.io.IOException;
 
-import de.developgroup.mrf.server.ClientManager;
-import de.developgroup.mrf.server.ClientManagerImpl;
 import de.developgroup.mrf.server.handler.*;
 import org.eclipse.jetty.websocket.api.Session;
 import org.slf4j.Logger;

@@ -5,7 +5,6 @@
 package de.developgroup.mrf.server.handler;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.Observer;
 
 import org.cfg4j.provider.ConfigurationProvider;

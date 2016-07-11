@@ -6,7 +6,6 @@ package de.developgroup.mrf.server.handler;
 
 import com.google.inject.Inject;
 import de.developgroup.mrf.server.ClientManager;
-import de.developgroup.mrf.server.ClientManagerImpl;
 import de.developgroup.mrf.server.rpc.JsonRpc2Request;
 
 public class NotificationHandlerImpl implements NotificationHandler {
