@@ -9,7 +9,7 @@ angular.module("myApp.developerService", [])
 
       function getShouldShowDevEntryInSidebar() {
         return showDeveloperEntry;
-      };
+      }
 
       function setShouldShowDevEntryInSidebar() {
         showDeveloperEntry = true;

@@ -22,7 +22,7 @@ dpad {
 
 .stop-button, .camera-reset-button {
     position: absolute;
-    right: 0em;
+    right: 0;
 }
 
 .dpad-button {
@@ -63,6 +63,6 @@ dpad {
 
 .dpad-button-container .right {
     top: 2em;
-    right: 0em;
+    right: 0;
     transform: rotate(180deg);
 }

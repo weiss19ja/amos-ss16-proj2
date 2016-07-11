@@ -230,6 +230,7 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
           break;
         case 'incomingSystemUpTime':
           incomingSystemUpTime(request.params[0]);
+          break;
         default:
           console.log('error on handleMethodCall: call function ' + request.method + ' is not allowed.');
       }
@@ -281,7 +282,7 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
           resolve(clientId);
           console.log('ClientId resolved: ' + clientId);
         }
-      };
+      }
     });
 
 
@@ -451,13 +452,6 @@ angular.module("myApp.roverService", ['ngWebSocket', 'ngMaterial'])
        */
       readyState: function () {
         return ws.readyState;
-      },
-      /**
-       * Check for driver mode is available.
-       * @return {boolean} true if driver mode is available.
-       */
-      isdriverModeAvailable: function () {
-        return true;
       },
       /**
        * Get the id of the client given by the server
